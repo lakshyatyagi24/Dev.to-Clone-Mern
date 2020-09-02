@@ -9,13 +9,13 @@ const PostItem = ({
   addLike,
   removeLike,
   deletePost,
-  auth: { isAuthenticated },
+  auth,
   post: { _id, text, name, avatar, user, likes, comments, date },
   showActions,
   setAuth,
 }) => {
   const handleLikeAction = () => {
-    if (!isAuthenticated) {
+    if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
       addLike(_id);
@@ -23,7 +23,7 @@ const PostItem = ({
     }
   };
   const handleUnLikeAction = () => {
-    if (!isAuthenticated) {
+    if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
       removeLike(_id);
@@ -50,7 +50,19 @@ const PostItem = ({
               type='button'
               className='btn btn-light'
             >
-              <i className='fas fa-thumbs-up' />{' '}
+              {auth.isAuthenticated &&
+              likes.some((check) => check.user === auth.user._id) ? (
+                <i
+                  className='fas fa-thumbs-up'
+                  style={{ color: '#17a2b8', marginRight: '5px' }}
+                />
+              ) : (
+                <i
+                  className='fas fa-thumbs-up'
+                  style={{ marginRight: '5px' }}
+                />
+              )}
+              {/* <i className='fas fa-thumbs-up' />{' '} */}
               <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
             </button>
             <button

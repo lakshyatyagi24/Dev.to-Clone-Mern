@@ -4,46 +4,29 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import { toast } from 'react-toastify';
-import BeatLoader from 'react-spinners/BeatLoader';
 
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    isCompleted: false,
   });
 
-  const { email, password, isCompleted } = formData;
+  const { email, password } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    setFormData({
-      ...formData,
-      isCompleted: true,
-    });
     if (email && password) {
-      const res = await login(email, password);
-      if (res) {
-        setFormData({
-          ...formData,
-          isCompleted: false,
-        });
-      } else {
-        setFormData({
-          ...formData,
-          isCompleted: false,
-        });
-      }
+      login(email, password);
     } else {
       return toast.error('Please fill all fields');
     }
   };
 
   if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+    return <Redirect to='/' />;
   }
 
   return (
@@ -73,10 +56,7 @@ const Login = ({ login, isAuthenticated }) => {
             minLength='6'
           />
         </div>
-        {<BeatLoader size={15} color={'#17a2b8'} loading={isCompleted} />}
-        {!isCompleted && (
-          <input type='submit' className='btn btn-primary' value='Login' />
-        )}
+        <input type='submit' className='btn btn-primary' value='Login' />
       </form>
       <p className='my-1'>
         Don't have an account? <Link to='/register'>Sign Up</Link>

@@ -22,32 +22,20 @@ const Routes = (props) => {
     <section className='container'>
       <ToastContainer />
       <Switch>
+        <Route exact path='/' component={Posts} />
+        <Route exact path='/:name/:id' component={Post} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/users/activate/:token' component={Activate} />
+        <Route exact path='/users/password/forget' component={Forget} />
+        <Route exact path='/users/password/reset/:token' component={Reset} />
         <Route exact path='/profiles' component={Profiles} />
-        <Route exact path='/profile/:id' component={Profile} />
-        <Route
-          path='/users/activate/:token'
-          exact
-          render={(props) => <Activate {...props} />}
-        />
-        <Route
-          path='/users/password/forget'
-          exact
-          render={(props) => <Forget {...props} />}
-        />
-        <Route
-          path='/users/password/reset/:token'
-          exact
-          render={(props) => <Reset {...props} />}
-        />
+        <Route exact path='/profile/user/:id' component={Profile} />
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
         <PrivateRoute exact path='/create-profile' component={ProfileForm} />
         <PrivateRoute exact path='/edit-profile' component={ProfileForm} />
         <PrivateRoute exact path='/add-experience' component={AddExperience} />
         <PrivateRoute exact path='/add-education' component={AddEducation} />
-        <Route exact path='/posts' component={Posts} />
-        <Route exact path='/posts/:id' component={Post} />
         <Route component={NotFound} />
       </Switch>
     </section>

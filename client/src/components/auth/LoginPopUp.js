@@ -10,7 +10,7 @@ const LoginPopUp = ({ setAuth }) => {
   return (
     <div className='backdrop' onClick={handleClick}>
       <div className='child'>
-        <h1 className='medium text-primary'>Log in to continue</h1>
+        <h1 className='text-primary'>Log in to continue</h1>
         <p className='lead'>
           <i className='fas fa-user' />
           <Link to='/login'> Sign Into</Link> your Account

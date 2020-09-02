@@ -19,7 +19,7 @@ const Reset = ({ reset, isAuthenticated, match }) => {
     if (token) {
       setFormData({ ...formData, token });
     }
-  }, [match.params.token]);
+  }, []);
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 

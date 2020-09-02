@@ -12,7 +12,6 @@ import {
 export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get('/auth');
-
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -99,9 +98,7 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-
     dispatch(loadUser());
-    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -112,7 +109,6 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({
       type: LOGIN_FAIL,
     });
-    return false;
   }
 };
 

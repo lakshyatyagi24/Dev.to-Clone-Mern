@@ -1,8 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import PostItem from './PostItem';
-import PostForm from './PostForm';
+import PostFeed from './PostFeed';
+// import PostForm from './PostForm';
 import { getPosts } from '../../actions/post';
 import BeatLoader from 'react-spinners/BeatLoader';
 import LoginPopUp from '../auth/LoginPopUp';
@@ -15,18 +15,15 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   return (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
-      <h1 className='large text-primary'>Posts</h1>
-      <p className='lead'>
-        <i className='fas fa-user' /> Welcome to the community
-      </p>
-      <PostForm />
+      <h1 className='text-primary'>Posts</h1>
+      {/* <PostForm /> */}
       <div className='posts'>
-        {loading ? (
+        {loading || posts === null ? (
           <BeatLoader size={15} color={'#17a2b8'} loading={true} />
         ) : (
           <Fragment>
             {posts.map((post) => (
-              <PostItem key={post._id} post={post} setAuth={setAuth} />
+              <PostFeed key={post._id} post={post} />
             ))}
           </Fragment>
         )}

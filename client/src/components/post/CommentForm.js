@@ -44,7 +44,7 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
 
 CommentForm.propTypes = {
   addComment: PropTypes.func.isRequired,
-  isAuth: PropTypes.bool.isRequired,
+  isAuth: PropTypes.bool,
 };
 const mapStateToProps = (state) => ({
   isAuth: state.auth.isAuthenticated,

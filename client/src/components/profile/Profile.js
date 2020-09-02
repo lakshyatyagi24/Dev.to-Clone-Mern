@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -11,21 +11,14 @@ import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 
 const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
-  const [load, setLoad] = useState(true);
   useEffect(() => {
     getProfileById(match.params.id);
-    setTimeout(() => {
-      if (profile === null) {
-        setLoad(false);
-      }
-    }, 5000);
   }, [getProfileById, match.params.id]);
 
   return (
     <Fragment>
-      {!load && <h2>This user haven't set up his/her profile</h2>}
       {profile === null ? (
-        <BeatLoader size={15} color={'#17a2b8'} loading={load} />
+        <BeatLoader size={15} color={'#17a2b8'} loading={true} />
       ) : (
         <Fragment>
           <Link to='/profiles' className='btn btn-light'>

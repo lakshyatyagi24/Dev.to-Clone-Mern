@@ -1,16 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import { addLike, removeLike, deletePost } from '../../actions/post';
+import { addLike } from '../../actions/post';
 
 const PostItem = ({
   addLike,
-  removeLike,
-  deletePost,
   auth,
-  post: { _id, text, name, avatar, user, likes, comments, date },
+  post: { _id, text, name, avatar, user, likes, date },
   showActions,
   setAuth,
 }) => {
@@ -22,18 +20,10 @@ const PostItem = ({
       return setAuth(false);
     }
   };
-  const handleUnLikeAction = () => {
-    if (!auth.isAuthenticated) {
-      return setAuth(true);
-    } else {
-      removeLike(_id);
-      return setAuth(false);
-    }
-  };
   return (
     <div className='post bg-white p-1 my-1'>
       <div>
-        <Link to={`/profile/${user}`}>
+        <Link to={`/profile/user/${user}`}>
           <img className='round-img' src={avatar} alt='' />
           <h4>{name}</h4>
         </Link>
@@ -51,7 +41,8 @@ const PostItem = ({
               className='btn btn-light'
             >
               {auth.isAuthenticated &&
-              likes.some((check) => check.user === auth.user._id) ? (
+              likes.map((item) => item.user.toString()).indexOf(auth.user._id) >
+                -1 ? (
                 <i
                   className='fas fa-thumbs-up'
                   style={{ color: '#17a2b8', marginRight: '5px' }}
@@ -62,22 +53,20 @@ const PostItem = ({
                   style={{ marginRight: '5px' }}
                 />
               )}
-              {/* <i className='fas fa-thumbs-up' />{' '} */}
               <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
             </button>
-            <button
-              onClick={handleUnLikeAction}
-              type='button'
-              className='btn btn-light'
-            >
-              <i className='fas fa-thumbs-down' />
+
+            <button type='button' className='btn btn-light'>
+              <i className='far fa-comment-alt' />
             </button>
-            <Link to={`/posts/${_id}`} className='btn btn-primary'>
-              Discussion{' '}
-              {comments.length > 0 && (
-                <span className='comment-count'>{comments.length}</span>
-              )}
-            </Link>
+            <button type='button' className='btn btn-light'>
+              <i className='far fa-bookmark' />
+            </button>
+            {/* {comments.length > 0 && (
+                <i className='far fa-comment'>
+                  <span className='comment-count'>{comments.length}</span>
+                </i>
+              )} */}
             {/* {!auth.loading && user === auth.user._id && (
             <button
               onClick={() => deletePost(_id)}
@@ -102,8 +91,6 @@ PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   addLike: PropTypes.func.isRequired,
-  removeLike: PropTypes.func.isRequired,
-  deletePost: PropTypes.func.isRequired,
   showActions: PropTypes.bool,
 };
 
@@ -111,6 +98,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addLike, removeLike, deletePost })(
-  PostItem
-);
+export default connect(mapStateToProps, { addLike })(PostItem);

@@ -5,8 +5,9 @@ import { forget } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
 import BeatLoader from 'react-spinners/BeatLoader';
+import { Redirect } from 'react-router-dom';
 
-const Forget = ({ forget }) => {
+const Forget = ({ forget, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     isCompleted: false,
@@ -39,6 +40,9 @@ const Forget = ({ forget }) => {
       return toast.error('Please provide your email');
     }
   };
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Fragment>
@@ -65,6 +69,9 @@ const Forget = ({ forget }) => {
 
 Forget.propTypes = {
   forget: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-
-export default connect(null, { forget })(Forget);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { forget })(Forget);

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import BeatLoader from 'react-spinners/BeatLoader';
-import PostItem from '../posts/PostItem';
+import PostItem from './PostItem';
 import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
@@ -20,10 +20,10 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
   ) : (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
-      <Link to='/posts' className='btn'>
+      <Link to='/' className='btn'>
         Back To Posts
       </Link>
-      <PostItem post={post} showActions={false} />
+      <PostItem post={post} showActions={true} setAuth={setAuth} />
       <CommentForm setAuth={setAuth} postId={post._id} />
       <div className='comments'>
         {post.comments.map((comment) => (

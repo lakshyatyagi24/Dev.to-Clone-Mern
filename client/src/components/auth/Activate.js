@@ -21,7 +21,7 @@ const Activate = ({ activate, isAuthenticated, match }) => {
     if (token) {
       setFormData({ ...formData, name, token });
     }
-  }, [match.params.token]);
+  }, []);
   const { name, token, isActived, isProcessing } = formData;
   const handleSubmit = async (e) => {
     e.preventDefault();

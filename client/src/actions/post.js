@@ -8,7 +8,7 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
 } from './types';
 
 // Get posts
@@ -18,12 +18,12 @@ export const getPosts = () => async (dispatch) => {
 
     dispatch({
       type: GET_POSTS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -35,12 +35,12 @@ export const addLike = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data }
+      payload: { id, likes: res.data },
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -52,12 +52,12 @@ export const removeLike = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_LIKES,
-      payload: { id, likes: res.data }
+      payload: { id, likes: res.data },
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -69,13 +69,13 @@ export const deletePost = (id) => async (dispatch) => {
 
     dispatch({
       type: DELETE_POST,
-      payload: id
+      payload: id,
     });
     toast.success('Post Removed');
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -87,13 +87,13 @@ export const addPost = (formData) => async (dispatch) => {
 
     dispatch({
       type: ADD_POST,
-      payload: res.data
+      payload: res.data,
     });
     toast.success('Post Create');
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -105,12 +105,12 @@ export const getPost = (id) => async (dispatch) => {
 
     dispatch({
       type: GET_POST,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -122,13 +122,13 @@ export const addComment = (postId, formData) => async (dispatch) => {
 
     dispatch({
       type: ADD_COMMENT,
-      payload: res.data
+      payload: res.data,
     });
     toast.success('Comment Added');
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -140,13 +140,13 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
 
     dispatch({
       type: REMOVE_COMMENT,
-      payload: commentId
+      payload: commentId,
     });
     toast.success('Comment Removed');
   } catch (err) {
     dispatch({
       type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };

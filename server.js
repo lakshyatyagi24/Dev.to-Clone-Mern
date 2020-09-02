@@ -1,14 +1,22 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: 'http://127.0.0.1:5000', //Chan tat ca cac domain khac ngoai domain nay
+    credentials: true, //Để bật cookie HTTP qua CORS
+  })
+);
 // Connect Database
 connectDB();
 
 // Init Middleware
-app.use(express.json());
 
 // Define Routes
 app.use('/api/users', require('./routes/api/users'));

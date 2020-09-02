@@ -21,7 +21,7 @@ const PrivateRoute = ({
         <Redirect
           to={{
             pathname: '/login',
-            state: { from: props.location }
+            state: { from: props.location },
           }}
         />
       )
@@ -30,11 +30,11 @@ const PrivateRoute = ({
 );
 
 PrivateRoute.propTypes = {
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

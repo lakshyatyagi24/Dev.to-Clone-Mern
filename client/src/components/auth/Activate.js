@@ -4,12 +4,14 @@ import jwt from 'jsonwebtoken';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { activate } from '../../actions/auth';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const Activate = ({ activate, isAuthenticated, match }) => {
   const [formData, setFormData] = useState({
     name: '',
     token: '',
-    isActived: false
+    isActived: false,
+    isProcessing: false,
   });
 
   useEffect(() => {
@@ -20,37 +22,43 @@ const Activate = ({ activate, isAuthenticated, match }) => {
       setFormData({ ...formData, name, token });
     }
   }, [match.params.token]);
-  const { name, token, isActived } = formData;
+  const { name, token, isActived, isProcessing } = formData;
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setFormData({
+      ...formData,
+      isProcessing: true,
+    });
     const res = await activate({ token });
     if (res) {
       return setFormData({
         ...formData,
-        isActived: true
+        isActived: true,
+        isProcessing: false,
       });
     } else {
       return setFormData({
         ...formData,
-        isActived: false
+        isProcessing: false,
       });
     }
   };
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (
     <Fragment>
-      <p className="lead">Welcome {name}</p>
-      <form className="form" onSubmit={handleSubmit}>
-        {!isActived && (
-          <input type="submit" className="btn btn-primary" value="Active" />
+      <p className='lead'>Welcome {name}</p>
+      <form className='form' onSubmit={handleSubmit}>
+        {<BeatLoader size={15} color={'#17a2b8'} loading={isProcessing} />}
+        {!isProcessing && (
+          <input type='submit' className='btn btn-primary' value='Active' />
         )}
       </form>
       {isActived && (
-        <p className="my-1">
-          Your account is actived! Let <Link to="/login">Sign In</Link> now
+        <p className='my-1'>
+          Your account is actived! Let <Link to='/login'>Sign In</Link> now
         </p>
       )}
     </Fragment>
@@ -59,11 +67,11 @@ const Activate = ({ activate, isAuthenticated, match }) => {
 
 Activate.propTypes = {
   activate: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { activate })(Activate);

@@ -4,14 +4,13 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   ACCOUNT_DELETED,
-  SET_LOADING
 } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: null
+  user: null,
 };
 
 export default function (state = initialState, action) {
@@ -23,20 +22,14 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload
-      };
-    case SET_LOADING:
-      return {
-        ...state,
-        ...payload,
-        loading: payload
+        user: payload,
       };
     case LOGIN_SUCCESS:
       return {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false
+        loading: false,
       };
     case ACCOUNT_DELETED:
       return {
@@ -44,7 +37,7 @@ export default function (state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
-        user: null
+        user: null,
       };
     case AUTH_ERROR:
     case LOGOUT:
@@ -53,7 +46,7 @@ export default function (state = initialState, action) {
         token: null,
         isAuthenticated: false,
         loading: false,
-        user: null
+        user: null,
       };
     default:
       return state;

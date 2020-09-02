@@ -14,6 +14,11 @@ import './App.css';
 
 const App = () => {
   useEffect(() => {
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) {
+        store.dispatch({ type: 'LOGOUT' });
+      }
+    });
     setAuthToken(localStorage.token);
     store.dispatch(loadUser());
   }, []);
@@ -24,7 +29,7 @@ const App = () => {
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Landing} />
+            <Route exact path='/' component={Landing} />
             <Route component={Routes} />
           </Switch>
         </Fragment>

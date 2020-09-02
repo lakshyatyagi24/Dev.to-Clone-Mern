@@ -2,21 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addComment } from '../../actions/post';
-import { Redirect } from 'react-router-dom';
 
-const CommentForm = ({ postId, addComment, isAuth }) => {
+const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
   const [text, setText] = useState('');
-  const [checkAuth, setCheckAuth] = useState(false);
   const handleForm = () => {
     if (!isAuth) {
-      return setCheckAuth(true);
+      return setAuth(true);
     } else {
-      return setCheckAuth(false);
+      return setAuth(false);
     }
   };
-  if (checkAuth) {
-    return <Redirect to='/login' />;
-  }
 
   return (
     <div className='post-form'>

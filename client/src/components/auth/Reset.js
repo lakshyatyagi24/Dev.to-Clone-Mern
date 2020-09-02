@@ -10,7 +10,7 @@ const Reset = ({ reset, isAuthenticated, match }) => {
     password1: '',
     password2: '',
     token: '',
-    isCompleted: false
+    isCompleted: false,
   });
 
   const { password1, password2, token, isCompleted } = formData;
@@ -29,18 +29,18 @@ const Reset = ({ reset, isAuthenticated, match }) => {
       if (password1 === password2) {
         const res = await reset({
           newPassword: password1,
-          resetPasswordLink: token
+          resetPasswordLink: token,
         });
         if (res) {
           return setFormData({
             ...formData,
-            isCompleted: true
+            isCompleted: true,
           });
         } else {
-          return setFormData({
-            ...formData,
-            isCompleted: false
-          });
+          // return setFormData({
+          //   ...formData,
+          //   isCompleted: false
+          // });
         }
       } else {
         return toast.error("Passwords don't matches");
@@ -51,38 +51,38 @@ const Reset = ({ reset, isAuthenticated, match }) => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Reset Password</h1>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
+      <h1 className='large text-primary'>Reset Password</h1>
+      <form className='form' onSubmit={onSubmit}>
+        <div className='form-group'>
           <input
-            type="password"
-            placeholder="Password"
-            name="password1"
+            type='password'
+            placeholder='Password'
+            name='password1'
             value={password1}
             onChange={onChange}
-            minLength="6"
+            minLength='6'
           />
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="password"
-            placeholder="Confirm Password"
-            name="password2"
+            type='password'
+            placeholder='Confirm Password'
+            name='password2'
             value={password2}
             onChange={onChange}
-            minLength="6"
+            minLength='6'
           />
         </div>
-        <input type="submit" className="btn btn-primary" value="Confirm" />
+        <input type='submit' className='btn btn-primary' value='Confirm' />
       </form>
       {isCompleted && (
-        <p className="my-1">
-          Reset password complete!, <Link to="/login">Sign In</Link>
+        <p className='my-1'>
+          Reset password complete!, <Link to='/login'>Sign In</Link>
         </p>
       )}
     </Fragment>
@@ -91,11 +91,11 @@ const Reset = ({ reset, isAuthenticated, match }) => {
 
 Reset.propTypes = {
   reset: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, { reset })(Reset);

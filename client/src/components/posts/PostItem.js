@@ -1,6 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { addLike, removeLike, deletePost } from '../../actions/post';
@@ -12,27 +12,24 @@ const PostItem = ({
   auth: { isAuthenticated },
   post: { _id, text, name, avatar, user, likes, comments, date },
   showActions,
+  setAuth,
 }) => {
-  const [checkAuth, setCheckAuth] = useState(false);
   const handleLikeAction = () => {
     if (!isAuthenticated) {
-      return setCheckAuth(true);
+      return setAuth(true);
     } else {
       addLike(_id);
-      return setCheckAuth(false);
+      return setAuth(false);
     }
   };
   const handleUnLikeAction = () => {
     if (!isAuthenticated) {
-      return setCheckAuth(true);
+      return setAuth(true);
     } else {
       removeLike(_id);
-      return setCheckAuth(false);
+      return setAuth(false);
     }
   };
-  if (checkAuth) {
-    return <Redirect to='/login' />;
-  }
   return (
     <div className='post bg-white p-1 my-1'>
       <div>
@@ -46,7 +43,6 @@ const PostItem = ({
         <p className='post-date'>
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
-        {/* {!checkAuth && <div>Not auth</div>} */}
         {showActions && (
           <Fragment>
             <button

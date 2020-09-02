@@ -48,7 +48,7 @@ const PostForm = ({ addPost, isAuth }) => {
 
 PostForm.propTypes = {
   addPost: PropTypes.func.isRequired,
-  isAuth: PropTypes.bool.isRequired,
+  isAuth: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({

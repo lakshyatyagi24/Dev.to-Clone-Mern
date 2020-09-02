@@ -7,15 +7,16 @@ import { toast } from 'react-toastify';
 
 import BeatLoader from 'react-spinners/BeatLoader';
 
-const Register = ({ register, isAuthenticated, isLoading }) => {
+const Register = ({ register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    password2: ''
+    password2: '',
+    isCompleted: false,
   });
 
-  const { name, email, password, password2 } = formData;
+  const { name, email, password, password2, isCompleted } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,7 +27,22 @@ const Register = ({ register, isAuthenticated, isLoading }) => {
       if (password !== password2) {
         return toast.error('Passwords do not match');
       } else {
-        return register({ name, email, password });
+        setFormData({
+          ...formData,
+          isCompleted: true,
+        });
+        const res = await register({ name, email, password });
+        if (res) {
+          return setFormData({
+            ...formData,
+            isCompleted: false,
+          });
+        } else {
+          return setFormData({
+            ...formData,
+            isCompleted: false,
+          });
+        }
       }
     } else {
       return toast.error('Please fill all fields');
@@ -34,63 +50,63 @@ const Register = ({ register, isAuthenticated, isLoading }) => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Sign Up</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Create Your Account
+      <h1 className='large text-primary'>Sign Up</h1>
+      <p className='lead'>
+        <i className='fas fa-user' /> Create Your Account
       </p>
-      <form className="form" onSubmit={onSubmit}>
-        <div className="form-group">
+      <form className='form' onSubmit={onSubmit}>
+        <div className='form-group'>
           <input
-            type="text"
-            placeholder="Name"
-            name="name"
+            type='text'
+            placeholder='Name'
+            name='name'
             value={name}
             onChange={onChange}
           />
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="email"
-            placeholder="Email Address"
-            name="email"
+            type='email'
+            placeholder='Email Address'
+            name='email'
             value={email}
             onChange={onChange}
           />
-          <small className="form-text">
+          <small className='form-text'>
             This site uses Gravatar so if you want a profile image, use a
             Gravatar email
           </small>
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="password"
-            placeholder="Password"
-            name="password"
+            type='password'
+            placeholder='Password'
+            name='password'
             value={password}
             onChange={onChange}
           />
         </div>
-        <div className="form-group">
+        <div className='form-group'>
           <input
-            type="password"
-            placeholder="Confirm Password"
-            name="password2"
+            type='password'
+            placeholder='Confirm Password'
+            name='password2'
             value={password2}
             onChange={onChange}
           />
         </div>
-        {<BeatLoader size={15} color={'#17a2b8'} loading={isLoading} />}
-        {!isLoading && (
-          <input type="submit" className="btn btn-primary" value="Register" />
+        {<BeatLoader size={15} color={'#17a2b8'} loading={isCompleted} />}
+        {!isCompleted && (
+          <input type='submit' className='btn btn-primary' value='Register' />
         )}
       </form>
-      <p className="my-1">
-        Already have an account? <Link to="/login">Sign In</Link>
+      <p className='my-1'>
+        Already have an account? <Link to='/login'>Sign In</Link>
       </p>
     </Fragment>
   );
@@ -99,12 +115,10 @@ const Register = ({ register, isAuthenticated, isLoading }) => {
 Register.propTypes = {
   register: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
-  isLoading: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
-  isLoading: state.auth.loading
 });
 
 export default connect(mapStateToProps, { register })(Register);

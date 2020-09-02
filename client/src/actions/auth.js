@@ -6,7 +6,6 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  SET_LOADING
 } from './types';
 
 // Load User
@@ -16,11 +15,11 @@ export const loadUser = () => async (dispatch) => {
 
     dispatch({
       type: USER_LOADED,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: AUTH_ERROR
+      type: AUTH_ERROR,
     });
   }
 };
@@ -28,26 +27,16 @@ export const loadUser = () => async (dispatch) => {
 // Register User
 export const register = (formData) => async (dispatch) => {
   try {
-    dispatch({
-      type: SET_LOADING,
-      payload: true
-    });
     const res = await api.post('/users', formData);
     toast.success(res.data.message);
-    dispatch({
-      type: SET_LOADING,
-      payload: false
-    });
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
+      return false;
     }
-    dispatch({
-      type: SET_LOADING,
-      payload: false
-    });
   }
 };
 
@@ -70,26 +59,16 @@ export const activate = (token) => async (dispatch) => {
 // Forget password
 export const forget = (email) => async (dispatch) => {
   try {
-    dispatch({
-      type: SET_LOADING,
-      payload: true
-    });
     const res = await api.put(`users/password/forget`, email);
     toast.success(res.data.message);
-    dispatch({
-      type: SET_LOADING,
-      payload: false
-    });
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
+      return false;
     }
-    dispatch({
-      type: SET_LOADING,
-      payload: false
-    });
   }
 };
 
@@ -118,10 +97,11 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
 
     dispatch(loadUser());
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -130,8 +110,9 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     dispatch({
-      type: LOGIN_FAIL
+      type: LOGIN_FAIL,
     });
+    return false;
   }
 };
 

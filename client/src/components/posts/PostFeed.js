@@ -5,7 +5,7 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 
 const PostFeed = ({
-  post: { _id, text, name, avatar, user, likes, comments, date },
+  post: { _id, title, name, avatar, user, likes, comments, date },
   showActions,
 }) => {
   return (
@@ -17,7 +17,7 @@ const PostFeed = ({
         </Link>
       </div>
       <div>
-        <p className='text-primary my-1'>{text}</p>
+        <h3 className='text-primary my-1'>{title}</h3>
         <p className='post-date'>
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>

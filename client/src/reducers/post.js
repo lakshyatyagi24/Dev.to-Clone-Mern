@@ -63,13 +63,15 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case REMOVE_COMMENT:
+      const index = state.post.comments
+        .map((item) => item._id)
+        .indexOf(payload);
+      state.post.comments.splice(index, 1);
       return {
         ...state,
         post: {
           ...state.post,
-          comments: state.post.comments.filter(
-            (comment) => comment._id !== payload
-          ),
+          comments: state.post.comments,
         },
         loading: false,
       };

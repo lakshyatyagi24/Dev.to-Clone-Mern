@@ -45,23 +45,6 @@ export const addLike = (id) => async (dispatch) => {
   }
 };
 
-// Remove like
-export const removeLike = (id) => async (dispatch) => {
-  try {
-    const res = await api.put(`/posts/unlike/${id}`);
-
-    dispatch({
-      type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
 // Delete post
 export const deletePost = (id) => async (dispatch) => {
   try {
@@ -71,7 +54,6 @@ export const deletePost = (id) => async (dispatch) => {
       type: DELETE_POST,
       payload: id,
     });
-    toast.success('Post Removed');
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -89,8 +71,12 @@ export const addPost = (formData) => async (dispatch) => {
       type: ADD_POST,
       payload: res.data,
     });
-    toast.success('Post Create');
   } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
@@ -124,7 +110,6 @@ export const addComment = (postId, formData) => async (dispatch) => {
       type: ADD_COMMENT,
       payload: res.data,
     });
-    toast.success('Comment Added');
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -142,7 +127,6 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
       type: REMOVE_COMMENT,
       payload: commentId,
     });
-    toast.success('Comment Removed');
   } catch (err) {
     dispatch({
       type: POST_ERROR,

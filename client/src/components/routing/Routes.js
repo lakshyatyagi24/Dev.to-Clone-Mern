@@ -6,6 +6,7 @@ import Activate from '../auth/Activate';
 import Forget from '../auth/Forget';
 import Reset from '../auth/Reset';
 import Dashboard from '../dashboard/Dashboard';
+import PostNew from '../posts/PostNew';
 import ProfileForm from '../profile-forms/ProfileForm';
 import AddExperience from '../profile-forms/AddExperience';
 import AddEducation from '../profile-forms/AddEducation';
@@ -32,6 +33,7 @@ const Routes = (props) => {
         <Route exact path='/profiles' component={Profiles} />
         <Route exact path='/profile/user/:id' component={Profile} />
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
+        <PrivateRoute exact path='/write-post' component={PostNew} />
         <PrivateRoute exact path='/create-profile' component={ProfileForm} />
         <PrivateRoute exact path='/edit-profile' component={ProfileForm} />
         <PrivateRoute exact path='/add-experience' component={AddExperience} />

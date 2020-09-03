@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import BeatLoader from 'react-spinners/BeatLoader';
 
 const PrivateRoute = ({
@@ -14,7 +13,7 @@ const PrivateRoute = ({
     {...rest}
     render={(props) =>
       loading ? (
-        <BeatLoader size={15} color={'#17a2b8'} loading={true} />
+        <BeatLoader size={15} color={'#17a2b8'} loading={loading} />
       ) : isAuthenticated ? (
         <Component {...props} />
       ) : (

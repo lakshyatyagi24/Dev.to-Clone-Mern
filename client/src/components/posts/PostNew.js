@@ -32,37 +32,40 @@ const Title = styled.textarea`
   outline: none;
   border: none;
   resize: none;
-  background-color: #282c34;
-  color: #fff;
+  background-color: #fff;
+  color: #282c34;
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border-radius: 5px;
 `;
 const TextArea = styled.textarea`
   font-family: 'Poppins', sans-serif;
   margin-top: 30px;
-  padding: 60px;
+  padding: 40px;
   width: 100%;
   height: 600px;
   resize: none;
   border: none;
   outline: none;
   font-size: 17px;
-  background-color: #282c34;
-  color: #fff;
+  background-color: #fff;
+  color: #282c34;
   border-radius: 5px;
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
 `;
 const ResultArea = styled.div`
   font-family: 'Poppins', sans-serif;
   margin-top: 40px;
-  padding: 60px;
+  padding: 40px;
   width: 100%;
   height: 600px;
   border: none;
   font-size: 17px;
-  background-color: #282c34;
-  color: #fff;
+  background-color: #fff;
+  color: #282c34;
   border-radius: 5px;
   overflow-y: auto;
   overflow-x: hidden;
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
 `;
 const Preview = styled.div`
   font-size: 22px;
@@ -157,17 +160,19 @@ function PostNew({ addPost }) {
           }}
           onClick={() => setWrite(!write)}
         />
+        <i className='fas fa-eye'></i>
         <input
           onClick={() => setImage(true)}
           type='button'
           className='btn btn-dark'
-          value='Add image'
+          value='Image'
           style={{
             width: '60%',
             fontWeight: '600',
             marginTop: '30px',
           }}
         />
+        <i className='fas fa-images'></i>
         <input
           type='button'
           className='btn btn-dark'
@@ -179,6 +184,7 @@ function PostNew({ addPost }) {
           }}
           onClick={() => setGuide(true)}
         />
+        <i className='fab fa-glide'></i>
       </SideAction>
     </EditorContainer>
   );

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import { addLike, addBookmarks } from '../../actions/post';
+import { addLikeInReading, addBookmarksInReading } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 
 const PostItem = ({
-  addLike,
-  addBookmarks,
+  addLikeInReading,
+  addBookmarksInReading,
   auth,
   post: { _id, title, content, name, avatar, user, likes, bookmarks, date },
   setAuth,
@@ -17,7 +17,7 @@ const PostItem = ({
     if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
-      addLike(_id);
+      addLikeInReading(_id);
       return setAuth(false);
     }
   };
@@ -25,7 +25,7 @@ const PostItem = ({
     if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
-      addBookmarks(_id);
+      addBookmarksInReading(_id);
       return setAuth(false);
     }
   };
@@ -40,16 +40,15 @@ const PostItem = ({
       >
         <button
           onClick={handleLikeAction}
-          type='button'
           className='btn btn-light'
           style={{ margin: '0 0 10px 0' }}
         >
           {auth.isAuthenticated &&
           likes.map((item) => item.user.toString()).indexOf(auth.user._id) >
             -1 ? (
-            <i className='fas fa-thumbs-up' style={{ color: '#17a2b8' }} />
+            <i className='far fa-heart' style={{ color: '#dc3545' }} />
           ) : (
-            <i className='fas fa-thumbs-up' />
+            <i className='far fa-heart' />
           )}
         </button>
         <span style={{ display: 'block' }}>
@@ -57,7 +56,6 @@ const PostItem = ({
         </span>
         <button
           onClick={handleBookmarksAction}
-          type='button'
           className='btn btn-light'
           style={{ margin: '0 0 10px 0' }}
         >
@@ -104,7 +102,7 @@ const PostItem = ({
         >
           <Link style={{ display: 'flex' }} to={`/profile/user/${user}`}>
             <img className='round-img' src={avatar} alt='' />
-            <h6 style={{ marginLeft: '5px' }}>{name}</h6>
+            <h5 style={{ marginLeft: '5px' }}>{name}</h5>
           </Link>
           <p
             className='post-date'
@@ -131,20 +129,18 @@ const PostItem = ({
   );
 };
 
-PostItem.defaultProps = {
-  showActions: true,
-};
-
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  addLike: PropTypes.func.isRequired,
-  addBookmarks: PropTypes.func.isRequired,
-  showActions: PropTypes.bool,
+  addLikeInReading: PropTypes.func.isRequired,
+  addBookmarksInReading: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { addLike, addBookmarks })(PostItem);
+export default connect(mapStateToProps, {
+  addLikeInReading,
+  addBookmarksInReading,
+})(PostItem);

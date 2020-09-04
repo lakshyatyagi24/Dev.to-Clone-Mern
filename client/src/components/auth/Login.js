@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, isAuthenticated, user }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,7 +25,7 @@ const Login = ({ login, isAuthenticated }) => {
     }
   };
 
-  if (isAuthenticated) {
+  if (isAuthenticated && user) {
     return <Redirect to='/' />;
   }
 
@@ -75,6 +75,7 @@ Login.propTypes = {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps, { login })(Login);

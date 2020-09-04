@@ -10,6 +10,8 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   UPDATE_BOOKMARKS,
+  UPDATE_BOOKMARKS_INREADING,
+  UPDATE_LIKES_INREADING,
 } from './types';
 
 // Get posts
@@ -45,6 +47,22 @@ export const addLike = (id) => async (dispatch) => {
     });
   }
 };
+// Add like
+export const addLikeInReading = (id) => async (dispatch) => {
+  try {
+    const res = await api.put(`/posts/like/${id}`);
+
+    dispatch({
+      type: UPDATE_LIKES_INREADING,
+      payload: { id, likes: res.data },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
 
 // Add book mark
 export const addBookmarks = (id) => async (dispatch) => {
@@ -53,6 +71,23 @@ export const addBookmarks = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_BOOKMARKS,
+      payload: { id, bookmarks: res.data },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Add book mark
+export const addBookmarksInReading = (id) => async (dispatch) => {
+  try {
+    const res = await api.put(`/posts/bookmarks/${id}`);
+
+    dispatch({
+      type: UPDATE_BOOKMARKS_INREADING,
       payload: { id, bookmarks: res.data },
     });
   } catch (err) {

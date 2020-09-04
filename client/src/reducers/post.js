@@ -8,6 +8,8 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   UPDATE_BOOKMARKS,
+  UPDATE_BOOKMARKS_INREADING,
+  UPDATE_LIKES_INREADING,
 } from '../actions/types';
 
 const initialState = {
@@ -54,13 +56,39 @@ export default function (state = initialState, action) {
     case UPDATE_LIKES:
       return {
         ...state,
-        post: { ...state.post, likes: payload.likes },
+        posts: state.posts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
+        ),
         loading: false,
       };
     case UPDATE_BOOKMARKS:
       return {
         ...state,
+        posts: state.posts.map((post) =>
+          post._id === payload.id
+            ? { ...post, bookmarks: payload.bookmarks }
+            : post
+        ),
+        loading: false,
+      };
+    case UPDATE_LIKES_INREADING:
+      return {
+        ...state,
+        post: { ...state.post, likes: payload.likes },
+        posts: state.posts.map((post) =>
+          post._id === payload.id ? { ...post, likes: payload.likes } : post
+        ),
+        loading: false,
+      };
+    case UPDATE_BOOKMARKS_INREADING:
+      return {
+        ...state,
         post: { ...state.post, bookmarks: payload.bookmarks },
+        posts: state.posts.map((post) =>
+          post._id === payload.id
+            ? { ...post, bookmarks: payload.bookmarks }
+            : post
+        ),
         loading: false,
       };
     case ADD_COMMENT:

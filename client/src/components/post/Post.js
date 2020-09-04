@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import BeatLoader from 'react-spinners/BeatLoader';
 import PostItem from './PostItem';
@@ -20,7 +19,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
   ) : (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
-      <PostItem post={post} showActions={true} setAuth={setAuth} />
+      <PostItem post={post} setAuth={setAuth} />
 
       <CommentForm setAuth={setAuth} postId={post._id} />
       <div className='post my-1'>

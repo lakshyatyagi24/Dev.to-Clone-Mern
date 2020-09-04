@@ -11,7 +11,7 @@ const Guide = ({ setGuide }) => {
     <div className='backdrop' onClick={handleClick}>
       <div className='child guide-markdown'>
         <h1 className='text-dark'>Some common markdown</h1>
-        <table>
+        <table style={{ marginTop: '20px' }}>
           <tbody>
             <tr>
               <td># Header</td>

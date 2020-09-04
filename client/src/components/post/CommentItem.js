@@ -49,9 +49,7 @@ const CommentItem = ({
         <img className='round-img' src={avatar} alt='' />
         <h6 style={{ marginLeft: '5px' }}>{name}</h6>
       </Link>
-      <p style={{ margin: '16px', wordWrap: 'break-word', maxWidth: '600px' }}>
-        {text}
-      </p>
+      <p style={{ margin: '16px', wordWrap: 'break-word' }}>{text}</p>
     </div>
   </Fragment>
 );

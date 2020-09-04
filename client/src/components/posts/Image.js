@@ -26,7 +26,7 @@ const Image = ({ setImage }) => {
       setError('');
     } else {
       setFile(null);
-      setError('Plz select and image file (png or jpeg/jpg)');
+      setError('Plz select an image file (png or jpeg/jpg)');
     }
   };
   return (
@@ -37,8 +37,9 @@ const Image = ({ setImage }) => {
         </h3>
         <form>
           <input
+            className='btn btn-light'
             type='file'
-            style={{ margin: '30px 0' }}
+            style={{ margin: '10px 0' }}
             onChange={changeHandler}
           />
         </form>

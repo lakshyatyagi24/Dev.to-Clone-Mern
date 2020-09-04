@@ -14,17 +14,26 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
   return (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
-      <h1 className='text-primary'>Posts</h1>
-      <div className='posts'>
-        {loading || posts === null ? (
-          <BeatLoader size={15} color={'#17a2b8'} loading={true} />
-        ) : (
-          <Fragment>
-            {posts.map((post) => (
-              <PostFeed key={post._id} post={post} />
-            ))}
-          </Fragment>
-        )}
+
+      <div className='post feed'>
+        <div>
+          <div className='left-side-feed p-1 my-1 bg-white'></div>
+        </div>
+        <div>
+          <h4 className='text-dark'>Posts</h4>
+          {loading || posts === null ? (
+            <BeatLoader size={15} color={'#17a2b8'} loading={true} />
+          ) : (
+            <Fragment>
+              {posts.map((post) => (
+                <PostFeed key={post._id} post={post} setAuth={setAuth} />
+              ))}
+            </Fragment>
+          )}
+        </div>
+        <div>
+          <div className='right-side-feed p-1 my-1 bg-white'></div>
+        </div>
       </div>
     </Fragment>
   );

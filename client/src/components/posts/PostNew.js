@@ -128,7 +128,11 @@ function PostNew({ addPost }) {
               required
               value={content}
             />
-            <input type='submit' className='btn btn-dark my-1' value='Submit' />
+            <input
+              type='submit'
+              className='btn btn-dark my-1'
+              value='Publish'
+            />
           </form>
         </Container>
       )}

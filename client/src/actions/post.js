@@ -89,6 +89,10 @@ export const addPost = (formData) => async (dispatch) => {
       type: ADD_POST,
       payload: res.data,
     });
+    toast.success('Publish post complete!');
+    return {
+      data: res.data,
+    };
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -99,6 +103,7 @@ export const addPost = (formData) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    return false;
   }
 };
 

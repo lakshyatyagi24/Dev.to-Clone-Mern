@@ -126,26 +126,23 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
   }
 });
 
-// @route    PUT api/posts/unlike/:id
-// @desc     Unlike a post
+// @route    PUT api/posts/bookmarks/:id
+// @desc     Get bookmarks
 // @access   Private
-router.put('/unlike/:id', [auth, checkObjectId('id')], async (req, res) => {
+router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    // Check if the post has not yet been liked
-    if (!post.likes.some((like) => like.user.toString() === req.user.id)) {
-      return res.status(400).json({ msg: 'Post has not yet been liked' });
+    const index = post.bookmarks
+      .map((item) => item.user.toString())
+      .indexOf(req.user.id);
+    if (index > -1) {
+      post.bookmarks.splice(index, 1);
+    } else {
+      post.bookmarks.unshift({ user: req.user.id });
     }
-
-    // remove the like
-    post.likes = post.likes.filter(
-      ({ user }) => user.toString() !== req.user.id
-    );
-
     await post.save();
 
-    return res.json(post.likes);
+    return res.json(post.bookmarks);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

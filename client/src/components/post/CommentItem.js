@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -11,20 +11,20 @@ const CommentItem = ({
   auth,
   deleteComment,
 }) => (
-  <div className='post bg-white p-1 my-1'>
-    <div>
-      <Link to={`/profile/user/${user}`}>
-        <img className='round-img' src={avatar} alt='' />
-        <h4>{name}</h4>
-      </Link>
-    </div>
-    <div>
-      <p className='my-1'>{text}</p>
-      <p className='post-date'>
+  <Fragment>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <p className='post-date' style={{ alignSelf: 'flex-end' }}>
         Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
       </p>
+
       {auth.isAuthenticated && user === auth.user._id && (
         <button
+          style={{ margin: '0 0 8px 0' }}
           onClick={() => deleteComment(postId, _id)}
           type='button'
           className='btn btn-danger'
@@ -33,7 +33,27 @@ const CommentItem = ({
         </button>
       )}
     </div>
-  </div>
+    <div
+      style={{
+        padding: '20px',
+        border: '1px solid rgba(8, 9, 10, 0.1)',
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px',
+      }}
+    >
+      <Link
+        style={{ display: 'flex', margin: '16px' }}
+        to={`/profile/user/${user}`}
+      >
+        <img className='round-img' src={avatar} alt='' />
+        <h6 style={{ marginLeft: '5px' }}>{name}</h6>
+      </Link>
+      <p style={{ margin: '16px', wordWrap: 'break-word', maxWidth: '600px' }}>
+        {text}
+      </p>
+    </div>
+  </Fragment>
 );
 
 CommentItem.propTypes = {

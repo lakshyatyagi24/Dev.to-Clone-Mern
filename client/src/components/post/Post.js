@@ -21,11 +21,28 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
       <PostItem post={post} showActions={true} setAuth={setAuth} />
+
       <CommentForm setAuth={setAuth} postId={post._id} />
-      <div className='comments'>
-        {post.comments.map((comment) => (
-          <CommentItem key={comment._id} comment={comment} postId={post._id} />
-        ))}
+      <div className='post my-1'>
+        <div></div>
+        <div
+          className='bg-white'
+          style={{
+            border: 'none',
+            outline: 'none',
+            boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
+            padding: '30px',
+          }}
+        >
+          {post.comments.map((comment) => (
+            <CommentItem
+              key={comment._id}
+              comment={comment}
+              postId={post._id}
+            />
+          ))}
+        </div>
+        <div></div>
       </div>
     </Fragment>
   );

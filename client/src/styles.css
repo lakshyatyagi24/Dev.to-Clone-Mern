@@ -4,7 +4,9 @@ blockquote {
   padding-left: 3em;
   border-left: 0.5em #eee solid;
 }
-
+code {
+  border-radius: 5px;
+}
 tr {
   border-top: 1px solid #c6cbd1;
   background: #fff;

@@ -14,10 +14,8 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
   };
 
   return (
-    <div className='post-form'>
-      <div className='bg-primary p'>
-        <h3>Leave a Comment</h3>
-      </div>
+    <div className='post'>
+      <div></div>
       <form
         className='form my-1'
         onSubmit={(e) => {
@@ -35,9 +33,16 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           required
+          style={{
+            resize: 'none',
+            border: 'none',
+            outline: 'none',
+            boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
+          }}
         />
         <input type='submit' className='btn btn-dark my-1' value='Submit' />
       </form>
+      <div></div>
     </div>
   );
 };

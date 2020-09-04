@@ -9,8 +9,8 @@ const Guide = ({ setGuide }) => {
   };
   return (
     <div className='backdrop' onClick={handleClick}>
-      <div className='child'>
-        <h1 className='text-primary'>Some common markdown</h1>
+      <div className='child guide-markdown'>
+        <h1 className='text-dark'>Some common markdown</h1>
         <table>
           <tbody>
             <tr>
@@ -58,13 +58,24 @@ const Guide = ({ setGuide }) => {
               </td>
             </tr>
             <tr>
-              <td>```{'*prefix '} code block```</td>
+              <td>```{'(*)prefix '} code block```</td>
               <td>
                 <MarkdownPreview value={'code block'} />
               </td>
             </tr>
           </tbody>
         </table>
+        <p>The (*)prefix can be: js, c++, c#,...</p>
+        <p>
+          You can see full document about markdown{' '}
+          <a
+            rel='noopener noreferrer'
+            href='https://www.markdownguide.org/cheat-sheet/'
+            target='_blank'
+          >
+            here
+          </a>
+        </p>
       </div>
     </div>
   );

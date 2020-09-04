@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'; // test thu style component
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addPost } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import Guide from './Guide';
+import Image from './Image';
 
 const EditorContainer = styled.div`
   width: 100%;
@@ -38,7 +39,7 @@ const Title = styled.textarea`
 const TextArea = styled.textarea`
   font-family: 'Poppins', sans-serif;
   margin-top: 30px;
-  padding: 5px;
+  padding: 60px;
   width: 100%;
   height: 600px;
   resize: none;
@@ -52,14 +53,16 @@ const TextArea = styled.textarea`
 const ResultArea = styled.div`
   font-family: 'Poppins', sans-serif;
   margin-top: 40px;
-  padding: 5px;
+  padding: 60px;
   width: 100%;
-  height: auto;
+  height: 600px;
   border: none;
   font-size: 17px;
   background-color: #282c34;
   color: #fff;
   border-radius: 5px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 const Preview = styled.div`
   font-size: 22px;
@@ -74,16 +77,29 @@ function PostNew({ addPost }) {
   const [content, setContent] = useState('');
   const [write, setWrite] = useState(false);
   const [guide, setGuide] = useState(false);
-
+  const [image, setImage] = useState(false);
+  let dataPost = JSON.parse(localStorage.getItem('post'));
+  useEffect(() => {
+    if (!dataPost) {
+      dataPost = { title: '', content: '' };
+      setTitle(dataPost.title);
+      setContent(dataPost.content);
+    } else {
+      setTitle(dataPost.title);
+      setContent(dataPost.content);
+    }
+  }, []);
   return (
     <EditorContainer>
       {guide && <Guide setGuide={setGuide} />}
+      {image && <Image setImage={setImage} />}
       {!write && (
         <Container>
           <form
             onSubmit={(e) => {
               e.preventDefault();
               addPost({ title, content });
+              localStorage.removeItem('post');
             }}
           >
             <Title
@@ -91,11 +107,23 @@ function PostNew({ addPost }) {
               name='title'
               required
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                localStorage.setItem(
+                  'post',
+                  JSON.stringify({ ...dataPost, title: e.target.value })
+                );
+                setTitle(e.target.value);
+              }}
             />
             <TextArea
-              onChange={(e) => setContent(e.target.value)}
-              placeholder='You will use markdown to write your post, see the guide in top right...'
+              onChange={(e) => {
+                localStorage.setItem(
+                  'post',
+                  JSON.stringify({ ...dataPost, content: e.target.value })
+                );
+                setContent(e.target.value);
+              }}
+              placeholder='You will use markdown to write your post, see the guide in right side...'
               name='content'
               required
               value={content}
@@ -109,7 +137,7 @@ function PostNew({ addPost }) {
           <Preview>
             <p style={{ margin: '0' }}>Preview</p>
           </Preview>
-          <ResultArea>
+          <ResultArea className='preview'>
             <MarkdownPreview value={content} />
           </ResultArea>
         </Container>
@@ -126,6 +154,7 @@ function PostNew({ addPost }) {
           onClick={() => setWrite(!write)}
         />
         <input
+          onClick={() => setImage(true)}
           type='button'
           className='btn btn-dark'
           value='Add image'

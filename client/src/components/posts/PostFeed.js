@@ -42,7 +42,7 @@ const PostFeed = ({
             bookmarks.some((item) => item.user.toString() === auth.user._id) ? (
               <i
                 className='fas fa-bookmark'
-                style={{ color: '#394053', fontSize: '18px' }}
+                style={{ color: '#3b49df', fontSize: '18px' }}
               />
             ) : (
               <i className='far fa-bookmark' style={{ fontSize: '18px' }} />

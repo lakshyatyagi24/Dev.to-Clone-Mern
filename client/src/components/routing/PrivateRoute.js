@@ -13,7 +13,9 @@ const PrivateRoute = ({
     {...rest}
     render={(props) =>
       loading ? (
-        <BeatLoader size={15} color={'#17a2b8'} loading={loading} />
+        <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+          <BeatLoader size={15} color={'#3b49df'} loading={loading} />
+        </div>
       ) : isAuthenticated ? (
         <Component {...props} />
       ) : (

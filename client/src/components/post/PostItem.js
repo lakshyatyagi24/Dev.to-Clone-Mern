@@ -72,7 +72,7 @@ const PostItem = ({
               ) ? (
                 <i
                   className='fas fa-bookmark'
-                  style={{ color: '#394053', fontSize: '20px' }}
+                  style={{ color: '#3b49df', fontSize: '20px' }}
                 />
               ) : (
                 <i className='far fa-bookmark' style={{ fontSize: '20px' }} />

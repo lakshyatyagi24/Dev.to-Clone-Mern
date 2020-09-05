@@ -72,6 +72,7 @@ const Guide = ({ setGuide }) => {
             rel='noopener noreferrer'
             href='https://www.markdownguide.org/cheat-sheet/'
             target='_blank'
+            style={{ color: '#3b49df' }}
           >
             here
           </a>

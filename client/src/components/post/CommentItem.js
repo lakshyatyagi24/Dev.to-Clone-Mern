@@ -25,7 +25,14 @@ const CommentItem = ({
 
       {auth.isAuthenticated && user === auth.user._id && (
         <button
-          style={{ margin: '0 0 8px 0' }}
+          style={{
+            margin: '0 0 8px 0',
+            height: '30px',
+            width: '30px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
           onClick={() => deleteComment(postId, _id)}
           type='button'
           className='btn btn-danger'

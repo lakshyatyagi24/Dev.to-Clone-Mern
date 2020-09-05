@@ -15,6 +15,7 @@ import Profile from '../profile/Profile';
 import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
+import Setting from '../profile/Setting';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 
@@ -33,6 +34,7 @@ const Routes = (props) => {
         <Route exact path='/profiles' component={Profiles} />
         <Route exact path='/profile/user/:id' component={Profile} />
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
+        <PrivateRoute exact path='/settings' component={Setting} />
         <PrivateRoute exact path='/write-post' component={PostNew} />
         <PrivateRoute exact path='/create-profile' component={ProfileForm} />
         <PrivateRoute exact path='/edit-profile' component={ProfileForm} />

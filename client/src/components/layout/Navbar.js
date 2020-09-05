@@ -11,7 +11,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div className='logo'>
             <Link to='/'>
-              <i className='fas fa-code' /> DevComnunity
+              <i className='fas fa-code' /> DevCommunity
             </Link>
           </div>
           <div className='header-search_bar'>

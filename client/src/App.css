@@ -28,7 +28,7 @@ a {
 }
 /* Utilities */
 .container {
-  max-width: 1200px;
+  max-width: 1260px;
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
@@ -315,7 +315,7 @@ button {
 }
 .top-header {
   display: flex;
-  max-width: 1200px;
+  max-width: 1260px;
   margin: auto;
   align-items: center;
   justify-content: space-between;
@@ -582,6 +582,7 @@ button {
   }
 }
 
+/* css for many component, -.- */
 .backdrop {
   position: fixed;
   z-index: 999;
@@ -597,7 +598,7 @@ button {
   width: 30%;
   min-height: 30%;
   margin: 200px auto;
-  box-shadow: 3px 5px 7px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 5px 1px 1px var(--dark-color);
   border: 2px solid var(--dark-color);
   background-color: #fff;
   align-items: center;
@@ -629,7 +630,7 @@ button {
 }
 .progress-bar {
   height: 5px;
-  background: #282c34;
+  background: #3b49df;
   margin-top: 20px;
 }
 
@@ -693,7 +694,7 @@ button {
   top: 100%;
   width: 250px;
   height: 280px;
-  box-shadow: 3px 5px 7px 1px rgba(8, 9, 10, 0.1);
+  box-shadow: 3px 5px 1px 1px var(--dark-color);
   border: 2px solid var(--dark-color);
   border-radius: 5px;
   padding: 15px;
@@ -761,4 +762,23 @@ li:hover .action-feed_s {
 }
 .reset-pwd {
   height: 450px;
+}
+
+/* Settings */
+.settings {
+  display: grid;
+  grid-template-columns: 2fr 5fr;
+  grid-gap: 1rem;
+}
+.side-setting {
+  height: 200px;
+  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
+  border: unset;
+  border-radius: 5px;
+}
+.main-setting {
+  height: 200px;
+  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
+  border: unset;
+  border-radius: 5px;
 }

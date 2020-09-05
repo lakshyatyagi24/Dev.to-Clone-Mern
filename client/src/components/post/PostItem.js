@@ -31,49 +31,62 @@ const PostItem = ({
   };
   return (
     <div className='post my-1'>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <button
-          onClick={handleLikeAction}
-          className='btn btn-light'
-          style={{ margin: '0 0 10px 0' }}
+      <div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            position: 'fixed',
+          }}
         >
-          {auth.isAuthenticated &&
-          likes.map((item) => item.user.toString()).indexOf(auth.user._id) >
-            -1 ? (
-            <i className='far fa-heart' style={{ color: '#dc3545' }} />
-          ) : (
-            <i className='far fa-heart' />
-          )}
-        </button>
-        <span style={{ display: 'block' }}>
-          {likes.length > 0 ? <span>{likes.length}</span> : <span>0</span>}
-        </span>
-        <button
-          onClick={handleBookmarksAction}
-          className='btn btn-light'
-          style={{ margin: '0 0 10px 0' }}
-        >
-          {auth.isAuthenticated &&
-          bookmarks.map((item) => item.user.toString()).indexOf(auth.user._id) >
-            -1 ? (
-            <i className='far fa-bookmark' style={{ color: '#17a2b8' }} />
-          ) : (
-            <i className='far fa-bookmark' />
-          )}
-        </button>
-        <span style={{ display: 'block' }}>
-          {bookmarks.length > 0 ? (
-            <span>{bookmarks.length}</span>
-          ) : (
-            <span>0</span>
-          )}
-        </span>
+          <div className='like-action'>
+            <button
+              onClick={handleLikeAction}
+              className='btn btn-light btn-hover'
+              style={{ margin: '0' }}
+            >
+              {auth.isAuthenticated &&
+              likes.some((item) => item.user.toString() === auth.user._id) ? (
+                <i
+                  className='fas fa-heart'
+                  style={{ color: '#dc3545', fontSize: '20px' }}
+                />
+              ) : (
+                <i className='far fa-heart' style={{ fontSize: '20px' }} />
+              )}
+            </button>
+          </div>
+          <span style={{ display: 'block', marginBottom: '10px' }}>
+            {likes.length > 0 ? <span>{likes.length}</span> : <span>0</span>}
+          </span>
+          <div className='read-action'>
+            <button
+              onClick={handleBookmarksAction}
+              className='btn btn-light btn-hover'
+              style={{ margin: '0' }}
+            >
+              {auth.isAuthenticated &&
+              bookmarks.some(
+                (item) => item.user.toString() === auth.user._id
+              ) ? (
+                <i
+                  className='fas fa-bookmark'
+                  style={{ color: '#394053', fontSize: '20px' }}
+                />
+              ) : (
+                <i className='far fa-bookmark' style={{ fontSize: '20px' }} />
+              )}
+            </button>
+          </div>
+          <span style={{ display: 'block' }}>
+            {bookmarks.length > 0 ? (
+              <span>{bookmarks.length}</span>
+            ) : (
+              <span>0</span>
+            )}
+          </span>
+        </div>
       </div>
       <div
         className='bg-white'

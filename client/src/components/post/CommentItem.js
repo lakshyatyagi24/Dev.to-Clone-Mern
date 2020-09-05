@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { deleteComment } from '../../actions/post';
+import { MarkdownPreview } from 'react-marked-markdown';
 
 const CommentItem = ({
   postId,
@@ -37,19 +38,31 @@ const CommentItem = ({
       style={{
         padding: '20px',
         border: '1px solid rgba(8, 9, 10, 0.1)',
-        display: 'flex',
-        alignItems: 'center',
+        display: 'grid',
+        gridTemplateColumns: '1fr 4fr',
         marginBottom: '20px',
       }}
     >
-      <Link
-        style={{ display: 'flex', margin: '16px' }}
-        to={`/profile/user/${user}`}
-      >
-        <img className='round-img' src={avatar} alt='' />
-        <h6 style={{ marginLeft: '5px' }}>{name}</h6>
-      </Link>
-      <p style={{ margin: '16px', wordWrap: 'break-word' }}>{text}</p>
+      <div>
+        <Link
+          style={{ display: 'flex', margin: '16px' }}
+          to={`/profile/user/${user}`}
+        >
+          <img
+            className='round-img'
+            src={avatar}
+            alt=''
+            style={{ borderRadius: '50%' }}
+          />
+          <h6 style={{ marginLeft: '5px' }}>{name}</h6>
+        </Link>
+      </div>
+      <div>
+        <MarkdownPreview
+          style={{ margin: '16px', wordWrap: 'break-word' }}
+          value={text}
+        />
+      </div>
     </div>
   </Fragment>
 );

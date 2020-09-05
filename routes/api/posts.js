@@ -109,11 +109,18 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    const index = post.likes
-      .map((item) => item.user.toString())
-      .indexOf(req.user.id);
-    if (index > -1) {
-      post.likes.splice(index, 1);
+    // const index = post.likes
+    //   .map((item) => item.user.toString())
+    //   .indexOf(req.user.id);
+    // if (index > -1) {
+    //   post.likes.splice(index, 1);
+    // } else {
+    //   post.likes.unshift({ user: req.user.id });
+    // }
+    if (post.likes.some((like) => like.user.toString() === req.user.id)) {
+      post.likes = post.likes.filter(
+        ({ user }) => user.toString() !== req.user.id
+      );
     } else {
       post.likes.unshift({ user: req.user.id });
     }
@@ -132,11 +139,22 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    const index = post.bookmarks
-      .map((item) => item.user.toString())
-      .indexOf(req.user.id);
-    if (index > -1) {
-      post.bookmarks.splice(index, 1);
+    // const index = post.bookmarks
+    //   .map((item) => item.user.toString())
+    //   .indexOf(req.user.id);
+    // if (index > -1) {
+    //   post.bookmarks.splice(index, 1);
+    // } else {
+    //   post.bookmarks.unshift({ user: req.user.id });
+    // }
+    if (
+      post.bookmarks.some(
+        (bookmark) => bookmark.user.toString() === req.user.id
+      )
+    ) {
+      post.bookmarks = post.bookmarks.filter(
+        ({ user }) => user.toString() !== req.user.id
+      );
     } else {
       post.bookmarks.unshift({ user: req.user.id });
     }
@@ -196,14 +214,30 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     // Pull out comment
-    const comment = post.comments
-      .map((item) => item.id)
-      .indexOf(req.params.comment_id);
-    if (comment > -1) {
-      post.comments.splice(comment, 1);
-    } else {
+    // const comment = post.comments
+    //   .map((item) => item.id)
+    //   .indexOf(req.params.comment_id);
+    // if (comment > -1) {
+    //   post.comments.splice(comment, 1);
+    // } else {
+    //   return res.status(404).json({ msg: 'Comment does not exist' });
+    // }
+    // Pull out comment
+    const comment = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
+    // Make sure comment exists
+    if (!comment) {
       return res.status(404).json({ msg: 'Comment does not exist' });
     }
+    // Check user
+    if (comment.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    post.comments = post.comments.filter(
+      ({ id }) => id !== req.params.comment_id
+    );
 
     await post.save();
 

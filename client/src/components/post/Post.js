@@ -25,7 +25,7 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
       <div className='post my-1'>
         <div></div>
         <div
-          className='bg-white'
+          className='bg-white comment-item'
           style={{
             border: 'none',
             outline: 'none',

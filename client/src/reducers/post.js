@@ -64,6 +64,11 @@ export default function (state = initialState, action) {
     case UPDATE_BOOKMARKS:
       return {
         ...state,
+        post: {
+          ...state.posts.find((post) => post._id === payload.id),
+          bookmarks: payload.bookmarks,
+        },
+
         posts: state.posts.map((post) =>
           post._id === payload.id
             ? { ...post, bookmarks: payload.bookmarks }
@@ -94,20 +99,31 @@ export default function (state = initialState, action) {
     case ADD_COMMENT:
       return {
         ...state,
-        post: { ...state.post, comments: payload },
+        post: { ...state.post, comments: payload.data },
+        posts: state.posts.map((post) =>
+          post._id === payload.id ? { ...post, comments: payload.data } : post
+        ),
         loading: false,
       };
     case REMOVE_COMMENT:
-      const index = state.post.comments
-        .map((item) => item._id)
-        .indexOf(payload);
-      state.post.comments.splice(index, 1);
       return {
         ...state,
         post: {
           ...state.post,
-          comments: state.post.comments,
+          comments: state.post.comments.filter(
+            (comment) => comment._id !== payload.commentId
+          ),
         },
+        posts: state.posts.map((post) =>
+          post._id === payload.postId
+            ? {
+                ...post,
+                comments: post.comments.filter(
+                  (comment) => comment._id !== payload.commentId
+                ),
+              }
+            : post
+        ),
         loading: false,
       };
     default:

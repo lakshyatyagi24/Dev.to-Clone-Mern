@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import {
   GET_POSTS,
   POST_ERROR,
-  UPDATE_LIKES,
   DELETE_POST,
   ADD_POST,
   GET_POST,
@@ -31,22 +30,6 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-// Add like
-export const addLike = (id) => async (dispatch) => {
-  try {
-    const res = await api.put(`/posts/like/${id}`);
-
-    dispatch({
-      type: UPDATE_LIKES,
-      payload: { id, likes: res.data },
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
 // Add like
 export const addLikeInReading = (id) => async (dispatch) => {
   try {
@@ -166,7 +149,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
 
     dispatch({
       type: ADD_COMMENT,
-      payload: res.data,
+      payload: { id: postId, data: res.data },
     });
   } catch (err) {
     dispatch({
@@ -183,7 +166,7 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
 
     dispatch({
       type: REMOVE_COMMENT,
-      payload: commentId,
+      payload: { commentId, postId },
     });
   } catch (err) {
     dispatch({

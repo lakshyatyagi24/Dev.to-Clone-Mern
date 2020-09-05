@@ -14,9 +14,8 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #eef0f1;
@@ -24,14 +23,9 @@ body {
 }
 
 a {
-  color: var(--primary-color);
   text-decoration: none;
+  color: var(--dark-color);
 }
-
-/* img {
-  width: 100%;
-} */
-
 /* Utilities */
 .container {
   max-width: 1250px;
@@ -257,10 +251,10 @@ a {
   color: #888;
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -270,7 +264,7 @@ a {
   border: 1px solid #ccc;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
 }
@@ -346,7 +340,7 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat center center/cover;
+  background: url("./img/showcase.jpg") no-repeat center center/cover;
   height: 100vh;
 }
 
@@ -377,10 +371,10 @@ button {
 .profile-grid {
   display: grid;
   grid-template-areas:
-    'top top'
-    'about about'
-    'exp edu'
-    'github github';
+    "top top"
+    "about about"
+    "exp edu"
+    "github github";
   grid-gap: 1rem;
 }
 
@@ -564,11 +558,11 @@ button {
 
   .profile-grid {
     grid-template-areas:
-      'top'
-      'about'
-      'exp'
-      'edu'
-      'github';
+      "top"
+      "about"
+      "exp"
+      "edu"
+      "github";
   }
 
   .profile-about .skills {
@@ -632,7 +626,8 @@ button {
   padding: 30px;
 }
 .post-item img,
-.preview img {
+.preview img,
+.comment-item img {
   max-width: 100%;
   height: auto;
   border-radius: 5px;
@@ -660,4 +655,12 @@ button {
 
 .title-hover:hover h3 {
   color: #3b49df;
+}
+.btn-hover {
+  background-color: unset;
+}
+.like-action:hover .btn-hover,
+.discuss-action:hover .btn-hover,
+.read-action:hover .btn-hover {
+  background-color: var(--light-color);
 }

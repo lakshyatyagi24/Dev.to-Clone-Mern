@@ -33,15 +33,19 @@ const PostFeed = ({
             </p>
           </div>
         </div>
-        <div>
-          <button onClick={handleBookmarksAction} className='btn btn-light'>
+        <div className='read-action'>
+          <button
+            onClick={handleBookmarksAction}
+            className='btn btn-light btn-hover'
+          >
             {auth.isAuthenticated &&
-            bookmarks
-              .map((item) => item.user.toString())
-              .indexOf(auth.user._id) > -1 ? (
-              <i className='far fa-bookmark' style={{ color: '#17a2b8' }} />
+            bookmarks.some((item) => item.user.toString() === auth.user._id) ? (
+              <i
+                className='fas fa-bookmark'
+                style={{ color: '#394053', fontSize: '18px' }}
+              />
             ) : (
-              <i className='far fa-bookmark' />
+              <i className='far fa-bookmark' style={{ fontSize: '18px' }} />
             )}
           </button>
         </div>
@@ -50,17 +54,17 @@ const PostFeed = ({
         <h3 className='text-dark my-1 '>{title}</h3>
       </Link>
 
-      <Link to={`/${name}/${_id}`} className='btn btn-light'>
-        <i className='far fa-heart' style={{ marginRight: '5px' }} />
-        <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+      <Link to={`/${name}/${_id}`} className='like-action'>
+        <button className='btn btn-light btn-hover'>
+          <i className='far fa-heart' style={{ marginRight: '5px' }} />
+          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+        </button>
       </Link>
-      <Link to={`/${name}/${_id}`} className='btn btn-light'>
-        <i className='far fa-comment-alt' style={{ marginRight: '5px' }} />
-        <span>{comments.length > 0 && <span>{comments.length}</span>}</span>
-      </Link>
-
-      <Link to={`/${name}/${_id}`} className='btn btn-light'>
-        Discuss
+      <Link to={`/${name}/${_id}`} className='discuss-action'>
+        <button className='btn btn-light  btn-hover'>
+          <i className='far fa-comment-alt' style={{ marginRight: '5px' }} />
+          <span>{comments.length > 0 && <span>{comments.length}</span>}</span>
+        </button>
       </Link>
     </div>
   );

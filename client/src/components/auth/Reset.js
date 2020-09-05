@@ -55,37 +55,62 @@ const Reset = ({ reset, isAuthenticated, match }) => {
   }
 
   return (
-    <Fragment>
-      <h1 className='large text-primary'>Reset Password</h1>
-      <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
+    <div className='login-wrap reset-pwd'>
+      <div className='login'>
+        <h1 className='text-dark'>Reset Password</h1>
+        <form className='form' onSubmit={onSubmit}>
+          <div className='form-group'>
+            <input
+              type='password'
+              placeholder='Password'
+              name='password1'
+              value={password1}
+              onChange={onChange}
+              minLength='6'
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='password'
+              placeholder='Confirm Password'
+              name='password2'
+              value={password2}
+              onChange={onChange}
+              minLength='6'
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
           <input
-            type='password'
-            placeholder='Password'
-            name='password1'
-            value={password1}
-            onChange={onChange}
-            minLength='6'
+            type='submit'
+            className='btn btn-dark'
+            style={{
+              background: '#3b49df',
+              width: '100%',
+              textAlign: 'center',
+              height: '50px',
+            }}
+            value='Confirm'
           />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Confirm Password'
-            name='password2'
-            value={password2}
-            onChange={onChange}
-            minLength='6'
-          />
-        </div>
-        <input type='submit' className='btn btn-primary' value='Confirm' />
-      </form>
-      {isCompleted && (
-        <p className='my-1'>
-          Reset password complete!, <Link to='/login'>Sign In</Link>
-        </p>
-      )}
-    </Fragment>
+        </form>
+        {isCompleted && (
+          <p className='my-1'>
+            Reset password complete!,{' '}
+            <Link style={{ color: 'royalblue' }} to='/login'>
+              Sign In
+            </Link>
+          </p>
+        )}
+      </div>
+    </div>
   );
 };
 

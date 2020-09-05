@@ -54,61 +54,90 @@ const Register = ({ register, isAuthenticated }) => {
   }
 
   return (
-    <Fragment>
-      <h1 className='large text-primary'>Sign Up</h1>
-      <p className='lead'>
-        <i className='fas fa-user' /> Create Your Account
-      </p>
-      <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
-          <input
-            type='text'
-            placeholder='Name'
-            name='name'
-            value={name}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
-            value={email}
-            onChange={onChange}
-          />
-          <small className='form-text'>
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={password}
-            onChange={onChange}
-          />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Confirm Password'
-            name='password2'
-            value={password2}
-            onChange={onChange}
-          />
-        </div>
-        {<BeatLoader size={15} color={'#17a2b8'} loading={isCompleted} />}
-        {!isCompleted && (
-          <input type='submit' className='btn btn-primary' value='Register' />
-        )}
-      </form>
-      <p className='my-1'>
-        Already have an account? <Link to='/login'>Sign In</Link>
-      </p>
-    </Fragment>
+    <div className='login-wrap sign-up'>
+      <div className='login'>
+        <h1 className='text-dark'>Welcome to Dev!</h1>
+        <h1 className='text-dark'>Sign up</h1>
+        <form className='form' onSubmit={onSubmit}>
+          <div className='form-group'>
+            <input
+              type='text'
+              placeholder='Name'
+              name='name'
+              value={name}
+              onChange={onChange}
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='email'
+              placeholder='Email Address'
+              name='email'
+              value={email}
+              onChange={onChange}
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='password'
+              placeholder='Password'
+              name='password'
+              value={password}
+              onChange={onChange}
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='password'
+              placeholder='Confirm Password'
+              name='password2'
+              value={password2}
+              onChange={onChange}
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          {<BeatLoader size={15} color={'#3b49df'} loading={isCompleted} />}
+          {!isCompleted && (
+            <input
+              type='submit'
+              className='btn btn-dark'
+              style={{
+                background: '#3b49df',
+                width: '100%',
+                textAlign: 'center',
+                height: '50px',
+              }}
+              value='Register'
+            />
+          )}
+        </form>
+        <p className='my-1'>
+          Already have an account?{' '}
+          <Link to='/login' style={{ color: 'royalblue' }}>
+            Sign In
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

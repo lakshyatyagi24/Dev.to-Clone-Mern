@@ -30,41 +30,67 @@ const Login = ({ login, isAuthenticated, user }) => {
   }
 
   return (
-    <Fragment>
-      <h1 className='large text-primary'>Sign In</h1>
-      <p className='lead'>
-        <i className='fas fa-user' /> Sign Into Your Account
-      </p>
-      <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
+    <div className='login-wrap'>
+      <div className='login'>
+        <h1 className='text-dark'>Welcome to Dev!</h1>
+        <h1 className='text-dark'>Sign in</h1>
+        <form className='form' onSubmit={onSubmit}>
+          <div className='form-group'>
+            <input
+              type='email'
+              placeholder='Email Address'
+              name='email'
+              value={email}
+              onChange={onChange}
+              required
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          <div className='form-group'>
+            <input
+              type='password'
+              placeholder='Password'
+              name='password'
+              value={password}
+              onChange={onChange}
+              minLength='6'
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+              required
+            />
+          </div>
           <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
-            value={email}
-            onChange={onChange}
-            required
+            className='btn btn-dark'
+            style={{
+              background: '#3b49df',
+              width: '100%',
+              textAlign: 'center',
+              height: '50px',
+            }}
+            type='submit'
+            value='Login'
           />
-        </div>
-        <div className='form-group'>
-          <input
-            type='password'
-            placeholder='Password'
-            name='password'
-            value={password}
-            onChange={onChange}
-            minLength='6'
-          />
-        </div>
-        <input type='submit' className='btn btn-primary' value='Login' />
-      </form>
-      <p className='my-1'>
-        Don't have an account? <Link to='/register'>Sign Up</Link>
-      </p>
-      <p className='my-1'>
-        <Link to='/users/password/forget'>Forgot password?</Link>
-      </p>
-    </Fragment>
+        </form>
+        <p className='my-1'>
+          Don't have an account?{' '}
+          <Link style={{ color: 'royalblue' }} to='/register'>
+            Sign Up
+          </Link>
+        </p>
+        <p className='my-1'>
+          <Link style={{ color: 'royalblue' }} to='/users/password/forget'>
+            Forgot password?
+          </Link>
+        </p>
+      </div>
+    </div>
   );
 };
 

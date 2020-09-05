@@ -18,7 +18,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
   return (
     <Fragment>
       {profile === null ? (
-        <BeatLoader size={15} color={'#17a2b8'} loading={true} />
+        <BeatLoader size={15} color={'#3b49df'} loading={true} />
       ) : (
         <Fragment>
           <Link to='/profiles' className='btn btn-light'>

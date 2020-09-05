@@ -28,11 +28,10 @@ a {
 }
 /* Utilities */
 .container {
-  max-width: 1250px;
+  max-width: 1200px;
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
-  margin-top: 6rem;
   margin-bottom: 3rem;
 }
 /* Text Styles*/
@@ -305,36 +304,43 @@ button {
 }
 
 /* Navbar */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.7rem 2rem;
-  position: fixed;
-  z-index: 1;
+.grid {
   width: 100%;
-  top: 0;
-  border-bottom: solid 1px var(--primary-color);
-  opacity: 0.9;
+  display: block;
+  padding: 0;
 }
-
-.navbar ul {
+.wrap-header {
+  background-color: #fff;
+  height: auto;
+}
+.top-header {
   display: flex;
-  list-style: none;
+  max-width: 1200px;
+  margin: auto;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 2rem;
+  position: relative;
 }
-
-.navbar a {
-  color: #fff;
-  padding: 0.45rem;
-  margin: 0 0.25rem;
+.logo {
+  color: var(--dark-color);
+  padding: 0 10px;
+  font-size: 1.2rem;
 }
-
-.navbar a:hover {
-  color: var(--primary-color);
+.header-search_bar {
+  padding: 0 10px;
 }
-
-.navbar .welcome span {
-  margin-right: 0.6rem;
+.header-search_bar-input {
+  text-indent: 10px;
+  height: 40px;
+  width: 420px;
+  border-radius: 5px;
+  border: 1px solid rgb(218, 214, 214);
+  background-color: #f9fafa;
+}
+.auth-link {
+  display: flex;
+  align-items: center;
 }
 
 /* Landing Page */
@@ -474,14 +480,6 @@ button {
   border-radius: 5px;
 }
 
-/* .post img {
-  max-width: 100%;
-  height: auto;
-} */
-/* .post > div:first-child {
-  text-align: center;
-} */
-
 .post .comment-count {
   background: var(--light-color);
   color: var(--primary-color);
@@ -584,13 +582,6 @@ button {
   }
 }
 
-/* .login_modal {
-  border: 1px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
-
 .backdrop {
   position: fixed;
   z-index: 999;
@@ -603,15 +594,16 @@ button {
 .backdrop .child {
   display: flex;
   flex-direction: column;
-  max-width: 40%;
-  max-height: 40%;
-  margin: 300px auto;
+  width: 30%;
+  min-height: 30%;
+  margin: 200px auto;
   box-shadow: 3px 5px 7px rgba(0, 0, 0, 0.5);
-  border: 3px solid white;
+  border: 2px solid var(--dark-color);
   background-color: #fff;
   align-items: center;
-  border-radius: 5px;
   justify-content: center;
+  border-radius: 5px;
+  padding: 30px;
 }
 
 .backdrop .guide-markdown {
@@ -631,6 +623,9 @@ button {
   max-width: 100%;
   height: auto;
   border-radius: 5px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .progress-bar {
   height: 5px;
@@ -643,6 +638,7 @@ button {
   text-align: center;
 }
 .post.feed {
+  margin-top: 1rem;
   grid-template-columns: 2fr 5fr 2fr;
 }
 .post .right-side-feed,
@@ -663,4 +659,106 @@ button {
 .discuss-action:hover .btn-hover,
 .read-action:hover .btn-hover {
   background-color: var(--light-color);
+}
+
+.right-side-post {
+  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
+  border: unset;
+  border-radius: 5px;
+  padding: 15px;
+  height: auto;
+}
+
+.top-bar {
+  width: 100%;
+  height: 30px;
+  background-color: var(--dark-color);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.user-info {
+  position: relative;
+}
+.btn-nav {
+  margin-right: 15px;
+}
+.avatar-feed:hover img {
+  opacity: 0.8;
+}
+
+.action-feed {
+  z-index: 10;
+  position: absolute;
+  right: 0%;
+  top: 100%;
+  width: 250px;
+  height: 280px;
+  box-shadow: 3px 5px 7px 1px rgba(8, 9, 10, 0.1);
+  border: 2px solid var(--dark-color);
+  border-radius: 5px;
+  padding: 15px;
+  background-color: #fff;
+  display: none;
+}
+.avatar-feed:hover .action-feed {
+  display: block;
+}
+.action-connect {
+  width: 60px;
+  height: 20px;
+  background-color: transparent;
+  position: absolute;
+  bottom: -7%;
+  right: 2%;
+  border-radius: 10px;
+}
+.action-connect:hover .action-feed {
+  display: block;
+}
+.action-feed__user {
+  padding-left: 0;
+  list-style: none;
+}
+.logout {
+  border-top: 1px solid var(--dark-color);
+}
+.action-feed_s {
+  padding: 10px;
+  display: block;
+  border-radius: 5px;
+}
+
+li:hover .action-feed_s {
+  color: #3b49df;
+  background-color: var(--light-color);
+}
+.separate {
+  height: 1px;
+  width: 100%;
+  background-color: var(--dark-color);
+  margin: 10px 0;
+}
+.login-wrap {
+  max-width: 600px;
+  margin: 1rem auto 1rem;
+  background-color: #fff;
+  height: 550px;
+  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
+  border: unset;
+  border-radius: 5px;
+}
+
+.login {
+  padding: 80px;
+  margin: auto;
+  text-align: center;
+}
+.sign-up {
+  height: 620px;
+}
+.forget-pwd {
+  height: 380px;
+}
+.reset-pwd {
+  height: 450px;
 }

@@ -51,7 +51,7 @@ const Activate = ({ activate, isAuthenticated, match }) => {
     <Fragment>
       <p className='lead'>Welcome {name}</p>
       <form className='form' onSubmit={handleSubmit}>
-        {<BeatLoader size={15} color={'#17a2b8'} loading={isProcessing} />}
+        {<BeatLoader size={15} color={'#3b49df'} loading={isProcessing} />}
         {!isProcessing && (
           <input type='submit' className='btn btn-primary' value='Active' />
         )}

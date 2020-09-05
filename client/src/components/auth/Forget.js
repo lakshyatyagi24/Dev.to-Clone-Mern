@@ -45,25 +45,42 @@ const Forget = ({ forget, isAuthenticated }) => {
   }
 
   return (
-    <Fragment>
-      <h1 className='large text-primary'>Forget Password</h1>
-      <form className='form' onSubmit={onSubmit}>
-        <div className='form-group'>
-          <input
-            type='email'
-            placeholder='Email Address'
-            name='email'
-            value={email}
-            onChange={onChange}
-            required
-          />
-        </div>
-        {<BeatLoader size={15} color={'#17a2b8'} loading={isCompleted} />}
-        {!isCompleted && (
-          <input type='submit' className='btn btn-primary' value='Confirm' />
-        )}
-      </form>
-    </Fragment>
+    <div className='login-wrap forget-pwd'>
+      <div className='login'>
+        <h1 className='text-dark'>Forget Password</h1>
+        <form className='form' onSubmit={onSubmit}>
+          <div className='form-group'>
+            <input
+              type='email'
+              placeholder='Email Address'
+              name='email'
+              value={email}
+              onChange={onChange}
+              required
+              style={{
+                borderRadius: '5px',
+                height: '50px',
+                backgroundColor: '#f9fafa',
+              }}
+            />
+          </div>
+          {<BeatLoader size={15} color={'#3b49df'} loading={isCompleted} />}
+          {!isCompleted && (
+            <input
+              type='submit'
+              className='btn btn-dark'
+              style={{
+                background: '#3b49df',
+                width: '100%',
+                textAlign: 'center',
+                height: '50px',
+              }}
+              value='Confirm'
+            />
+          )}
+        </form>
+      </div>
+    </div>
   );
 };
 

@@ -22,7 +22,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
         <div>
           <h4 className='text-dark'>Posts</h4>
           {loading || posts === null ? (
-            <BeatLoader size={15} color={'#17a2b8'} loading={true} />
+            <BeatLoader size={15} color={'#3b49df'} loading={true} />
           ) : (
             <Fragment>
               {posts.map((post) => (

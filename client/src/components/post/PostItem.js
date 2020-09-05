@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -127,16 +127,20 @@ const PostItem = ({
         <MarkdownPreview className='post-item' value={content} />
       </div>
       <div>
-        <div
-          className='bg-white'
-          style={{
-            boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
-            border: 'unset',
-            borderRadius: '5px',
-            padding: '15px',
-            height: 'auto',
-          }}
-        ></div>
+        <div className='top-bar'></div>
+        <div className='bg-white right-side-post'>
+          <div className='user-info'>
+            <Link
+              style={{ display: 'flex', position: 'absolute', top: '-30px' }}
+              to={`/profile/user/${user}`}
+            >
+              <img className='round-img' src={avatar} alt='' />
+              <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
+                {name}
+              </h5>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ const EditorContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  margin-top: 30px;
 `;
 const Container = styled.div`
   width: 80%;
@@ -152,11 +153,12 @@ function PostNew({ addPost }) {
       <SideAction>
         <input
           type='button'
-          className='btn btn-dark'
+          className='btn btn-light'
           value={write ? 'Write' : 'Preview'}
           style={{
             width: '60%',
             fontWeight: '600',
+            background: '#fff',
           }}
           onClick={() => setWrite(!write)}
         />
@@ -164,23 +166,25 @@ function PostNew({ addPost }) {
         <input
           onClick={() => setImage(true)}
           type='button'
-          className='btn btn-dark'
+          className='btn btn-light'
           value='Image'
           style={{
             width: '60%',
             fontWeight: '600',
             marginTop: '30px',
+            background: '#fff',
           }}
         />
         <i className='fas fa-images'></i>
         <input
           type='button'
-          className='btn btn-dark'
+          className='btn btn-light'
           value='Guide'
           style={{
             width: '60%',
             fontWeight: '600',
             marginTop: '30px',
+            background: '#fff',
           }}
           onClick={() => setGuide(true)}
         />

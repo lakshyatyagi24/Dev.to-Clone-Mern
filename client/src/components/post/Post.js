@@ -15,7 +15,9 @@ const Post = ({ getPost, post: { post, loading }, match }) => {
   }, [getPost, match.params.id]);
 
   return loading || post === null ? (
-    <BeatLoader size={15} color={'#17a2b8'} loading={true} />
+    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+      <BeatLoader size={15} color={'#3b49df'} loading={true} />
+    </div>
   ) : (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}

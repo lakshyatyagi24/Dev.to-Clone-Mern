@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -45,37 +45,41 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
               <Link className='btn btn-dark btn-nav' to='/write-post'>
                 Write Post
               </Link>
-              <Link
-                className='btn btn-light btn-nav'
-                style={{
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                to='/write-post'
-              >
-                <i
-                  style={{ fontSize: '1.2rem' }}
-                  className='far fa-comments'
-                ></i>
-              </Link>
-              <Link
-                className='btn btn-light btn-nav'
-                style={{
-                  borderRadius: '50%',
-                  width: '40px',
-                  height: '40px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-                to='/write-post'
-              >
-                <i style={{ fontSize: '1.2rem' }} className='far fa-bell'></i>
-              </Link>
+              <div className='nav-hover'>
+                <Link
+                  className='btn btn-light btn-nav comment-nav'
+                  style={{
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  to='/write-post'
+                >
+                  <i
+                    style={{ fontSize: '1.2rem' }}
+                    className='far fa-comments'
+                  ></i>
+                </Link>
+              </div>
+              <div className='nav-hover'>
+                <Link
+                  className='btn btn-light btn-nav chat-nav'
+                  style={{
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                  to='/write-post'
+                >
+                  <i style={{ fontSize: '1.2rem' }} className='far fa-bell'></i>
+                </Link>
+              </div>
               <div
                 className='avatar-feed'
                 style={{

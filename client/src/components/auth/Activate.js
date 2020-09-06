@@ -49,18 +49,37 @@ const Activate = ({ activate, isAuthenticated, match }) => {
 
   return (
     <Fragment>
-      <p className='lead'>Welcome {name}</p>
-      <form className='form' onSubmit={handleSubmit}>
-        {<BeatLoader size={15} color={'#3b49df'} loading={isProcessing} />}
-        {!isProcessing && (
-          <input type='submit' className='btn btn-primary' value='Active' />
-        )}
-      </form>
-      {isActived && (
-        <p className='my-1'>
-          Your account is actived! Let <Link to='/login'>Sign In</Link> now
-        </p>
-      )}
+      <div className='login-wrap active-acc'>
+        <div className='login'>
+          <p className='lead'>Welcome {name}</p>
+          <form className='form' onSubmit={handleSubmit}>
+            {<BeatLoader size={15} color={'#3b49df'} loading={isProcessing} />}
+            {!isProcessing && (
+              <input
+                className='btn btn-dark'
+                style={{
+                  background: '#3b49df',
+                  width: '100%',
+                  textAlign: 'center',
+                  height: '50px',
+                  fontSize: '1.4rem',
+                }}
+                type='submit'
+                value='Active'
+              />
+            )}
+          </form>
+          {isActived && (
+            <p className='my-1'>
+              Your account is <b>actived!</b> Let{' '}
+              <Link style={{ color: 'royalblue' }} to='/login'>
+                Sign In
+              </Link>{' '}
+              now
+            </p>
+          )}
+        </div>
+      </div>
     </Fragment>
   );
 };

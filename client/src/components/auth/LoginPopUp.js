@@ -32,7 +32,7 @@ const LoginPopUp = ({ setAuth }) => {
           className='btn btn-dark'
           to='/login'
         >
-          <i style={{ fontSize: '1.6rem' }} class='fas fa-sign-in-alt'></i>
+          <i style={{ fontSize: '1.6rem' }} className='fas fa-sign-in-alt'></i>
         </Link>
 
         <p className='my-1'>

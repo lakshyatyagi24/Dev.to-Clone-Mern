@@ -65,7 +65,9 @@ const Guide = ({ setGuide }) => {
             </tr>
           </tbody>
         </table>
-        <p>The (*)prefix can be: js, c++, c#,...</p>
+        <p style={{ margin: '15px 0' }}>
+          The (*)prefix can be: js, c++, c#,...
+        </p>
         <p>
           You can see full document about markdown{' '}
           <a

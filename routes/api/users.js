@@ -11,10 +11,11 @@ const { errorHandler } = require('../../helpers/dbErrorHandling');
 const {
   validSign,
   forgotPasswordValidator,
-  resetPasswordValidator
+  resetPasswordValidator,
 } = require('../../helpers/valid');
 
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 
 // @route    POST api/users
 // @desc     Register user
@@ -31,7 +32,9 @@ router.post('/', validSign, async (req, res) => {
     let user = await User.findOne({ email });
 
     if (user) {
-      return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'User with this email already exists' }] });
     }
 
     //* generate token for active account
@@ -39,11 +42,11 @@ router.post('/', validSign, async (req, res) => {
       {
         name,
         email,
-        password
+        password,
       },
       config.get('JWT_ACCOUNT_ACTIVATION'),
       {
-        expiresIn: '1d'
+        expiresIn: '1d',
       }
     );
     //* email sending
@@ -51,8 +54,8 @@ router.post('/', validSign, async (req, res) => {
       service: 'gmail',
       auth: {
         user: config.get('NODEMAILER_EMAIL'),
-        pass: config.get('NODEMAILER_PASS')
-      }
+        pass: config.get('NODEMAILER_PASS'),
+      },
     });
     const content = `
               <h1>Please click this link to active your account</h1>
@@ -65,19 +68,19 @@ router.post('/', validSign, async (req, res) => {
       from: config.get('NODEMAILER_EMAIL'),
       to: email,
       subject: 'Account activation link',
-      html: content
+      html: content,
     };
     transporter
       .sendMail(mainOptions)
       .then(() => {
         return res.json({
-          message: `An email has been sent to ${email}`
+          message: `An email has been sent to ${email}`,
         });
       })
       .catch((err) => {
         console.log(err);
         return res.status(400).json({
-          errors: [{ msg: errorHandler(err) }]
+          errors: [{ msg: errorHandler(err) }],
         });
       });
   } catch (err) {
@@ -96,7 +99,7 @@ router.post('/activate', async (req, res) => {
     jwt.verify(token, config.get('JWT_ACCOUNT_ACTIVATION'), (err, decoded) => {
       if (err) {
         return res.status(400).json({
-          errors: [{ msg: 'Expired Token. Sign Up again' }]
+          errors: [{ msg: 'Expired Token. Sign Up again' }],
         });
       } else {
         const { name, email, password } = jwt.decode(token);
@@ -104,7 +107,7 @@ router.post('/activate', async (req, res) => {
           gravatar.url(email, {
             s: '200',
             r: 'pg',
-            d: 'mm'
+            d: 'mm',
           }),
           { forceHttps: true }
         );
@@ -112,16 +115,20 @@ router.post('/activate', async (req, res) => {
           name,
           email,
           avatar,
-          password
+          password,
         });
-        user.save((err, user) => {
+        user.save(async (err, user) => {
           if (err) {
             return res.status(400).json({
-              errors: [{ msg: 'Already actived!' }]
+              errors: [{ msg: 'Already actived!' }],
             });
           } else {
+            const profile = new Profile({
+              user: user._id,
+            });
+            await profile.save();
             return res.json({
-              message: 'Actived success, you can log in now'
+              message: 'Actived success, you can log in now',
             });
           }
         });
@@ -129,7 +136,7 @@ router.post('/activate', async (req, res) => {
     });
   } else {
     return res.status(400).json({
-      errors: [{ msg: 'Error happening please try again' }]
+      errors: [{ msg: 'Error happening please try again' }],
     });
   }
 });
@@ -144,18 +151,18 @@ router.put('/password/forget', forgotPasswordValidator, async (req, res) => {
   if (!errors.isEmpty()) {
     const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
-      errors: [{ msg: firstError }]
+      errors: [{ msg: firstError }],
     });
   } else {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({
-        errors: [{ msg: 'User with this email does not exist' }]
+        errors: [{ msg: 'User with this email does not exist' }],
       });
     }
     const token = jwt.sign(
       {
-        _id: user._id
+        _id: user._id,
       },
       config.get('JWT_RESET_PASSWORD'),
       { expiresIn: '15m' }
@@ -166,8 +173,8 @@ router.put('/password/forget', forgotPasswordValidator, async (req, res) => {
       service: 'gmail',
       auth: {
         user: config.get('NODEMAILER_EMAIL'),
-        pass: config.get('NODEMAILER_PASS')
-      }
+        pass: config.get('NODEMAILER_PASS'),
+      },
     });
     const content = `
                   <h1>Please Click to link to reset your password</h1>
@@ -182,28 +189,28 @@ router.put('/password/forget', forgotPasswordValidator, async (req, res) => {
       from: config.get('NODEMAILER_EMAIL'),
       to: email,
       subject: 'Password reset link',
-      html: content
+      html: content,
     };
     user.updateOne(
       {
-        resetPasswordLink: token
+        resetPasswordLink: token,
       },
       (err, success) => {
         if (err) {
           return res.status(400).json({
-            errors: [{ msg: errorHandler(err) }]
+            errors: [{ msg: errorHandler(err) }],
           });
         } else {
           transporter
             .sendMail(mainOptions)
             .then(() => {
               return res.json({
-                message: `An email has been sent to ${email}`
+                message: `An email has been sent to ${email}`,
               });
             })
             .catch((err) => {
               return res.json({
-                errors: [{ msg: err.message }]
+                errors: [{ msg: err.message }],
               });
             });
         }
@@ -223,7 +230,7 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
   if (!errors.isEmpty()) {
     const firstError = errors.array().map((error) => error.msg)[0];
     return res.status(422).json({
-      errors: [{ msg: firstError }]
+      errors: [{ msg: firstError }],
     });
   } else {
     if (resetPasswordLink) {
@@ -233,23 +240,23 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
       ) {
         if (err) {
           return res.status(400).json({
-            errors: [{ msg: 'Expired link. Try again' }]
+            errors: [{ msg: 'Expired link. Try again' }],
           });
         }
 
         User.findOne(
           {
-            resetPasswordLink
+            resetPasswordLink,
           },
           (err, user) => {
             if (err || !user) {
               return res.status(400).json({
-                errors: [{ msg: 'Something went wrong. Try later' }]
+                errors: [{ msg: 'Something went wrong. Try later' }],
               });
             }
             const updatedFields = {
               password: newPassword,
-              resetPasswordLink: ''
+              resetPasswordLink: '',
             };
 
             user = _.extend(user, updatedFields);
@@ -257,11 +264,11 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
             user.save((err, result) => {
               if (err) {
                 return res.status(400).json({
-                  errors: [{ msg: 'Error resetting user password' }]
+                  errors: [{ msg: 'Error resetting user password' }],
                 });
               }
               res.json({
-                message: `Reset password done! You can login with your new password`
+                message: `Reset password done! You can login with your new password`,
               });
             });
           }

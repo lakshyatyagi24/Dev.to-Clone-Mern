@@ -34,42 +34,48 @@ const ProfileSchema = new mongoose.Schema({
   ],
   website: {
     type: String,
+    default: '',
   },
   location: {
     type: String,
+    default: '',
   },
   title: {
     type: String,
-    required: true,
+    default: '',
   },
   skills: {
-    type: [String],
-    required: true,
+    type: String,
+    default: '',
   },
   bio: {
     type: String,
+    default: '',
   },
   education: {
     type: String,
+    default: '',
   },
   social: {
     youtube: {
       type: String,
+      default: '',
     },
     twitter: {
       type: String,
+      default: '',
     },
     facebook: {
       type: String,
+      default: '',
     },
     linkedin: {
       type: String,
+      default: '',
     },
     instagram: {
       type: String,
-    },
-    github: {
-      type: String,
+      default: '',
     },
   },
   date: {

@@ -9,7 +9,7 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
   GET_REPOS,
-  NO_REPOS
+  NO_REPOS,
 } from './types';
 
 // Get current users profile
@@ -19,12 +19,12 @@ export const getCurrentProfile = () => async (dispatch) => {
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -38,12 +38,12 @@ export const getProfiles = () => async (dispatch) => {
 
     dispatch({
       type: GET_PROFILES,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -55,12 +55,12 @@ export const getProfileById = (userId) => async (dispatch) => {
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -72,31 +72,25 @@ export const getGithubRepos = (username) => async (dispatch) => {
 
     dispatch({
       type: GET_REPOS,
-      payload: res.data
+      payload: res.data,
     });
   } catch (err) {
     dispatch({
-      type: NO_REPOS
+      type: NO_REPOS,
     });
   }
 };
 
 // Create or update profile
-export const createProfile = (formData, history, edit = false) => async (
-  dispatch
-) => {
+export const createProfile = (formData) => async (dispatch) => {
   try {
-    const res = await api.post('/profile', formData);
+    const res = await api.put('/profile', formData);
 
     dispatch({
       type: GET_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
-    toast.success(edit ? 'Profile Updated' : 'Profile Created');
-
-    if (!edit) {
-      history.push('/dashboard');
-    }
+    toast.success('Profile Updated');
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -106,7 +100,7 @@ export const createProfile = (formData, history, edit = false) => async (
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -118,7 +112,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
 
     toast.success('Experience Added');
@@ -133,7 +127,7 @@ export const addExperience = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -145,7 +139,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
     toast.success('Education Added');
 
@@ -159,7 +153,7 @@ export const addEducation = (formData, history) => async (dispatch) => {
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -171,13 +165,13 @@ export const deleteExperience = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
     toast.success('Experience Removed');
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -189,13 +183,13 @@ export const deleteEducation = (id) => async (dispatch) => {
 
     dispatch({
       type: UPDATE_PROFILE,
-      payload: res.data
+      payload: res.data,
     });
     toast.success('Education Removed');
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
 };
@@ -213,7 +207,7 @@ export const deleteAccount = () => async (dispatch) => {
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
+        payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
   }

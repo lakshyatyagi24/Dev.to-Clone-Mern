@@ -44,6 +44,7 @@ export const addLikeInReading = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    toast.error(err.response.data.msg);
   }
 };
 
@@ -61,6 +62,8 @@ export const addBookmarks = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+
+    toast.error(err.response.data.msg);
   }
 };
 
@@ -78,6 +81,7 @@ export const addBookmarksInReading = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    toast.error(err.response.data.msg);
   }
 };
 
@@ -156,6 +160,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    toast.error(err.response.data.msg);
   }
 };
 
@@ -173,5 +178,6 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    toast.error(err.response.data.msg);
   }
 };

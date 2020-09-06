@@ -10,12 +10,12 @@ import PostNew from '../posts/PostNew';
 import ProfileForm from '../profile-forms/ProfileForm';
 import AddExperience from '../profile-forms/AddExperience';
 import AddEducation from '../profile-forms/AddEducation';
-import Profiles from '../profiles/Profiles';
-import Profile from '../profile/Profile';
+// import Profiles from '../profiles/Profiles';
 import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
-import Setting from '../profile/Setting';
+import Account from '../profile/Account';
+import Profile from '../profile/Profile';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 
@@ -31,10 +31,12 @@ const Routes = (props) => {
         <Route exact path='/users/activate/:token' component={Activate} />
         <Route exact path='/users/password/forget' component={Forget} />
         <Route exact path='/users/password/reset/:token' component={Reset} />
-        <Route exact path='/profiles' component={Profiles} />
-        <Route exact path='/profile/user/:id' component={Profile} />
+        {/* <Route exact path='/profiles' component={Profiles} />
+        <Route exact path='/profile/user/:id' component={Profile} /> */}
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
-        <PrivateRoute exact path='/settings' component={Setting} />
+        <PrivateRoute exact path='/settings' component={Profile} />
+        <PrivateRoute exact path='/settings/user/profile' component={Profile} />
+        <PrivateRoute exact path='/settings/user/account' component={Account} />
         <PrivateRoute exact path='/write-post' component={PostNew} />
         <PrivateRoute exact path='/create-profile' component={ProfileForm} />
         <PrivateRoute exact path='/edit-profile' component={ProfileForm} />

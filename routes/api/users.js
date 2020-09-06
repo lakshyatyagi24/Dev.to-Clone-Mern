@@ -3,6 +3,7 @@ const router = express.Router();
 const gravatar = require('gravatar');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const config = require('config');
 const { validationResult } = require('express-validator');
 const normalize = require('normalize-url');
@@ -97,44 +98,52 @@ router.post('/', validSign, async (req, res) => {
 router.post('/activate', async (req, res) => {
   const { token } = req.body;
   if (token) {
-    jwt.verify(token, config.get('JWT_ACCOUNT_ACTIVATION'), (err, decoded) => {
-      if (err) {
-        return res.status(400).json({
-          errors: [{ msg: 'Expired Token. Sign Up again' }],
-        });
-      } else {
-        const { name, email, password } = jwt.decode(token);
-        const avatar = normalize(
-          gravatar.url(email, {
-            s: '200',
-            r: 'pg',
-            d: 'mm',
-          }),
-          { forceHttps: true }
-        );
-        const user = new User({
-          name,
-          email,
-          avatar,
-          password,
-        });
-        user.save(async (err, user) => {
-          if (err) {
-            return res.status(400).json({
-              errors: [{ msg: 'Already actived!' }],
-            });
-          } else {
-            const profile = new Profile({
-              user: user._id,
-            });
-            await profile.save();
-            return res.json({
-              message: 'Actived success, you can log in now',
-            });
-          }
-        });
+    jwt.verify(
+      token,
+      config.get('JWT_ACCOUNT_ACTIVATION'),
+      async (err, decoded) => {
+        if (err) {
+          return res.status(400).json({
+            errors: [{ msg: 'Expired Token. Sign Up again' }],
+          });
+        } else {
+          const { name, email, password } = jwt.decode(token);
+          const avatar = normalize(
+            gravatar.url(email, {
+              s: '200',
+              r: 'pg',
+              d: 'mm',
+            }),
+            { forceHttps: true }
+          );
+          const user = new User({
+            name,
+            email,
+            avatar,
+            password,
+          });
+          const salt = await bcrypt.genSalt(10);
+
+          user.password = await bcrypt.hash(password, salt);
+
+          user.save(async (err, user) => {
+            if (err) {
+              return res.status(400).json({
+                errors: [{ msg: 'Already actived!' }],
+              });
+            } else {
+              const profile = new Profile({
+                user: user._id,
+              });
+              await profile.save();
+              return res.json({
+                message: 'Actived success, you can log in now',
+              });
+            }
+          });
+        }
       }
-    });
+    );
   } else {
     return res.status(400).json({
       errors: [{ msg: 'Error happening please try again' }],
@@ -249,14 +258,17 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
           {
             resetPasswordLink,
           },
-          (err, user) => {
+          async (err, user) => {
             if (err || !user) {
               return res.status(400).json({
                 errors: [{ msg: 'Something went wrong. Try later' }],
               });
             }
+            const salt = await bcrypt.genSalt(10);
+
+            const hashPassword = await bcrypt.hash(newPassword, salt);
             const updatedFields = {
-              password: newPassword,
+              password: hashPassword,
               resetPasswordLink: '',
             };
 
@@ -317,7 +329,9 @@ router.put('/update', auth, async (req, res) => {
           errors: [{ msg: 'Password should be min 6 characters long' }],
         });
       } else {
-        user.password = password;
+        const salt = await bcrypt.genSalt(10);
+
+        user.password = await bcrypt.hash(password, salt);
       }
     }
     if (avatar) {

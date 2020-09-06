@@ -5,33 +5,33 @@ const UserSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     avatar: {
-      type: String
+      type: String,
     },
     resetPasswordLink: {
       data: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   { timestamps: true }
 );
 
-UserSchema.pre('save', async function (next) {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
+// UserSchema.pre('save', async function (next) {
+//   const salt = await bcrypt.genSalt(10);
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
 
 UserSchema.methods.checkPassword = async function (password) {
   return await bcrypt.compare(password, this.password);

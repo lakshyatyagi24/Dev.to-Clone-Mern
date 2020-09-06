@@ -58,17 +58,9 @@ const Account = ({
     }
     if (imageUrl && imageUrl.length > 0) {
       const avt = imageUrl;
-      if (password1 && password2) {
-        return updateUser({ email, name, password: password1, avatar: avt });
-      } else {
-        return updateUser({ email, name, avatar: avt });
-      }
+      return updateUser({ email, name, password: password1, avatar: avt });
     } else {
-      if (password1 && password2) {
-        return updateUser({ email, name, password: password1 });
-      } else {
-        return updateUser({ email, name });
-      }
+      return updateUser({ email, name, password: password1 });
     }
   };
   return (

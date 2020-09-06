@@ -12,6 +12,7 @@ const EditorContainer = styled.div`
   height: 100%;
   display: flex;
   margin-top: 30px;
+  justify-content: center;
 `;
 const Container = styled.div`
   width: 80%;
@@ -19,15 +20,18 @@ const Container = styled.div`
   padding: 13px;
 `;
 const SideAction = styled.div`
-  width: 20%;
+  width: 10%;
   height: 600px;
   padding: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Title = styled.textarea`
   font-family: 'Poppins', sans-serif;
   padding: 5px;
-  font-size: 22px;
-  height: 40px;
+  font-size: 32px;
+  height: 60px;
   font-weight: 600;
   width: 100%;
   outline: none;
@@ -151,44 +155,30 @@ function PostNew({ addPost }) {
         </Container>
       )}
       <SideAction>
-        <input
-          type='button'
-          className='btn btn-light'
-          value={write ? 'Write' : 'Preview'}
-          style={{
-            width: '60%',
-            fontWeight: '600',
-            background: '#fff',
-          }}
+        <button
+          style={{ marginTop: '0' }}
+          className='btn btn-light btn-new-feed'
           onClick={() => setWrite(!write)}
-        />
-        <i className='fas fa-eye'></i>
-        <input
+        >
+          {write ? (
+            <i className='far fa-edit'></i>
+          ) : (
+            <i className='fas fa-eye'></i>
+          )}
+        </button>
+        <button
           onClick={() => setImage(true)}
-          type='button'
-          className='btn btn-light'
-          value='Image'
-          style={{
-            width: '60%',
-            fontWeight: '600',
-            marginTop: '30px',
-            background: '#fff',
-          }}
-        />
-        <i className='fas fa-images'></i>
-        <input
-          type='button'
-          className='btn btn-light'
-          value='Guide'
-          style={{
-            width: '60%',
-            fontWeight: '600',
-            marginTop: '30px',
-            background: '#fff',
-          }}
+          className='btn btn-light btn-new-feed'
+        >
+          <i className='fas fa-images'></i>
+        </button>
+
+        <button
+          className='btn btn-light btn-new-feed'
           onClick={() => setGuide(true)}
-        />
-        <i className='fab fa-glide'></i>
+        >
+          <i className='fab fa-glide'></i>
+        </button>
       </SideAction>
     </EditorContainer>
   );

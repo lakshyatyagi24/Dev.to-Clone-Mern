@@ -6,6 +6,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
+  UPDATE_USER,
 } from './types';
 
 // Load User
@@ -22,7 +23,24 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
+export const updateUser = (formData) => async (dispatch) => {
+  try {
+    const res = await api.put('/users/update', formData);
+    dispatch({
+      type: UPDATE_USER,
+      payload: res.data,
+    });
+    loadUser();
+    toast.success('Update complete!');
+  } catch (err) {
+    const errors = err.response.data.errors;
 
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+      return false;
+    }
+  }
+};
 // Register User
 export const register = (formData) => async (dispatch) => {
   try {

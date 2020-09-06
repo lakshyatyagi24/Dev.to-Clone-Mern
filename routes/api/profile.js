@@ -41,7 +41,7 @@ router.put('/', auth, async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   const {
-    location,
+    locations,
     website,
     bio,
     skills,
@@ -55,7 +55,7 @@ router.put('/', auth, async (req, res) => {
   } = req.body;
 
   const profileFields = {
-    location,
+    locations,
     website:
       website && website !== '' ? normalize(website, { forceHttps: true }) : '',
     bio,

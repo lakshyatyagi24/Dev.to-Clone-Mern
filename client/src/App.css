@@ -14,9 +14,8 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #eef0f1;
@@ -34,6 +33,7 @@ a {
   overflow: hidden;
   padding: 0 2rem;
   margin-bottom: 3rem;
+  margin-top: 4rem;
 }
 /* Text Styles*/
 .x-large {
@@ -254,10 +254,10 @@ a {
   color: #888;
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -267,7 +267,7 @@ a {
   border: 1px solid #ccc;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
 }
@@ -312,6 +312,11 @@ button {
   width: 100%;
   display: block;
   padding: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  border: unset;
+  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
 }
 .wrap-header {
   background-color: #fff;
@@ -333,11 +338,13 @@ button {
 }
 .header-search_bar {
   padding: 0 10px;
+  flex: 1;
+  max-width: 420px;
 }
 .header-search_bar-input {
   text-indent: 10px;
   height: 40px;
-  width: 420px;
+  width: 100%;
   border-radius: 5px;
   border: 1px solid rgb(218, 214, 214);
   background-color: #f9fafa;
@@ -350,7 +357,7 @@ button {
 /* Landing Page */
 .landing {
   position: relative;
-  background: url('./img/showcase.jpg') no-repeat center center/cover;
+  background: url("./img/showcase.jpg") no-repeat center center/cover;
   height: 100vh;
 }
 
@@ -381,10 +388,10 @@ button {
 .profile-grid {
   display: grid;
   grid-template-areas:
-    'top top'
-    'about about'
-    'exp edu'
-    'github github';
+    "top top"
+    "about about"
+    "exp edu"
+    "github github";
   grid-gap: 1rem;
 }
 
@@ -560,11 +567,11 @@ button {
 
   .profile-grid {
     grid-template-areas:
-      'top'
-      'about'
-      'exp'
-      'edu'
-      'github';
+      "top"
+      "about"
+      "exp"
+      "edu"
+      "github";
   }
 
   .profile-about .skills {
@@ -630,6 +637,9 @@ button {
   border-radius: 5px;
   display: block;
   margin: 8px auto;
+}
+.comment-item .round-img {
+  height: 40px;
 }
 /* .post-item {
   line-height: 1.8;
@@ -779,6 +789,17 @@ li:hover .action-feed_s {
 .active-acc {
   height: 300px;
 }
+.btn-new-feed {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  margin-top: 30px;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--dark-color);
+}
 /* Settings */
 .settings {
   display: grid;
@@ -792,7 +813,7 @@ li:hover .action-feed_s {
   border-radius: 5px;
 }
 .main-setting__dashboard {
-  padding: 15px;
+  padding: 20px;
   box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
   border: unset;
   border-radius: 5px;

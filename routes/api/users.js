@@ -16,6 +16,7 @@ const {
 
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const auth = require('../../middleware/auth');
 
 // @route    POST api/users
 // @desc     Register user
@@ -275,6 +276,63 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
         );
       });
     }
+  }
+});
+
+// @route    PUT api/users/update
+// @desc     Update user
+// @access   Private
+router.put('/update', auth, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  const { email, name, password, avatar } = req.body;
+  try {
+    let user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(400).json({ errors: [{ msg: 'User not found!' }] });
+    }
+    // let findEmail = await User.findOne({ email });
+    // if (findEmail > 1) {
+    //   return res
+    //     .status(400)
+    //     .json({ errors: [{ msg: 'User with this email exists!' }] });
+    // }
+
+    if (!email) {
+      return res.status(400).json({ errors: [{ msg: 'Email is required' }] });
+    } else {
+      user.email = email;
+    }
+    if (!name) {
+      return res.status(400).json({ errors: [{ msg: 'Name is required' }] });
+    } else {
+      user.name = name;
+    }
+
+    if (password) {
+      if (password.length < 6) {
+        return res.status(400).json({
+          errors: [{ msg: 'Password should be min 6 characters long' }],
+        });
+      } else {
+        user.password = password;
+      }
+    }
+    if (avatar) {
+      user.avatar = avatar;
+    }
+    await user.save((err, updateUser) => {
+      if (err) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User with this email exists!' }] });
+      }
+      res.json(updateUser);
+    });
+  } catch (err) {
+    res.status(500).send('Server Error');
   }
 });
 

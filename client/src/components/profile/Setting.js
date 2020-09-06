@@ -4,12 +4,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const Setting = ({ auth: { user }, children, checkPage }) => {
-  const style = {
-    display: 'block',
-    width: '100%',
-    backgroundColor: '#f6f6f6',
-    padding: '15px',
-  };
   return (
     <Fragment>
       <h1 style={{ padding: '0 6rem' }} className='text-dark my-1'>
@@ -35,7 +29,10 @@ const Setting = ({ auth: { user }, children, checkPage }) => {
               display: 'block',
               width: '100%',
               backgroundColor:
-                checkPage === '/settings/user/profile' ? '#eef0f1' : '#fff',
+                checkPage === '/settings/user/profile' ||
+                checkPage === '/settings'
+                  ? '#eef0f1'
+                  : '#fff',
               padding: '8px',
             }}
             to='/settings/user/account'

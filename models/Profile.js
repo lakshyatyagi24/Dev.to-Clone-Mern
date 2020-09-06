@@ -36,7 +36,7 @@ const ProfileSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  location: {
+  locations: {
     type: String,
     default: '',
   },

@@ -8,7 +8,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
   return (
     <nav className='wrap-header grid'>
       <div className='top-header'>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <div className='logo'>
             <Link to='/'>
               <i className='fas fa-code' /> DevCommunity

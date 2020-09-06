@@ -1,15 +1,27 @@
 import React, { useEffect } from 'react';
 import useStorage from '../../hooks/useStorage';
 import { motion } from 'framer-motion';
-export const ProgressBar = ({ file, setFile, setImageUrl }) => {
+export const ProgressBar = ({
+  file,
+  setFile,
+  setImageUrl,
+  setImageUpdateUser,
+}) => {
   const { url, progress } = useStorage(file);
 
   useEffect(() => {
     if (url) {
-      setImageUrl(`![Alt Text](${url})`);
-      setFile(null);
+      if (setImageUrl) {
+        setImageUrl(`![Alt Text](${url})`);
+      }
+      if (setImageUpdateUser) {
+        setImageUpdateUser(url);
+      }
+      if (setFile) {
+        setFile(null);
+      }
     }
-  }, [url, setFile, setImageUrl]);
+  }, [url, setFile, setImageUrl, setImageUpdateUser]);
 
   return (
     <motion.div

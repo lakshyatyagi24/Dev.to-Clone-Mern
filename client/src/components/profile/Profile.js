@@ -17,6 +17,7 @@ const initialState = {
   linkedin: '',
   youtube: '',
   instagram: '',
+  isCompleted: false,
 };
 
 const Profile = ({
@@ -52,14 +53,30 @@ const Profile = ({
     linkedin,
     youtube,
     instagram,
+    isCompleted,
   } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    createProfile(formData);
+    setFormData({
+      ...formData,
+      isCompleted: true,
+    });
+    const res = await createProfile(formData);
+    if (res) {
+      return setFormData({
+        ...formData,
+        isCompleted: false,
+      });
+    } else {
+      return setFormData({
+        ...formData,
+        isCompleted: false,
+      });
+    }
   };
   return (
     <Setting checkPage={location.pathname}>
@@ -253,7 +270,14 @@ const Profile = ({
                   </div>
                 </Fragment>
               )}
-              <input type='submit' value='Save' className='btn btn-dark my-1' />
+              {<BeatLoader size={15} color={'#3b49df'} loading={isCompleted} />}
+              {!isCompleted && (
+                <input
+                  type='submit'
+                  value='Save'
+                  className='btn btn-dark my-1'
+                />
+              )}
             </form>
           </div>
         </div>

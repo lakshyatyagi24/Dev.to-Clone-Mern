@@ -8,10 +8,6 @@ import Forget from '../auth/Forget';
 import Reset from '../auth/Reset';
 import Dashboard from '../dashboard/Dashboard';
 import PostNew from '../posts/PostNew';
-import ProfileForm from '../profile-forms/ProfileForm';
-import AddExperience from '../profile-forms/AddExperience';
-import AddEducation from '../profile-forms/AddEducation';
-// import Profiles from '../profiles/Profiles';
 import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
@@ -44,10 +40,6 @@ const Routes = (props) => {
         <PrivateRoute exact path='/settings/user/profile' component={Profile} />
         <PrivateRoute exact path='/settings/user/account' component={Account} />
         <PrivateRoute exact path='/write-post' component={PostNew} />
-        <PrivateRoute exact path='/create-profile' component={ProfileForm} />
-        <PrivateRoute exact path='/edit-profile' component={ProfileForm} />
-        <PrivateRoute exact path='/add-experience' component={AddExperience} />
-        <PrivateRoute exact path='/add-education' component={AddEducation} />
         <Route component={NotFound} />
       </Switch>
     </section>

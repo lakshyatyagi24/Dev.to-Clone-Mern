@@ -91,6 +91,7 @@ export const createProfile = (formData) => async (dispatch) => {
       payload: res.data,
     });
     toast.success('Profile Updated');
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -102,6 +103,7 @@ export const createProfile = (formData) => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    return false;
   }
 };
 

@@ -38,6 +38,7 @@ export const updateUser = (formData) => async (dispatch) => {
       );
     }
     toast.success('Update complete!');
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -45,6 +46,7 @@ export const updateUser = (formData) => async (dispatch) => {
       errors.forEach((error) => toast.error(error.msg));
       return false;
     }
+    return false;
   }
 };
 // Register User

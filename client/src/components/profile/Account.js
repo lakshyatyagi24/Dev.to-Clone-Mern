@@ -13,6 +13,7 @@ const initialState = {
   name: '',
   password1: '',
   password2: '',
+  isCompleted: false,
 };
 
 const Account = ({
@@ -27,7 +28,7 @@ const Account = ({
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
   const [imageUrl, setImageUpdateUser] = useState('');
-  const { name, email, password1, password2 } = formData;
+  const { name, email, password1, password2, isCompleted } = formData;
   useEffect(() => {
     if (!user) loadUser();
     if (!loading && user) {
@@ -50,7 +51,7 @@ const Account = ({
       setError('Plz select an image file (png or jpeg/jpg)');
     }
   };
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const { email, name, password1, password2 } = formData;
     if (password1 !== password2) {
@@ -58,9 +59,44 @@ const Account = ({
     }
     if (imageUrl && imageUrl.length > 0) {
       const avt = imageUrl;
-      return updateUser({ email, name, password: password1, avatar: avt });
+      setFormData({
+        ...formData,
+        isCompleted: true,
+      });
+      const res = await updateUser({
+        email,
+        name,
+        password: password1,
+        avatar: avt,
+      });
+      if (res) {
+        return setFormData({
+          ...formData,
+          isCompleted: false,
+        });
+      } else {
+        return setFormData({
+          ...formData,
+          isCompleted: false,
+        });
+      }
     } else {
-      return updateUser({ email, name, password: password1 });
+      setFormData({
+        ...formData,
+        isCompleted: true,
+      });
+      const res = await updateUser({ email, name, password: password1 });
+      if (res) {
+        return setFormData({
+          ...formData,
+          isCompleted: false,
+        });
+      } else {
+        return setFormData({
+          ...formData,
+          isCompleted: false,
+        });
+      }
     }
   };
   return (
@@ -159,7 +195,14 @@ const Account = ({
                   onChange={onChange}
                 />
               </div>
-              <input type='submit' value='Save' className='btn btn-dark my-1' />
+              {<BeatLoader size={15} color={'#3b49df'} loading={isCompleted} />}
+              {!isCompleted && (
+                <input
+                  type='submit'
+                  value='Save'
+                  className='btn btn-dark my-1'
+                />
+              )}
             </form>
           </div>
           <div

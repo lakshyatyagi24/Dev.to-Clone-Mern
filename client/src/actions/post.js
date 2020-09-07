@@ -112,9 +112,7 @@ export const addPost = (formData) => async (dispatch) => {
       payload: res.data,
     });
     toast.success('Publish post complete!');
-    return {
-      data: res.data,
-    };
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 

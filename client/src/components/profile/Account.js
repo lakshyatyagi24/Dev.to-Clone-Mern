@@ -13,7 +13,6 @@ const initialState = {
   name: '',
   password1: '',
   password2: '',
-  isCompleted: false,
 };
 
 const Account = ({
@@ -27,8 +26,9 @@ const Account = ({
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
+  const [isCompleted, setComplete] = useState(false);
   const [imageUrl, setImageUpdateUser] = useState('');
-  const { name, email, password1, password2, isCompleted } = formData;
+  const { name, email, password1, password2 } = formData;
   useEffect(() => {
     if (!user) loadUser();
     if (!loading && user) {
@@ -59,10 +59,7 @@ const Account = ({
     }
     if (imageUrl && imageUrl.length > 0) {
       const avt = imageUrl;
-      setFormData({
-        ...formData,
-        isCompleted: true,
-      });
+      setComplete(true);
       const res = await updateUser({
         email,
         name,
@@ -70,32 +67,17 @@ const Account = ({
         avatar: avt,
       });
       if (res) {
-        return setFormData({
-          ...formData,
-          isCompleted: false,
-        });
+        return setComplete(false);
       } else {
-        return setFormData({
-          ...formData,
-          isCompleted: false,
-        });
+        return setComplete(false);
       }
     } else {
-      setFormData({
-        ...formData,
-        isCompleted: true,
-      });
+      setComplete(true);
       const res = await updateUser({ email, name, password: password1 });
       if (res) {
-        return setFormData({
-          ...formData,
-          isCompleted: false,
-        });
+        return setComplete(false);
       } else {
-        return setFormData({
-          ...formData,
-          isCompleted: false,
-        });
+        return setComplete(false);
       }
     }
   };

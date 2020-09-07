@@ -17,7 +17,6 @@ const initialState = {
   linkedin: '',
   youtube: '',
   instagram: '',
-  isCompleted: false,
 };
 
 const Profile = ({
@@ -28,6 +27,7 @@ const Profile = ({
 }) => {
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const [formData, setFormData] = useState(initialState);
+  const [isCompleted, setComplete] = useState(false);
   useEffect(() => {
     if (!profile) getCurrentProfile();
     if (!loading && profile) {
@@ -53,7 +53,6 @@ const Profile = ({
     linkedin,
     youtube,
     instagram,
-    isCompleted,
   } = formData;
 
   const onChange = (e) =>
@@ -61,21 +60,12 @@ const Profile = ({
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setFormData({
-      ...formData,
-      isCompleted: true,
-    });
+    setComplete(true);
     const res = await createProfile(formData);
     if (res) {
-      return setFormData({
-        ...formData,
-        isCompleted: false,
-      });
+      return setComplete(false);
     } else {
-      return setFormData({
-        ...formData,
-        isCompleted: false,
-      });
+      return setComplete(false);
     }
   };
   return (

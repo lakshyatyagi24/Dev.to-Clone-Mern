@@ -6,7 +6,7 @@ import { addComment } from '../../actions/post';
 const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
   const [text, setText] = useState('');
   const handleForm = () => {
-    if (!isAuth) {
+    if (!isAuth && !localStorage.token) {
       return setAuth(true);
     } else {
       return setAuth(false);

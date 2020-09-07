@@ -13,10 +13,9 @@ const Register = ({ register }) => {
     email: '',
     password: '',
     password2: '',
-    isCompleted: false,
   });
-
-  const { name, email, password, password2, isCompleted } = formData;
+  const [isCompleted, setComplete] = useState(false);
+  const { name, email, password, password2 } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,21 +26,12 @@ const Register = ({ register }) => {
       if (password !== password2) {
         return toast.error('Passwords do not match');
       } else {
-        setFormData({
-          ...formData,
-          isCompleted: true,
-        });
+        setComplete(true);
         const res = await register({ name, email, password });
         if (res) {
-          return setFormData({
-            ...formData,
-            isCompleted: false,
-          });
+          return setComplete(false);
         } else {
-          return setFormData({
-            ...formData,
-            isCompleted: false,
-          });
+          return setComplete(false);
         }
       }
     } else {

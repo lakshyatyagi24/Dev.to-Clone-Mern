@@ -14,7 +14,7 @@ const PostItem = ({
   setAuth,
 }) => {
   const handleLikeAction = () => {
-    if (!auth.isAuthenticated) {
+    if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
       addLikeInReading(_id);
@@ -22,7 +22,7 @@ const PostItem = ({
     }
   };
   const handleBookmarksAction = () => {
-    if (!auth.isAuthenticated) {
+    if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
       addBookmarksInReading(_id);

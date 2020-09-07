@@ -6,6 +6,7 @@ import { addPost } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import Guide from './Guide';
 import Image from './Image';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 const EditorContainer = styled.div`
   width: 100%;
@@ -86,6 +87,7 @@ function PostNew({ addPost }) {
   const [write, setWrite] = useState(false);
   const [guide, setGuide] = useState(false);
   const [image, setImage] = useState(false);
+  const [publish, setPublish] = useState(false);
   let dataPost = JSON.parse(localStorage.getItem('post'));
   useEffect(() => {
     if (!dataPost) {
@@ -104,9 +106,15 @@ function PostNew({ addPost }) {
       {!write && (
         <Container>
           <form
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              addPost({ title, content });
+              setPublish(true);
+              const res = await addPost({ title, content });
+              if (res) {
+                setPublish(false);
+              } else {
+                setPublish(false);
+              }
               localStorage.removeItem('post');
             }}
           >
@@ -136,11 +144,14 @@ function PostNew({ addPost }) {
               required
               value={content}
             />
-            <input
-              type='submit'
-              className='btn btn-dark my-1'
-              value='Publish'
-            />
+            {<BeatLoader size={15} color={'#3b49df'} loading={publish} />}
+            {!publish && (
+              <input
+                type='submit'
+                className='btn btn-dark my-1'
+                value='Publish'
+              />
+            )}
           </form>
         </Container>
       )}

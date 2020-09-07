@@ -1,7 +1,6 @@
 import {
   GET_POSTS,
   POST_ERROR,
-  UPDATE_LIKES,
   DELETE_POST,
   ADD_POST,
   GET_POST,
@@ -53,27 +52,26 @@ export default function (state = initialState, action) {
         error: payload,
         loading: false,
       };
-    case UPDATE_LIKES:
-      return {
-        ...state,
-        posts: state.posts.map((post) =>
-          post._id === payload.id ? { ...post, likes: payload.likes } : post
-        ),
-        loading: false,
-      };
     case UPDATE_BOOKMARKS:
+      let data;
+      for (let i = 0; i < state.posts.length; ++i) {
+        if (state.posts[i]._id === payload.id) {
+          data = state.posts[i];
+          break;
+        }
+      }
+
       return {
         ...state,
-        post: {
-          ...state.posts.find((post) => post._id === payload.id),
-          bookmarks: payload.bookmarks,
-        },
-
         posts: state.posts.map((post) =>
           post._id === payload.id
             ? { ...post, bookmarks: payload.bookmarks }
             : post
         ),
+        post: {
+          ...data,
+          bookmarks: payload.bookmarks,
+        },
         loading: false,
       };
     case UPDATE_LIKES_INREADING:

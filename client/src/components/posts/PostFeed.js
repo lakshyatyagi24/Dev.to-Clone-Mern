@@ -12,7 +12,7 @@ const PostFeed = ({
   setAuth,
 }) => {
   const handleBookmarksAction = () => {
-    if (!auth.isAuthenticated) {
+    if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
       addBookmarks(_id);

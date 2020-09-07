@@ -109,20 +109,23 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    // const index = post.likes
-    //   .map((item) => item.user.toString())
-    //   .indexOf(req.user.id);
-    // if (index > -1) {
-    //   post.likes.splice(index, 1);
+    // if (post.likes.some((like) => like.user.toString() === req.user.id)) {
+    //   post.likes = post.likes.filter(
+    //     ({ user }) => user.toString() !== req.user.id
+    //   );
     // } else {
-    //   post.likes.unshift({ user: req.user.id });
+    //   post.likes = [{ user: req.user.id }, ...post.likes];
     // }
-    if (post.likes.some((like) => like.user.toString() === req.user.id)) {
-      post.likes = post.likes.filter(
-        ({ user }) => user.toString() !== req.user.id
-      );
-    } else {
-      post.likes.unshift({ user: req.user.id });
+    let check = false;
+    for (let i = 0; i < post.likes.length; ++i) {
+      if (post.likes[i].user.toString() === req.user.id) {
+        post.likes.splice(i, 1);
+        check = true;
+        break;
+      }
+    }
+    if (!check) {
+      post.likes = [...post.likes, { user: req.user.id }];
     }
     await post.save();
 
@@ -139,24 +142,31 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    // const index = post.bookmarks
-    //   .map((item) => item.user.toString())
-    //   .indexOf(req.user.id);
-    // if (index > -1) {
-    //   post.bookmarks.splice(index, 1);
+    // if (
+    //   post.bookmarks.some(
+    //     (bookmark) => bookmark.user.toString() === req.user.id
+    //   )
+    // ) {
+    //   for (let i = 0; i < post.bookmarks.length; ++i) {
+    //     if (post.bookmarks[i].user.toString() === req.user.id) {
+    //       post.bookmarks.splice(i, 1);
+    //       break;
+    //     }
+    //   }
+
     // } else {
-    //   post.bookmarks.unshift({ user: req.user.id });
+    //   post.bookmarks = [...post.bookmarks, { user: req.user.id }];
     // }
-    if (
-      post.bookmarks.some(
-        (bookmark) => bookmark.user.toString() === req.user.id
-      )
-    ) {
-      post.bookmarks = post.bookmarks.filter(
-        ({ user }) => user.toString() !== req.user.id
-      );
-    } else {
-      post.bookmarks.unshift({ user: req.user.id });
+    let check = false;
+    for (let i = 0; i < post.bookmarks.length; ++i) {
+      if (post.bookmarks[i].user.toString() === req.user.id) {
+        post.bookmarks.splice(i, 1);
+        check = true;
+        break;
+      }
+    }
+    if (!check) {
+      post.bookmarks = [...post.bookmarks, { user: req.user.id }];
     }
     await post.save();
 
@@ -193,8 +203,8 @@ router.post(
         avatar: user.avatar,
         user: req.user.id,
       };
-
-      post.comments.unshift(newComment);
+      post.comments = [newComment, ...post.comments];
+      // post.comments.unshift(newComment);
 
       await post.save();
 
@@ -212,16 +222,6 @@ router.post(
 router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    // Pull out comment
-    // const comment = post.comments
-    //   .map((item) => item.id)
-    //   .indexOf(req.params.comment_id);
-    // if (comment > -1) {
-    //   post.comments.splice(comment, 1);
-    // } else {
-    //   return res.status(404).json({ msg: 'Comment does not exist' });
-    // }
     // Pull out comment
     const comment = post.comments.find(
       (comment) => comment.id === req.params.comment_id

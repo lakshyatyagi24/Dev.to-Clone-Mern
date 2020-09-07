@@ -20,7 +20,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
-
+  let i;
   switch (type) {
     case GET_POSTS:
       return {
@@ -41,9 +41,16 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case DELETE_POST:
+      let postLengths = state.posts.length;
+      for (i = 0; i < postLengths; ++i) {
+        if (state.posts[i]._id === payload) {
+          state.posts.splice(i, 1);
+          break;
+        }
+      }
       return {
         ...state,
-        posts: state.posts.filter((post) => post._id !== payload),
+        posts: [...state.posts],
         loading: false,
       };
     case POST_ERROR:
@@ -54,42 +61,61 @@ export default function (state = initialState, action) {
       };
     case UPDATE_BOOKMARKS:
       let data;
-      for (let i = 0; i < state.posts.length; ++i) {
+      let postLength = state.posts.length;
+      for (i = 0; i < postLength; ++i) {
         if (state.posts[i]._id === payload.id) {
           data = state.posts[i];
           break;
         }
       }
-
       return {
         ...state,
         posts: state.posts.map((post) =>
           post._id === payload.id
-            ? { ...post, bookmarks: payload.bookmarks }
+            ? {
+                ...post,
+                bookmarks: payload.bookmarks,
+                bookmarksCount: payload.count,
+              }
             : post
         ),
         post: {
           ...data,
           bookmarks: payload.bookmarks,
+          bookmarksCount: payload.count,
         },
         loading: false,
       };
     case UPDATE_LIKES_INREADING:
       return {
         ...state,
-        post: { ...state.post, likes: payload.likes },
+        post: {
+          ...state.post,
+          likes: payload.likes,
+          likesCount: payload.count,
+        },
         posts: state.posts.map((post) =>
-          post._id === payload.id ? { ...post, likes: payload.likes } : post
+          post._id === payload.id
+            ? { ...post, likes: payload.likes, likesCount: payload.count }
+            : post
         ),
         loading: false,
       };
     case UPDATE_BOOKMARKS_INREADING:
       return {
         ...state,
-        post: { ...state.post, bookmarks: payload.bookmarks },
+        post: {
+          ...state.post,
+          bookmarks: payload.bookmarks,
+          bookmarksCount: payload.count,
+        },
         posts: state.posts.map((post) =>
           post._id === payload.id
-            ? { ...post, bookmarks: payload.bookmarks }
+            ? {
+                ...post,
+                bookmarks: payload.bookmarks,
+                bookmarksCount: payload.count,
+              }
             : post
         ),
         loading: false,
@@ -104,21 +130,23 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case REMOVE_COMMENT:
+      let comtLength = state.post.comments.length;
+      for (i = 0; i < comtLength; ++i) {
+        if (state.post.comments[i]._id === payload.commentId) {
+          state.post.comments.splice(i, 1);
+          break;
+        }
+      }
       return {
         ...state,
         post: {
           ...state.post,
-          comments: state.post.comments.filter(
-            (comment) => comment._id !== payload.commentId
-          ),
         },
         posts: state.posts.map((post) =>
           post._id === payload.postId
             ? {
                 ...post,
-                comments: post.comments.filter(
-                  (comment) => comment._id !== payload.commentId
-                ),
+                comments: [...state.post.comments],
               }
             : post
         ),

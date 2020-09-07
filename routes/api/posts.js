@@ -109,27 +109,28 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    // if (post.likes.some((like) => like.user.toString() === req.user.id)) {
-    //   post.likes = post.likes.filter(
-    //     ({ user }) => user.toString() !== req.user.id
-    //   );
-    // } else {
-    //   post.likes = [{ user: req.user.id }, ...post.likes];
-    // }
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
     let check = false;
-    for (let i = 0; i < post.likes.length; ++i) {
+    let i;
+    let likeLength = post.likes.length;
+    for (i = 0; i < likeLength; ++i) {
       if (post.likes[i].user.toString() === req.user.id) {
+        post.likesCount = post.likesCount - 1;
         post.likes.splice(i, 1);
         check = true;
         break;
       }
     }
     if (!check) {
+      post.likesCount = post.likesCount + 1;
       post.likes = [...post.likes, { user: req.user.id }];
     }
+
     await post.save();
 
-    return res.json(post.likes);
+    return res.json({ data: post.likes, count: post.likesCount });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -142,35 +143,25 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-    // if (
-    //   post.bookmarks.some(
-    //     (bookmark) => bookmark.user.toString() === req.user.id
-    //   )
-    // ) {
-    //   for (let i = 0; i < post.bookmarks.length; ++i) {
-    //     if (post.bookmarks[i].user.toString() === req.user.id) {
-    //       post.bookmarks.splice(i, 1);
-    //       break;
-    //     }
-    //   }
 
-    // } else {
-    //   post.bookmarks = [...post.bookmarks, { user: req.user.id }];
-    // }
     let check = false;
-    for (let i = 0; i < post.bookmarks.length; ++i) {
+    let i;
+    let bkLength = post.bookmarks.length;
+    for (i = 0; i < bkLength; ++i) {
       if (post.bookmarks[i].user.toString() === req.user.id) {
+        post.bookmarksCount = post.bookmarksCount - 1;
         post.bookmarks.splice(i, 1);
         check = true;
         break;
       }
     }
     if (!check) {
+      post.bookmarksCount = post.bookmarksCount + 1;
       post.bookmarks = [...post.bookmarks, { user: req.user.id }];
     }
     await post.save();
 
-    return res.json(post.bookmarks);
+    return res.json({ data: post.bookmarks, count: post.bookmarksCount });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -223,21 +214,23 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     // Pull out comment
-    const comment = post.comments.find(
-      (comment) => comment.id === req.params.comment_id
-    );
+    let check = false;
+    let i;
+    let postLength = post.comments.length;
+    for (i = 0; i < postLength; ++i) {
+      if (post.comments[i].id === req.params.comment_id) {
+        if (post.comments[i].user.toString() !== req.user.id) {
+          return res.status(401).json({ msg: 'User not authorized' });
+        }
+        post.comments.splice(i, 1);
+        check = true;
+        break;
+      }
+    }
     // Make sure comment exists
-    if (!comment) {
+    if (!check) {
       return res.status(404).json({ msg: 'Comment does not exist' });
     }
-    // Check user
-    if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
-    }
-
-    post.comments = post.comments.filter(
-      ({ id }) => id !== req.params.comment_id
-    );
 
     await post.save();
 

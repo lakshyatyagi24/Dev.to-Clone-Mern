@@ -17,6 +17,7 @@ const initialState = {
   linkedin: '',
   youtube: '',
   instagram: '',
+  github: '',
 };
 
 const Profile = ({
@@ -53,6 +54,7 @@ const Profile = ({
     linkedin,
     youtube,
     instagram,
+    github,
   } = formData;
 
   const onChange = (e) =>
@@ -179,6 +181,21 @@ const Profile = ({
 
               {displaySocialInputs && (
                 <Fragment>
+                  <div className='form-group social-input'>
+                    <i className='fab fa-github fa-2x'></i>
+                    <input
+                      type='text'
+                      placeholder='Github URL'
+                      name='github'
+                      style={{
+                        borderRadius: '5px',
+                        height: '50px',
+                        backgroundColor: '#f9fafa',
+                      }}
+                      value={github}
+                      onChange={onChange}
+                    />
+                  </div>
                   <div className='form-group social-input'>
                     <i className='fab fa-twitter fa-2x' />
                     <input

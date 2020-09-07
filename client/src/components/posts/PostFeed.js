@@ -8,7 +8,17 @@ import { addBookmarks } from '../../actions/post';
 const PostFeed = ({
   addBookmarks,
   auth,
-  post: { _id, title, name, avatar, user, likes, comments, bookmarks, date },
+  post: {
+    _id,
+    title,
+    name,
+    avatar,
+    user,
+    comments,
+    bookmarks,
+    likesCount,
+    date,
+  },
   setAuth,
 }) => {
   const handleBookmarksAction = () => {
@@ -57,7 +67,7 @@ const PostFeed = ({
       <Link to={`/${name}/${_id}`} className='like-action'>
         <button className='btn btn-light btn-hover'>
           <i className='far fa-heart' style={{ marginRight: '5px' }} />
-          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+          <span>{likesCount}</span>
         </button>
       </Link>
       <Link to={`/${name}/${_id}`} className='discuss-action'>

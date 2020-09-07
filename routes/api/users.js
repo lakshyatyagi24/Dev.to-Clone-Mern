@@ -332,13 +332,19 @@ router.put('/update', auth, async (req, res) => {
     if (avatar) {
       user.avatar = avatar;
     }
-    await user.save((err, updateUser) => {
+    user.save(async (err, updateUser) => {
       if (err) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'User with this email exists!' }] });
+          .json({ errors: [{ msg: 'Error updating user' }] });
       }
       if (email && email !== oldMail) {
+        const findExistsEmail = await User.findOne({ email });
+        if (findExistsEmail) {
+          return res.status(400).json({
+            errors: [{ msg: 'User with that email exists. Try later!' }],
+          });
+        }
         //* generate token for active email
         const token = jwt.sign(
           {
@@ -375,10 +381,6 @@ router.put('/update', auth, async (req, res) => {
         transporter
           .sendMail(mainOptions)
           .then(() => {
-            // res.json({
-            //   message: `You have changed your email!, an email has been sent to your new email,
-            //  please sign out before you confirm the change`,
-            // });
             console.log('Send mail ok!');
           })
           .catch((err) => {

@@ -10,7 +10,19 @@ const PostItem = ({
   addLikeInReading,
   addBookmarksInReading,
   auth,
-  post: { _id, title, content, name, avatar, user, likes, bookmarks, date },
+  post: {
+    _id,
+    title,
+    content,
+    name,
+    avatar,
+    user,
+    likes,
+    bookmarks,
+    bookmarksCount,
+    likesCount,
+    date,
+  },
   setAuth,
 }) => {
   const handleLikeAction = () => {
@@ -58,7 +70,7 @@ const PostItem = ({
             </button>
           </div>
           <span style={{ display: 'block', marginBottom: '10px' }}>
-            {likes.length > 0 ? <span>{likes.length}</span> : <span>0</span>}
+            <span>{likesCount}</span>
           </span>
           <div className='read-action'>
             <button
@@ -80,11 +92,7 @@ const PostItem = ({
             </button>
           </div>
           <span style={{ display: 'block' }}>
-            {bookmarks.length > 0 ? (
-              <span>{bookmarks.length}</span>
-            ) : (
-              <span>0</span>
-            )}
+            <span>{bookmarksCount}</span>
           </span>
         </div>
       </div>

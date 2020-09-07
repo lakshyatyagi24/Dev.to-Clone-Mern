@@ -5,8 +5,8 @@ const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
   },
-  title: { type: String, required: true },
-  content: { type: String, required: true },
+  title: { type: String, required: true, trim: true },
+  content: { type: String, required: true, trim: true },
   name: {
     type: String,
   },
@@ -20,6 +20,10 @@ const PostSchema = new Schema({
       },
     },
   ],
+  likesCount: {
+    type: Number,
+    default: 0,
+  },
   bookmarks: [
     {
       user: {
@@ -27,6 +31,10 @@ const PostSchema = new Schema({
       },
     },
   ],
+  bookmarksCount: {
+    type: Number,
+    default: 0,
+  },
   comments: [
     {
       user: {

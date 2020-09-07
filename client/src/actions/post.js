@@ -34,10 +34,10 @@ export const getPosts = () => async (dispatch) => {
 export const addLikeInReading = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/like/${id}`);
-
+    const { data, count } = res.data;
     dispatch({
       type: UPDATE_LIKES_INREADING,
-      payload: { id, likes: res.data },
+      payload: { id, likes: data, count },
     });
   } catch (err) {
     dispatch({
@@ -52,10 +52,10 @@ export const addLikeInReading = (id) => async (dispatch) => {
 export const addBookmarks = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/bookmarks/${id}`);
-
+    const { data, count } = res.data;
     dispatch({
       type: UPDATE_BOOKMARKS,
-      payload: { id, bookmarks: res.data },
+      payload: { id, bookmarks: data, count },
     });
   } catch (err) {
     dispatch({
@@ -71,10 +71,10 @@ export const addBookmarks = (id) => async (dispatch) => {
 export const addBookmarksInReading = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/bookmarks/${id}`);
-
+    const { data, count } = res.data;
     dispatch({
       type: UPDATE_BOOKMARKS_INREADING,
-      payload: { id, bookmarks: res.data },
+      payload: { id, bookmarks: data, count },
     });
   } catch (err) {
     dispatch({

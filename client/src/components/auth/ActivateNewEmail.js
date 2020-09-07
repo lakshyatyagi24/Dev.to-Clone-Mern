@@ -3,10 +3,10 @@ import { Link, Redirect } from 'react-router-dom';
 import jwt from 'jsonwebtoken';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { activate } from '../../actions/auth';
+import { activateNewEmail } from '../../actions/auth';
 import BeatLoader from 'react-spinners/BeatLoader';
 
-const Activate = ({ activate, match }) => {
+const ActivateNewEmail = ({ activateNewEmail, match }) => {
   const [formData, setFormData] = useState({
     name: '',
     token: '',
@@ -29,7 +29,7 @@ const Activate = ({ activate, match }) => {
       ...formData,
       isProcessing: true,
     });
-    const res = await activate({ token });
+    const res = await activateNewEmail({ token });
     if (res) {
       return setFormData({
         ...formData,
@@ -52,7 +52,7 @@ const Activate = ({ activate, match }) => {
     <Fragment>
       <div className='login-wrap active-acc'>
         <div className='login'>
-          <p className='lead'>Welcome {name}</p>
+          <p className='lead'>Hi! {name}</p>
           <form className='form' onSubmit={handleSubmit}>
             {<BeatLoader size={15} color={'#3b49df'} loading={isProcessing} />}
             {!isProcessing && (
@@ -66,13 +66,13 @@ const Activate = ({ activate, match }) => {
                   fontSize: '1.4rem',
                 }}
                 type='submit'
-                value='Active'
+                value='Verify'
               />
             )}
           </form>
           {isActived && (
             <p className='my-1'>
-              Your account is <b>actived!</b> Let{' '}
+              Your new email is <b>verified!</b> Let{' '}
               <Link style={{ color: 'royalblue' }} to='/login'>
                 Sign In
               </Link>{' '}
@@ -85,8 +85,8 @@ const Activate = ({ activate, match }) => {
   );
 };
 
-Activate.propTypes = {
-  activate: PropTypes.func.isRequired,
+ActivateNewEmail.propTypes = {
+  activateNewEmail: PropTypes.func.isRequired,
 };
 
-export default connect(null, { activate })(Activate);
+export default connect(null, { activateNewEmail })(ActivateNewEmail);

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { reset } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
-const Reset = ({ reset, isAuthenticated, match }) => {
+const Reset = ({ reset, match }) => {
   const [formData, setFormData] = useState({
     password1: '',
     password2: '',
@@ -50,8 +50,8 @@ const Reset = ({ reset, isAuthenticated, match }) => {
     }
   };
 
-  if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+  if (localStorage.token) {
+    return <Redirect to='/' />;
   }
 
   return (
@@ -116,11 +116,6 @@ const Reset = ({ reset, isAuthenticated, match }) => {
 
 Reset.propTypes = {
   reset: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { reset })(Reset);
+export default connect(null, { reset })(Reset);

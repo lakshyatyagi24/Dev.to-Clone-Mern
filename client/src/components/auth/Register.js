@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import BeatLoader from 'react-spinners/BeatLoader';
 
-const Register = ({ register, isAuthenticated }) => {
+const Register = ({ register }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -49,8 +49,8 @@ const Register = ({ register, isAuthenticated }) => {
     }
   };
 
-  if (isAuthenticated) {
-    return <Redirect to='/dashboard' />;
+  if (localStorage.token) {
+    return <Redirect to='/' />;
   }
 
   return (
@@ -143,11 +143,6 @@ const Register = ({ register, isAuthenticated }) => {
 
 Register.propTypes = {
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { register })(Register);
+export default connect(null, { register })(Register);

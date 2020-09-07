@@ -302,20 +302,15 @@ router.put('/update', auth, async (req, res) => {
   const { email, name, password, avatar } = req.body;
   try {
     let user = await User.findById(req.user.id);
+    let oldMail = user.email;
     if (!user) {
       return res.status(400).json({ errors: [{ msg: 'User not found!' }] });
     }
-    // let findEmail = await User.findOne({ email });
-    // if (findEmail > 1) {
-    //   return res
-    //     .status(400)
-    //     .json({ errors: [{ msg: 'User with this email exists!' }] });
-    // }
 
     if (!email) {
       return res.status(400).json({ errors: [{ msg: 'Email is required' }] });
     } else {
-      user.email = email;
+      user.email = oldMail;
     }
     if (!name) {
       return res.status(400).json({ errors: [{ msg: 'Name is required' }] });
@@ -343,6 +338,57 @@ router.put('/update', auth, async (req, res) => {
           .status(400)
           .json({ errors: [{ msg: 'User with this email exists!' }] });
       }
+      if (email && email !== oldMail) {
+        //* generate token for active email
+        const token = jwt.sign(
+          {
+            userId: req.user.id,
+            email,
+            name,
+          },
+          config.get('JWT_EMAIL_ACTIVATION'),
+          {
+            expiresIn: '1d',
+          }
+        );
+        //* email sending
+        const transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: config.get('NODEMAILER_EMAIL'),
+            pass: config.get('NODEMAILER_PASS'),
+          },
+        });
+        const content = `
+              <h1>Please click this link to verify your new email</h1>
+              <p>${config.get('CLIENT_URL')}/users/verify-email/${token}</p>
+              <hr/>
+              <p>This email contain sensetive information</p>
+              <p>${config.get('CLIENT_URL')}</p>
+          `;
+        const mainOptions = {
+          from: config.get('NODEMAILER_EMAIL'),
+          to: email,
+          subject: 'Email verify link',
+          html: content,
+        };
+        transporter
+          .sendMail(mainOptions)
+          .then(() => {
+            // res.json({
+            //   message: `You have changed your email!, an email has been sent to your new email,
+            //  please sign out before you confirm the change`,
+            // });
+            console.log('Send mail ok!');
+          })
+          .catch((err) => {
+            console.log(err);
+            res.status(400).json({
+              errors: [{ msg: errorHandler(err) }],
+            });
+          });
+      }
+      updateUser.password = undefined;
       res.json(updateUser);
     });
   } catch (err) {
@@ -350,4 +396,48 @@ router.put('/update', auth, async (req, res) => {
   }
 });
 
+// @route    PUT api/users/updateNewEmail
+// @desc     Update user
+// @access   Private
+router.put('/updateNewEmail', async (req, res) => {
+  const { token } = req.body;
+  if (token) {
+    jwt.verify(
+      token,
+      config.get('JWT_EMAIL_ACTIVATION'),
+      async (err, decoded) => {
+        if (err) {
+          return res.status(400).json({
+            errors: [{ msg: 'Expired Token. Sign Up again' }],
+          });
+        } else {
+          const { userId, email } = jwt.decode(token);
+          const user = await User.findById(userId);
+          if (!user) {
+            return res.status(400).json({
+              errors: [{ msg: 'User not exists!' }],
+            });
+          }
+          user.email = email;
+          user.save(async (err, user) => {
+            if (err) {
+              return res.status(400).json({
+                errors: [{ msg: 'Already verified!' }],
+              });
+            } else {
+              return res.json({
+                message:
+                  'Verified success, you can log in now with your new email',
+              });
+            }
+          });
+        }
+      }
+    );
+  } else {
+    return res.status(400).json({
+      errors: [{ msg: 'Error happening please try again' }],
+    });
+  }
+});
 module.exports = router;

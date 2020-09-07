@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import Login from '../auth/Login';
 import Activate from '../auth/Activate';
+import ActivateNewEmail from '../auth/ActivateNewEmail';
 import Forget from '../auth/Forget';
 import Reset from '../auth/Reset';
 import Dashboard from '../dashboard/Dashboard';
@@ -29,6 +30,11 @@ const Routes = (props) => {
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/users/activate/:token' component={Activate} />
+        <Route
+          exact
+          path='/users/verify-email/:token'
+          component={ActivateNewEmail}
+        />
         <Route exact path='/users/password/forget' component={Forget} />
         <Route exact path='/users/password/reset/:token' component={Reset} />
         {/* <Route exact path='/profiles' component={Profiles} />

@@ -24,6 +24,7 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 export const updateUser = (formData) => async (dispatch) => {
+  const { email } = formData;
   try {
     const res = await api.put('/users/update', formData);
     dispatch({
@@ -31,6 +32,11 @@ export const updateUser = (formData) => async (dispatch) => {
       payload: res.data,
     });
     loadUser();
+    if (email !== res.data.email) {
+      toast.warning(
+        'You have changed your email!, an email has been sent to your new email, please sign out before you confirm the change'
+      );
+    }
     toast.success('Update complete!');
   } catch (err) {
     const errors = err.response.data.errors;
@@ -61,6 +67,22 @@ export const register = (formData) => async (dispatch) => {
 export const activate = (token) => async (dispatch) => {
   try {
     const res = await api.post('/users/activate', token);
+    toast.success(res.data.message);
+    return true;
+  } catch (err) {
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+      return false;
+    }
+  }
+};
+
+// Activate User with new email
+export const activateNewEmail = (token) => async (dispatch) => {
+  try {
+    const res = await api.put('/users/updateNewEmail', token);
     toast.success(res.data.message);
     return true;
   } catch (err) {

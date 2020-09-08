@@ -8,17 +8,7 @@ import { addBookmarks } from '../../actions/post';
 const PostFeed = ({
   addBookmarks,
   auth,
-  post: {
-    _id,
-    title,
-    name,
-    avatar,
-    user,
-    comments,
-    bookmarks,
-    likesCount,
-    date,
-  },
+  post: { _id, title, user, bookmarks, likesCount, commentsCount, date },
   setAuth,
 }) => {
   const handleBookmarksAction = () => {
@@ -33,11 +23,11 @@ const PostFeed = ({
     <div className='post-feed p-1 my bg-white'>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex' }}>
-          <Link to={`/profile/user/${user}`}>
-            <img className='round-img-feed' src={avatar} alt='' />
+          <Link to={`/profile/user/${user._id}`}>
+            <img className='round-img-feed' src={user.avatar} alt='' />
           </Link>
           <div style={{ marginLeft: '10px' }}>
-            <h5 className='text-dark'>{name}</h5>
+            <h5 className='text-dark'>{user.name}</h5>
             <p className='post-date'>
               Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
             </p>
@@ -48,8 +38,7 @@ const PostFeed = ({
             onClick={handleBookmarksAction}
             className='btn btn-light btn-hover'
           >
-            {auth.isAuthenticated &&
-            bookmarks.some((item) => item.user.toString() === auth.user._id) ? (
+            {auth.isAuthenticated && bookmarks.includes(auth.user._id) ? (
               <i
                 className='fas fa-bookmark'
                 style={{ color: '#3b49df', fontSize: '18px' }}
@@ -60,20 +49,20 @@ const PostFeed = ({
           </button>
         </div>
       </div>
-      <Link className='title-hover' to={`/${name}/${_id}`}>
+      <Link className='title-hover' to={`/post/${_id}`}>
         <h3 className='text-dark my-1 '>{title}</h3>
       </Link>
 
-      <Link to={`/${name}/${_id}`} className='like-action'>
+      <Link to={`/post/${_id}`} className='like-action'>
         <button className='btn btn-light btn-hover'>
           <i className='far fa-heart' style={{ marginRight: '5px' }} />
           <span>{likesCount}</span>
         </button>
       </Link>
-      <Link to={`/${name}/${_id}`} className='discuss-action'>
+      <Link to={`/post/${_id}`} className='discuss-action'>
         <button className='btn btn-light  btn-hover'>
           <i className='far fa-comment-alt' style={{ marginRight: '5px' }} />
-          <span>{comments.length > 0 && <span>{comments.length}</span>}</span>
+          <span>{commentsCount}</span>
         </button>
       </Link>
     </div>

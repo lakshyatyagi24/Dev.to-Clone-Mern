@@ -13,7 +13,15 @@ const { validLogin } = require('../../helpers/valid');
 // @access   Private
 router.get('/', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await User.findById(req.user.id)
+      .select('-password')
+      .populate('posts', ['likesCount', 'bookmarksCount'])
+      .populate('bookmarksCount', ['likesCount', 'bookmarksCount'])
+      .populate('followers', ['avatar', 'name'])
+      .populate('following', ['avatar', 'name']);
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
     res.json(user);
   } catch (err) {
     console.error(err.message);

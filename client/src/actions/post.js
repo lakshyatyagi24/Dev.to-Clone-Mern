@@ -11,6 +11,7 @@ import {
   UPDATE_BOOKMARKS,
   UPDATE_BOOKMARKS_INREADING,
   UPDATE_LIKES_INREADING,
+  GET_PROFILE,
 } from './types';
 
 // Get posts
@@ -34,10 +35,9 @@ export const getPosts = () => async (dispatch) => {
 export const addLikeInReading = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/like/${id}`);
-    const { data, count } = res.data;
     dispatch({
       type: UPDATE_LIKES_INREADING,
-      payload: { id, likes: data, count },
+      payload: { id, likes: res.data.likes, likesCount: res.data.likesCount },
     });
   } catch (err) {
     dispatch({
@@ -52,10 +52,13 @@ export const addLikeInReading = (id) => async (dispatch) => {
 export const addBookmarks = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/bookmarks/${id}`);
-    const { data, count } = res.data;
     dispatch({
       type: UPDATE_BOOKMARKS,
-      payload: { id, bookmarks: data, count },
+      payload: {
+        id,
+        bookmarks: res.data.bookmarks,
+        bookmarksCount: res.data.bookmarksCount,
+      },
     });
   } catch (err) {
     dispatch({
@@ -71,10 +74,13 @@ export const addBookmarks = (id) => async (dispatch) => {
 export const addBookmarksInReading = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/bookmarks/${id}`);
-    const { data, count } = res.data;
     dispatch({
       type: UPDATE_BOOKMARKS_INREADING,
-      payload: { id, bookmarks: data, count },
+      payload: {
+        id,
+        bookmarks: res.data.bookmarks,
+        bookmarksCount: res.data.bookmarksCount,
+      },
     });
   } catch (err) {
     dispatch({
@@ -131,10 +137,14 @@ export const addPost = (formData) => async (dispatch) => {
 export const getPost = (id) => async (dispatch) => {
   try {
     const res = await api.get(`/posts/${id}`);
-
+    const { post, profile } = res.data;
     dispatch({
       type: GET_POST,
-      payload: res.data,
+      payload: post,
+    });
+    dispatch({
+      type: GET_PROFILE,
+      payload: profile,
     });
   } catch (err) {
     dispatch({
@@ -151,7 +161,11 @@ export const addComment = (postId, formData) => async (dispatch) => {
 
     dispatch({
       type: ADD_COMMENT,
-      payload: { id: postId, data: res.data },
+      payload: {
+        id: postId,
+        data: res.data.comments,
+        commentsCount: res.data.commentsCount,
+      },
     });
   } catch (err) {
     dispatch({
@@ -165,11 +179,11 @@ export const addComment = (postId, formData) => async (dispatch) => {
 // Delete comment
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   try {
-    await api.delete(`/posts/comment/${postId}/${commentId}`);
+    const res = await api.delete(`/posts/comment/${postId}/${commentId}`);
 
     dispatch({
       type: REMOVE_COMMENT,
-      payload: { commentId, postId },
+      payload: { commentId, postId, commentsCount: res.data.commentsCount },
     });
   } catch (err) {
     dispatch({

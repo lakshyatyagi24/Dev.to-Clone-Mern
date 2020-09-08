@@ -5,6 +5,7 @@ const auth = require('../../middleware/auth');
 
 const Post = require('../../models/Post');
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/posts
@@ -26,16 +27,16 @@ router.post(
     }
 
     try {
-      const user = await User.findById(req.user.id).select('-password');
-      const newPost = new Post({
+      let post = await Post.create({
         title: req.body.title,
         content: req.body.content,
-        name: user.name,
-        avatar: user.avatar,
         user: req.user.id,
       });
-
-      const post = await newPost.save();
+      await User.findByIdAndUpdate(req.user.id, {
+        $push: { posts: post._id },
+        $inc: { postCount: 1 },
+      });
+      post = await post.populate('user', ['avatar', 'name']).execPopulate();
 
       res.json(post);
     } catch (err) {
@@ -50,8 +51,20 @@ router.post(
 // @access   Private
 router.get('/', async (req, res) => {
   try {
-    const posts = await Post.find().sort({ date: -1 });
+    const posts = await Post.find()
+      .sort({ date: -1 })
+      .populate('user', ['avatar', 'name']);
     res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+router.get('/getLike/:id', checkObjectId('id'), async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    return res.json({ likes: post.likes, count: post.likesCount });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -63,13 +76,22 @@ router.get('/', async (req, res) => {
 // @access   Private
 router.get('/:id', checkObjectId('id'), async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).populate('user', [
+      'avatar',
+      'name',
+    ]);
+    const profile = await Profile.findOne({
+      user: post.user.id,
+    }).populate('user', ['name', 'avatar']);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
+    if (!profile) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
 
-    res.json(post);
+    res.json({ post, profile });
   } catch (err) {
     console.error(err.message);
 
@@ -112,25 +134,19 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
-    let check = false;
-    let i;
-    let likeLength = post.likes.length;
-    for (i = 0; i < likeLength; ++i) {
-      if (post.likes[i].user.toString() === req.user.id) {
-        post.likesCount = post.likesCount - 1;
-        post.likes.splice(i, 1);
-        check = true;
-        break;
-      }
-    }
-    if (!check) {
+
+    if (post.likes.includes(req.user.id)) {
+      const index = post.likes.indexOf(req.user.id);
+      post.likes.splice(index, 1);
+      post.likesCount = post.likesCount - 1;
+    } else {
       post.likesCount = post.likesCount + 1;
-      post.likes = [...post.likes, { user: req.user.id }];
+      post.likes = [...post.likes, req.user.id];
     }
 
     await post.save();
 
-    return res.json({ data: post.likes, count: post.likesCount });
+    res.status(200).json({ likes: post.likes, likesCount: post.likesCount });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -143,25 +159,35 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    let check = false;
-    let i;
-    let bkLength = post.bookmarks.length;
-    for (i = 0; i < bkLength; ++i) {
-      if (post.bookmarks[i].user.toString() === req.user.id) {
-        post.bookmarksCount = post.bookmarksCount - 1;
-        post.bookmarks.splice(i, 1);
-        check = true;
-        break;
-      }
+    const user = await User.findById(req.user.id);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found!' });
     }
-    if (!check) {
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found!' });
+    }
+
+    if (post.bookmarks.includes(req.user.id)) {
+      const index = post.bookmarks.indexOf(req.user.id);
+      post.bookmarks.splice(index, 1);
+      post.bookmarksCount = post.bookmarksCount - 1;
+    } else {
       post.bookmarksCount = post.bookmarksCount + 1;
-      post.bookmarks = [...post.bookmarks, { user: req.user.id }];
+      post.bookmarks = [...post.bookmarks, req.user.id];
     }
     await post.save();
-
-    return res.json({ data: post.bookmarks, count: post.bookmarksCount });
+    if (user.bookMarkedPosts.includes(req.params.id)) {
+      const index = user.bookMarkedPosts.indexOf(req.params.id);
+      user.bookMarkedPosts.splice(index, 1);
+      user.bookMarkedPostsCount = user.bookMarkedPostsCount - 1;
+    } else {
+      user.bookMarkedPostsCount = user.bookMarkedPostsCount + 1;
+      user.bookMarkedPosts = [...user.bookMarkedPosts, req.params.id];
+    }
+    await user.save();
+    res
+      .status(200)
+      .json({ bookmarks: post.bookmarks, bookmarksCount: post.bookmarksCount });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -195,11 +221,14 @@ router.post(
         user: req.user.id,
       };
       post.comments = [newComment, ...post.comments];
-      // post.comments.unshift(newComment);
+      post.commentsCount = post.commentsCount + 1;
 
       await post.save();
 
-      res.json(post.comments);
+      return res.json({
+        comments: post.comments,
+        commentsCount: post.commentsCount,
+      });
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -222,6 +251,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
         if (post.comments[i].user.toString() !== req.user.id) {
           return res.status(401).json({ msg: 'User not authorized' });
         }
+        post.commentsCount = post.commentsCount - 1;
         post.comments.splice(i, 1);
         check = true;
         break;
@@ -234,7 +264,9 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    return res.json(post.comments);
+    return res.json({
+      commentsCount: post.commentsCount,
+    });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

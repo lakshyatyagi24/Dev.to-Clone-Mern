@@ -22,7 +22,7 @@ const Routes = (props) => {
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Posts} />
-        <Route exact path='/:name/:id' component={Post} />
+        <Route exact path='/post/:id' component={Post} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/users/activate/:token' component={Activate} />

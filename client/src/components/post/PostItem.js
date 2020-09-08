@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { addLikeInReading, addBookmarksInReading } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
+import ActionPostItem from './ActionPostItem';
 
 const PostItem = ({
   addLikeInReading,
@@ -13,89 +14,80 @@ const PostItem = ({
   post: {
     _id,
     title,
-    content,
-    name,
-    avatar,
-    user,
     likes,
     bookmarks,
-    bookmarksCount,
+    content,
+    user,
     likesCount,
+    bookmarksCount,
     date,
   },
+  profile,
   setAuth,
 }) => {
+  const [liked, setLiked] = useState(
+    auth.user === null ? true : likes.includes(auth.user._id)
+  );
+  const [bookmarked, setBookMarked] = useState(
+    auth.user === null ? true : bookmarks.includes(auth.user._id)
+  );
+
+  const [likesState, setLikes] = useState(likesCount);
+  const [bookmarksState, setBookMarks] = useState(bookmarksCount);
+
+  const incLikes = () => setLikes(likesState + 1);
+  const decLikes = () => setLikes(likesState - 1);
+  const incBookMarks = () => setBookMarks(bookmarksCount + 1);
+  const decBookMarks = () => setBookMarks(bookmarksCount - 1);
+  // useEffect(() => {
+  //   setLiked(liked);
+  //   setBookMarked(bookmarked)
+  // }, [liked,bookmarked]);
   const handleLikeAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
-      addLikeInReading(_id);
-      return setAuth(false);
+      if (liked) {
+        setLiked(false);
+        decLikes();
+        addLikeInReading(_id);
+        return setAuth(false);
+      } else {
+        setLiked(true);
+        incLikes();
+        addLikeInReading(_id);
+        return setAuth(false);
+      }
     }
   };
   const handleBookmarksAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
-      addBookmarksInReading(_id);
-      return setAuth(false);
+      if (bookmarked) {
+        setBookMarked(false);
+        decBookMarks();
+        addBookmarksInReading(_id);
+        return setAuth(false);
+      } else {
+        setBookMarked(true);
+        incBookMarks();
+        addBookmarksInReading(_id);
+        return setAuth(false);
+      }
     }
   };
   return (
     <div className='post my-1'>
-      <div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            position: 'fixed',
-          }}
-        >
-          <div className='like-action'>
-            <button
-              onClick={handleLikeAction}
-              className='btn btn-light btn-hover'
-              style={{ margin: '0' }}
-            >
-              {auth.isAuthenticated &&
-              likes.some((item) => item.user.toString() === auth.user._id) ? (
-                <i
-                  className='fas fa-heart'
-                  style={{ color: '#dc3545', fontSize: '20px' }}
-                />
-              ) : (
-                <i className='far fa-heart' style={{ fontSize: '20px' }} />
-              )}
-            </button>
-          </div>
-          <span style={{ display: 'block', marginBottom: '10px' }}>
-            <span>{likesCount}</span>
-          </span>
-          <div className='read-action'>
-            <button
-              onClick={handleBookmarksAction}
-              className='btn btn-light btn-hover'
-              style={{ margin: '0' }}
-            >
-              {auth.isAuthenticated &&
-              bookmarks.some(
-                (item) => item.user.toString() === auth.user._id
-              ) ? (
-                <i
-                  className='fas fa-bookmark'
-                  style={{ color: '#3b49df', fontSize: '20px' }}
-                />
-              ) : (
-                <i className='far fa-bookmark' style={{ fontSize: '20px' }} />
-              )}
-            </button>
-          </div>
-          <span style={{ display: 'block' }}>
-            <span>{bookmarksCount}</span>
-          </span>
-        </div>
-      </div>
+      <ActionPostItem
+        handleBookmarksAction={handleBookmarksAction}
+        handleLikeAction={handleLikeAction}
+        liked={liked}
+        likesState={likesState}
+        bookmarked={bookmarked}
+        bookmarksState={bookmarksState}
+      />
+
       <div
         className='bg-white'
         style={{
@@ -121,9 +113,9 @@ const PostItem = ({
             margin: '20px 0',
           }}
         >
-          <Link style={{ display: 'flex' }} to={`/profile/user/${user}`}>
-            <img className='round-img' src={avatar} alt='' />
-            <h5 style={{ marginLeft: '5px' }}>{name}</h5>
+          <Link style={{ display: 'flex' }} to={`/profile/user/${user._id}`}>
+            <img className='round-img' src={user.avatar} alt='' />
+            <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
           </Link>
           <p
             className='post-date'
@@ -134,28 +126,41 @@ const PostItem = ({
         </div>
         <MarkdownPreview className='post-item' value={content} />
       </div>
-      <div>
-        <div className='top-bar'></div>
-        <div className='bg-white right-side-post'>
-          <div className='user-info'>
-            <Link
-              style={{ display: 'flex', position: 'absolute', top: '-30px' }}
-              to={`/profile/user/${user}`}
-            >
-              <img className='round-img' src={avatar} alt='' />
-              <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
-                {name}
-              </h5>
-            </Link>
+      {profile !== null ? (
+        <div>
+          <div style={{ height: 'auto' }}>
+            <div className='top-bar'></div>
+            <div className='bg-white right-side-post'>
+              <div className='user-info'>
+                <Link
+                  style={{
+                    display: 'flex',
+                    position: 'absolute',
+                    top: '-30px',
+                  }}
+                  to={`/profile/user/${profile.user._id}`}
+                >
+                  <img className='round-img' src={profile.user.avatar} alt='' />
+                  <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
+                    {profile.user.name}
+                  </h5>
+                </Link>
+              </div>
+              <div className='text-dark py-2'>{profile.bio}</div>
+              <div className='text-dark py-2'>{profile.bio}</div>
+              <div className='text-dark py-2'>{profile.bio}</div>
+              <div className='text-dark py-2'>{profile.bio}</div>
+            </div>
           </div>
         </div>
-      </div>
+      ) : null}
     </div>
   );
 };
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
+  profile: PropTypes.object,
   auth: PropTypes.object.isRequired,
   addLikeInReading: PropTypes.func.isRequired,
   addBookmarksInReading: PropTypes.func.isRequired,

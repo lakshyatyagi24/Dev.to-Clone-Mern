@@ -75,49 +75,49 @@ export default function (state = initialState, action) {
             ? {
                 ...post,
                 bookmarks: payload.bookmarks,
-                bookmarksCount: payload.count,
+                bookmarksCount: payload.bookmarksCount,
               }
             : post
         ),
         post: {
           ...data,
           bookmarks: payload.bookmarks,
-          bookmarksCount: payload.count,
+          bookmarksCount: payload.bookmarksCount,
         },
         loading: false,
       };
     case UPDATE_LIKES_INREADING:
       return {
         ...state,
+        posts: state.posts.map((post) =>
+          post._id === payload.id
+            ? { ...post, likes: payload.likes, likesCount: payload.likesCount }
+            : post
+        ),
         post: {
           ...state.post,
           likes: payload.likes,
-          likesCount: payload.count,
+          likesCount: payload.likesCount,
         },
-        posts: state.posts.map((post) =>
-          post._id === payload.id
-            ? { ...post, likes: payload.likes, likesCount: payload.count }
-            : post
-        ),
         loading: false,
       };
     case UPDATE_BOOKMARKS_INREADING:
       return {
         ...state,
-        post: {
-          ...state.post,
-          bookmarks: payload.bookmarks,
-          bookmarksCount: payload.count,
-        },
         posts: state.posts.map((post) =>
           post._id === payload.id
             ? {
                 ...post,
                 bookmarks: payload.bookmarks,
-                bookmarksCount: payload.count,
+                bookmarksCount: payload.bookmarksCount,
               }
             : post
         ),
+        post: {
+          ...state.post,
+          bookmarks: payload.bookmarks,
+          bookmarksCount: payload.bookmarksCount,
+        },
         loading: false,
       };
     case ADD_COMMENT:
@@ -141,12 +141,14 @@ export default function (state = initialState, action) {
         ...state,
         post: {
           ...state.post,
+          commentsCount: payload.commentsCount,
         },
         posts: state.posts.map((post) =>
           post._id === payload.postId
             ? {
                 ...post,
                 comments: [...state.post.comments],
+                commentsCount: payload.commentsCount,
               }
             : post
         ),

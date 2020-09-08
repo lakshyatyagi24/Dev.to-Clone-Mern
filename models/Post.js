@@ -3,34 +3,18 @@ const Schema = mongoose.Schema;
 
 const PostSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
+    ref: 'user',
+    required: true,
   },
   title: { type: String, required: true, trim: true },
   content: { type: String, required: true, trim: true },
-  name: {
-    type: String,
-  },
-  avatar: {
-    type: String,
-  },
-  likes: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-      },
-    },
-  ],
+  likes: [{ type: mongoose.Schema.ObjectId, ref: 'user' }],
   likesCount: {
     type: Number,
     default: 0,
   },
-  bookmarks: [
-    {
-      user: {
-        type: Schema.Types.ObjectId,
-      },
-    },
-  ],
+  bookmarks: [{ type: mongoose.Schema.ObjectId, ref: 'user' }],
   bookmarksCount: {
     type: Number,
     default: 0,
@@ -56,6 +40,10 @@ const PostSchema = new Schema({
       },
     },
   ],
+  commentsCount: {
+    type: Number,
+    default: 0,
+  },
   date: {
     type: Date,
     default: Date.now,

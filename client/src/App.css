@@ -644,7 +644,21 @@ button {
   background: #3b49df;
   margin-top: 20px;
 }
-
+.action-comt {
+  margin: 0 8px 8px 0;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.action-post {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+}
 .error {
   color: var(--danger-color);
   text-align: center;
@@ -801,8 +815,7 @@ li:hover .action-feed_s {
   grid-template-columns: 2fr 6fr;
   grid-gap: 1rem;
 }
-.side-setting {
-}
+
 .main-setting {
   border: unset;
   border-radius: 5px;

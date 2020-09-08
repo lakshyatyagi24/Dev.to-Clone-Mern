@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addComment } from '../../actions/post';
@@ -14,36 +14,40 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
   };
 
   return (
-    <div className='post'>
-      <div></div>
-      <form
-        className='form my-1'
-        onSubmit={(e) => {
-          e.preventDefault();
-          addComment(postId, { text });
-          setText('');
-        }}
-      >
-        <textarea
-          onFocus={handleForm}
-          name='text'
-          cols='30'
-          rows='5'
-          placeholder='Comment the post'
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          required
-          style={{
-            resize: 'none',
-            border: 'none',
-            outline: 'none',
-            boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
+    <Fragment>
+      <div className='post'>
+        <div></div>
+        <form
+          className='form my-1'
+          onSubmit={(e) => {
+            e.preventDefault();
+            addComment(postId, { text });
+            setText('');
           }}
-        />
-        <input type='submit' className='btn btn-dark my-1' value='Submit' />
-      </form>
-      <div></div>
-    </div>
+        >
+          <p className='text-dark my'>Discussion</p>
+          <textarea
+            onFocus={handleForm}
+            name='text'
+            cols='30'
+            rows='6'
+            placeholder='Comment the post'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            required
+            style={{
+              resize: 'none',
+              border: 'none',
+              outline: 'none',
+              boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
+              borderRadius: '5px',
+            }}
+          />
+          <input type='submit' className='btn btn-dark my-1' value='Submit' />
+        </form>
+        <div></div>
+      </div>
+    </Fragment>
   );
 };
 

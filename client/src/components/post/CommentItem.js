@@ -26,32 +26,16 @@ const CommentItem = ({
       {auth.isAuthenticated && user === auth.user._id && (
         <div style={{ display: 'flex' }}>
           <button
-            style={{
-              margin: '0 8px 8px 0',
-              height: '30px',
-              width: '30px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
             onClick={() => deleteComment(postId, _id)}
             type='button'
-            className='btn btn-light'
+            className='btn btn-light action-comt'
           >
             <i className='far fa-edit' />
           </button>
           <button
-            style={{
-              margin: '0 0 8px 0',
-              height: '30px',
-              width: '30px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
             onClick={() => deleteComment(postId, _id)}
             type='button'
-            className='btn btn-danger'
+            className='btn btn-danger  action-comt'
           >
             <i className='fas fa-times' />
           </button>
@@ -65,6 +49,7 @@ const CommentItem = ({
         display: 'grid',
         gridTemplateColumns: '1fr 4fr',
         marginBottom: '20px',
+        borderRadius: '5px',
       }}
     >
       <div>

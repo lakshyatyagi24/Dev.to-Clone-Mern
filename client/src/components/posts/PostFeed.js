@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { addBookmarks } from '../../actions/post';
+import ActionPostFeed from './ActionPostFeed';
 
 const PostFeed = ({
   addBookmarks,
   auth,
-  post: { _id, title, user, bookmarks, likesCount, commentsCount, date },
+  post: {
+    _id,
+    title,
+    user,
+    bookmarks,
+    bookmarksCount,
+    likesCount,
+    commentsCount,
+    date,
+  },
   setAuth,
 }) => {
+  const [bookmarksState, setBookMarks] = useState(bookmarksCount);
+
+  const incBookMarks = () => setBookMarks(bookmarksCount + 1);
+  const decBookMarks = () => setBookMarks(bookmarksCount - 1);
   const handleBookmarksAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
@@ -33,21 +47,17 @@ const PostFeed = ({
             </p>
           </div>
         </div>
-        <div className='read-action'>
-          <button
-            onClick={handleBookmarksAction}
-            className='btn btn-light btn-hover'
-          >
-            {auth.isAuthenticated && bookmarks.includes(auth.user._id) ? (
-              <i
-                className='fas fa-bookmark'
-                style={{ color: '#3b49df', fontSize: '18px' }}
-              />
-            ) : (
-              <i className='far fa-bookmark' style={{ fontSize: '18px' }} />
-            )}
-          </button>
-        </div>
+        <ActionPostFeed
+          isBookMarked={
+            auth.user === null ? null : bookmarks.includes(auth.user._id)
+          }
+          setAuth={setAuth}
+          handleBookmarksAction={handleBookmarksAction}
+          setBookMarks={setBookMarks}
+          bookmarksState={bookmarksState}
+          incBookMarks={incBookMarks}
+          decBookMarks={decBookMarks}
+        />
       </div>
       <Link className='title-hover' to={`/post/${_id}`}>
         <h3 className='text-dark my-1 '>{title}</h3>

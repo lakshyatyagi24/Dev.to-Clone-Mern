@@ -1,15 +1,57 @@
-import React, { Fragment, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 const ActionPostItem = ({
   auth,
   handleBookmarksAction,
   handleLikeAction,
-  liked,
-  bookmarked,
+  likedState,
+  bookmarkedState,
   likesState,
   bookmarksState,
+  incLikes,
+  decLikes,
+  incBookMarks,
+  decBookMarks,
+  setAuth,
 }) => {
+  const [liked, setLiked] = useState(likedState);
+  const [bookmarked, setBookMarked] = useState(bookmarkedState);
+
+  useEffect(() => {
+    setLiked(likedState);
+    setBookMarked(bookmarkedState);
+  }, [likedState, bookmarkedState]);
+  const handleLike = () => {
+    if (auth.isAuthenticated && localStorage.token) {
+      if (liked) {
+        setLiked(false);
+        decLikes();
+        handleLikeAction();
+      } else {
+        setLiked(true);
+        incLikes();
+        handleLikeAction();
+      }
+    } else {
+      return setAuth(true);
+    }
+  };
+  const handleBookMark = () => {
+    if (auth.isAuthenticated && localStorage.token) {
+      if (bookmarked) {
+        setBookMarked(false);
+        decBookMarks();
+        handleBookmarksAction();
+      } else {
+        setBookMarked(true);
+        incBookMarks();
+        handleBookmarksAction();
+      }
+    } else {
+      return setAuth(true);
+    }
+  };
   return (
     <div
       style={{
@@ -28,7 +70,7 @@ const ActionPostItem = ({
       >
         <div className='like-action'>
           <button
-            onClick={handleLikeAction}
+            onClick={handleLike}
             className='btn btn-light btn-hover action-post'
             style={
               auth.isAuthenticated && liked
@@ -63,7 +105,7 @@ const ActionPostItem = ({
 
         <div className='read-action'>
           <button
-            onClick={handleBookmarksAction}
+            onClick={handleBookMark}
             className='btn btn-light btn-hover action-post'
             style={
               auth.isAuthenticated && bookmarked
@@ -103,12 +145,10 @@ const ActionPostItem = ({
 
 ActionPostItem.propTypes = {
   auth: PropTypes.object.isRequired,
-  post: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  post: state.post.post,
 });
 
 export default connect(mapStateToProps)(ActionPostItem);

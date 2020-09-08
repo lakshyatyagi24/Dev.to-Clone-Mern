@@ -137,14 +137,10 @@ export const addPost = (formData) => async (dispatch) => {
 export const getPost = (id) => async (dispatch) => {
   try {
     const res = await api.get(`/posts/${id}`);
-    const { post, profile } = res.data;
+    const { post } = res.data;
     dispatch({
       type: GET_POST,
       payload: post,
-    });
-    dispatch({
-      type: GET_PROFILE,
-      payload: profile,
     });
   } catch (err) {
     dispatch({

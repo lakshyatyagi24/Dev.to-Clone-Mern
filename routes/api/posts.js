@@ -80,18 +80,18 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
       'avatar',
       'name',
     ]);
-    const profile = await Profile.findOne({
-      user: post.user.id,
-    }).populate('user', ['name', 'avatar']);
+    // const profile = await Profile.findOne({
+    //   user: post.user.id,
+    // }).populate('user', ['name', 'avatar']);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
-    if (!profile) {
-      return res.status(404).json({ msg: 'User not found' });
-    }
+    // if (!profile) {
+    //   return res.status(404).json({ msg: 'User not found' });
+    // }
 
-    res.json({ post, profile });
+    res.json({ post });
   } catch (err) {
     console.error(err.message);
 

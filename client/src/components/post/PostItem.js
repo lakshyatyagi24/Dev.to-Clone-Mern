@@ -25,13 +25,6 @@ const PostItem = ({
   profile,
   setAuth,
 }) => {
-  const [liked, setLiked] = useState(
-    auth.user === null ? true : likes.includes(auth.user._id)
-  );
-  const [bookmarked, setBookMarked] = useState(
-    auth.user === null ? true : bookmarks.includes(auth.user._id)
-  );
-
   const [likesState, setLikes] = useState(likesCount);
   const [bookmarksState, setBookMarks] = useState(bookmarksCount);
 
@@ -39,42 +32,21 @@ const PostItem = ({
   const decLikes = () => setLikes(likesState - 1);
   const incBookMarks = () => setBookMarks(bookmarksCount + 1);
   const decBookMarks = () => setBookMarks(bookmarksCount - 1);
-  // useEffect(() => {
-  //   setLiked(liked);
-  //   setBookMarked(bookmarked)
-  // }, [liked,bookmarked]);
+
   const handleLikeAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
-      if (liked) {
-        setLiked(false);
-        decLikes();
-        addLikeInReading(_id);
-        return setAuth(false);
-      } else {
-        setLiked(true);
-        incLikes();
-        addLikeInReading(_id);
-        return setAuth(false);
-      }
+      addLikeInReading(_id);
+      return setAuth(false);
     }
   };
   const handleBookmarksAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
     } else {
-      if (bookmarked) {
-        setBookMarked(false);
-        decBookMarks();
-        addBookmarksInReading(_id);
-        return setAuth(false);
-      } else {
-        setBookMarked(true);
-        incBookMarks();
-        addBookmarksInReading(_id);
-        return setAuth(false);
-      }
+      addBookmarksInReading(_id);
+      return setAuth(false);
     }
   };
   return (
@@ -82,10 +54,17 @@ const PostItem = ({
       <ActionPostItem
         handleBookmarksAction={handleBookmarksAction}
         handleLikeAction={handleLikeAction}
-        liked={liked}
+        likedState={auth.user === null ? null : likes.includes(auth.user._id)}
         likesState={likesState}
-        bookmarked={bookmarked}
+        bookmarkedState={
+          auth.user === null ? null : bookmarks.includes(auth.user._id)
+        }
         bookmarksState={bookmarksState}
+        incLikes={incLikes}
+        decLikes={decLikes}
+        incBookMarks={incBookMarks}
+        decBookMarks={decBookMarks}
+        setAuth={setAuth}
       />
 
       <div
@@ -126,34 +105,33 @@ const PostItem = ({
         </div>
         <MarkdownPreview className='post-item' value={content} />
       </div>
-      {profile !== null ? (
-        <div>
-          <div style={{ height: 'auto' }}>
-            <div className='top-bar'></div>
-            <div className='bg-white right-side-post'>
-              <div className='user-info'>
-                <Link
-                  style={{
-                    display: 'flex',
-                    position: 'absolute',
-                    top: '-30px',
-                  }}
-                  to={`/profile/user/${profile.user._id}`}
-                >
-                  <img className='round-img' src={profile.user.avatar} alt='' />
-                  <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
-                    {profile.user.name}
-                  </h5>
-                </Link>
-              </div>
-              <div className='text-dark py-2'>{profile.bio}</div>
-              <div className='text-dark py-2'>{profile.bio}</div>
-              <div className='text-dark py-2'>{profile.bio}</div>
-              <div className='text-dark py-2'>{profile.bio}</div>
+
+      <div>
+        <div style={{ height: 'auto' }}>
+          <div className='top-bar'></div>
+          <div className='bg-white right-side-post'>
+            <div className='user-info'>
+              <Link
+                style={{
+                  display: 'flex',
+                  position: 'absolute',
+                  top: '-30px',
+                }}
+                to={`/profile/user/${user._id}`}
+              >
+                <img className='round-img' src={user.avatar} alt='' />
+                <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
+                  {user.name}
+                </h5>
+              </Link>
             </div>
+            {/* <div className='text-dark py-2'>{profile.bio}</div>
+              <div className='text-dark py-2'>{profile.bio}</div>
+              <div className='text-dark py-2'>{profile.bio}</div>
+              <div className='text-dark py-2'>{profile.bio}</div> */}
           </div>
         </div>
-      ) : null}
+      </div>
     </div>
   );
 };

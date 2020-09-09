@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { addLikeInReading, addBookmarksInReading } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import ActionPostItem from './ActionPostItem';
+import SidePostItem from './SidePostItem';
 
 const PostItem = ({
   addLikeInReading,
@@ -22,7 +23,6 @@ const PostItem = ({
     bookmarksCount,
     date,
   },
-  profile,
   setAuth,
 }) => {
   const [likesState, setLikes] = useState(likesCount);
@@ -32,7 +32,7 @@ const PostItem = ({
   const decLikes = () => setLikes(likesState - 1);
   const incBookMarks = () => setBookMarks(bookmarksCount + 1);
   const decBookMarks = () => setBookMarks(bookmarksCount - 1);
-
+  console.log('render');
   const handleLikeAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
@@ -50,7 +50,7 @@ const PostItem = ({
     }
   };
   return (
-    <div className='post my-1'>
+    <div className='post py-1'>
       <ActionPostItem
         handleBookmarksAction={handleBookmarksAction}
         handleLikeAction={handleLikeAction}
@@ -67,15 +67,7 @@ const PostItem = ({
         setAuth={setAuth}
       />
 
-      <div
-        className='bg-white'
-        style={{
-          boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
-          border: 'unset',
-          borderRadius: '5px',
-          padding: '30px 60px',
-        }}
-      >
+      <div className='bg-white main-post-item'>
         <h1
           style={{
             fontSize: '3rem',
@@ -106,39 +98,13 @@ const PostItem = ({
         <MarkdownPreview className='post-item' value={content} />
       </div>
 
-      <div>
-        <div style={{ height: 'auto' }}>
-          <div className='top-bar'></div>
-          <div className='bg-white right-side-post'>
-            <div className='user-info'>
-              <Link
-                style={{
-                  display: 'flex',
-                  position: 'absolute',
-                  top: '-30px',
-                }}
-                to={`/profile/user/${user._id}`}
-              >
-                <img className='round-img' src={user.avatar} alt='' />
-                <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
-                  {user.name}
-                </h5>
-              </Link>
-            </div>
-            {/* <div className='text-dark py-2'>{profile.bio}</div>
-              <div className='text-dark py-2'>{profile.bio}</div>
-              <div className='text-dark py-2'>{profile.bio}</div>
-              <div className='text-dark py-2'>{profile.bio}</div> */}
-          </div>
-        </div>
-      </div>
+      <SidePostItem user={user} />
     </div>
   );
 };
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
-  profile: PropTypes.object,
   auth: PropTypes.object.isRequired,
   addLikeInReading: PropTypes.func.isRequired,
   addBookmarksInReading: PropTypes.func.isRequired,

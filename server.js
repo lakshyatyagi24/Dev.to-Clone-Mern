@@ -7,8 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: 'http://127.0.0.1:5000', //Chan tat ca cac domain khac ngoai domain nay
-    credentials: true, //Để bật cookie HTTP qua CORS
+    origin: 'http://127.0.0.1:5000',
+    credentials: true,
   })
 );
 // Connect Database

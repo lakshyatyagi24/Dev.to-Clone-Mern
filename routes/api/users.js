@@ -87,7 +87,7 @@ router.post('/', validSign, async (req, res) => {
       });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    return res.status(500).send('Server error');
   }
 });
 
@@ -385,16 +385,16 @@ router.put('/update', auth, async (req, res) => {
           })
           .catch((err) => {
             console.log(err);
-            res.status(400).json({
+            return res.status(400).json({
               errors: [{ msg: errorHandler(err) }],
             });
           });
       }
       updateUser.password = undefined;
-      res.json(updateUser);
+      return res.json(updateUser);
     });
   } catch (err) {
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 

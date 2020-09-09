@@ -9,11 +9,13 @@ import {
   UPDATE_BOOKMARKS,
   UPDATE_BOOKMARKS_INREADING,
   UPDATE_LIKES_INREADING,
+  EDIT_COMMENT,
 } from '../actions/types';
 
 const initialState = {
   posts: [],
   post: null,
+  comment: '',
   loading: true,
   error: {},
 };
@@ -123,10 +125,29 @@ export default function (state = initialState, action) {
     case ADD_COMMENT:
       return {
         ...state,
-        post: { ...state.post, comments: payload.data },
+        post: {
+          ...state.post,
+          comments: payload.data,
+          commentsCount: payload.commentsCount,
+        },
         posts: state.posts.map((post) =>
-          post._id === payload.id ? { ...post, comments: payload.data } : post
+          post._id === payload.id
+            ? {
+                ...post,
+                comments: payload.data,
+                commentsCount: payload.commentsCount,
+              }
+            : post
         ),
+        loading: false,
+      };
+    case EDIT_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: payload.data,
+        },
         loading: false,
       };
     case REMOVE_COMMENT:

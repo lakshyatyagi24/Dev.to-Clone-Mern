@@ -9,7 +9,14 @@ const LoginPopUp = ({ setAuth }) => {
   };
   return (
     <div className='backdrop' onClick={handleClick}>
-      <div className='child'>
+      <div className='child close-action'>
+        <button
+          onClick={() => setAuth(false)}
+          style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
+          className='btn btn-light btn-hover '
+        >
+          <i style={{ color: '#363c44' }} className='fas fa-times' />
+        </button>
         <h1 style={{ padding: '20px 0' }} className='text-dark'>
           Log in to continue
         </h1>

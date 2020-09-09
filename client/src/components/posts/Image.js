@@ -31,8 +31,15 @@ const Image = ({ setImage }) => {
   };
   return (
     <div className='backdrop' onClick={handleClick}>
-      <div className='child add-image'>
-        <h3 className='text-dark'>
+      <div className='child add-image close-action'>
+        <button
+          onClick={() => setImage(false)}
+          style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
+          className='btn btn-light btn-hover '
+        >
+          <i style={{ color: '#363c44' }} className='fas fa-times' />
+        </button>
+        <h3 className='text-dark my-1'>
           Select your image and copy under text to your editor
         </h3>
         <form>

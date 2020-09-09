@@ -38,10 +38,10 @@ router.post(
       });
       post = await post.populate('user', ['avatar', 'name']).execPopulate();
 
-      res.json(post);
+      return res.json(post);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      return res.status(500).send('Server Error');
     }
   }
 );
@@ -54,20 +54,10 @@ router.get('/', async (req, res) => {
     const posts = await Post.find()
       .sort({ date: -1 })
       .populate('user', ['avatar', 'name']);
-    res.json(posts);
+    return res.json(posts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-router.get('/getLike/:id', checkObjectId('id'), async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    return res.json({ likes: post.likes, count: post.likesCount });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -80,22 +70,22 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
       'avatar',
       'name',
     ]);
-    // const profile = await Profile.findOne({
-    //   user: post.user.id,
-    // }).populate('user', ['name', 'avatar']);
+    const profile = await Profile.findOne({
+      user: post.user.id,
+    }).populate('user', ['name', 'avatar']);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
-    // if (!profile) {
-    //   return res.status(404).json({ msg: 'User not found' });
-    // }
+    if (!profile) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
 
-    res.json({ post });
+    return res.json({ post, profile });
   } catch (err) {
     console.error(err.message);
 
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -117,11 +107,11 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
 
     await post.remove();
 
-    res.json({ msg: 'Post removed' });
+    return res.json({ msg: 'Post removed' });
   } catch (err) {
     console.error(err.message);
 
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -146,10 +136,12 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 
     await post.save();
 
-    res.status(200).json({ likes: post.likes, likesCount: post.likesCount });
+    return res
+      .status(200)
+      .json({ likes: post.likes, likesCount: post.likesCount });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -185,12 +177,12 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
       user.bookMarkedPosts = [...user.bookMarkedPosts, req.params.id];
     }
     await user.save();
-    res
+    return res
       .status(200)
       .json({ bookmarks: post.bookmarks, bookmarksCount: post.bookmarksCount });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -231,7 +223,54 @@ router.post(
       });
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      return res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route    EDIT api/posts/comment/:id/:comment_id
+// @desc     EDIT comment
+// @access   Private
+
+router.put(
+  '/comment/:id/:comment_id',
+  [
+    auth,
+    checkObjectId('id'),
+    [check('text', 'Text is required').not().isEmpty()],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const post = await Post.findById(req.params.id);
+      const { data } = req.body;
+      let check = false;
+      let i;
+      let postLength = post.comments.length;
+      for (i = 0; i < postLength; ++i) {
+        if (post.comments[i].id === req.params.comment_id) {
+          if (post.comments[i].user.toString() !== req.user.id) {
+            return res.status(401).json({ msg: 'User not authorized' });
+          }
+          post.comments[i].text = data;
+          check = true;
+          break;
+        }
+      }
+      // Make sure comment exists
+      if (!check) {
+        return res.status(404).json({ msg: 'Comment does not exist' });
+      }
+
+      await post.save();
+
+      return res.json(post.comments);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
     }
   }
 );

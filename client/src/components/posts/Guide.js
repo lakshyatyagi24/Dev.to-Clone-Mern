@@ -9,7 +9,14 @@ const Guide = ({ setGuide }) => {
   };
   return (
     <div className='backdrop' onClick={handleClick}>
-      <div className='child guide-markdown'>
+      <div className='child guide-markdown close-action'>
+        <button
+          onClick={() => setGuide(false)}
+          style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
+          className='btn btn-light btn-hover '
+        >
+          <i style={{ color: '#363c44' }} className='fas fa-times' />
+        </button>
         <h1 className='text-dark'>Some common markdown</h1>
         <table style={{ marginTop: '20px' }}>
           <tbody>

@@ -22,10 +22,10 @@ router.get('/', auth, async (req, res) => {
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
-    res.json(user);
+    return res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -65,12 +65,12 @@ router.post('/', validLogin, async (req, res) => {
       { expiresIn: '5 days' },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        return res.json({ token });
       }
     );
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    return res.status(500).send('Server error');
   }
 });
 

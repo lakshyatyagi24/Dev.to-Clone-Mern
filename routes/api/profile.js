@@ -23,10 +23,10 @@ router.get('/me', auth, async (req, res) => {
       return res.status(400).json({ msg: 'There is no profile for this user' });
     }
 
-    res.json(profile);
+    return res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -86,10 +86,10 @@ router.put('/', auth, async (req, res) => {
       { $set: profileFields },
       { new: true, upsert: true }
     );
-    res.json(profile);
+    return res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -99,10 +99,10 @@ router.put('/', auth, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-    res.json(profiles);
+    return res.json(profiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 
@@ -140,10 +140,10 @@ router.delete('/', auth, async (req, res) => {
     // Remove user
     await User.findOneAndRemove({ _id: req.user.id });
 
-    res.json({ msg: 'User deleted' });
+    return res.json({ msg: 'User deleted' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    return res.status(500).send('Server Error');
   }
 });
 

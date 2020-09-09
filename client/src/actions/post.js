@@ -11,7 +11,7 @@ import {
   UPDATE_BOOKMARKS,
   UPDATE_BOOKMARKS_INREADING,
   UPDATE_LIKES_INREADING,
-  GET_PROFILE,
+  EDIT_COMMENT,
 } from './types';
 
 // Get posts
@@ -169,6 +169,42 @@ export const addComment = (postId, formData) => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
     toast.error(err.response.data.msg);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+
+// Edit comment
+export const editComment = (postId, commentId, formData) => async (
+  dispatch
+) => {
+  try {
+    const res = await api.put(
+      `/posts/comment/${postId}/${commentId}`,
+      formData
+    );
+
+    dispatch({
+      type: EDIT_COMMENT,
+      payload: {
+        id: postId,
+        data: res.data,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    toast.error(err.response.data.msg);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
   }
 };
 

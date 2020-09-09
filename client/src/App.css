@@ -354,20 +354,6 @@ button {
   align-items: center;
 }
 
-/* Landing Page */
-
-.landing-inner {
-  color: #fff;
-  height: 100%;
-  width: 80%;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
 /* Profiles Page */
 .profile {
   display: grid;
@@ -588,7 +574,8 @@ button {
   }
 }
 
-/* css for many component, -.- */
+/* css for many components, -.- */
+/* *back drop login popup,guide,image components */
 .backdrop {
   position: fixed;
   z-index: 999;
@@ -611,17 +598,23 @@ button {
   justify-content: center;
   border-radius: 5px;
   padding: 30px;
+  position: relative;
 }
 
 .backdrop .guide-markdown {
   margin: 100px auto;
   min-height: 60%;
-  width: 30%;
+  min-width: 30%;
+}
+.backdrop .edit-comment {
+  margin: 100px auto;
+  min-height: 33%;
+  min-width: 40%;
 }
 .backdrop .add-image {
   margin: 100px auto;
   min-height: 30%;
-  width: 30%;
+  min-width: 30%;
   padding: 30px;
 }
 .post-item img,
@@ -636,9 +629,7 @@ button {
 .comment-item .round-img {
   height: 40px;
 }
-/* .post-item {
-  line-height: 1.8;
-} */
+
 .progress-bar {
   height: 5px;
   background: #3b49df;
@@ -683,28 +674,11 @@ button {
 }
 .like-action:hover .btn-hover,
 .discuss-action:hover .btn-hover,
-.read-action:hover .btn-hover {
+.read-action:hover .btn-hover,
+.close-action:hover .btn-hover {
   background-color: var(--light-color);
 }
 
-.right-side-post {
-  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
-  border: unset;
-  border-radius: 5px;
-  padding: 15px;
-  height: auto;
-}
-
-.top-bar {
-  width: 100%;
-  height: 30px;
-  background-color: var(--dark-color);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-.user-info {
-  position: relative;
-}
 .btn-nav {
   margin-right: 15px;
 }
@@ -828,4 +802,30 @@ li:hover .action-feed_s {
 }
 .form-group.form-fix {
   margin-top: 6px;
+}
+/* post item  */
+.main-post-item,
+.side-post-item .box {
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  border: unset;
+  border-radius: 5px;
+}
+.main-post-item {
+  padding: 30px 60px;
+}
+.side-post-item .box {
+  padding: 15px;
+}
+/* .side-post-item {
+  position: fixed;
+  width: 290px;
+} */
+.top-bar {
+  height: 30px;
+  background-color: var(--dark-color);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.user-info {
+  position: relative;
 }

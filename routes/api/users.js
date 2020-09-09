@@ -449,10 +449,8 @@ router.put('/updateNewEmail', async (req, res) => {
 // @access   Private
 router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
-    const me = User.findById(req.user.id);
-    const user = User.findById(req.params.id);
-    console.log(me);
-    console.log(user);
+    const me = await User.findById(req.user.id);
+    const user = await User.findById(req.params.id);
     if (!me) {
       return res.status(404).json({ msg: 'User not found' });
     }

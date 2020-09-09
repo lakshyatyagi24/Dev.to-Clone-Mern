@@ -72,7 +72,7 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
     ]);
     const profile = await Profile.findOne({
       user: post.user.id,
-    }).select(['bio', 'title', 'locations', 'date']);
+    }).select(['bio', 'title', 'locations', 'date', 'id', 'user']);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated && localStorage.token) {
-      follow(profile._id);
+      follow(user._id);
     } else {
       setAuth(true);
     }
@@ -32,7 +32,8 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
             </Link>
           </div>
           {profile.bio && <div className='py-1-5'>{profile.bio}</div>}
-          {auth.isAuthenticated && data.following.includes(profile._id) ? (
+          {auth.isAuthenticated && auth.user._id === user._id ? 'EDIT' : ''}
+          {auth.isAuthenticated && data.following.includes(user._id) ? (
             <button
               onClick={handleFollow}
               style={{

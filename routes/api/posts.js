@@ -237,7 +237,7 @@ router.put(
   [
     auth,
     checkObjectId('id'),
-    [check('text', 'Text is required').not().isEmpty()],
+    [check('data', 'Text is required').not().isEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);

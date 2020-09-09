@@ -608,7 +608,7 @@ button {
 }
 .backdrop .edit-comment {
   margin: 100px auto;
-  min-height: 33%;
+  min-height: 30%;
   min-width: 40%;
 }
 .backdrop .add-image {

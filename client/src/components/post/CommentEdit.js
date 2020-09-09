@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { editComment } from '../../actions/post';
 
 const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
-  const [data, setData] = useState(comment);
+  const [text, setText] = useState(comment);
   const handleClick = (e) => {
     if (e.target.classList.contains('backdrop')) {
       setEdit(false);
@@ -13,19 +13,11 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
   return (
     <div className='backdrop' onClick={handleClick}>
       <div className='child edit-comment close-action'>
-        <button
-          onClick={() => setEdit(false)}
-          style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
-          className='btn btn-light btn-hover '
-        >
-          <i style={{ color: '#363c44' }} className='fas fa-times' />
-        </button>
         <form
-          className='form my-1'
+          className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            editComment(postId, comtId, { data });
-            setData('');
+            editComment(postId, comtId, { data: text });
             setEdit(false);
           }}
         >
@@ -33,8 +25,8 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
             name='text'
             rows='8'
             cols='80'
-            value={data}
-            onChange={(e) => setData(e.target.value)}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
             required
             style={{
               resize: 'none',
@@ -45,12 +37,13 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
               backgroundColor: '#eef0f1',
             }}
           />
-          <input
-            style={{ position: 'absolute', right: 0, marginRight: '28px' }}
-            type='submit'
-            className='btn btn-dark my-1'
-            value='Submit'
-          />
+          <input type='submit' className='btn btn-dark my-1' value='Submit' />
+          <button
+            onClick={() => setEdit(false)}
+            className='btn btn-light btn-hover '
+          >
+            <i style={{ color: '#363c44' }} className='fas fa-times' />
+          </button>
         </form>
       </div>
     </div>

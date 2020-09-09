@@ -43,7 +43,7 @@ const PostFeed = ({
           <div style={{ marginLeft: '10px' }}>
             <h5 className='text-dark'>{user.name}</h5>
             <p className='post-date'>
-              Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
+              Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
             </p>
           </div>
         </div>

@@ -92,7 +92,7 @@ const PostItem = ({
             className='post-date'
             style={{ alignSelf: 'flex-end', margin: '0' }}
           >
-            Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
+            Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
           </p>
         </div>
         <MarkdownPreview className='post-item' value={content} />

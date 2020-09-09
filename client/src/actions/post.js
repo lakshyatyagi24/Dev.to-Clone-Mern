@@ -120,15 +120,16 @@ export const addPost = (formData) => async (dispatch) => {
     toast.success('Publish post complete!');
     return true;
   } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    toast.error(err.response.data.msg);
     const errors = err.response.data.errors;
 
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
     }
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
     return false;
   }
 };
@@ -210,18 +211,20 @@ export const editComment = (postId, commentId, formData) => async (
 
 // Delete comment
 export const deleteComment = (postId, commentId) => async (dispatch) => {
-  try {
-    const res = await api.delete(`/posts/comment/${postId}/${commentId}`);
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      const res = await api.delete(`/posts/comment/${postId}/${commentId}`);
 
-    dispatch({
-      type: REMOVE_COMMENT,
-      payload: { commentId, postId, commentsCount: res.data.commentsCount },
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-    toast.error(err.response.data.msg);
+      dispatch({
+        type: REMOVE_COMMENT,
+        payload: { commentId, postId, commentsCount: res.data.commentsCount },
+      });
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+      toast.error(err.response.data.msg);
+    }
   }
 };

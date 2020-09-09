@@ -31,7 +31,7 @@ const CommentItem = ({
         }}
       >
         <p className='post-date' style={{ alignSelf: 'flex-end' }}>
-          Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
+          Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
         </p>
 
         {auth.isAuthenticated && user === auth.user._id && (

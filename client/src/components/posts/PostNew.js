@@ -72,6 +72,7 @@ const ResultArea = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  word-break: break-word;
 `;
 const Preview = styled.div`
   font-size: 22px;

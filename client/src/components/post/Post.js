@@ -25,6 +25,7 @@ const Post = ({ getPost, post: { post, loading }, profile, match }) => {
       <CommentForm setAuth={setAuth} postId={post._id} />
       <div className='post my-1'>
         <div></div>
+
         <div
           className='bg-white comment-item'
           style={{
@@ -35,6 +36,8 @@ const Post = ({ getPost, post: { post, loading }, profile, match }) => {
             borderRadius: '5px',
           }}
         >
+          <p className='text-dark my'>Comments ({post.commentsCount})</p>
+
           {post.comments.map((comment) => (
             <CommentItem
               key={comment._id}

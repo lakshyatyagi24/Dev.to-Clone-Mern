@@ -40,7 +40,7 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
           <button
             onClick={() => setEdit(false)}
-            className='btn btn-light btn-hover '
+            className='btn btn-light btn-hover'
           >
             <i style={{ color: '#363c44' }} className='fas fa-times' />
           </button>

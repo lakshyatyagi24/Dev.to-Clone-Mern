@@ -459,6 +459,10 @@ button {
 }
 
 /* Posts Page */
+.hljs {
+  padding: 1.5rem;
+  font-size: 1rem;
+}
 .post-form .post-form-header {
   background: var(--primary-color);
   padding: 0.5rem;
@@ -617,6 +621,9 @@ button {
   min-width: 30%;
   padding: 30px;
 }
+.post-item {
+  word-break: break-word;
+}
 .post-item img,
 .preview img,
 .comment-item img {
@@ -624,7 +631,7 @@ button {
   height: auto;
   border-radius: 5px;
   display: block;
-  margin: 8px auto;
+  margin-top: 5px;
 }
 .comment-item .round-img {
   height: 40px;
@@ -649,6 +656,7 @@ button {
   justify-content: center;
   align-items: center;
   width: 30px;
+  border-radius: 20px;
 }
 .error {
   color: var(--danger-color);
@@ -664,6 +672,7 @@ button {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
   border-radius: 5px;
+  word-break: break-word;
 }
 
 .title-hover:hover h3 {
@@ -783,6 +792,15 @@ li:hover .action-feed_s {
   align-items: center;
   border: 2px solid var(--dark-color);
 }
+.comment-area {
+  padding: 20px;
+  border: 1px solid rgba(8, 9, 10, 0.1);
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  word-break: break-word;
+}
 /* Settings */
 .settings {
   display: grid;
@@ -809,6 +827,7 @@ li:hover .action-feed_s {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
   border-radius: 5px;
+  word-break: break-word;
 }
 .main-post-item {
   padding: 30px 60px;

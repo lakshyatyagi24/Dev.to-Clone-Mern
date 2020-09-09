@@ -53,19 +53,15 @@ const CommentItem = ({
           </div>
         )}
       </div>
-      <div
-        style={{
-          padding: '20px',
-          border: '1px solid rgba(8, 9, 10, 0.1)',
-          display: 'grid',
-          gridTemplateColumns: '1fr 4fr',
-          marginBottom: '20px',
-          borderRadius: '5px',
-        }}
-      >
+      <div className='comment-area'>
         <div>
           <Link
-            style={{ display: 'flex', margin: '16px' }}
+            style={{
+              display: 'flex',
+              margin: '15px',
+              flexDirection: 'column-reverse',
+              wordBreak: 'break-word',
+            }}
             to={`/profile/user/${user}`}
           >
             <img
@@ -74,7 +70,7 @@ const CommentItem = ({
               alt=''
               style={{ borderRadius: '50%' }}
             />
-            <h6 style={{ marginLeft: '5px' }}>{name}</h6>
+            <h5 className='text-dark'>{name}</h5>
           </Link>
         </div>
         <div>

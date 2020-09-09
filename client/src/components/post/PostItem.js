@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -32,7 +32,10 @@ const PostItem = ({
   const decLikes = () => setLikes(likesState - 1);
   const incBookMarks = () => setBookMarks(bookmarksCount + 1);
   const decBookMarks = () => setBookMarks(bookmarksCount - 1);
-  console.log('render');
+  useEffect(() => {
+    setLikes(likesCount);
+    setBookMarks(bookmarksCount);
+  }, [likesCount, bookmarksCount]);
   const handleLikeAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);
@@ -71,7 +74,6 @@ const PostItem = ({
         <h1
           style={{
             fontSize: '3rem',
-            wordWrap: 'break-word',
           }}
           className='text-dark'
         >

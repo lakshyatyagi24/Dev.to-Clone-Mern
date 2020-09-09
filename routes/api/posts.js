@@ -72,7 +72,7 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
     ]);
     const profile = await Profile.findOne({
       user: post.user.id,
-    }).populate('user', ['name', 'avatar']);
+    }).select(['bio', 'title', 'locations', 'date']);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
@@ -131,7 +131,7 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
       post.likesCount = post.likesCount - 1;
     } else {
       post.likesCount = post.likesCount + 1;
-      post.likes = [...post.likes, req.user.id];
+      post.likes = [req.user.id, ...post.likes];
     }
 
     await post.save();
@@ -165,7 +165,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
       post.bookmarksCount = post.bookmarksCount - 1;
     } else {
       post.bookmarksCount = post.bookmarksCount + 1;
-      post.bookmarks = [...post.bookmarks, req.user.id];
+      post.bookmarks = [req.user.id, ...post.bookmarks];
     }
     await post.save();
     if (user.bookMarkedPosts.includes(req.params.id)) {
@@ -174,7 +174,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
       user.bookMarkedPostsCount = user.bookMarkedPostsCount - 1;
     } else {
       user.bookMarkedPostsCount = user.bookMarkedPostsCount + 1;
-      user.bookMarkedPosts = [...user.bookMarkedPosts, req.params.id];
+      user.bookMarkedPosts = [req.params.id, ...user.bookMarkedPosts];
     }
     await user.save();
     return res

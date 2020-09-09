@@ -8,7 +8,7 @@ import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 import LoginPopUp from '../auth/LoginPopUp';
 
-const Post = ({ getPost, post: { post, loading }, profile, match }) => {
+const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
     getPost(match.params.id);

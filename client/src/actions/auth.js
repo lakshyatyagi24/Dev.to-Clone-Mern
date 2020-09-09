@@ -8,6 +8,7 @@ import {
   LOGOUT,
   UPDATE_USER,
   CLEAR_PROFILE,
+  FOLLOW,
 } from './types';
 
 // Load User
@@ -24,6 +25,18 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
+//follow
+export const follow = (id) => async (dispatch) => {
+  try {
+    const res = await api.put(`/users/follow/${id}`);
+    const { following, followingCount, followers, followersCount } = res.data;
+    dispatch({
+      type: FOLLOW,
+      payload: { id, following, followingCount, followers, followersCount },
+    });
+  } catch (err) {}
+};
+
 export const updateUser = (formData) => async (dispatch) => {
   const { email } = formData;
   try {
@@ -35,7 +48,7 @@ export const updateUser = (formData) => async (dispatch) => {
     loadUser();
     if (email !== res.data.email) {
       toast.warning(
-        'You have changed your email!, an email has been sent to your new email, please sign out before you confirm the change'
+        'You have changed your email!, an email has been sent to your new email'
       );
     }
     toast.success('Update complete!');

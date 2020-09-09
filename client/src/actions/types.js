@@ -26,3 +26,4 @@ export const EDIT_COMMENT = 'EDIT_COMMENT';
 export const GET_COMMENT = 'GET_COMMENT';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 export const UPDATE_USER = 'UPDATE_USER';
+export const FOLLOW = 'FOLLOW';

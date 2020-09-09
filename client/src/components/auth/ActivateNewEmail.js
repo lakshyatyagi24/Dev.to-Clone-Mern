@@ -44,10 +44,6 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
     }
   };
 
-  if (localStorage.token) {
-    return <Redirect to='/' />;
-  }
-
   return (
     <Fragment>
       <div className='login-wrap active-acc'>

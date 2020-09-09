@@ -1,11 +1,19 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
-
-const SidePostItem = ({ user }) => {
+import { follow } from '../../actions/auth';
+import { connect } from 'react-redux';
+const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
+  const handleFollow = () => {
+    if (auth.isAuthenticated && localStorage.token) {
+      follow(profile._id);
+    } else {
+      setAuth(true);
+    }
+  };
   return (
-    <div>
-      <div className='side-post-item'>
+    <div className='side-post-item'>
+      <div className='side-post-item__wrap'>
         <div className='top-bar'></div>
         <div className='bg-white box'>
           <div className='user-info'>
@@ -23,10 +31,55 @@ const SidePostItem = ({ user }) => {
               </h5>
             </Link>
           </div>
+          {profile.bio && <div className='py-1-5'>{profile.bio}</div>}
+          {auth.isAuthenticated && data.following.includes(profile._id) ? (
+            <button
+              onClick={handleFollow}
+              style={{
+                height: '40px',
+                width: '100%',
+                marginTop: '20px',
+              }}
+              className='btn btn-light'
+            >
+              Following
+            </button>
+          ) : (
+            <button
+              onClick={handleFollow}
+              style={{
+                backgroundColor: 'royalblue',
+                height: '40px',
+                width: '100%',
+                marginTop: '20px',
+              }}
+              className='btn btn-dark'
+            >
+              Follow
+            </button>
+          )}
+
+          {profile.title && (
+            <div className='py'>
+              <div className='info-post-item'>Work</div>
+              {profile.title}
+            </div>
+          )}
+          {profile.locations && (
+            <div className='py'>
+              <div className='info-post-item'>Location</div>
+              {profile.locations}
+            </div>
+          )}
+          {profile.date && (
+            <div className='py'>
+              <div className='info-post-item'>Joined</div>
+              <Moment format='DD/MM/YYYY'>{profile.date}</Moment>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
-SidePostItem.propTypes = {};
-export default React.memo(SidePostItem);
+export default connect(null, { follow })(SidePostItem);

@@ -18,6 +18,7 @@ const {
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const auth = require('../../middleware/auth');
+const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/users
 // @desc     Register user
@@ -442,4 +443,51 @@ router.put('/updateNewEmail', async (req, res) => {
     });
   }
 });
+
+// @route    PUT api/users/follow
+// @desc     follow user
+// @access   Private
+router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
+  try {
+    const me = User.findById(req.user.id);
+    const user = User.findById(req.params.id);
+    console.log(me);
+    console.log(user);
+    if (!me) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    if (!user) {
+      return res.status(404).json({ msg: 'User not found' });
+    }
+    if (me.following.includes(req.params.id)) {
+      const index = me.following.indexOf(req.params.id);
+      me.following.splice(index, 1);
+      me.followingCount = me.followingCount - 1;
+
+      const index_f = user.followers.indexOf(req.user.id);
+      user.followers.splice(index_f, 1);
+      user.followersCount = user.followersCount - 1;
+    } else {
+      me.followingCount = me.followingCount + 1;
+      me.following = [req.params.id, ...me.following];
+
+      user.followersCount = user.followersCount + 1;
+      user.followers = [req.user.id, ...user.followers];
+    }
+
+    await user.save();
+    await me.save();
+
+    return res.json({
+      following: me.following,
+      followingCount: me.followingCount,
+      followers: user.followers,
+      followersCount: user.followersCount,
+    });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;

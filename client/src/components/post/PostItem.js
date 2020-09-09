@@ -23,6 +23,7 @@ const PostItem = ({
     bookmarksCount,
     date,
   },
+  profile,
   setAuth,
 }) => {
   const [likesState, setLikes] = useState(likesCount);
@@ -53,7 +54,7 @@ const PostItem = ({
     }
   };
   return (
-    <div className='post py-1'>
+    <div className='post py-1 post-main'>
       <ActionPostItem
         handleBookmarksAction={handleBookmarksAction}
         handleLikeAction={handleLikeAction}
@@ -100,7 +101,13 @@ const PostItem = ({
         <MarkdownPreview className='post-item' value={content} />
       </div>
 
-      <SidePostItem user={user} />
+      <SidePostItem
+        data={auth.user}
+        auth={auth}
+        user={user}
+        profile={profile}
+        setAuth={setAuth}
+      />
     </div>
   );
 };

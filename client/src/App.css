@@ -87,6 +87,9 @@ a {
 .py-1 {
   padding: 1rem 0;
 }
+.py-1-5 {
+  padding: 1.5rem 0 0 0;
+}
 .py-2 {
   padding: 2rem 0;
 }
@@ -112,6 +115,9 @@ a {
 }
 .my-1 {
   margin: 1rem 0;
+}
+.my-1-5 {
+  margin: 1.5rem 0 0 0;
 }
 .my-2 {
   margin: 2rem 0;
@@ -359,7 +365,7 @@ button {
   display: grid;
   grid-template-columns: 2fr 4fr 2fr;
   align-items: center;
-  grid-gap: 2rem;
+  gap: 2rem;
   padding: 1rem;
   line-height: 1.8;
   margin-bottom: 1rem;
@@ -373,7 +379,7 @@ button {
     "about about"
     "exp edu"
     "github github";
-  grid-gap: 1rem;
+  gap: 1rem;
 }
 
 .profile-top {
@@ -471,7 +477,7 @@ button {
 .post {
   display: grid;
   grid-template-columns: 1fr 11fr 4fr;
-  grid-gap: 1rem;
+  gap: 1rem;
   border: unset;
   border-radius: 5px;
 }
@@ -805,7 +811,7 @@ li:hover .action-feed_s {
 .settings {
   display: grid;
   grid-template-columns: 2fr 6fr;
-  grid-gap: 1rem;
+  gap: 1rem;
 }
 
 .main-setting {
@@ -829,22 +835,29 @@ li:hover .action-feed_s {
   border-radius: 5px;
   word-break: break-word;
 }
+.side-post-item {
+  display: block;
+}
+/* .side-post-item__wrap {
+
+} */
 .main-post-item {
   padding: 30px 60px;
 }
 .side-post-item .box {
   padding: 15px;
 }
-/* .side-post-item {
-  position: fixed;
-  width: 290px;
-} */
+
 .top-bar {
   height: 30px;
-  background-color: var(--dark-color);
+  background-color: royalblue;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
 .user-info {
   position: relative;
+}
+.info-post-item {
+  font-size: 0.8rem;
+  color: #64707d;
 }

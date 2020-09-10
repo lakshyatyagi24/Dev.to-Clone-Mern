@@ -73,7 +73,7 @@ const CommentItem = ({
             <h5 className='text-dark'>{name}</h5>
           </Link>
         </div>
-        <div>
+        <div className='comment-content'>
           <MarkdownPreview
             style={{ margin: '16px', wordWrap: 'break-word' }}
             value={text}

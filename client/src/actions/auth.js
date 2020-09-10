@@ -34,7 +34,12 @@ export const follow = (id) => async (dispatch) => {
       type: FOLLOW,
       payload: { id, following, followingCount, followers, followersCount },
     });
-  } catch (err) {}
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+    toast.error(err.response.data.msg);
+  }
 };
 
 export const updateUser = (formData) => async (dispatch) => {

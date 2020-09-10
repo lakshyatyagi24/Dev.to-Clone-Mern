@@ -6,8 +6,6 @@ import {
   ACCOUNT_DELETED,
   UPDATE_USER,
   FOLLOW,
-  // UPDATE_LIKES_INREADING,
-  // UPDATE_BOOKMARKS_INREADING,
 } from '../actions/types';
 
 const initialState = {
@@ -19,8 +17,6 @@ const initialState = {
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
-  let i;
-  let data;
   switch (type) {
     case UPDATE_USER:
     case USER_LOADED:
@@ -38,10 +34,6 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case FOLLOW:
-      // if(state.user.following.includes(payload.id)){
-      //   const index=state.user.following.indexOf(payload.id);
-      //   state.user.following.splice(index,1);
-      // }
       return {
         ...state,
         user: {

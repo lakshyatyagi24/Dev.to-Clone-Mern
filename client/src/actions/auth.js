@@ -28,12 +28,12 @@ export const loadUser = () => async (dispatch) => {
 //follow
 export const follow = (id) => async (dispatch) => {
   try {
-    const res = await api.put(`/users/follow/${id}`);
-    const { following, followingCount, followers, followersCount } = res.data;
-    dispatch({
-      type: FOLLOW,
-      payload: { id, following, followingCount, followers, followersCount },
-    });
+    await api.put(`/users/follow/${id}`);
+    // const { following, followingCount, followers, followersCount } = res.data;
+    // dispatch({
+    //   type: FOLLOW,
+    //   payload: { id, following, followingCount, followers, followersCount },
+    // });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

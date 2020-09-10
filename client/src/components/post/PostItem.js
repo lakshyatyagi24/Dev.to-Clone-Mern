@@ -31,8 +31,8 @@ const PostItem = ({
 
   const incLikes = () => setLikes(likesState + 1);
   const decLikes = () => setLikes(likesState - 1);
-  const incBookMarks = () => setBookMarks(bookmarksCount + 1);
-  const decBookMarks = () => setBookMarks(bookmarksCount - 1);
+  const incBookMarks = () => setBookMarks(bookmarksState + 1);
+  const decBookMarks = () => setBookMarks(bookmarksState - 1);
   useEffect(() => {
     setLikes(likesCount);
     setBookMarks(bookmarksCount);
@@ -53,6 +53,7 @@ const PostItem = ({
       return setAuth(false);
     }
   };
+  console.log('render');
   return (
     <div className='post py-1 post-main'>
       <ActionPostItem

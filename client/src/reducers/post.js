@@ -11,6 +11,7 @@ import {
   UPDATE_LIKES_INREADING,
   EDIT_COMMENT,
   FOLLOW,
+  REPLY_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -96,11 +97,11 @@ export default function (state = initialState, action) {
               }
             : post
         ),
-        post: {
-          ...data,
-          bookmarks: payload.bookmarks,
-          bookmarksCount: payload.bookmarksCount,
-        },
+        // post: {
+        //   ...data,
+        //   bookmarks: payload.bookmarks,
+        //   bookmarksCount: payload.bookmarksCount,
+        // },
         loading: false,
       };
     case UPDATE_LIKES_INREADING:
@@ -155,6 +156,23 @@ export default function (state = initialState, action) {
             : post
         ),
         loading: false,
+      };
+    case REPLY_COMMENT:
+      let comtslen = state.post.comments.length;
+      let comts;
+      for (i = 0; i < comtslen; ++i) {
+        if (state.post.comments[i] === payload.commentId) {
+          comts = state.post.comments[i];
+          break;
+        }
+      }
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          commentsCount: payload.commentsCount,
+          comments: [...state.post.comments, { ...comts, reply: payload.data }],
+        },
       };
     case EDIT_COMMENT:
       return {

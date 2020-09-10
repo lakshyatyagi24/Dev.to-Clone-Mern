@@ -643,9 +643,14 @@ button {
 
 .post-item img,
 .preview img {
-  margin: 15px 0;
+  margin: 12px 0;
 }
-
+.comment-infor {
+  width: fit-content;
+}
+.comment-infor:hover h5 {
+  color: royalblue;
+}
 .comment-item {
   overflow-x: hidden;
 }
@@ -653,7 +658,7 @@ button {
   overflow-x: auto;
 }
 .comment-item img {
-  margin: 5px 0;
+  margin: 8px 0;
 }
 .comment-item .round-img {
   height: 40px;
@@ -818,7 +823,7 @@ li:hover .action-feed_s {
   padding: 20px;
   border: 1px solid rgba(8, 9, 10, 0.1);
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  /* grid-template-columns: 1fr 4fr; */
   margin-bottom: 20px;
   border-radius: 5px;
   word-break: break-word;
@@ -844,7 +849,9 @@ li:hover .action-feed_s {
   margin-top: 6px;
 }
 /* post item  */
-
+.post-main {
+  align-items: unset;
+}
 .main-post-item,
 .side-post-item .box {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
@@ -852,11 +859,13 @@ li:hover .action-feed_s {
   border-radius: 5px;
   word-break: break-word;
 }
-.side-post-item {
+/* .side-post-item {
   display: block;
+  width: 290px;
 }
-/* .side-post-item__wrap {
-
+.side-post-item__wrap {
+  position: fixed;
+  width: inherit;
 } */
 .main-post-item {
   padding: 30px 60px;

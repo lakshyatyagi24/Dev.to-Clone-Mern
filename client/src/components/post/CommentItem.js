@@ -12,6 +12,7 @@ const CommentItem = ({
   comment: { _id, text, name, avatar, user, date },
   auth,
   deleteComment,
+  userId,
 }) => {
   const [edit, setEdit] = useState(false);
   return (
@@ -54,12 +55,10 @@ const CommentItem = ({
         )}
       </div>
       <div className='comment-area'>
-        <div>
+        <div className='comment-infor'>
           <Link
             style={{
               display: 'flex',
-              margin: '15px',
-              flexDirection: 'column-reverse',
               wordBreak: 'break-word',
             }}
             to={`/profile/user/${user}`}
@@ -71,6 +70,17 @@ const CommentItem = ({
               style={{ borderRadius: '50%' }}
             />
             <h5 className='text-dark'>{name}</h5>
+            {userId === user && (
+              <h5
+                style={{
+                  color: 'royalblue',
+                  fontWeight: '700',
+                  marginLeft: '4px',
+                }}
+              >
+                @Author
+              </h5>
+            )}
           </Link>
         </div>
         <div className='comment-content'>

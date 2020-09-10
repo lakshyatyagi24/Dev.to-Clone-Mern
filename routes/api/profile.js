@@ -30,7 +30,7 @@ router.get('/me', auth, async (req, res) => {
   }
 });
 
-// @route    POST api/profile
+// @route    PUT api/profile
 // @desc     Update user profile
 // @access   Private
 router.put('/', auth, async (req, res) => {
@@ -62,8 +62,6 @@ router.put('/', auth, async (req, res) => {
     title,
     education,
   };
-
-  // Build social object and add to profileFields
   const socialfields = {
     youtube,
     twitter,
@@ -80,7 +78,6 @@ router.put('/', auth, async (req, res) => {
   profileFields.social = socialfields;
 
   try {
-    // Using upsert option (creates new doc if no match is found):
     let profile = await Profile.findOneAndUpdate(
       { user: req.user.id },
       { $set: profileFields },
@@ -144,27 +141,6 @@ router.delete('/', auth, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
-  }
-});
-
-// @route    GET api/profile/github/:username
-// @desc     Get user repos from Github
-// @access   Public
-router.get('/github/:username', async (req, res) => {
-  try {
-    const uri = encodeURI(
-      `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
-    );
-    const headers = {
-      'user-agent': 'node.js',
-      Authorization: `token${config.get('githubToken')}`,
-    };
-
-    const gitHubResponse = await axios.get(uri, { headers });
-    return res.json(gitHubResponse.data);
-  } catch (err) {
-    console.error(err.message);
-    return res.status(404).json({ msg: 'No Github profile found' });
   }
 });
 

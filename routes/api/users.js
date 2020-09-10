@@ -152,7 +152,7 @@ router.post('/activate', async (req, res) => {
   }
 });
 
-// @route    POST api/users/forget
+// @route    PUT api/users/forget
 // @desc     Send request for reset pwd
 // @access   Public
 
@@ -230,7 +230,7 @@ router.put('/password/forget', forgotPasswordValidator, async (req, res) => {
   }
 });
 
-// @route    POST api/users/reset
+// @route    PUT api/users/reset
 // @desc     Confirm reset pwd
 // @access   Public
 router.put('/password/reset', resetPasswordValidator, async (req, res) => {
@@ -401,7 +401,7 @@ router.put('/update', auth, async (req, res) => {
 
 // @route    PUT api/users/updateNewEmail
 // @desc     Update user
-// @access   Private
+// @access   Public
 router.put('/updateNewEmail', async (req, res) => {
   const { token } = req.body;
   if (token) {
@@ -451,6 +451,9 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const me = await User.findById(req.user.id);
     const user = await User.findById(req.params.id);
+    if (req.user.id === req.params.id) {
+      return;
+    }
     if (!me) {
       return res.status(404).json({ msg: 'User not found' });
     }

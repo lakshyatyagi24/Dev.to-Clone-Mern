@@ -43,6 +43,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
               key={comment._id}
               comment={comment}
               postId={post._id}
+              userId={post.user._id}
             />
           ))}
         </div>

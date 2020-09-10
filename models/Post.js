@@ -38,6 +38,27 @@ const PostSchema = new Schema({
         type: Date,
         default: Date.now,
       },
+      reply: [
+        {
+          user_reply: {
+            type: Schema.Types.ObjectId,
+          },
+          text_reply: {
+            type: String,
+            required: true,
+          },
+          name_reply: {
+            type: String,
+          },
+          avatar_reply: {
+            type: String,
+          },
+          date_reply: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
     },
   ],
   commentsCount: {

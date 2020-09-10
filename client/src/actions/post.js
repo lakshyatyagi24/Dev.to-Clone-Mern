@@ -9,9 +9,10 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   UPDATE_BOOKMARKS,
-  UPDATE_BOOKMARKS_INREADING,
-  UPDATE_LIKES_INREADING,
+  // UPDATE_BOOKMARKS_INREADING,
+  // UPDATE_LIKES_INREADING,
   EDIT_COMMENT,
+  REPLY_COMMENT,
 } from './types';
 
 // Get posts
@@ -34,11 +35,11 @@ export const getPosts = () => async (dispatch) => {
 // Add like
 export const addLikeInReading = (id) => async (dispatch) => {
   try {
-    const res = await api.put(`/posts/like/${id}`);
-    dispatch({
-      type: UPDATE_LIKES_INREADING,
-      payload: { id, likes: res.data.likes, likesCount: res.data.likesCount },
-    });
+    await api.put(`/posts/like/${id}`);
+    // dispatch({
+    //   type: UPDATE_LIKES_INREADING,
+    //   payload: { id, likes: res.data.likes, likesCount: res.data.likesCount },
+    // });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -51,15 +52,15 @@ export const addLikeInReading = (id) => async (dispatch) => {
 // Add book mark
 export const addBookmarks = (id) => async (dispatch) => {
   try {
-    const res = await api.put(`/posts/bookmarks/${id}`);
-    dispatch({
-      type: UPDATE_BOOKMARKS,
-      payload: {
-        id,
-        bookmarks: res.data.bookmarks,
-        bookmarksCount: res.data.bookmarksCount,
-      },
-    });
+    await api.put(`/posts/bookmarks/${id}`);
+    // dispatch({
+    //   type: UPDATE_BOOKMARKS,
+    //   payload: {
+    //     id,
+    //     bookmarks: res.data.bookmarks,
+    //     bookmarksCount: res.data.bookmarksCount,
+    //   },
+    // });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -73,15 +74,15 @@ export const addBookmarks = (id) => async (dispatch) => {
 // Add book mark
 export const addBookmarksInReading = (id) => async (dispatch) => {
   try {
-    const res = await api.put(`/posts/bookmarks/${id}`);
-    dispatch({
-      type: UPDATE_BOOKMARKS_INREADING,
-      payload: {
-        id,
-        bookmarks: res.data.bookmarks,
-        bookmarksCount: res.data.bookmarksCount,
-      },
-    });
+    await api.put(`/posts/bookmarks/${id}`);
+    // dispatch({
+    //   type: UPDATE_BOOKMARKS_INREADING,
+    //   payload: {
+    //     id,
+    //     bookmarks: res.data.bookmarks,
+    //     bookmarksCount: res.data.bookmarksCount,
+    //   },
+    // });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -161,6 +162,39 @@ export const addComment = (postId, formData) => async (dispatch) => {
       payload: {
         id: postId,
         data: res.data.comments,
+        commentsCount: res.data.commentsCount,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    toast.error(err.response.data.msg);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+
+// Add comment
+export const replyComment = (postId, commentId, formData) => async (
+  dispatch
+) => {
+  try {
+    const res = await api.post(
+      `/posts/comment/${postId}/${commentId}`,
+      formData
+    );
+
+    dispatch({
+      type: REPLY_COMMENT,
+      payload: {
+        commentId,
+        postId,
+        data: res.data.reply,
         commentsCount: res.data.commentsCount,
       },
     });

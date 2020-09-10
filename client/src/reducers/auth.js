@@ -60,38 +60,7 @@ export default function (state = initialState, action) {
         loading: false,
         user: null,
       };
-    // case UPDATE_LIKES_INREADING:
-    //   let postsLengthLike = state.user.posts.length;
-    //   for (i = 0; i < postsLengthLike; ++i) {
-    //     if (state.user.posts[i]._id === payload.id) {
-    //       data = state.user.posts[i];
-    //       break;
-    //     }
-    //   }
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     user: {
-    //       ...state.user,
-    //       posts: [{ ...data, likesCount: payload.likesCount }],
-    //     },
-    //   };
-    // case UPDATE_BOOKMARKS_INREADING:
-    //   let postsLengthBM = state.user.posts.length;
-    //   for (i = 0; i < postsLengthBM; ++i) {
-    //     if (state.user.posts[i]._id === payload.id) {
-    //       data = state.user.posts[i];
-    //       break;
-    //     }
-    //   }
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     user: {
-    //       ...state.user,
-    //       posts: [{ ...data, bookmarksCount: payload.bookmarksCount }],
-    //     },
-    //   };
+
     default:
       return state;
   }

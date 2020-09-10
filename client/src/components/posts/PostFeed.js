@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -23,8 +23,11 @@ const PostFeed = ({
 }) => {
   const [bookmarksState, setBookMarks] = useState(bookmarksCount);
 
-  const incBookMarks = () => setBookMarks(bookmarksCount + 1);
-  const decBookMarks = () => setBookMarks(bookmarksCount - 1);
+  const incBookMarks = () => setBookMarks(bookmarksState + 1);
+  const decBookMarks = () => setBookMarks(bookmarksState - 1);
+  useEffect(() => {
+    setBookMarks(bookmarksCount);
+  }, [bookmarksCount]);
   const handleBookmarksAction = () => {
     if (!auth.isAuthenticated && !localStorage.token) {
       return setAuth(true);

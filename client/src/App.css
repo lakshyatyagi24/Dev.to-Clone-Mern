@@ -637,7 +637,13 @@ button {
   height: auto;
   border-radius: 5px;
   display: block;
-  margin-top: 5px;
+}
+.post-item img,
+.preview img {
+  margin: 15px 0;
+}
+.comment-item img {
+  margin: 5px 0;
 }
 .comment-item .round-img {
   height: 40px;
@@ -662,7 +668,7 @@ button {
   justify-content: center;
   align-items: center;
   width: 30px;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .error {
   color: var(--danger-color);

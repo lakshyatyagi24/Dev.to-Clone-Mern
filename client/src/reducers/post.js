@@ -10,6 +10,7 @@ import {
   UPDATE_BOOKMARKS_INREADING,
   UPDATE_LIKES_INREADING,
   EDIT_COMMENT,
+  FOLLOW,
 } from '../actions/types';
 
 const initialState = {
@@ -55,6 +56,19 @@ export default function (state = initialState, action) {
         ...state,
         posts: [...state.posts],
         loading: false,
+      };
+    case FOLLOW:
+      return {
+        ...state,
+        loading: false,
+        post: {
+          ...state.post,
+          user: {
+            ...state.post.user,
+            followers: payload.followers,
+            followersCount: payload.followersCount,
+          },
+        },
       };
     case POST_ERROR:
       return {

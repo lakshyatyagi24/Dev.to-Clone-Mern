@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { follow } from '../../actions/auth';
@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated && localStorage.token) {
-      follow(user._id);
+      return follow(user._id);
     } else {
-      setAuth(true);
+      return setAuth(true);
     }
   };
   return (
@@ -32,14 +32,33 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
             </Link>
           </div>
           {profile.bio && <div className='py-1-5'>{profile.bio}</div>}
-          {auth.isAuthenticated && auth.user._id === user._id ? 'EDIT' : ''}
-          {auth.isAuthenticated && data.following.includes(user._id) ? (
+          {auth.isAuthenticated && auth.user._id === user._id && (
+            <Link
+              style={{
+                height: '40px',
+                width: '100%',
+                margin: '20px 0 0 0',
+                textAlign: 'center',
+              }}
+              className='btn btn-dark'
+              to='/settings'
+            >
+              Edit
+            </Link>
+          )}
+          {auth.isAuthenticated &&
+          (data.following.some((item) => item._id === user._id) ||
+            user.followers.includes(auth.user._id)) ? (
             <button
               onClick={handleFollow}
               style={{
                 height: '40px',
                 width: '100%',
-                marginTop: '20px',
+                margin: '20px 0 0 0',
+                display:
+                  auth.isAuthenticated && auth.user._id === user._id
+                    ? 'none'
+                    : '',
               }}
               className='btn btn-light'
             >
@@ -52,7 +71,11 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
                 backgroundColor: 'royalblue',
                 height: '40px',
                 width: '100%',
-                marginTop: '20px',
+                margin: '20px 0 0 0',
+                display:
+                  auth.isAuthenticated && auth.user._id === user._id
+                    ? 'none'
+                    : '',
               }}
               className='btn btn-dark'
             >
@@ -72,12 +95,11 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
               {profile.locations}
             </div>
           )}
-          {profile.date && (
-            <div className='py'>
-              <div className='info-post-item'>Joined</div>
-              <Moment format='DD/MM/YYYY'>{profile.date}</Moment>
-            </div>
-          )}
+
+          <div className='py'>
+            <div className='info-post-item'>Joined</div>
+            <Moment format='DD/MM/YYYY'>{profile.date}</Moment>
+          </div>
         </div>
       </div>
     </div>

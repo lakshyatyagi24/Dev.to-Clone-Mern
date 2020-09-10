@@ -3,10 +3,12 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { follow } from '../../actions/auth';
 import { connect } from 'react-redux';
+import ActionFollow from './ActionFollow';
 const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated && localStorage.token) {
-      return follow(user._id);
+      follow(user._id);
+      return setAuth(false);
     } else {
       return setAuth(true);
     }
@@ -46,42 +48,18 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
               Edit
             </Link>
           )}
-          {auth.isAuthenticated &&
-          (data.following.some((item) => item._id === user._id) ||
-            user.followers.includes(auth.user._id)) ? (
-            <button
-              onClick={handleFollow}
-              style={{
-                height: '40px',
-                width: '100%',
-                margin: '20px 0 0 0',
-                display:
-                  auth.isAuthenticated && auth.user._id === user._id
-                    ? 'none'
-                    : '',
-              }}
-              className='btn btn-light'
-            >
-              Following
-            </button>
-          ) : (
-            <button
-              onClick={handleFollow}
-              style={{
-                backgroundColor: 'royalblue',
-                height: '40px',
-                width: '100%',
-                margin: '20px 0 0 0',
-                display:
-                  auth.isAuthenticated && auth.user._id === user._id
-                    ? 'none'
-                    : '',
-              }}
-              className='btn btn-dark'
-            >
-              Follow
-            </button>
-          )}
+          <ActionFollow
+            setAuth={setAuth}
+            user={user}
+            handleFollow={handleFollow}
+            auth={auth}
+            isFollowing={
+              auth.user === null
+                ? null
+                : data.following.some((item) => item._id === user._id) ||
+                  user.followers.includes(auth.user._id)
+            }
+          />
 
           {profile.title && (
             <div className='py'>

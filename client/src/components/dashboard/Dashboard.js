@@ -1,34 +1,40 @@
-import React, { Fragment, useEffect } from 'react';
-// import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import PostItem from './PostItem';
+import PropTypes from 'prop-types';
 
-const Dashboard = ({
-  getCurrentProfile,
-  deleteAccount,
-  auth: { user },
-  profile: { profile },
-}) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
-
-  return <Fragment></Fragment>;
-};
-
+function Dashboard({ auth, user }) {
+  return (
+    <div className='dashboard my-1'>
+      <div className='dashboard__wrap'>
+        <h1 className='dashboard__title text-dark'>Dashboard</h1>
+        <div className='dashboard__content my-1'>
+          <aside className='dashboard__side'>
+            <div className='dashboard__side-wrap'></div>
+          </aside>
+          <div className='dashboard__main'>
+            <div className='dashboard__main-wrap'>
+              <h3 className='text-dark'>Posts</h3>
+              <div className='post-list'>
+                {user.posts.map((post) => (
+                  <PostItem key={post._id} post={post} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 Dashboard.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  profile: state.profile,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Dashboard
-);
+export default connect(mapStateToProps)(Dashboard);

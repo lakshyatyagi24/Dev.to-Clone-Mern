@@ -146,7 +146,7 @@ const CommentItem = ({
       </div>
       {showReply && (
         <div
-          style={{ marginTop: reply.length > 0 ? '-20px' : '' }}
+          style={{ marginTop: reply.length > 0 ? '-35px' : '' }}
           className='reply-area'
         >
           {reply.map((rep) => (

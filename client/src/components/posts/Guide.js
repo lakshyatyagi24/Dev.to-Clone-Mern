@@ -2,13 +2,13 @@ import React from 'react';
 import { MarkdownPreview } from 'react-marked-markdown';
 
 const Guide = ({ setGuide }) => {
-  const handleClick = (e) => {
-    if (e.target.classList.contains('backdrop')) {
-      setGuide(false);
-    }
-  };
+  // const handleClick = (e) => {
+  //   if (e.target.classList.contains('backdrop')) {
+  //     setGuide(false);
+  //   }
+  // };
   return (
-    <div className='backdrop' onClick={handleClick}>
+    <div className='backdrop'>
       <div className='child guide-markdown close-action'>
         <button
           onClick={() => setGuide(false)}

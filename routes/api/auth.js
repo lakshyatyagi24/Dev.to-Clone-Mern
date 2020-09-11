@@ -15,8 +15,18 @@ router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
       .select('-password')
-      .populate('posts', ['likesCount', 'bookmarksCount'])
-      .populate('bookmarksCount', ['likesCount', 'bookmarksCount'])
+      .populate('posts', [
+        'title',
+        'likesCount',
+        'bookmarksCount',
+        'date',
+        'commentsCount',
+      ])
+      .populate({
+        path: 'bookMarkedPosts',
+        select: 'title',
+        populate: { path: 'user', select: ['name', 'avatar'] },
+      })
       .populate('followers', ['avatar', 'name'])
       .populate('following', ['avatar', 'name']);
     if (!user) {

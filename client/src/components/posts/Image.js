@@ -14,11 +14,11 @@ const Image = ({ setImage }) => {
     e.target.focus();
     setCopySuccess('Copied!');
   };
-  const handleClick = (e) => {
-    if (e.target.classList.contains('backdrop')) {
-      setImage(false);
-    }
-  };
+  // const handleClick = (e) => {
+  //   if (e.target.classList.contains('backdrop')) {
+  //     setImage(false);
+  //   }
+  // };
   const changeHandler = (e) => {
     let selected = e.target.files[0];
     if (selected && types.includes(selected.type)) {
@@ -30,7 +30,7 @@ const Image = ({ setImage }) => {
     }
   };
   return (
-    <div className='backdrop' onClick={handleClick}>
+    <div className='backdrop'>
       <div className='child add-image close-action'>
         <button
           onClick={() => setImage(false)}

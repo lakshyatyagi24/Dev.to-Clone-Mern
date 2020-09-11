@@ -14,7 +14,6 @@ import {
   EDIT_COMMENT,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
-  EDIT_REPLY_COMMENT,
 } from './types';
 
 // Get posts
@@ -96,18 +95,21 @@ export const addBookmarksInReading = (id) => async (dispatch) => {
 
 // Delete post
 export const deletePost = (id) => async (dispatch) => {
-  try {
-    await api.delete(`/posts/${id}`);
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      await api.delete(`/posts/${id}`);
 
-    dispatch({
-      type: DELETE_POST,
-      payload: id,
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
+      dispatch({
+        type: DELETE_POST,
+        payload: id,
+      });
+      window.location.reload(false);
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
   }
 };
 
@@ -259,7 +261,7 @@ export const editReplyComment = (
     );
 
     dispatch({
-      type: EDIT_REPLY_COMMENT,
+      type: EDIT_COMMENT,
       payload: {
         id: postId,
         data: res.data,

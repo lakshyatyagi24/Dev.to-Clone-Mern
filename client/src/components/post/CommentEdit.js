@@ -6,13 +6,13 @@ import { editComment } from '../../actions/post';
 const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
   const [text, setText] = useState(comment);
 
-  const handleClick = (e) => {
-    if (e.target.classList.contains('backdrop')) {
-      setEdit(false);
-    }
-  };
+  // const handleClick = (e) => {
+  //   if (e.target.classList.contains('backdrop')) {
+  //     setEdit(false);
+  //   }
+  // };
   return (
-    <div className='backdrop' onClick={handleClick}>
+    <div className='backdrop'>
       <div className='child edit-comment close-action'>
         <form
           className='form'

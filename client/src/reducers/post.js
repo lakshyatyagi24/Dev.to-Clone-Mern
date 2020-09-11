@@ -13,7 +13,6 @@ import {
   // FOLLOW,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
-  EDIT_REPLY_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -47,17 +46,9 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case DELETE_POST:
-      let postLengths = state.posts.length;
-      let i;
-      for (i = 0; i < postLengths; ++i) {
-        if (state.posts[i]._id === payload) {
-          state.posts.splice(i, 1);
-          break;
-        }
-      }
       return {
         ...state,
-        posts: [...state.posts],
+        posts: state.posts.filter((post) => post._id !== payload),
         loading: false,
       };
     case POST_ERROR:
@@ -91,15 +82,6 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case EDIT_COMMENT:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          comments: payload.data,
-        },
-        loading: false,
-      };
-    case EDIT_REPLY_COMMENT:
       return {
         ...state,
         post: {

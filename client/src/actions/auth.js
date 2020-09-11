@@ -8,7 +8,6 @@ import {
   LOGOUT,
   UPDATE_USER,
   CLEAR_PROFILE,
-  // FOLLOW,
 } from './types';
 
 // Load User
@@ -29,11 +28,6 @@ export const loadUser = () => async (dispatch) => {
 export const follow = (id) => async (dispatch) => {
   try {
     await api.put(`/users/follow/${id}`);
-    // const { following, followingCount, followers, followersCount } = res.data;
-    // dispatch({
-    //   type: FOLLOW,
-    //   payload: { id, following, followingCount, followers, followersCount },
-    // });
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,

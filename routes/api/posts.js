@@ -107,6 +107,11 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: { posts: req.params.id },
+      $inc: { postCount: -1 },
+    });
+
     await post.remove();
 
     return res.json({ msg: 'Post removed' });

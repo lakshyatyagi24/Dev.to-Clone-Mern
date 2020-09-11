@@ -15,13 +15,17 @@ router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
       .select('-password')
-      .populate('posts', [
-        'title',
-        'likesCount',
-        'bookmarksCount',
-        'date',
-        'commentsCount',
-      ])
+      .populate({
+        path: 'posts',
+        select: [
+          'title',
+          'likesCount',
+          'bookmarksCount',
+          'date',
+          'commentsCount',
+        ],
+        options: { sort: { date: -1 } },
+      })
       .populate({
         path: 'bookMarkedPosts',
         select: 'title',

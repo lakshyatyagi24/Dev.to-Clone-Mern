@@ -8,12 +8,11 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  // UPDATE_BOOKMARKS,
-  // UPDATE_BOOKMARKS_INREADING,
-  // UPDATE_LIKES_INREADING,
   EDIT_COMMENT,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
+  USER_DELETE_POST,
+  USER_ADD_POST,
 } from './types';
 
 // Get posts
@@ -37,10 +36,6 @@ export const getPosts = () => async (dispatch) => {
 export const addLikeInReading = (id) => async (dispatch) => {
   try {
     await api.put(`/posts/like/${id}`);
-    // dispatch({
-    //   type: UPDATE_LIKES_INREADING,
-    //   payload: { id, likes: res.data.likes, likesCount: res.data.likesCount },
-    // });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -54,14 +49,6 @@ export const addLikeInReading = (id) => async (dispatch) => {
 export const addBookmarks = (id) => async (dispatch) => {
   try {
     await api.put(`/posts/bookmarks/${id}`);
-    // dispatch({
-    //   type: UPDATE_BOOKMARKS,
-    //   payload: {
-    //     id,
-    //     bookmarks: res.data.bookmarks,
-    //     bookmarksCount: res.data.bookmarksCount,
-    //   },
-    // });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -76,14 +63,6 @@ export const addBookmarks = (id) => async (dispatch) => {
 export const addBookmarksInReading = (id) => async (dispatch) => {
   try {
     await api.put(`/posts/bookmarks/${id}`);
-    // dispatch({
-    //   type: UPDATE_BOOKMARKS_INREADING,
-    //   payload: {
-    //     id,
-    //     bookmarks: res.data.bookmarks,
-    //     bookmarksCount: res.data.bookmarksCount,
-    //   },
-    // });
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -103,7 +82,10 @@ export const deletePost = (id) => async (dispatch) => {
         type: DELETE_POST,
         payload: id,
       });
-      window.location.reload(false);
+      dispatch({
+        type: USER_DELETE_POST,
+        payload: id,
+      });
     } catch (err) {
       dispatch({
         type: POST_ERROR,
@@ -120,6 +102,10 @@ export const addPost = (formData) => async (dispatch) => {
 
     dispatch({
       type: ADD_POST,
+      payload: res.data,
+    });
+    dispatch({
+      type: USER_ADD_POST,
       payload: res.data,
     });
     toast.success('Publish post complete!');

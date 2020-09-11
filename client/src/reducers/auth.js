@@ -5,7 +5,8 @@ import {
   LOGOUT,
   ACCOUNT_DELETED,
   UPDATE_USER,
-  // FOLLOW,
+  USER_DELETE_POST,
+  USER_ADD_POST,
 } from '../actions/types';
 
 const initialState = {
@@ -40,6 +41,37 @@ export default function (state = initialState, action) {
         isAuthenticated: false,
         loading: false,
         user: null,
+      };
+    case USER_DELETE_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          posts: state.user.posts.filter((post) => post._id !== payload),
+          postCount: state.user.postCount - 1,
+        },
+
+        loading: false,
+      };
+    case USER_ADD_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          posts: [
+            {
+              date: payload.date,
+              title: payload.title,
+              likesCount: payload.likesCount,
+              bookmarksCount: payload.bookmarksCount,
+              commentsCount: payload.commentsCount,
+              _id: payload._id,
+            },
+            ...state.user.posts,
+          ],
+          postCount: state.user.postCount + 1,
+        },
+        loading: false,
       };
     case AUTH_ERROR:
     case LOGOUT:

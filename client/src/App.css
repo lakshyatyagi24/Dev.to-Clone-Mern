@@ -221,14 +221,22 @@ a {
 .badge-light {
   border: #ccc solid 1px;
 }
+.round-img,
+.round-img-dashboard,
+.round-img-feed {
+  border-radius: 50%;
+}
 
 .round-img {
-  border-radius: 50%;
   width: 40px;
   height: 40px;
 }
+.round-img-dashboard {
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+}
 .round-img-feed {
-  border-radius: 50%;
   width: 40px;
   height: 40px;
 }
@@ -731,6 +739,7 @@ button {
 
 .btn-nav {
   margin-right: 15px;
+  background-color: royalblue;
 }
 .comment-nav,
 .chat-nav {
@@ -903,19 +912,13 @@ li:hover .action-feed_s {
   color: #64707d;
 }
 /* Dash board */
-/* .dashboard {
-} */
+
 .dashboard__content {
   display: grid;
-  grid-template-columns: 2fr 6fr;
+  grid-template-columns: 2fr 7fr;
   gap: 1rem;
 }
-/* .dashboard__side {
-  background-color: rosybrown;
-  height: 300px;
-} */
-.dashboard__main {
-}
+
 .post-list__item {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
@@ -934,4 +937,34 @@ li:hover .action-feed_s {
 }
 .action-button {
   justify-content: flex-end;
+}
+/* followers */
+.followers__main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+.followers__item {
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  border: unset;
+  border-radius: 5px;
+  word-break: break-word;
+}
+.followers__item-wrap {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.follower-name {
+  color: royalblue;
+  font-weight: 600;
+  padding: 10px;
+}
+.count-dashboard {
+  height: 25px;
+  min-width: 20px;
+  background-color: #d2d6db;
+  border-radius: 30%;
+  text-align: center;
 }

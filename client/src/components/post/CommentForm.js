@@ -31,7 +31,7 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
             name='text'
             cols='30'
             rows='6'
-            placeholder='Comment the post'
+            placeholder='Login to post comments'
             value={text}
             onChange={(e) => setText(e.target.value)}
             required

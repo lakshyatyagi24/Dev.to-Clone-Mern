@@ -5,7 +5,7 @@ import {
   LOGOUT,
   ACCOUNT_DELETED,
   UPDATE_USER,
-  FOLLOW,
+  // FOLLOW,
 } from '../actions/types';
 
 const initialState = {
@@ -31,16 +31,6 @@ export default function (state = initialState, action) {
         ...state,
         ...payload,
         isAuthenticated: true,
-        loading: false,
-      };
-    case FOLLOW:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          following: payload.following,
-          followingCount: payload.followingCount,
-        },
         loading: false,
       };
     case ACCOUNT_DELETED:

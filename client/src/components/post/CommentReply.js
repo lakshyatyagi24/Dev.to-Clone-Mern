@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editComment } from '../../actions/post';
+import { replyComment } from '../../actions/post';
 
-const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
-  const [text, setText] = useState(comment);
-
+const CommentReply = ({ setReply, tagName, replyComment, postId, comtId }) => {
+  const [text, setText] = useState('');
   const handleClick = (e) => {
     if (e.target.classList.contains('backdrop')) {
-      setEdit(false);
+      setReply(false);
     }
   };
   return (
@@ -18,11 +17,12 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            editComment(postId, comtId, { data: text });
-            setEdit(false);
+            replyComment(postId, comtId, { data: text });
+            setReply(false);
           }}
         >
           <textarea
+            placeholder={'@' + tagName}
             name='text'
             rows='8'
             cols='80'
@@ -40,7 +40,7 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
           />
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
           <button
-            onClick={() => setEdit(false)}
+            onClick={() => setReply(false)}
             className='btn btn-light btn-hover'
           >
             <i style={{ color: '#363c44' }} className='fas fa-times' />
@@ -50,9 +50,9 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
     </div>
   );
 };
-CommentEdit.propTypes = {
-  comment: PropTypes.string.isRequired,
-  editComment: PropTypes.func.isRequired,
+CommentReply.propTypes = {
+  tagName: PropTypes.string.isRequired,
+  replyComment: PropTypes.func.isRequired,
 };
 
-export default connect(null, { editComment })(CommentEdit);
+export default connect(null, { replyComment })(CommentReply);

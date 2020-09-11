@@ -8,7 +8,7 @@ import {
   LOGOUT,
   UPDATE_USER,
   CLEAR_PROFILE,
-  FOLLOW,
+  // FOLLOW,
 } from './types';
 
 // Load User

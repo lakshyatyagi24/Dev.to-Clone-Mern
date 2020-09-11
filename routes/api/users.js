@@ -479,12 +479,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
     await user.save();
     await me.save();
 
-    return res.json({
-      following: me.following,
-      followingCount: me.followingCount,
-      followers: user.followers,
-      followersCount: user.followersCount,
-    });
+    return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

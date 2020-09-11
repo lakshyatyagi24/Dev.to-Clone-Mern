@@ -138,9 +138,7 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 
     await post.save();
 
-    return res
-      .status(200)
-      .json({ likes: post.likes, likesCount: post.likesCount });
+    return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -179,9 +177,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     await post.save();
     await user.save();
-    return res
-      .status(200)
-      .json({ bookmarks: post.bookmarks, bookmarksCount: post.bookmarksCount });
+    return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -238,14 +234,13 @@ router.post(
   [
     auth,
     checkObjectId('id'),
-    [check('text', 'Text is required').not().isEmpty()],
+    [check('data', 'Text is required').not().isEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     try {
       const user = await User.findById(req.user.id).select('-password');
       const post = await Post.findById(req.params.id);
@@ -254,18 +249,15 @@ router.post(
       let getComments = [];
       for (i = 0; i < commentsLength; ++i) {
         if (post.comments[i].id === req.params.comment_id) {
-          if (post.comments[i].user.toString() !== req.user.id) {
-            return res.status(401).json({ msg: 'User not authorized' });
-          }
           getComments = post.comments[i];
           break;
         }
       }
       const newComment = {
-        text: req.body.text,
-        name: user.name,
-        avatar: user.avatar,
-        user: req.user.id,
+        text_reply: req.body.data,
+        name_reply: user.name,
+        avatar_reply: user.avatar,
+        user_reply: req.user.id,
       };
       getComments.reply = [...getComments.reply, newComment];
       post.commentsCount = post.commentsCount + 1;
@@ -273,6 +265,96 @@ router.post(
       return res.json({
         commentsCount: post.commentsCount,
         reply: getComments.reply,
+      });
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route    DELETE api/posts/comment/:id/:comment_id
+// @desc     Delete comment
+// @access   Private
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    // Pull out comment
+    let check = false;
+    let i;
+    let postLength = post.comments.length;
+    for (i = 0; i < postLength; ++i) {
+      if (post.comments[i].id === req.params.comment_id) {
+        if (post.comments[i].user.toString() !== req.user.id) {
+          return res.status(401).json({ msg: 'User not authorized' });
+        }
+        if (post.comments[i].reply.length > 0) {
+          post.commentsCount =
+            post.commentsCount - 1 - post.comments[i].reply.length;
+        } else {
+          post.commentsCount = post.commentsCount - 1;
+        }
+        post.comments.splice(i, 1);
+        check = true;
+        break;
+      }
+    }
+    if (!check) {
+      return res.status(404).json({ msg: 'Comment does not exist' });
+    }
+
+    await post.save();
+
+    return res.json({
+      commentsCount: post.commentsCount,
+    });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    DELETE api/posts/comment-reply/:id/:comment_id
+// @desc     Delete reply comment
+// @access   Private
+router.delete(
+  '/comment-reply/:id/:comment_id/:comment_reply_id',
+  auth,
+  async (req, res) => {
+    try {
+      const post = await Post.findById(req.params.id);
+      let check = false;
+      let i;
+      let j;
+      let postLength = post.comments.length;
+      for (i = 0; i < postLength; ++i) {
+        if (post.comments[i].id === req.params.comment_id) {
+          let subComtLength = post.comments[i].reply.length;
+
+          for (j = 0; j < subComtLength; ++j) {
+            if (post.comments[i].reply[j].id === req.params.comment_reply_id) {
+              if (
+                post.comments[i].reply[j].user_reply.toString() !== req.user.id
+              ) {
+                return res.status(401).json({ msg: 'User not authorized' });
+              }
+              post.commentsCount = post.commentsCount - 1;
+              post.comments[i].reply.splice(j, 1);
+              check = true;
+              break;
+            }
+          }
+        }
+      }
+
+      if (!check) {
+        return res.status(404).json({ msg: 'Comment does not exist' });
+      }
+
+      await post.save();
+
+      return res.json({
+        commentsCount: post.commentsCount,
       });
     } catch (err) {
       console.error(err.message);
@@ -327,40 +409,58 @@ router.put(
   }
 );
 
-// @route    DELETE api/posts/comment/:id/:comment_id
-// @desc     Delete comment
+// @route    EDIT api/posts/comment/:id/:comment_id
+// @desc     EDIT reply comment
 // @access   Private
-router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    // Pull out comment
-    let check = false;
-    let i;
-    let postLength = post.comments.length;
-    for (i = 0; i < postLength; ++i) {
-      if (post.comments[i].id === req.params.comment_id) {
-        if (post.comments[i].user.toString() !== req.user.id) {
-          return res.status(401).json({ msg: 'User not authorized' });
+
+router.put(
+  '/comment-reply/:id/:comment_id/:comment_reply_id',
+  [
+    auth,
+    checkObjectId('id'),
+    [check('data', 'Text is required').not().isEmpty()],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const post = await Post.findById(req.params.id);
+      const { data } = req.body;
+      let check = false;
+      let i;
+      let j;
+      let postLength = post.comments.length;
+      for (i = 0; i < postLength; ++i) {
+        if (post.comments[i].id === req.params.comment_id) {
+          let subComtsLength = post.comments[i].reply.length;
+          for (j = 0; j < subComtsLength; ++j) {
+            if (post.comments[i].reply[j].id === req.params.comment_reply_id) {
+              if (
+                post.comments[i].reply[j].user_reply.toString() !== req.user.id
+              ) {
+                return res.status(401).json({ msg: 'User not authorized' });
+              }
+              post.comments[i].reply[j].text_reply = data;
+              check = true;
+              break;
+            }
+          }
         }
-        post.commentsCount = post.commentsCount - 1;
-        post.comments.splice(i, 1);
-        check = true;
-        break;
       }
-    }
-    if (!check) {
-      return res.status(404).json({ msg: 'Comment does not exist' });
-    }
+      if (!check) {
+        return res.status(404).json({ msg: 'Comment does not exist' });
+      }
 
-    await post.save();
+      await post.save();
 
-    return res.json({
-      commentsCount: post.commentsCount,
-    });
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server Error');
+      return res.json(post.comments);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
+    }
   }
-});
+);
 
 module.exports = router;

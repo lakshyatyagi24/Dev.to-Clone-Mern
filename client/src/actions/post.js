@@ -8,11 +8,13 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  UPDATE_BOOKMARKS,
+  // UPDATE_BOOKMARKS,
   // UPDATE_BOOKMARKS_INREADING,
   // UPDATE_LIKES_INREADING,
   EDIT_COMMENT,
   REPLY_COMMENT,
+  REMOVE_REPLY_COMMENT,
+  EDIT_REPLY_COMMENT,
 } from './types';
 
 // Get posts
@@ -243,6 +245,40 @@ export const editComment = (postId, commentId, formData) => async (
   }
 };
 
+// Edit reply comment
+export const editReplyComment = (
+  postId,
+  commentId,
+  comment_replyId,
+  formData
+) => async (dispatch) => {
+  try {
+    const res = await api.put(
+      `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`,
+      formData
+    );
+
+    dispatch({
+      type: EDIT_REPLY_COMMENT,
+      payload: {
+        id: postId,
+        data: res.data,
+      },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    toast.error(err.response.data.msg);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+  }
+};
+
 // Delete comment
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
@@ -252,6 +288,37 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
       dispatch({
         type: REMOVE_COMMENT,
         payload: { commentId, postId, commentsCount: res.data.commentsCount },
+      });
+    } catch (err) {
+      dispatch({
+        type: POST_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+      toast.error(err.response.data.msg);
+    }
+  }
+};
+
+// Delete reply comment
+export const deleteReplyComment = (
+  postId,
+  commentId,
+  comment_replyId
+) => async (dispatch) => {
+  if (window.confirm('Are you sure? This can NOT be undone!')) {
+    try {
+      const res = await api.delete(
+        `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`
+      );
+
+      dispatch({
+        type: REMOVE_REPLY_COMMENT,
+        payload: {
+          commentId,
+          postId,
+          comment_replyId,
+          commentsCount: res.data.commentsCount,
+        },
       });
     } catch (err) {
       dispatch({

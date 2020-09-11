@@ -3,38 +3,46 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
-import { deleteComment } from '../../actions/post';
+import { deleteReplyComment } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import CommentEdit from './CommentEdit';
 import CommentReply from './CommentReply';
-import CommentReplyItem from './CommentReplyItem';
+import CommentEditReply from './CommentEditReply';
 
-const CommentItem = ({
+const CommentReplyItem = ({
   postId,
-  comment: { _id, text, name, avatar, user, date, reply },
+  comtId,
+  replyData: {
+    _id,
+    text_reply,
+    name_reply,
+    avatar_reply,
+    user_reply,
+    date_reply,
+  },
   auth,
-  deleteComment,
+  deleteReplyComment,
   userId,
 }) => {
-  const [showReply, setShowReply] = useState(true);
   const [edit, setEdit] = useState(false);
-  const [replyState, setReplyState] = useState(false);
+  const [reply, setReply] = useState(false);
   return (
-    <Fragment>
+    <div className='reply-item'>
       {edit && (
-        <CommentEdit
-          comment={text}
-          comtId={_id}
+        <CommentEditReply
+          comment={text_reply}
+          comtId={comtId}
           postId={postId}
           setEdit={setEdit}
+          replyId={_id}
         />
       )}
-      {replyState && (
+      {reply && (
         <CommentReply
-          tagName={name}
-          comtId={_id}
+          tagName={name_reply}
+          comtId={comtId}
           postId={postId}
-          setReply={setReplyState}
+          setReply={setReply}
         />
       )}
       <div
@@ -44,11 +52,11 @@ const CommentItem = ({
         }}
       >
         <p className='post-date' style={{ alignSelf: 'flex-end' }}>
-          Posted on <Moment format='DD/MM/YY'>{date}</Moment>
+          Posted on <Moment format='DD/MM/YY'>{date_reply}</Moment>
         </p>
-        {auth.isAuthenticated && auth.user._id !== user && (
+        {auth.isAuthenticated && auth.user._id !== user_reply && (
           <button
-            onClick={() => setReplyState(true)}
+            onClick={() => setReply(true)}
             type='button'
             className='btn btn-light action-comt'
           >
@@ -56,10 +64,10 @@ const CommentItem = ({
           </button>
         )}
 
-        {auth.isAuthenticated && user === auth.user._id && (
+        {auth.isAuthenticated && user_reply === auth.user._id && (
           <div style={{ display: 'flex' }}>
             <button
-              onClick={() => setReplyState(true)}
+              onClick={() => setReply(true)}
               type='button'
               className='btn btn-light action-comt'
             >
@@ -73,7 +81,7 @@ const CommentItem = ({
               <i className='far fa-edit' />
             </button>
             <button
-              onClick={() => deleteComment(postId, _id)}
+              onClick={() => deleteReplyComment(postId, comtId, _id)}
               type='button'
               className='btn btn-danger  action-comt'
             >
@@ -89,16 +97,16 @@ const CommentItem = ({
               display: 'flex',
               wordBreak: 'break-word',
             }}
-            to={`/profile/user/${user}`}
+            to={`/profile/user/${user_reply}`}
           >
             <img
               className='round-img'
-              src={avatar}
+              src={avatar_reply}
               alt=''
               style={{ borderRadius: '50%' }}
             />
-            <h5 className='text-dark'>{name}</h5>
-            {userId === user && (
+            <h5 className='text-dark'>{name_reply}</h5>
+            {userId === user_reply && (
               <h5
                 style={{
                   color: 'royalblue',
@@ -114,66 +122,25 @@ const CommentItem = ({
         <div className='comment-content'>
           <MarkdownPreview
             style={{ margin: '16px', wordWrap: 'break-word' }}
-            value={text}
+            value={text_reply}
           />
         </div>
       </div>
-      <div style={{ display: 'flex' }}>
-        {reply.length > 0 && (
-          <button
-            onClick={() => setShowReply(!showReply)}
-            type='button'
-            className='btn btn-light action-comt show-reply'
-          >
-            {showReply ? (
-              <i className='fas fa-caret-down' />
-            ) : (
-              <i className='fas fa-caret-up' />
-            )}
-          </button>
-        )}
-        {reply.length > 0 && !showReply && (
-          <i
-            style={{
-              margin: '-15px 0 0 8px',
-              color: '#aaa',
-              fontSize: '0.9rem',
-            }}
-          >
-            replies({reply.length})
-          </i>
-        )}
-      </div>
-      {showReply && (
-        <div
-          style={{ marginTop: reply.length > 0 ? '-20px' : '' }}
-          className='reply-area'
-        >
-          {reply.map((rep) => (
-            <CommentReplyItem
-              key={rep._id}
-              replyData={rep}
-              postId={postId}
-              userId={userId}
-              setReply={setReplyState}
-              comtId={_id}
-            />
-          ))}
-        </div>
-      )}
-    </Fragment>
+    </div>
   );
 };
 
-CommentItem.propTypes = {
+CommentReplyItem.propTypes = {
   postId: PropTypes.string.isRequired,
-  comment: PropTypes.object.isRequired,
+  replyData: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  deleteComment: PropTypes.func.isRequired,
+  deleteReplyComment: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deleteComment })(CommentItem);
+export default connect(mapStateToProps, { deleteReplyComment })(
+  CommentReplyItem
+);

@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editComment } from '../../actions/post';
+import { editReplyComment } from '../../actions/post';
 
-const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
+const CommentEditReply = ({
+  setEdit,
+  comment,
+  replyId,
+  editReplyComment,
+  postId,
+  comtId,
+}) => {
   const [text, setText] = useState(comment);
 
   const handleClick = (e) => {
@@ -18,7 +25,7 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            editComment(postId, comtId, { data: text });
+            editReplyComment(postId, comtId, replyId, { data: text });
             setEdit(false);
           }}
         >
@@ -50,9 +57,9 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
     </div>
   );
 };
-CommentEdit.propTypes = {
+CommentEditReply.propTypes = {
   comment: PropTypes.string.isRequired,
-  editComment: PropTypes.func.isRequired,
+  editReplyComment: PropTypes.func.isRequired,
 };
 
-export default connect(null, { editComment })(CommentEdit);
+export default connect(null, { editReplyComment })(CommentEditReply);

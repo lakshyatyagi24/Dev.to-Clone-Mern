@@ -147,15 +147,16 @@ export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
 
   try {
+    dispatch({
+      type: CLEAR_PROFILE,
+    });
     const res = await api.post('/auth', body);
 
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
-    dispatch({
-      type: CLEAR_PROFILE,
-    });
+
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;

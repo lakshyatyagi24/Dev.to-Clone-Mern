@@ -49,7 +49,7 @@ const Activate = ({ activate, match }) => {
   }
 
   return (
-    <Fragment>
+    <div className='container'>
       <div className='login-wrap active-acc'>
         <div className='login'>
           <p className='lead'>Welcome {name}</p>
@@ -89,7 +89,7 @@ const Activate = ({ activate, match }) => {
           )}
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

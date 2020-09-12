@@ -59,7 +59,7 @@ function PostItem({ post, deletePost }) {
             <button
               onClick={() => deletePost(post._id)}
               type='button'
-              className='btn btn-danger  action-comt'
+              className='btn btn-light action-comt'
             >
               <i className='fas fa-times' />
             </button>

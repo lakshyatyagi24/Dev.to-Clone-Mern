@@ -15,7 +15,7 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
 
-      <div className='post feed'>
+      <div className='post feed container'>
         <div>
           <div className='left-side-feed p-1 my-1 bg-white'></div>
         </div>

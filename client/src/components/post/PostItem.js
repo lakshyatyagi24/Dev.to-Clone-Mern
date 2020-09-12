@@ -55,7 +55,7 @@ const PostItem = ({
   };
   console.log('render');
   return (
-    <div className='post py-1 post-main'>
+    <div className='post py-1-fix post-main'>
       <ActionPostItem
         handleBookmarksAction={handleBookmarksAction}
         handleLikeAction={handleLikeAction}

@@ -3,12 +3,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import { Link } from 'react-router-dom';
-const ActionFeed = ({ isAuthenticated, logout }) => {
+const ActionFeed = ({ isAuthenticated, logout, user }) => {
   return (
     <div className='action-feed'>
       {isAuthenticated ? (
         <div className='action-feed__wrap'>
           <ul className='action-feed__user'>
+            <li>
+              <Link
+                style={{ color: 'royalblue', fontWeight: '600' }}
+                className='action-feed_s'
+                to='/profile/me'
+              >
+                {'@' + user.name}
+              </Link>
+            </li>
+            <div className='separate'></div>
             <li>
               <Link className='action-feed_s' to='/dashboard'>
                 Dash board
@@ -24,6 +34,7 @@ const ActionFeed = ({ isAuthenticated, logout }) => {
                 Reading list
               </Link>
             </li>
+
             <li>
               <Link className='action-feed_s' to='/settings'>
                 Setting

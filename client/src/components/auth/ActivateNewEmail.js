@@ -45,7 +45,7 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
   };
 
   return (
-    <Fragment>
+    <div className='container'>
       <div className='login-wrap active-acc'>
         <div className='login'>
           <p className='lead'>Hi! {name}</p>
@@ -85,7 +85,7 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
           )}
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

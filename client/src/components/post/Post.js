@@ -18,12 +18,11 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
       <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (
-    <Fragment>
+    <div className='container'>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
       <PostItem post={post} profile={profile} setAuth={setAuth} />
 
-      <CommentForm setAuth={setAuth} postId={post._id} />
-      <div className='post my-1'>
+      <div className='post'>
         <div></div>
 
         <div
@@ -36,6 +35,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
             borderRadius: '5px',
           }}
         >
+          <CommentForm setAuth={setAuth} postId={post._id} />
           <p className='text-dark my'>Comments ({post.commentsCount})</p>
 
           {post.comments.map((comment) => (
@@ -49,7 +49,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
         </div>
         <div></div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

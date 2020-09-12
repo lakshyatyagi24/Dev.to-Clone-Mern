@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Setting = ({ auth: { user }, children, checkPage }) => {
   return (
-    <Fragment>
+    <div className='container'>
       <h1 style={{ padding: '0 6rem' }} className='text-dark my-1'>
         Setting for <span style={{ color: 'royalblue' }}>@{user.name}</span>
       </h1>
@@ -43,7 +43,7 @@ const Setting = ({ auth: { user }, children, checkPage }) => {
         </div>
         {children}
       </div>
-    </Fragment>
+    </div>
   );
 };
 Setting.propTypes = {

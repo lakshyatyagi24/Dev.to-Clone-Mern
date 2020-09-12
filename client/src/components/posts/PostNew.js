@@ -45,7 +45,6 @@ const Title = styled.textarea`
 `;
 const TextArea = styled.textarea`
   font-family: 'Poppins', sans-serif;
-  margin-top: 30px;
   padding: 40px;
   width: 100%;
   height: 600px;
@@ -101,98 +100,100 @@ function PostNew({ addPost }) {
     }
   }, []);
   return (
-    <EditorContainer>
-      {guide && <Guide setGuide={setGuide} />}
-      {image && <Image setImage={setImage} />}
-      {!write && (
-        <Container>
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
-              setPublish(true);
-              const res = await addPost({ title, content });
-              if (res) {
-                setPublish(false);
-              } else {
-                setPublish(false);
-              }
-              localStorage.removeItem('post');
-            }}
-          >
-            <Title
-              placeholder='Title...'
-              name='title'
-              required
-              value={title}
-              onChange={(e) => {
-                localStorage.setItem(
-                  'post',
-                  JSON.stringify({ ...dataPost, title: e.target.value })
-                );
-                setTitle(e.target.value);
+    <div className='container'>
+      <EditorContainer>
+        {guide && <Guide setGuide={setGuide} />}
+        {image && <Image setImage={setImage} />}
+        {!write && (
+          <Container>
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setPublish(true);
+                const res = await addPost({ title, content });
+                if (res) {
+                  setPublish(false);
+                } else {
+                  setPublish(false);
+                }
+                localStorage.removeItem('post');
               }}
-            />
-            <TextArea
-              onChange={(e) => {
-                localStorage.setItem(
-                  'post',
-                  JSON.stringify({ ...dataPost, content: e.target.value })
-                );
-                setContent(e.target.value);
-              }}
-              placeholder='You will use markdown to write your post, see the guide in right side...'
-              name='content'
-              required
-              value={content}
-            />
-            {<HashLoader size={36} color={'#3b49df'} loading={publish} />}
-            {!publish && (
-              <input
-                type='submit'
-                className='btn btn-dark my-1'
-                value='Publish'
+            >
+              <Title
+                placeholder='Title...'
+                name='title'
+                required
+                value={title}
+                onChange={(e) => {
+                  localStorage.setItem(
+                    'post',
+                    JSON.stringify({ ...dataPost, title: e.target.value })
+                  );
+                  setTitle(e.target.value);
+                }}
               />
+              <TextArea
+                onChange={(e) => {
+                  localStorage.setItem(
+                    'post',
+                    JSON.stringify({ ...dataPost, content: e.target.value })
+                  );
+                  setContent(e.target.value);
+                }}
+                placeholder='You will use markdown to write your post, see the guide in right side...'
+                name='content'
+                required
+                value={content}
+              />
+              {<HashLoader size={36} color={'#3b49df'} loading={publish} />}
+              {!publish && (
+                <input
+                  type='submit'
+                  className='btn btn-dark my-1'
+                  value='Publish'
+                />
+              )}
+            </form>
+          </Container>
+        )}
+        {write && (
+          <Container>
+            <Preview>
+              <p style={{ margin: '0' }}>Preview</p>
+            </Preview>
+            <ResultArea className='preview'>
+              <MarkdownPreview value={content} />
+            </ResultArea>
+          </Container>
+        )}
+        <SideAction>
+          <button
+            style={{ marginTop: '0' }}
+            className='btn btn-light btn-new-feed'
+            onClick={() => setWrite(!write)}
+          >
+            {write ? (
+              <i className='far fa-edit'></i>
+            ) : (
+              <i className='fas fa-eye'></i>
             )}
-          </form>
-        </Container>
-      )}
-      {write && (
-        <Container>
-          <Preview>
-            <p style={{ margin: '0' }}>Preview</p>
-          </Preview>
-          <ResultArea className='preview'>
-            <MarkdownPreview value={content} />
-          </ResultArea>
-        </Container>
-      )}
-      <SideAction>
-        <button
-          style={{ marginTop: '0' }}
-          className='btn btn-light btn-new-feed'
-          onClick={() => setWrite(!write)}
-        >
-          {write ? (
-            <i className='far fa-edit'></i>
-          ) : (
-            <i className='fas fa-eye'></i>
-          )}
-        </button>
-        <button
-          onClick={() => setImage(true)}
-          className='btn btn-light btn-new-feed'
-        >
-          <i className='fas fa-images'></i>
-        </button>
+          </button>
+          <button
+            onClick={() => setImage(true)}
+            className='btn btn-light btn-new-feed'
+          >
+            <i className='fas fa-images'></i>
+          </button>
 
-        <button
-          className='btn btn-light btn-new-feed'
-          onClick={() => setGuide(true)}
-        >
-          <i className='fab fa-glide'></i>
-        </button>
-      </SideAction>
-    </EditorContainer>
+          <button
+            className='btn btn-light btn-new-feed'
+            onClick={() => setGuide(true)}
+          >
+            <i className='fab fa-glide'></i>
+          </button>
+        </SideAction>
+      </EditorContainer>
+    </div>
   );
 }
 PostNew.propTypes = {

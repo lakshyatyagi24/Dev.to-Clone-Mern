@@ -23,7 +23,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
           </div>
         </div>
         <div>
-          {loading ? null : !isAuthenticated ? (
+          {loading ? null : !isAuthenticated || user === null ? (
             <div className='guest-link'>
               <Link
                 style={{ color: '#3b49df' }}
@@ -89,11 +89,9 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                   cursor: 'pointer',
                 }}
               >
-                <ActionFeed />
+                <ActionFeed user={user} />
                 <div className='action-connect'></div>
-                {user === null ? null : (
-                  <img className='round-img' src={user.avatar} alt='' />
-                )}
+                <img className='round-img' src={user.avatar} alt='' />
               </div>
             </div>
           )}

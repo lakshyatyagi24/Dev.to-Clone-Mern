@@ -75,7 +75,7 @@ const CommentItem = ({
             <button
               onClick={() => deleteComment(postId, _id)}
               type='button'
-              className='btn btn-danger  action-comt'
+              className='btn btn-light action-comt'
             >
               <i className='fas fa-times' />
             </button>

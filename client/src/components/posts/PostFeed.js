@@ -39,17 +39,19 @@ const PostFeed = ({
   return (
     <div className='post-feed p-1 my bg-white'>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex' }}>
-          <Link to={`/profile/user/${user._id}`}>
-            <img className='round-img-feed' src={user.avatar} alt='' />
-          </Link>
+        <Link
+          to={`/profile/user/${user._id}`}
+          style={{ display: 'flex', width: 'fit-content' }}
+        >
+          <img className='round-img-feed' src={user.avatar} alt='' />
+
           <div style={{ marginLeft: '10px' }}>
             <h5 className='text-dark'>{user.name}</h5>
             <p className='post-date'>
               Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
             </p>
           </div>
-        </div>
+        </Link>
         <ActionPostFeed
           isBookMarked={
             auth.user === null ? null : bookmarks.includes(auth.user._id)
@@ -63,11 +65,11 @@ const PostFeed = ({
         />
       </div>
       <Link className='title-hover' to={`/post/${_id}`}>
-        <h3 className='text-dark my-1 '>{title}</h3>
+        <h1 className='text-dark m-1'>{title}</h1>
       </Link>
 
       <Link to={`/post/${_id}`} className='like-action'>
-        <button className='btn btn-light btn-hover'>
+        <button style={{ marginRight: 0 }} className='btn btn-light btn-hover'>
           <i className='far fa-heart' style={{ marginRight: '5px' }} />
           <span>{likesCount}</span>
         </button>

@@ -2,12 +2,19 @@ import React, { Fragment } from 'react';
 
 const NotFound = () => {
   return (
-    <Fragment>
-      <h1 className='x-large text-primary'>
-        <i className='fas fa-exclamation-triangle' /> Page Not Found
-      </h1>
-      <p className='large'>Sorry, this page does not exist</p>
-    </Fragment>
+    <div id='notfound'>
+      <div className='notfound'>
+        <div className='notfound-404'>
+          <h3>Oops! Page not found</h3>
+          <h1>
+            <span>4</span>
+            <span>0</span>
+            <span>4</span>
+          </h1>
+        </div>
+        <h2>we are sorry, but the page you requested was not found</h2>
+      </div>
+    </div>
   );
 };
 

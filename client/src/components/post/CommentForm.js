@@ -15,38 +15,35 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
 
   return (
     <Fragment>
-      <div className='post'>
-        <div></div>
-        <form
-          className='form my-1'
-          onSubmit={(e) => {
-            e.preventDefault();
-            addComment(postId, { text });
-            setText('');
+      <form
+        className='form'
+        onSubmit={(e) => {
+          e.preventDefault();
+          addComment(postId, { text });
+          setText('');
+        }}
+      >
+        <p className='text-dark my'>Discussion</p>
+        <textarea
+          onFocus={handleForm}
+          name='text'
+          cols='30'
+          rows='8'
+          placeholder='Login to post comments'
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          required
+          style={{
+            resize: 'none',
+            border: 'none',
+            outline: 'none',
+            boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
+            borderRadius: '5px',
+            backgroundColor: '#eef0f1',
           }}
-        >
-          <p className='text-dark my'>Discussion</p>
-          <textarea
-            onFocus={handleForm}
-            name='text'
-            cols='30'
-            rows='6'
-            placeholder='Login to post comments'
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            required
-            style={{
-              resize: 'none',
-              border: 'none',
-              outline: 'none',
-              boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
-              borderRadius: '5px',
-            }}
-          />
-          <input type='submit' className='btn btn-dark my-1' value='Submit' />
-        </form>
-        <div></div>
-      </div>
+        />
+        <input type='submit' className='btn btn-dark my-1' value='Submit' />
+      </form>
     </Fragment>
   );
 };

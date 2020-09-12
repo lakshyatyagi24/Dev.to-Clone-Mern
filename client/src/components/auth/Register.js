@@ -44,93 +44,95 @@ const Register = ({ register }) => {
   }
 
   return (
-    <div className='login-wrap sign-up'>
-      <div className='login'>
-        <h1 className='text-dark'>Welcome to Dev!</h1>
-        <h1 className='text-dark'>Sign up</h1>
-        <form className='form' onSubmit={onSubmit}>
-          <div className='form-group'>
-            <input
-              type='text'
-              placeholder='Name'
-              name='name'
-              value={name}
-              onChange={onChange}
-              style={{
-                borderRadius: '5px',
-                height: '50px',
-                backgroundColor: '#f9fafa',
-              }}
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='email'
-              placeholder='Email Address'
-              name='email'
-              value={email}
-              onChange={onChange}
-              style={{
-                borderRadius: '5px',
-                height: '50px',
-                backgroundColor: '#f9fafa',
-              }}
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='password'
-              placeholder='Password'
-              name='password'
-              value={password}
-              onChange={onChange}
-              style={{
-                borderRadius: '5px',
-                height: '50px',
-                backgroundColor: '#f9fafa',
-              }}
-            />
-          </div>
-          <div className='form-group'>
-            <input
-              type='password'
-              placeholder='Confirm Password'
-              name='password2'
-              value={password2}
-              onChange={onChange}
-              style={{
-                borderRadius: '5px',
-                height: '50px',
-                backgroundColor: '#f9fafa',
-              }}
-            />
-          </div>
-
-          {
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+    <div className='container'>
+      <div className='login-wrap sign-up'>
+        <div className='login'>
+          <h1 className='text-dark'>Welcome to Dev!</h1>
+          <h1 className='text-dark'>Sign up</h1>
+          <form className='form' onSubmit={onSubmit}>
+            <div className='form-group'>
+              <input
+                type='text'
+                placeholder='Name'
+                name='name'
+                value={name}
+                onChange={onChange}
+                style={{
+                  borderRadius: '5px',
+                  height: '50px',
+                  backgroundColor: '#f9fafa',
+                }}
+              />
             </div>
-          }
-          {!isCompleted && (
-            <input
-              type='submit'
-              className='btn btn-dark'
-              style={{
-                background: '#3b49df',
-                width: '100%',
-                textAlign: 'center',
-                height: '50px',
-              }}
-              value='Register'
-            />
-          )}
-        </form>
-        <p className='my-1'>
-          Already have an account?{' '}
-          <Link to='/login' style={{ color: 'royalblue' }}>
-            Sign In
-          </Link>
-        </p>
+            <div className='form-group'>
+              <input
+                type='email'
+                placeholder='Email'
+                name='email'
+                value={email}
+                onChange={onChange}
+                style={{
+                  borderRadius: '5px',
+                  height: '50px',
+                  backgroundColor: '#f9fafa',
+                }}
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='password'
+                placeholder='Password'
+                name='password'
+                value={password}
+                onChange={onChange}
+                style={{
+                  borderRadius: '5px',
+                  height: '50px',
+                  backgroundColor: '#f9fafa',
+                }}
+              />
+            </div>
+            <div className='form-group'>
+              <input
+                type='password'
+                placeholder='Confirm Password'
+                name='password2'
+                value={password2}
+                onChange={onChange}
+                style={{
+                  borderRadius: '5px',
+                  height: '50px',
+                  backgroundColor: '#f9fafa',
+                }}
+              />
+            </div>
+
+            {
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+              </div>
+            }
+            {!isCompleted && (
+              <input
+                type='submit'
+                className='btn btn-dark'
+                style={{
+                  background: '#3b49df',
+                  width: '100%',
+                  textAlign: 'center',
+                  height: '50px',
+                }}
+                value='Register'
+              />
+            )}
+          </form>
+          <p className='my-1'>
+            Already have an account?{' '}
+            <Link to='/login' style={{ color: 'royalblue' }}>
+              Sign In
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

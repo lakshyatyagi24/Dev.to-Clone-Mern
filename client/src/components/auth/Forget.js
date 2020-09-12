@@ -46,44 +46,46 @@ const Forget = ({ forget }) => {
   }
 
   return (
-    <div className='login-wrap forget-pwd'>
-      <div className='login'>
-        <h1 className='text-dark'>Forget Password</h1>
-        <form className='form' onSubmit={onSubmit}>
-          <div className='form-group'>
-            <input
-              type='email'
-              placeholder='Email Address'
-              name='email'
-              value={email}
-              onChange={onChange}
-              required
-              style={{
-                borderRadius: '5px',
-                height: '50px',
-                backgroundColor: '#f9fafa',
-              }}
-            />
-          </div>
-          {
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+    <div className='container'>
+      <div className='login-wrap forget-pwd'>
+        <div className='login'>
+          <h1 className='text-dark'>Forget Password</h1>
+          <form className='form' onSubmit={onSubmit}>
+            <div className='form-group'>
+              <input
+                type='email'
+                placeholder='Email Address'
+                name='email'
+                value={email}
+                onChange={onChange}
+                required
+                style={{
+                  borderRadius: '5px',
+                  height: '50px',
+                  backgroundColor: '#f9fafa',
+                }}
+              />
             </div>
-          }
-          {!isCompleted && (
-            <input
-              type='submit'
-              className='btn btn-dark'
-              style={{
-                background: '#3b49df',
-                width: '100%',
-                textAlign: 'center',
-                height: '50px',
-              }}
-              value='Confirm'
-            />
-          )}
-        </form>
+            {
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+              </div>
+            }
+            {!isCompleted && (
+              <input
+                type='submit'
+                className='btn btn-dark'
+                style={{
+                  background: '#3b49df',
+                  width: '100%',
+                  textAlign: 'center',
+                  height: '50px',
+                }}
+                value='Confirm'
+              />
+            )}
+          </form>
+        </div>
       </div>
     </div>
   );

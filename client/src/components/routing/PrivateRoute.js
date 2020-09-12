@@ -2,8 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BeatLoader from 'react-spinners/BeatLoader';
-
+import HashLoader from 'react-spinners/HashLoader';
 const PrivateRoute = ({
   component: Component,
   auth: { isAuthenticated, loading },
@@ -14,7 +13,7 @@ const PrivateRoute = ({
     render={(props) =>
       loading ? (
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-          <BeatLoader size={15} color={'#3b49df'} loading={loading} />
+          <HashLoader size={36} color={'#3b49df'} loading={loading} />
         </div>
       ) : localStorage.token && isAuthenticated ? (
         <Component {...props} />

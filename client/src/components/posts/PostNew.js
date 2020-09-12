@@ -6,7 +6,7 @@ import { addPost } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import Guide from './Guide';
 import Image from './Image';
-import BeatLoader from 'react-spinners/BeatLoader';
+import HashLoader from 'react-spinners/HashLoader';
 
 const EditorContainer = styled.div`
   width: 100%;
@@ -145,7 +145,7 @@ function PostNew({ addPost }) {
               required
               value={content}
             />
-            {<BeatLoader size={15} color={'#3b49df'} loading={publish} />}
+            {<HashLoader size={36} color={'#3b49df'} loading={publish} />}
             {!publish && (
               <input
                 type='submit'

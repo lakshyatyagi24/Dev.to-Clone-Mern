@@ -13,6 +13,8 @@ import {
   REMOVE_REPLY_COMMENT,
   USER_DELETE_POST,
   USER_ADD_POST,
+  USER_BOOKMARK,
+  USER_UNBOOKMARK,
 } from './types';
 
 // Get posts
@@ -48,7 +50,19 @@ export const addLikeInReading = (id) => async (dispatch) => {
 // Add book mark
 export const addBookmarks = (id) => async (dispatch) => {
   try {
-    await api.put(`/posts/bookmarks/${id}`);
+    const res = await api.put(`/posts/bookmarks/${id}`);
+
+    if (res.data.data.check) {
+      dispatch({
+        type: USER_UNBOOKMARK,
+        payload: res.data,
+      });
+    } else {
+      dispatch({
+        type: USER_BOOKMARK,
+        payload: res.data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -155,6 +169,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
         commentsCount: res.data.commentsCount,
       },
     });
+    return true;
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -166,6 +181,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
     if (errors) {
       errors.forEach((error) => toast.error(error.msg));
     }
+    return false;
   }
 };
 

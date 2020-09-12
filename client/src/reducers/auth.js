@@ -7,7 +7,10 @@ import {
   UPDATE_USER,
   USER_DELETE_POST,
   USER_ADD_POST,
+  USER_BOOKMARK,
+  USER_UNBOOKMARK,
 } from '../actions/types';
+import { pad } from 'lodash';
 
 const initialState = {
   token: localStorage.getItem('token'),
@@ -54,18 +57,28 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case USER_ADD_POST:
+      const {
+        date,
+        title,
+        likesCount,
+        bookmarksCount,
+        commentsCount,
+        _id,
+        content,
+      } = payload;
       return {
         ...state,
         user: {
           ...state.user,
           posts: [
             {
-              date: payload.date,
-              title: payload.title,
-              likesCount: payload.likesCount,
-              bookmarksCount: payload.bookmarksCount,
-              commentsCount: payload.commentsCount,
-              _id: payload._id,
+              date,
+              title,
+              content,
+              likesCount,
+              bookmarksCount,
+              commentsCount,
+              _id,
             },
             ...state.user.posts,
           ],
@@ -73,6 +86,41 @@ export default function (state = initialState, action) {
         },
         loading: false,
       };
+    case USER_BOOKMARK:
+      const { name, avatar, id } = payload.data;
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          bookMarkedPostsCount: state.user.bookMarkedPostsCount + 1,
+          bookMarkedPosts: [
+            {
+              user: {
+                name,
+                avatar,
+              },
+              _id: id,
+              date: payload.data.date,
+              title: payload.data.title,
+            },
+            ...state.user.bookMarkedPosts,
+          ],
+        },
+      };
+    case USER_UNBOOKMARK:
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          bookMarkedPostsCount: state.user.bookMarkedPostsCount - 1,
+          bookMarkedPosts: state.user.bookMarkedPosts.filter(
+            (item) => item._id !== payload.data.id
+          ),
+        },
+      };
+
     case AUTH_ERROR:
     case LOGOUT:
       return {

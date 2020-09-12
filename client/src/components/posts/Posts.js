@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PostFeed from './PostFeed';
 import { getPosts } from '../../actions/post';
-import BeatLoader from 'react-spinners/BeatLoader';
+import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
 
 const Posts = ({ getPosts, post: { posts, loading } }) => {
@@ -22,7 +22,9 @@ const Posts = ({ getPosts, post: { posts, loading } }) => {
         <div>
           <h4 className='text-dark'>Posts</h4>
           {loading || posts === null ? (
-            <BeatLoader size={15} color={'#3b49df'} loading={true} />
+            <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+              <HashLoader size={36} color={'#3b49df'} loading={true} />
+            </div>
           ) : (
             <Fragment>
               {posts.map((post) => (

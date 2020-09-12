@@ -45,9 +45,17 @@ function PostItem({ post, deletePost }) {
         </div>
         <div className='action-button'>
           <div style={{ display: 'flex' }}>
-            <button type='button' className='btn btn-light action-comt'>
+            <Link
+              to='/write-post'
+              onClick={() => {
+                const data = { title: post.title, content: post.content };
+                localStorage.setItem('post', JSON.stringify(data));
+              }}
+              type='button'
+              className='btn btn-light action-comt'
+            >
               <i className='far fa-edit' />
-            </button>
+            </Link>
             <button
               onClick={() => deletePost(post._id)}
               type='button'

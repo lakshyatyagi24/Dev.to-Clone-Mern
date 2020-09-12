@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { forget } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
-import BeatLoader from 'react-spinners/BeatLoader';
+import HashLoader from 'react-spinners/HashLoader';
 import { Redirect } from 'react-router-dom';
 
 const Forget = ({ forget }) => {
@@ -65,7 +65,11 @@ const Forget = ({ forget }) => {
               }}
             />
           </div>
-          {<BeatLoader size={15} color={'#3b49df'} loading={isCompleted} />}
+          {
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+            </div>
+          }
           {!isCompleted && (
             <input
               type='submit'

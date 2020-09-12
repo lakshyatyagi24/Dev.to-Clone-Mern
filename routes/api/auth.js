@@ -19,6 +19,7 @@ router.get('/', auth, async (req, res) => {
         path: 'posts',
         select: [
           'title',
+          'content',
           'likesCount',
           'bookmarksCount',
           'date',
@@ -28,7 +29,7 @@ router.get('/', auth, async (req, res) => {
       })
       .populate({
         path: 'bookMarkedPosts',
-        select: 'title',
+        select: ['title', 'date'],
         populate: { path: 'user', select: ['name', 'avatar'] },
       })
       .populate('followers', ['avatar', 'name'])

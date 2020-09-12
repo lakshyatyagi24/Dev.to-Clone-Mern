@@ -155,7 +155,10 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 // @access   Private
 router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id);
+    const post = await Post.findById(req.params.id).populate('user', [
+      'name',
+      'avatar',
+    ]);
     const user = await User.findById(req.user.id);
     if (!post) {
       return res.status(404).json({ msg: 'Post not found!' });
@@ -163,7 +166,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     if (!user) {
       return res.status(404).json({ msg: 'User not found!' });
     }
-
+    let check = false;
     if (post.bookmarks.includes(req.user.id)) {
       const index = post.bookmarks.indexOf(req.user.id);
       post.bookmarks.splice(index, 1);
@@ -173,6 +176,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
       post.bookmarks = [req.user.id, ...post.bookmarks];
     }
     if (user.bookMarkedPosts.includes(req.params.id)) {
+      check = true;
       const index = user.bookMarkedPosts.indexOf(req.params.id);
       user.bookMarkedPosts.splice(index, 1);
       user.bookMarkedPostsCount = user.bookMarkedPostsCount - 1;
@@ -182,7 +186,17 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     await post.save();
     await user.save();
-    return res.status(200).json({ success: true, data: {} });
+    return res.status(200).json({
+      success: true,
+      data: {
+        name: post.user.name,
+        avatar: post.user.avatar,
+        id: req.params.id,
+        date: post.date,
+        title: post.title,
+        check: check,
+      },
+    });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

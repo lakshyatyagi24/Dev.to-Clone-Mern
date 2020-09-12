@@ -7,6 +7,7 @@ import ActivateNewEmail from '../auth/ActivateNewEmail';
 import Forget from '../auth/Forget';
 import Reset from '../auth/Reset';
 import PostItemRoute from '../dashboard/PostItemRoute';
+import ReadingListRoute from '../dashboard/ReadingListRoute';
 import FollowersRoute from '../dashboard/FollowersRoute';
 import FollowingsRoute from '../dashboard/FollowingsRoute';
 import PostNew from '../posts/PostNew';
@@ -35,9 +36,13 @@ const Routes = (props) => {
         />
         <Route exact path='/users/password/forget' component={Forget} />
         <Route exact path='/users/password/reset/:token' component={Reset} />
-        {/* <Route exact path='/profiles' component={Profiles} />
-        <Route exact path='/profile/user/:id' component={Profile} /> */}
+        <Route exact path='/profile/user/:id' component={Profile} />
         <PrivateRoute exact path='/dashboard' component={PostItemRoute} />
+        <PrivateRoute
+          exact
+          path='/dashboard/reading-list'
+          component={ReadingListRoute}
+        />
         <PrivateRoute
           exact
           path='/dashboard/followers'

@@ -285,6 +285,36 @@ a {
 button {
   font: inherit;
 }
+textarea {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  outline: none;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -ms-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  outline: none;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+}
+textarea:focus {
+  box-shadow: 0 0 5px royalblue;
+  border: 1px solid royalblue;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  box-shadow: 0 0 5px royalblue;
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid royalblue;
+}
 
 .form .social-input {
   display: flex;
@@ -369,108 +399,6 @@ button {
 }
 
 /* Profiles Page */
-.profile {
-  display: grid;
-  grid-template-columns: 2fr 4fr 2fr;
-  align-items: center;
-  gap: 2rem;
-  padding: 1rem;
-  line-height: 1.8;
-  margin-bottom: 1rem;
-}
-
-/* Profile Page */
-.profile-grid {
-  display: grid;
-  grid-template-areas:
-    "top top"
-    "about about"
-    "exp edu"
-    "github github";
-  gap: 1rem;
-}
-
-.profile-top {
-  grid-area: top;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.profile-top img {
-  width: 250px;
-}
-
-.profile-top .icons a {
-  color: #fff;
-  margin: 0 0.3rem;
-}
-
-.profile-top .icons a:hover {
-  color: var(--dark-color);
-}
-
-.profile-about {
-  grid-area: about;
-  text-align: center;
-}
-
-.profile-about .skills {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.profile-exp {
-  grid-area: exp;
-}
-
-.profile-edu {
-  grid-area: edu;
-}
-
-.profile-exp h2,
-.profile-edu h2 {
-  margin-bottom: 1rem;
-}
-
-.profile-exp > div,
-.profile-edu > div {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: #ccc 1px dotted;
-}
-
-.profile-exp > div:last-child,
-.profile-edu > div:last-child {
-  border: 0;
-}
-
-.profile-exp p,
-.profile-edu p {
-  margin: 0.5rem 0;
-}
-
-.profile-github {
-  grid-area: github;
-}
-
-.profile-github .repo {
-  display: flex;
-}
-
-.profile-github .repo > div:first-child {
-  flex: 7;
-  flex-basis: 70%;
-}
-
-.profile-github > div:last-child {
-  flex: 3;
-  flex-basis: 20%;
-}
 
 /* Posts Page */
 .hljs {
@@ -930,6 +858,12 @@ li:hover .action-feed_s {
   display: grid;
   grid-template-columns: 4fr 2fr 1fr;
 }
+.post-list__item-wrap.reading-list {
+  grid-template-columns: 1fr;
+}
+.reading-list:hover a {
+  background-color: #fff;
+}
 .action-statis,
 .action-button {
   display: flex;
@@ -967,4 +901,16 @@ li:hover .action-feed_s {
   background-color: #d2d6db;
   border-radius: 30%;
   text-align: center;
+}
+.post-dashboard__head {
+  display: flex;
+  justify-content: space-between;
+}
+.select {
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  border: unset;
+  outline: unset;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 8px;
 }

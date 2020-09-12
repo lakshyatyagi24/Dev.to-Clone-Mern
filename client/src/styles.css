@@ -32,3 +32,6 @@ table tr:nth-child(2n) {
 ul {
   padding-left: 40px;
 }
+.post-item img {
+  cursor: zoom-in;
+}

@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import BeatLoader from 'react-spinners/BeatLoader';
+import HashLoader from 'react-spinners/HashLoader';
 import PostItem from './PostItem';
 import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
@@ -15,7 +15,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   }, [getPost, match.params.id]);
   return loading || post === null ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <BeatLoader size={15} color={'#3b49df'} loading={true} />
+      <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (
     <Fragment>

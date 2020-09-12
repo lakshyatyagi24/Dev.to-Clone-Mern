@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { activate } from '../../actions/auth';
-import BeatLoader from 'react-spinners/BeatLoader';
+import HashLoader from 'react-spinners/HashLoader';
 
 const Activate = ({ activate, match }) => {
   const [formData, setFormData] = useState({
@@ -54,7 +54,15 @@ const Activate = ({ activate, match }) => {
         <div className='login'>
           <p className='lead'>Welcome {name}</p>
           <form className='form' onSubmit={handleSubmit}>
-            {<BeatLoader size={15} color={'#3b49df'} loading={isProcessing} />}
+            {
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <HashLoader
+                  size={36}
+                  color={'#3b49df'}
+                  loading={isProcessing}
+                />
+              </div>
+            }
             {!isProcessing && (
               <input
                 className='btn btn-dark'

@@ -59,6 +59,25 @@ function Dashboard({ children, checkPage, user }) {
                   <div>Followings</div>
                   <div className='count-dashboard'>{user.followingCount}</div>
                 </Link>
+                <Link
+                  style={{
+                    display: 'flex',
+                    width: '100%',
+                    backgroundColor:
+                      checkPage !== '/dashboard/reading-list'
+                        ? '#eef0f1'
+                        : '#fff',
+                    padding: '5px',
+                    justifyContent: 'space-between',
+                  }}
+                  to='/dashboard/reading-list'
+                  className='btn btn-light'
+                >
+                  <div>Reading list</div>
+                  <div className='count-dashboard'>
+                    {user.bookMarkedPostsCount}
+                  </div>
+                </Link>
               </div>
             </div>
           </aside>

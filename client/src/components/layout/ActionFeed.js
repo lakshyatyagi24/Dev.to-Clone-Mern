@@ -20,7 +20,7 @@ const ActionFeed = ({ isAuthenticated, logout }) => {
               </Link>
             </li>
             <li>
-              <Link className='action-feed_s' to='/reading-lists'>
+              <Link className='action-feed_s' to='/dashboard/reading-list'>
                 Reading list
               </Link>
             </li>

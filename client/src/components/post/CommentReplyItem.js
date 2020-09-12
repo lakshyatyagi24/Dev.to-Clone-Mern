@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { deleteReplyComment } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
-import CommentEdit from './CommentEdit';
 import CommentReply from './CommentReply';
 import CommentEditReply from './CommentEditReply';
 

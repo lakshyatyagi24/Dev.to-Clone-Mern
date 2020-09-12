@@ -3,7 +3,7 @@ import Setting from './Setting';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-import BeatLoader from 'react-spinners/BeatLoader';
+import HashLoader from 'react-spinners/HashLoader';
 
 const initialState = {
   website: '',
@@ -74,7 +74,7 @@ const Profile = ({
     <Setting checkPage={location.pathname}>
       {loading || profile === null ? (
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-          <BeatLoader size={15} color={'#3b49df'} loading={true} />
+          <HashLoader size={36} color={'#3b49df'} loading={true} />
         </div>
       ) : (
         <div className='main-setting bg-white'>
@@ -277,7 +277,7 @@ const Profile = ({
                   </div>
                 </Fragment>
               )}
-              {<BeatLoader size={15} color={'#3b49df'} loading={isCompleted} />}
+              {<HashLoader size={36} color={'#3b49df'} loading={isCompleted} />}
               {!isCompleted && (
                 <input
                   type='submit'

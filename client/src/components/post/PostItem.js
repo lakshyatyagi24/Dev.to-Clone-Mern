@@ -103,7 +103,6 @@ const PostItem = ({
       </div>
 
       <SidePostItem
-        data={auth.user}
         auth={auth}
         user={user}
         profile={profile}

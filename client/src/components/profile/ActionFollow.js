@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
+const ActionFollow = ({ setAuth, handleFollow, auth, isFollowing }) => {
   const [isFollowState, setIsFollowState] = useState(isFollowing);
   useEffect(() => {
     setIsFollowState(isFollowing);
@@ -21,16 +21,7 @@ const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
   return (
     <Fragment>
       {auth.isAuthenticated && isFollowState ? (
-        <button
-          onClick={handleFollowUser}
-          style={{
-            width: '100%',
-            margin: '20px 0 0 0',
-            display:
-              auth.isAuthenticated && auth.user._id === user._id ? 'none' : '',
-          }}
-          className='btn btn-light'
-        >
+        <button onClick={handleFollowUser} className='btn btn-light'>
           Following
         </button>
       ) : (
@@ -38,10 +29,6 @@ const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
           onClick={handleFollowUser}
           style={{
             backgroundColor: 'royalblue',
-            width: '100%',
-            margin: '20px 0 0 0',
-            display:
-              auth.isAuthenticated && auth.user._id === user._id ? 'none' : '',
           }}
           className='btn btn-dark'
         >

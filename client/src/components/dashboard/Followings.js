@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 function Followings({ following }) {
   return (
     <div className='followers__item bg-white'>
-      <Link to={`/profile/${following._id}`} className='followers__item-wrap'>
+      <Link
+        to={`/profile/user/${following._id}`}
+        className='followers__item-wrap'
+      >
         <img className='round-img-dashboard' alt='alt' src={following.avatar} />
         <div className='follower-name'>{'@' + following.name}</div>
       </Link>

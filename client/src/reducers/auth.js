@@ -10,7 +10,6 @@ import {
   USER_BOOKMARK,
   USER_UNBOOKMARK,
 } from '../actions/types';
-import { pad } from 'lodash';
 
 const initialState = {
   token: localStorage.getItem('token'),

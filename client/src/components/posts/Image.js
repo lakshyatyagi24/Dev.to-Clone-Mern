@@ -46,9 +46,8 @@ const Image = ({ setImage }) => {
           <input
             className='btn btn-light'
             type='file'
-            style={{ margin: '10px 0' }}
+            style={{ margin: '10px 0', width: '100%' }}
             onChange={changeHandler}
-            style={{ width: '100%' }}
           />
         </form>
         <div style={{ width: '100%' }} className='output'>
@@ -63,7 +62,7 @@ const Image = ({ setImage }) => {
           )}
         </div>
         {document.queryCommandSupported('copy') && (
-          <div style={{ margin: '10px 0' }}>
+          <div style={{ marginBottom: '10px' }}>
             <button className='btn btn-light' onClick={copyToClipboard}>
               Copy
             </button>

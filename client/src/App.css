@@ -14,8 +14,9 @@
 }
 
 body {
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #eef0f1;
@@ -271,10 +272,10 @@ a {
   color: #888;
 }
 
-.form input[type="text"],
-.form input[type="email"],
-.form input[type="password"],
-.form input[type="date"],
+.form input[type='text'],
+.form input[type='email'],
+.form input[type='password'],
+.form input[type='date'],
 .form select,
 .form textarea {
   display: block;
@@ -284,7 +285,7 @@ a {
   border: 1px solid #ccc;
 }
 
-.form input[type="submit"],
+.form input[type='submit'],
 button {
   font: inherit;
 }
@@ -295,9 +296,9 @@ button {
   -o-transition: all 0.2s ease-in-out;
   outline: none;
 }
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+input[type='text'],
+input[type='email'],
+input[type='password'] {
   -webkit-transition: all 0.2s ease-in-out;
   -moz-transition: all 0.2s ease-in-out;
   -ms-transition: all 0.2s ease-in-out;
@@ -310,9 +311,9 @@ input[type="password"] {
   box-shadow: 0 0 5px royalblue;
   border: 1px solid royalblue;
 }
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus {
   box-shadow: 0 0 5px royalblue;
   /* padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px; */
@@ -501,11 +502,11 @@ input[type="password"]:focus {
 
   .profile-grid {
     grid-template-areas:
-      "top"
-      "about"
-      "exp"
-      "edu"
-      "github";
+      'top'
+      'about'
+      'exp'
+      'edu'
+      'github';
   }
 
   .profile-about .skills {
@@ -945,7 +946,7 @@ notfound {
 }
 
 .notfound .notfound-404 h1 {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -966,7 +967,7 @@ notfound {
 }
 
 .notfound .notfound-404 h3 {
-  font-family: "Cabin", sans-serif;
+  font-family: 'Cabin', sans-serif;
   position: relative;
   font-size: 16px;
   font-weight: 700;
@@ -978,7 +979,7 @@ notfound {
 }
 
 .notfound h2 {
-  font-family: "Cabin", sans-serif;
+  font-family: 'Cabin', sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-transform: uppercase;
@@ -1023,7 +1024,7 @@ notfound {
   max-width: 1260px;
   margin: auto;
   display: grid;
-  padding: 70px 15px 15px 15px;
+  padding: 72px 15px 15px 15px;
   position: relative;
   word-break: break-word;
 }
@@ -1035,12 +1036,15 @@ notfound {
   padding: 15px;
   height: auto;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .me__top {
   display: flex;
   justify-content: center;
-  margin-top: -90px;
+  margin-top: -130px;
   padding: 12px;
+  align-self: center;
 }
 
 .round-img.me-avatar {
@@ -1062,12 +1066,37 @@ notfound {
 .me-meta {
   display: flex;
   padding: 8px;
+  font-size: 0.9rem;
 }
 .me-meta a,
-p {
+.me-meta p {
   margin: auto 8px;
   color: #64707d;
 }
 .me-meta a:hover i {
   color: royalblue;
+}
+.me-work {
+  font-size: 0.9rem;
+  padding: 18px;
+  border-top: 1px solid #ddd;
+}
+.me-work__wrap {
+  display: flex;
+  justify-content: space-evenly;
+}
+.me-work__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 12px;
+}
+.me-work__item span {
+  color: #64707d;
+}
+.me-work__item:hover a {
+  color: royalblue;
+}
+.action-follow {
+  align-self: flex-end;
 }

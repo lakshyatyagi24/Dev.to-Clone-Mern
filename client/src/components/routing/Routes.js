@@ -17,6 +17,7 @@ import NotFound from '../layout/NotFound';
 import Account from '../profile/Account';
 import Profile from '../profile/Profile';
 import Me from '../profile/Me';
+import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 
@@ -37,6 +38,7 @@ const Routes = (props) => {
         />
         <Route exact path='/users/password/forget' component={Forget} />
         <Route exact path='/users/password/reset/:token' component={Reset} />
+        <Route exact path='/profile/user/:id' component={UserProfile} />
         <PrivateRoute exact path='/profile/me' component={Me} />
         <PrivateRoute exact path='/dashboard' component={PostItemRoute} />
         <PrivateRoute

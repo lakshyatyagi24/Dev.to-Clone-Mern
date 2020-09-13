@@ -1,29 +1,57 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getCurrentProfile } from '../../actions/profile';
+import { getUserProfile } from '../../actions/profile';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import { follow } from '../../actions/auth';
+import LoginPopUp from '../auth/LoginPopUp';
+import ActionFollow from './ActionFollow';
 import { Link } from 'react-router-dom';
 
-function Me({ profile: { profile }, getCurrentProfile }) {
+function UserProfile({ profile: { profile }, getUserProfile, match, auth }) {
+  const [_auth, setAuth] = useState(false);
   useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
+    getUserProfile(match.params.id);
+  }, [getUserProfile, match.params.id]);
+  const handleFollow = () => {
+    if (auth.isAuthenticated && localStorage.token) {
+      follow(profile.user._id);
+      return setAuth(false);
+    } else {
+      return setAuth(true);
+    }
+  };
   return (
     profile && (
       <Fragment>
         <div className='me'>
+          {_auth ? <LoginPopUp setAuth={setAuth} /> : null}
           <div className='me__banner'>
             <div className='me__wrap'>
               <div className='me__content bg-white'>
                 <div className='action-follow'>
-                  <Link
-                    to='/settings'
-                    style={{ marginRight: 0 }}
-                    className='btn btn-dark'
-                  >
-                    Edit Profile
-                  </Link>
+                  {auth.user && auth.user._id === profile.user._id ? (
+                    <Link
+                      to='/settings'
+                      style={{ marginRight: 0 }}
+                      className='btn btn-dark'
+                    >
+                      Edit Profile
+                    </Link>
+                  ) : (
+                    <ActionFollow
+                      setAuth={setAuth}
+                      handleFollow={handleFollow}
+                      auth={auth}
+                      isFollowing={
+                        auth.user === null
+                          ? null
+                          : auth.user.following.some(
+                              (item) => item._id === profile.user._id
+                            )
+                      }
+                    />
+                  )}
                 </div>
                 <div className='me__top'>
                   <img
@@ -159,11 +187,13 @@ function Me({ profile: { profile }, getCurrentProfile }) {
     )
   );
 }
-Me.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
+UserProfile.propTypes = {
+  getUserProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
 });
-export default connect(mapStateToProps, { getCurrentProfile })(Me);
+export default connect(mapStateToProps, { getUserProfile })(UserProfile);

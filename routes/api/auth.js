@@ -14,7 +14,7 @@ const { validLogin } = require('../../helpers/valid');
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
-      .select('-password')
+      .select(['-password', '-resetPasswordLink'])
       .populate({
         path: 'posts',
         select: [

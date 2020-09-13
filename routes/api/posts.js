@@ -69,8 +69,6 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
     const post = await Post.findById(req.params.id).populate('user', [
       'avatar',
       'name',
-      'followers',
-      'followersCount',
     ]);
     const profile = await Profile.findOne({
       user: post.user.id,

@@ -40,7 +40,11 @@ const PostFeed = ({
     <div className='post-feed p-1 my bg-white'>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Link
-          to={`/profile/user/${user._id}`}
+          to={
+            auth.user && auth.user._id === user._id
+              ? `/profile/me`
+              : `/profile/user/${user._id}`
+          }
           style={{ display: 'flex', width: 'fit-content' }}
         >
           <img className='round-img-feed' src={user.avatar} alt='' />

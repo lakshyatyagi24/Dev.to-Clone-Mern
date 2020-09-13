@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { follow } from '../../actions/auth';
 import { connect } from 'react-redux';
 import ActionFollow from './ActionFollow';
-const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
+const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated && localStorage.token) {
       follow(user._id);
@@ -25,7 +25,11 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
                 position: 'absolute',
                 top: '-30px',
               }}
-              to={`/profile/user/${user._id}`}
+              to={
+                auth.user && auth.user._id === user._id
+                  ? `/profile/me`
+                  : `/profile/user/${user._id}`
+              }
             >
               <img className='round-img' src={user.avatar} alt='' />
               <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
@@ -45,7 +49,7 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
               className='btn btn-dark'
               to='/settings'
             >
-              Edit
+              Edit Profile
             </Link>
           )}
           <ActionFollow
@@ -56,8 +60,7 @@ const SidePostItem = ({ user, data, profile, follow, auth, setAuth }) => {
             isFollowing={
               auth.user === null
                 ? null
-                : data.following.some((item) => item._id === user._id) ||
-                  user.followers.includes(auth.user._id)
+                : auth.user.following.some((item) => item._id === user._id)
             }
           />
 

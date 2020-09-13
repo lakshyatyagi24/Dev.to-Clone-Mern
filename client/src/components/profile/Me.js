@@ -17,11 +17,7 @@ function Me({ profile: { profile }, getCurrentProfile }) {
             <div className='me__wrap'>
               <div className='me__content bg-white'>
                 <div className='action-follow'>
-                  <Link
-                    to='/settings'
-                    style={{ marginRight: 0 }}
-                    className='btn btn-dark'
-                  >
+                  <Link to='/settings' className='btn btn-dark'>
                     Edit Profile
                   </Link>
                 </div>

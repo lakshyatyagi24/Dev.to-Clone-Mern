@@ -9,6 +9,8 @@ import {
   USER_ADD_POST,
   USER_BOOKMARK,
   USER_UNBOOKMARK,
+  FOLLOW,
+  UNFOLLOW,
 } from '../actions/types';
 
 const initialState = {
@@ -28,6 +30,32 @@ export default function (state = initialState, action) {
         isAuthenticated: true,
         loading: false,
         user: payload,
+      };
+    case FOLLOW:
+      const { userId, userName, userAvatar } = payload;
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          followingCount: state.user.followingCount + 1,
+          following: [
+            { _id: userId, name: userName, avatar: userAvatar },
+            ...state.user.following,
+          ],
+        },
+      };
+    case UNFOLLOW:
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          followingCount: state.user.followingCount - 1,
+          following: state.user.following.filter(
+            (item) => item._id !== payload.userId
+          ),
+        },
       };
     case LOGIN_SUCCESS:
       return {

@@ -460,6 +460,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
+    let check = false;
     if (me.following.includes(req.params.id)) {
       const index = me.following.indexOf(req.params.id);
       me.following.splice(index, 1);
@@ -469,6 +470,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
       user.followers.splice(index_f, 1);
       user.followersCount = user.followersCount - 1;
     } else {
+      check = true;
       me.followingCount = me.followingCount + 1;
       me.following = [req.params.id, ...me.following];
 
@@ -479,7 +481,15 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
     await user.save();
     await me.save();
 
-    return res.status(200).json({ success: true, data: {} });
+    return res.status(200).json({
+      success: true,
+      data: {
+        userId: req.params.id,
+        userName: user.name,
+        userAvatar: user.avatar,
+        check,
+      },
+    });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

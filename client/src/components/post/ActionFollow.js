@@ -25,11 +25,10 @@ const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
           onClick={handleFollowUser}
           style={{
             width: '100%',
-            margin: '20px 0 0 0',
             display:
               auth.isAuthenticated && auth.user._id === user._id ? 'none' : '',
           }}
-          className='btn btn-light'
+          className='btn btn-light my'
         >
           Following
         </button>
@@ -39,11 +38,10 @@ const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
           style={{
             backgroundColor: 'royalblue',
             width: '100%',
-            margin: '20px 0 0 0',
             display:
               auth.isAuthenticated && auth.user._id === user._id ? 'none' : '',
           }}
-          className='btn btn-dark'
+          className='btn btn-dark my'
         >
           Follow
         </button>

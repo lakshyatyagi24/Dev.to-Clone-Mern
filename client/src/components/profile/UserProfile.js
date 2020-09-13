@@ -8,14 +8,20 @@ import LoginPopUp from '../auth/LoginPopUp';
 import ActionFollow from './ActionFollow';
 import { Link } from 'react-router-dom';
 
-function UserProfile({ profile: { profile }, getUserProfile, match, auth }) {
+function UserProfile({
+  profile: { profile },
+  getUserProfile,
+  match,
+  follow,
+  auth,
+}) {
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
     getUserProfile(match.params.id);
   }, [getUserProfile, match.params.id]);
   const handleFollow = () => {
     if (auth.isAuthenticated && localStorage.token) {
-      follow(profile.user._id);
+      follow(match.params.id);
       return setAuth(false);
     } else {
       return setAuth(true);
@@ -189,6 +195,7 @@ function UserProfile({ profile: { profile }, getUserProfile, match, auth }) {
 }
 UserProfile.propTypes = {
   getUserProfile: PropTypes.func.isRequired,
+  follow: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
 };
@@ -196,4 +203,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
 });
-export default connect(mapStateToProps, { getUserProfile })(UserProfile);
+export default connect(mapStateToProps, { getUserProfile, follow })(
+  UserProfile
+);

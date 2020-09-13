@@ -22,8 +22,7 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
             <Link
               style={{
                 display: 'flex',
-                position: 'absolute',
-                top: '-30px',
+                marginTop: '-30px',
               }}
               to={
                 auth.user && auth.user._id === user._id
@@ -31,22 +30,20 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
                   : `/profile/user/${user._id}`
               }
             >
-              <img className='round-img' src={user.avatar} alt='' />
-              <h5 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
+              <img className='round-img side-avatar' src={user.avatar} alt='' />
+              <h4 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
                 {user.name}
-              </h5>
+              </h4>
             </Link>
           </div>
-          {profile.bio && <div className='py-1-5'>{profile.bio}</div>}
+          {profile.bio && <div className='my'>{profile.bio}</div>}
           {auth.isAuthenticated && auth.user._id === user._id && (
             <Link
               style={{
-                height: '40px',
                 width: '100%',
-                margin: '20px 0 0 0',
                 textAlign: 'center',
               }}
-              className='btn btn-dark'
+              className='btn btn-dark my'
               to='/settings'
             >
               Edit Profile

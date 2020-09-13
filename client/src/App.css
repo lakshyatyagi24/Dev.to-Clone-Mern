@@ -1046,7 +1046,10 @@ notfound {
   padding: 12px;
   align-self: center;
 }
-
+.round-img.side-avatar {
+  width: 48px;
+  height: 48px;
+}
 .round-img.me-avatar {
   width: 130px;
   height: 130px;

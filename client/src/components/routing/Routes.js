@@ -11,6 +11,7 @@ import ReadingListRoute from '../dashboard/ReadingListRoute';
 import FollowersRoute from '../dashboard/FollowersRoute';
 import FollowingsRoute from '../dashboard/FollowingsRoute';
 import PostNew from '../posts/PostNew';
+import PostEdit from '../posts/PostEdit';
 import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
@@ -60,6 +61,7 @@ const Routes = (props) => {
         <PrivateRoute exact path='/settings/user/profile' component={Profile} />
         <PrivateRoute exact path='/settings/user/account' component={Account} />
         <PrivateRoute exact path='/write-post' component={PostNew} />
+        <PrivateRoute exact path='/write-post/edit/:id' component={PostEdit} />
         <Route component={NotFound} />
       </Switch>
     </section>

@@ -23,17 +23,17 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
           </div>
         </div>
         <div>
-          {loading ? null : !isAuthenticated || user === null ? (
+          {loading ? null : !isAuthenticated ? (
             <div className='guest-link'>
               <Link
-                style={{ color: '#3b49df' }}
+                style={{ color: 'royalblue' }}
                 className='btn btn-light'
                 to='/login'
               >
                 Login
               </Link>
               <Link
-                style={{ background: '#3b49df' }}
+                style={{ backgroundColor: 'royalblue' }}
                 className='btn btn-dark'
                 to='/register'
               >
@@ -80,19 +80,22 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                   <i style={{ fontSize: '1.2rem' }} className='far fa-bell'></i>
                 </Link>
               </div>
-              <div
-                className='avatar-feed'
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                }}
-              >
-                <ActionFeed user={user} />
-                <div className='action-connect'></div>
-                <img className='round-img' src={user.avatar} alt='' />
-              </div>
+              {user === null ? null : (
+                <div
+                  className='avatar-feed'
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <ActionFeed user={user} />
+                  <div className='action-connect'></div>
+
+                  <img className='round-img' src={user.avatar} alt='' />
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -71,7 +71,7 @@ const Login = ({ login, history }) => {
             <input
               className='btn btn-dark'
               style={{
-                background: '#3b49df',
+                backgroundColor: 'royalblue',
                 width: '100%',
                 textAlign: 'center',
                 height: '50px',

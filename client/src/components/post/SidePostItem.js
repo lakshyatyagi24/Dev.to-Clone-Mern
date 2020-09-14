@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { follow } from '../../actions/auth';
@@ -13,10 +13,20 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
       return setAuth(true);
     }
   };
+
+  console.log(typeof profile.brand_color);
   return (
     <div className='side-post-item'>
       <div className='side-post-item__wrap'>
-        <div className='top-bar'></div>
+        <div
+          style={{
+            backgroundColor: `#4169e1`,
+          }}
+          className='top-bar'
+        >
+          {/* {profile.brand_color} */}
+        </div>
+
         <div className='bg-white box'>
           <div className='user-info'>
             <Link

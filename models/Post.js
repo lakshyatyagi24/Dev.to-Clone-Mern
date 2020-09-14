@@ -8,6 +8,7 @@ const PostSchema = new Schema({
     required: true,
   },
   title: { type: String, required: true, trim: true },
+  coverImage: { type: String, trim: true },
   content: { type: String, required: true, trim: true },
   likes: [{ type: mongoose.Schema.ObjectId, ref: 'user' }],
   likesCount: {

@@ -7,6 +7,7 @@ const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const checkObjectId = require('../../middleware/checkObjectId');
+const { findById } = require('../../models/Post');
 
 // @route    POST api/posts
 // @desc     Create a post
@@ -29,6 +30,7 @@ router.post(
     try {
       let post = await Post.create({
         title: req.body.title,
+        coverImage: req.body.coverImage,
         content: req.body.content,
         user: req.user.id,
       });
@@ -37,6 +39,50 @@ router.post(
         $inc: { postCount: 1 },
       });
       post = await post.populate('user', ['avatar', 'name']).execPopulate();
+
+      return res.json(post);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route    PUT api/posts
+// @desc     Edit  post
+// @access   Private
+router.put(
+  '/edit/:id',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('content', 'Content is required').not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const post = await Post.findById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found' });
+      }
+      if (post.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' });
+      }
+      const { title, content, coverImage } = req.body;
+      post.title = title;
+      post.content = content;
+      if (coverImage) {
+        post.coverImage = coverImage;
+      } else {
+        post.coverImage = '';
+      }
+      await post.save();
 
       return res.json(post);
     } catch (err) {
@@ -62,6 +108,28 @@ router.get('/', async (req, res) => {
 });
 
 // @route    GET api/posts/:id
+// @desc     Get edited post by ID
+// @access   Public
+router.get('/edit/:id', checkObjectId('id'), async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).select([
+      'title',
+      'content',
+      'coverImage',
+    ]);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+
+    return res.json(post);
+  } catch (err) {
+    console.error(err.message);
+
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/posts/:id
 // @desc     Get post by ID
 // @access   Public
 router.get('/:id', checkObjectId('id'), async (req, res) => {
@@ -72,7 +140,15 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
     ]);
     const profile = await Profile.findOne({
       user: post.user.id,
-    }).select(['bio', 'title', 'locations', 'date', 'id', 'user']);
+    }).select([
+      'bio',
+      'title',
+      'locations',
+      'date',
+      'id',
+      'user',
+      'brand_color',
+    ]);
 
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
@@ -83,6 +159,28 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
 
     return res.json({ post, profile });
   } catch (err) {
+    console.error(err.message);
+
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/posts/:id
+// @desc     Get post by userId
+// @access   Public
+router.get('/user/:id', checkObjectId('id'), async (req, res) => {
+  try {
+    const post = await Post.find({ user: req.params.id }).populate('user', [
+      'avatar',
+      'name',
+    ]);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+
+    return res.json(post);
+  } catch (err) {
+    console.log('asdsd');
     console.error(err.message);
 
     return res.status(500).send('Server Error');

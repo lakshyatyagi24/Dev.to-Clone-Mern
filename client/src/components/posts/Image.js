@@ -14,11 +14,6 @@ const Image = ({ setImage }) => {
     e.target.focus();
     setCopySuccess('Copied!');
   };
-  // const handleClick = (e) => {
-  //   if (e.target.classList.contains('backdrop')) {
-  //     setImage(false);
-  //   }
-  // };
   const changeHandler = (e) => {
     let selected = e.target.files[0];
     if (selected && types.includes(selected.type)) {
@@ -39,7 +34,7 @@ const Image = ({ setImage }) => {
         >
           <i style={{ color: '#363c44' }} className='fas fa-times' />
         </button>
-        <h3 className='text-dark my-1'>
+        <h3 style={{ textAlign: 'center' }} className='text-dark my-1'>
           Select your image and copy under text to your editor
         </h3>
         <form>

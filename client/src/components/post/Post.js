@@ -22,7 +22,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
       <PostItem post={post} profile={profile} setAuth={setAuth} />
 
-      <div className='post'>
+      <div className='post py'>
         <div></div>
 
         <div

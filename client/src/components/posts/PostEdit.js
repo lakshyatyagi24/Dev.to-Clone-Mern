@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components'; // test thu style component
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addPost } from '../../actions/post';
+import { editPost } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
+import api from '../../utils/api';
 import Guide from './Guide';
 import Image from './Image';
 import CoverImage from './CoverImage';
@@ -83,7 +84,7 @@ const Preview = styled.div`
   border-bottom: 1px solid rgba(15, 15, 15, 0.3);
 `;
 
-function PostNew({ addPost }) {
+function PostEdit({ editPost, match }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [coverImage, setCoverImage] = useState(false);
@@ -92,17 +93,16 @@ function PostNew({ addPost }) {
   const [image, setImage] = useState(false);
   const [publish, setPublish] = useState(false);
 
-  let dataPost = JSON.parse(localStorage.getItem('post'));
   useEffect(() => {
-    if (!dataPost) {
-      dataPost = { title: '', content: '' };
-      setTitle(dataPost.title);
-      setContent(dataPost.content);
-    } else {
-      setTitle(dataPost.title);
-      setContent(dataPost.content);
+    async function getData() {
+      const res = await api.get(`/posts/edit/${match.params.id}`);
+      const { title, content, coverImage } = res.data;
+      setTitle(title);
+      setContent(content);
+      localStorage.setItem('Cover_Image', coverImage);
     }
-  }, []);
+    getData();
+  }, [match.params.id]);
 
   return (
     <div className='container'>
@@ -124,7 +124,7 @@ function PostNew({ addPost }) {
                 e.preventDefault();
                 setPublish(true);
                 const cover_image = localStorage.getItem('Cover_Image');
-                const res = await addPost({
+                const res = await editPost(match.params.id, {
                   title,
                   coverImage: !cover_image ? '' : cover_image,
                   content,
@@ -134,7 +134,6 @@ function PostNew({ addPost }) {
                 } else {
                   setPublish(false);
                 }
-                localStorage.removeItem('post');
                 localStorage.removeItem('Cover_Image');
               }}
             >
@@ -144,20 +143,12 @@ function PostNew({ addPost }) {
                 required
                 value={title}
                 onChange={(e) => {
-                  localStorage.setItem(
-                    'post',
-                    JSON.stringify({ ...dataPost, title: e.target.value })
-                  );
                   setTitle(e.target.value);
                 }}
               />
 
               <TextArea
                 onChange={(e) => {
-                  localStorage.setItem(
-                    'post',
-                    JSON.stringify({ ...dataPost, content: e.target.value })
-                  );
                   setContent(e.target.value);
                 }}
                 placeholder='You will use markdown to write your post, see the guide in right side...'
@@ -170,7 +161,7 @@ function PostNew({ addPost }) {
                 <input
                   type='submit'
                   className='btn btn-dark my-1'
-                  value='Publish'
+                  value='Save'
                 />
               )}
             </form>
@@ -216,8 +207,8 @@ function PostNew({ addPost }) {
     </div>
   );
 }
-PostNew.propTypes = {
-  addPost: PropTypes.func.isRequired,
+PostEdit.propTypes = {
+  editPost: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addPost })(PostNew);
+export default connect(null, { editPost })(PostEdit);

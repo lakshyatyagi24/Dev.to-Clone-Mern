@@ -15,6 +15,8 @@ import {
   USER_ADD_POST,
   USER_BOOKMARK,
   USER_UNBOOKMARK,
+  GET_POSTS_BY_USER,
+  USER_EDIT_POST,
 } from './types';
 
 // Get posts
@@ -139,7 +141,44 @@ export const addPost = (formData) => async (dispatch) => {
   }
 };
 
-// Get post
+// Edit post
+export const editPost = (id, formData) => async (dispatch) => {
+  try {
+    const res = await api.put(`/posts/edit/${id}`, formData);
+    dispatch({
+      type: USER_EDIT_POST,
+      payload: res.data,
+    });
+    toast.success('Edit post complete!');
+    return true;
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    toast.error(err.response.data.msg);
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => toast.error(error.msg));
+    }
+    return false;
+  }
+};
+// Get post by id
+export const getEditPost = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/posts/edit/${id}`);
+    return res.data;
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get post by id
 export const getPost = (id) => async (dispatch) => {
   try {
     const res = await api.get(`/posts/${id}`);
@@ -147,6 +186,23 @@ export const getPost = (id) => async (dispatch) => {
     dispatch({
       type: GET_POST,
       payload: { post, profile },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get post by userid
+export const getPostByUser = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/posts/user/${id}`);
+
+    dispatch({
+      type: GET_POSTS_BY_USER,
+      payload: res.data,
     });
   } catch (err) {
     dispatch({

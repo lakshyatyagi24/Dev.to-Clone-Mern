@@ -19,6 +19,7 @@ router.get('/', auth, async (req, res) => {
         path: 'posts',
         select: [
           'title',
+          'coverImage',
           'content',
           'likesCount',
           'bookmarksCount',

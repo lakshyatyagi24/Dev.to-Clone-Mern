@@ -15,6 +15,7 @@ const PostItem = ({
   post: {
     _id,
     title,
+    coverImage,
     likes,
     bookmarks,
     content,
@@ -53,9 +54,19 @@ const PostItem = ({
       return setAuth(false);
     }
   };
-  console.log('render');
+  const style = {
+    backgroundImage: `url(${coverImage})`,
+    backgroundColor: '#fff',
+    height: '340px',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    position: 'relative',
+    borderTopLeftRadius: '5px',
+    borderTopRightRadius: '5px',
+  };
   return (
-    <div className='post py-1-fix post-main'>
+    <div className='post py post-main'>
       <ActionPostItem
         handleBookmarksAction={handleBookmarksAction}
         handleLikeAction={handleLikeAction}
@@ -71,38 +82,49 @@ const PostItem = ({
         decBookMarks={decBookMarks}
         setAuth={setAuth}
       />
+      <div>
+        {coverImage && <div style={style}></div>}
 
-      <div className='bg-white main-post-item'>
-        <h1
-          style={{
-            fontSize: '3rem',
-          }}
-          className='text-dark'
-        >
-          {title}
-        </h1>
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            margin: '20px 0',
-          }}
+          style={
+            coverImage
+              ? { borderTopLeftRadius: 0, borderTopRightRadius: 0 }
+              : {}
+          }
+          className='bg-white main-post-item'
         >
-          <Link style={{ display: 'flex' }} to={`/profile/user/${user._id}`}>
-            <img className='round-img' src={user.avatar} alt='' />
-            <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
-          </Link>
-          <p
-            className='post-date'
-            style={{ alignSelf: 'flex-end', margin: '0' }}
+          <h1
+            style={{
+              fontSize: '3rem',
+            }}
+            className='text-dark'
           >
-            Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
-          </p>
+            {title}
+          </h1>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              margin: '20px 0',
+            }}
+          >
+            <Link style={{ display: 'flex' }} to={`/profile/user/${user._id}`}>
+              <img className='round-img' src={user.avatar} alt='' />
+              <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
+            </Link>
+            <p
+              className='post-date'
+              style={{ alignSelf: 'flex-end', margin: '0' }}
+            >
+              Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
+            </p>
+          </div>
+          <MarkdownPreview className='post-item' value={content} />
         </div>
-        <MarkdownPreview className='post-item' value={content} />
       </div>
 
       <SidePostItem
+        color={profile.brand_color}
         auth={auth}
         user={user}
         profile={profile}

@@ -6,11 +6,7 @@ import {
   GET_POST,
   ADD_COMMENT,
   REMOVE_COMMENT,
-  // UPDATE_BOOKMARKS,
-  // UPDATE_BOOKMARKS_INREADING,
-  // UPDATE_LIKES_INREADING,
   EDIT_COMMENT,
-  // FOLLOW,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
 } from '../actions/types';
@@ -32,6 +28,7 @@ export default function (state = initialState, action) {
         posts: payload,
         loading: false,
       };
+
     case GET_POST:
       return {
         ...state,

@@ -36,7 +36,7 @@ const ActionPostFeed = ({
         {auth.isAuthenticated && bookMarkedState ? (
           <i
             className='fas fa-bookmark'
-            style={{ color: '#3b49df', fontSize: '18px' }}
+            style={{ color: 'royalblue', fontSize: '18px' }}
           />
         ) : (
           <i className='far fa-bookmark' style={{ fontSize: '18px' }} />

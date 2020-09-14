@@ -21,7 +21,13 @@ const ActionFollow = ({ setAuth, handleFollow, auth, isFollowing }) => {
   return (
     <Fragment>
       {auth.isAuthenticated && isFollowState ? (
-        <button onClick={handleFollowUser} className='btn btn-light'>
+        <button
+          onClick={handleFollowUser}
+          style={{
+            marginRight: 0,
+          }}
+          className='btn btn-light'
+        >
           Following
         </button>
       ) : (
@@ -29,6 +35,7 @@ const ActionFollow = ({ setAuth, handleFollow, auth, isFollowing }) => {
           onClick={handleFollowUser}
           style={{
             backgroundColor: 'royalblue',
+            marginRight: 0,
           }}
           className='btn btn-dark'
         >

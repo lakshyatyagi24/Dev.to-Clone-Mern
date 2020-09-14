@@ -4,11 +4,13 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   GET_PROFILES,
+  GET_POSTS_BY_USER,
 } from '../actions/types';
 
 const initialState = {
   profile: null,
-  profiles: [],
+  profiles: null,
+  posts: [],
   loading: true,
   error: {},
 };
@@ -22,6 +24,12 @@ export default function (state = initialState, action) {
       return {
         ...state,
         profile: payload,
+        loading: false,
+      };
+    case GET_POSTS_BY_USER:
+      return {
+        ...state,
+        posts: payload,
         loading: false,
       };
     case GET_PROFILES:

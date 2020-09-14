@@ -110,7 +110,7 @@ const ActionPostItem = ({
             style={
               auth.isAuthenticated && bookmarked
                 ? {
-                    border: '2px solid #3b49df',
+                    border: '2px solid royalblue',
                     backgroundColor: '#e8e9f9',
                   }
                 : {}
@@ -123,7 +123,7 @@ const ActionPostItem = ({
                   : 'far fa-bookmark'
               }
               style={{
-                color: auth.isAuthenticated && bookmarked ? '#3b49df' : '',
+                color: auth.isAuthenticated && bookmarked ? 'royalblue' : '',
                 fontSize: '20px',
               }}
             />
@@ -133,7 +133,7 @@ const ActionPostItem = ({
         <span
           style={{
             display: 'block',
-            color: auth.isAuthenticated && bookmarked ? '#3b49df' : '',
+            color: auth.isAuthenticated && bookmarked ? 'royalblue' : '',
           }}
         >
           <span>{bookmarksState >= 0 && bookmarksState}</span>

@@ -6,11 +6,15 @@ export const ProgressBar = ({
   setFile,
   setImageUrl,
   setImageUpdateUser,
+  setCoverImage,
 }) => {
   const { url, progress } = useStorage(file);
 
   useEffect(() => {
     if (url) {
+      if (setCoverImage) {
+        localStorage.setItem('Cover_Image', url);
+      }
       if (setImageUrl) {
         setImageUrl(`![Alt Text](${url})`);
       }
@@ -21,7 +25,7 @@ export const ProgressBar = ({
         setFile(null);
       }
     }
-  }, [url, setFile, setImageUrl, setImageUpdateUser]);
+  }, [url, setFile, setImageUrl, setImageUpdateUser, setCoverImage]);
 
   return (
     <motion.div

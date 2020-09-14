@@ -1,26 +1,25 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import PostFeed from './PostFeed';
-import { getPosts } from '../../actions/post';
+import PostFeed from '../posts/PostFeed';
+import { getPostByUser } from '../../actions/post';
 import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
 
-const Posts = ({ getPosts, post: { posts, loading }, location }) => {
+const Posts = ({ getPostByUser, profile: { posts, loading }, user_id }) => {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
-    getPosts();
-  }, [getPosts]);
+    getPostByUser(user_id);
+  }, [getPostByUser, user_id]);
   return (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
 
-      <div className='post feed container'>
-        <div className='my'>
-          {/* <div className='left-side-feed p-1  bg-white'></div> */}
+      <div className='post feed container post-profile'>
+        <div>
+          {/* <div className='left-side-feed p-1 my-1 bg-white'></div> */}
         </div>
-        <div className='my-1'>
-          <h4 className='text-dark'>Posts</h4>
+        <div>
           {loading || posts === null ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
               <HashLoader size={36} color={'#3b49df'} loading={true} />
@@ -28,18 +27,13 @@ const Posts = ({ getPosts, post: { posts, loading }, location }) => {
           ) : (
             <Fragment>
               {posts.map((post) => (
-                <PostFeed
-                  path={location.pathname}
-                  key={post._id}
-                  post={post}
-                  setAuth={setAuth}
-                />
+                <PostFeed key={post._id} post={post} setAuth={setAuth} />
               ))}
             </Fragment>
           )}
         </div>
-        <div className=' my'>
-          {/* <div className='right-side-feed p-1 bg-white'></div> */}
+        <div>
+          {/* <div className='right-side-feed p-1 my-1 bg-white'></div> */}
         </div>
       </div>
     </Fragment>
@@ -47,12 +41,12 @@ const Posts = ({ getPosts, post: { posts, loading }, location }) => {
 };
 
 Posts.propTypes = {
-  getPosts: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired,
+  getPostByUser: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  post: state.post,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPostByUser })(Posts);

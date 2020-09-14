@@ -27,7 +27,7 @@ const LoginPopUp = ({ setAuth }) => {
 
         <Link
           style={{
-            background: '#3b49df',
+            backgroundColor: 'royalblue',
             width: '100%',
             textAlign: 'center',
             margin: '20px 0 0 0',

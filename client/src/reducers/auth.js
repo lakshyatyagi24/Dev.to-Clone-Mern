@@ -7,6 +7,7 @@ import {
   UPDATE_USER,
   USER_DELETE_POST,
   USER_ADD_POST,
+  USER_EDIT_POST,
   USER_BOOKMARK,
   USER_UNBOOKMARK,
   FOLLOW,
@@ -81,6 +82,24 @@ export default function (state = initialState, action) {
           postCount: state.user.postCount - 1,
         },
 
+        loading: false,
+      };
+    case USER_EDIT_POST:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          posts: state.user.posts.map((item) =>
+            item._id === payload._id
+              ? {
+                  ...item,
+                  title: payload.title,
+                  content: payload.content,
+                  coverImage: payload.coverImage,
+                }
+              : item
+          ),
+        },
         loading: false,
       };
     case USER_ADD_POST:

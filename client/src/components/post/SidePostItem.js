@@ -4,6 +4,26 @@ import { Link } from 'react-router-dom';
 import { follow } from '../../actions/auth';
 import { connect } from 'react-redux';
 import ActionFollow from './ActionFollow';
+function hexToRGB(h) {
+  let r = 0,
+    g = 0,
+    b = 0;
+
+  // 3 digits
+  if (h.length == 4) {
+    r = '0x' + h[1] + h[1];
+    g = '0x' + h[2] + h[2];
+    b = '0x' + h[3] + h[3];
+
+    // 6 digits
+  } else if (h.length == 7) {
+    r = '0x' + h[1] + h[2];
+    g = '0x' + h[3] + h[4];
+    b = '0x' + h[5] + h[6];
+  }
+
+  return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
+}
 const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated && localStorage.token) {
@@ -13,19 +33,18 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
       return setAuth(true);
     }
   };
-
-  console.log(typeof profile.brand_color);
   return (
     <div className='side-post-item'>
       <div className='side-post-item__wrap'>
         <div
           style={{
-            backgroundColor: `#4169e1`,
+            height: '30px',
+            width: '100%',
+            borderTopRightRadius: '5px',
+            borderTopLeftRadius: '5px',
+            backgroundColor: hexToRGB(profile.brand_color),
           }}
-          className='top-bar'
-        >
-          {/* {profile.brand_color} */}
-        </div>
+        ></div>
 
         <div className='bg-white box'>
           <div className='user-info'>

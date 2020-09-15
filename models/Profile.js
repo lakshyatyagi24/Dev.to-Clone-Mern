@@ -58,7 +58,7 @@ const ProfileSchema = new mongoose.Schema({
   },
   brand_color: {
     type: String,
-    default: '‎#002366',
+    default: 'rgb(65, 105, 225)',
   },
   date: {
     type: Date,

@@ -817,14 +817,11 @@ li:hover .action-feed_s {
   word-break: break-word;
   height: 100%;
 }
-/* .side-post-item {
-  display: block;
-  width: 290px;
+.side-post-item .box {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
-.side-post-item__wrap {
-  position: fixed;
-  width: inherit;
-} */
+
 .main-post-item {
   padding: 30px 60px;
   overflow-x: hidden;
@@ -833,11 +830,6 @@ li:hover .action-feed_s {
   padding: 15px;
 }
 
-.top-bar {
-  height: 30px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
 .user-info {
   width: fit-content;
 }
@@ -1020,7 +1012,6 @@ notfound {
 }
 .me__banner {
   height: 130px;
-  background-color: royalblue;
 }
 .me__wrap {
   max-width: 1260px;
@@ -1056,7 +1047,6 @@ notfound {
   width: 130px;
   height: 130px;
   padding: 8px;
-  background-color: royalblue;
 }
 .me__info {
   display: flex;

@@ -7,7 +7,6 @@ const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const checkObjectId = require('../../middleware/checkObjectId');
-const { findById } = require('../../models/Post');
 
 // @route    POST api/posts
 // @desc     Create a post
@@ -207,8 +206,19 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
       $pull: { posts: req.params.id },
       $inc: { postCount: -1 },
     });
-
     await post.remove();
+
+    const user = await User.find({ bookMarkedPosts: req.params.id });
+    let i;
+    let userLength = user.length;
+    if (userLength > 0) {
+      for (i = 0; i < userLength; ++i) {
+        const index = user[i].bookMarkedPosts.indexOf(req.params.id);
+        user[i].bookMarkedPosts.splice(index, 1);
+        user[i].bookMarkedPostsCount = user[i].bookMarkedPostsCount - 1;
+        await user[i].save();
+      }
+    }
 
     return res.json({ msg: 'Post removed' });
   } catch (err) {
@@ -359,6 +369,12 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select('-password');
       const post = await Post.findById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found!' });
+      }
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found!' });
+      }
       let commentsLength = post.comments.length;
       let i;
       let getComments = [];
@@ -394,6 +410,9 @@ router.post(
 router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found!' });
+    }
     // Pull out comment
     let check = false;
     let i;
@@ -438,6 +457,9 @@ router.delete(
   async (req, res) => {
     try {
       const post = await Post.findById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found!' });
+      }
       let check = false;
       let i;
       let j;
@@ -496,6 +518,9 @@ router.put(
     }
     try {
       const post = await Post.findById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found!' });
+      }
       const { data } = req.body;
       let check = false;
       let i;
@@ -542,6 +567,9 @@ router.put(
     }
     try {
       const post = await Post.findById(req.params.id);
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found!' });
+      }
       const { data } = req.body;
       let check = false;
       let i;

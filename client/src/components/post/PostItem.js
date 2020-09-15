@@ -124,7 +124,6 @@ const PostItem = ({
       </div>
 
       <SidePostItem
-        color={profile.brand_color}
         auth={auth}
         user={user}
         profile={profile}

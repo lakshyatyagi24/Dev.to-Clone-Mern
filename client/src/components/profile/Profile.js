@@ -12,6 +12,7 @@ const initialState = {
   skills: '',
   bio: '',
   education: '',
+  brand_color: '',
   twitter: '',
   facebook: '',
   linkedin: '',
@@ -29,12 +30,18 @@ const Profile = ({
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const [isCompleted, setComplete] = useState(false);
+  const [color, setColor] = useState('');
   useEffect(() => {
     if (!profile) getCurrentProfile();
     if (!loading && profile) {
       const profileData = { ...initialState };
       for (const key in profile) {
-        if (key in profileData) profileData[key] = profile[key];
+        if (key in profileData) {
+          if (key === 'brand_color') {
+            setColor(profile[key]);
+          }
+          profileData[key] = profile[key];
+        }
       }
       for (const key in profile.social) {
         if (key in profileData) profileData[key] = profile.social[key];
@@ -58,12 +65,15 @@ const Profile = ({
   } = formData;
 
   const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setComplete(true);
-    const res = await createProfile(formData);
+    const res = await createProfile({ ...formData, brand_color: color });
     if (res) {
       return setComplete(false);
     } else {
@@ -138,6 +148,35 @@ const Profile = ({
                   }}
                   value={education}
                   onChange={onChange}
+                />
+              </div>
+              <label htmlFor='brand_color'>Brand color</label>
+              <div
+                style={{ display: 'grid', gridTemplateColumns: '1fr 4fr' }}
+                className='form-group form-fix'
+              >
+                <input
+                  type='text'
+                  name='brand_color'
+                  style={{
+                    borderRadius: '5px',
+                    height: '50px',
+                    backgroundColor: '#f9fafa',
+                  }}
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                />
+                <input
+                  name='color'
+                  style={{
+                    height: '50px',
+                    width: '60px',
+                    alignSelf: 'center',
+                    marginLeft: '20px',
+                  }}
+                  type='color'
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
                 />
               </div>
               <label htmlFor='skills'>Skills/Languages</label>

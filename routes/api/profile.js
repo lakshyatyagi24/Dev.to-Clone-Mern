@@ -1,9 +1,7 @@
 const express = require('express');
-const axios = require('axios');
-const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const { check, validationResult } = require('express-validator');
+const { validationResult } = require('express-validator');
 const normalize = require('normalize-url');
 const checkObjectId = require('../../middleware/checkObjectId');
 
@@ -33,6 +31,9 @@ router.get('/me', auth, async (req, res) => {
 // @route    PUT api/profile
 // @desc     Update user profile
 // @access   Private
+function checkHex(color) {
+  return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+}
 router.put('/', auth, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -45,6 +46,7 @@ router.put('/', auth, async (req, res) => {
     skills,
     title,
     education,
+    brand_color,
     youtube,
     twitter,
     instagram,
@@ -52,7 +54,9 @@ router.put('/', auth, async (req, res) => {
     facebook,
     github,
   } = req.body;
-
+  if (!checkHex(brand_color)) {
+    brand_color = '#4169e1';
+  }
   const profileFields = {
     locations,
     website:
@@ -61,6 +65,7 @@ router.put('/', auth, async (req, res) => {
     skills,
     title,
     education,
+    brand_color,
   };
   const socialfields = {
     youtube,
@@ -135,6 +140,28 @@ router.delete('/', auth, async (req, res) => {
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
     // Remove user
+    const userFollowers = await User.find({ followers: req.user.id });
+    let i;
+    let follwersLength = userFollowers.length;
+    if (follwersLength > 0) {
+      for (i = 0; i < follwersLength; ++i) {
+        const index = userFollowers[i].followers.indexOf(req.user.id);
+        userFollowers[i].splice(index, 1);
+        userFollowers[i].followersCount = userFollowers[i].followersCount - 1;
+        await userFollowers[i].save();
+      }
+    }
+    const userFollowings = await User.find({ following: req.user.id });
+    let j;
+    let followingsLength = userFollowings.length;
+    if (followingsLength > 0) {
+      for (j = 0; j < followingsLength; ++j) {
+        const index = userFollowings[j].following.indexOf(req.user.id);
+        userFollowings[j].splice(index, 1);
+        userFollowings[j].followingCount = userFollowings[j].followingCount - 1;
+        await userFollowings[j].save();
+      }
+    }
     await User.findOneAndRemove({ _id: req.user.id });
 
     return res.json({ msg: 'User deleted' });

@@ -289,19 +289,18 @@ button {
   font: inherit;
 }
 .form textarea {
-  transition: all 0.18s ease-in-out;
+  transition: all 0.1s ease-in-out;
   outline: none;
 }
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-  /* transition: all 0.15s ease-in-out; */
+  transition: all 0.1s ease-in-out;
   outline: none;
   padding: 3px 0px 3px 3px;
   margin: 5px 1px 3px 0px;
 }
 .form textarea:focus {
-  /* box-shadow: 0 0 5px royalblue; */
   border-top: 1px solid royalblue;
   border-left: 1px solid royalblue;
   border-right: 2px solid royalblue;
@@ -310,7 +309,6 @@ input[type="password"] {
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
-  /* box-shadow: 0 0 5px royalblue; */
   border-top: 1px solid royalblue;
   border-left: 1px solid royalblue;
   border-right: 2px solid royalblue;
@@ -539,7 +537,7 @@ input[type="password"]:focus {
 .backdrop .child {
   display: flex;
   flex-direction: column;
-  width: 30%;
+  width: 500px;
   min-height: 30%;
   margin: 200px auto;
   box-shadow: 3px 5px 1px 1px var(--dark-color);

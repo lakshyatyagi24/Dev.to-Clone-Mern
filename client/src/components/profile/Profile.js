@@ -173,6 +173,7 @@ const Profile = ({
                     width: '60px',
                     alignSelf: 'center',
                     marginLeft: '20px',
+                    border: '1px solid #ddd',
                   }}
                   type='color'
                   value={color}

@@ -19,7 +19,7 @@ function Dashboard({ children, checkPage, user }) {
                       width: '100%',
                       backgroundColor:
                         checkPage !== '/dashboard' ? '#eef0f1' : '#fff',
-                      padding: '5px',
+                      padding: '0.5rem',
                       justifyContent: 'space-between',
                     }}
                     to='/dashboard'
@@ -37,7 +37,7 @@ function Dashboard({ children, checkPage, user }) {
                         checkPage !== '/dashboard/followers'
                           ? '#eef0f1'
                           : '#fff',
-                      padding: '5px',
+                      padding: '0.5rem',
                     }}
                     to='/dashboard/followers'
                     className='btn btn-light'
@@ -54,7 +54,7 @@ function Dashboard({ children, checkPage, user }) {
                         checkPage !== '/dashboard/followings'
                           ? '#eef0f1'
                           : '#fff',
-                      padding: '5px',
+                      padding: '0.5rem',
                     }}
                     to='/dashboard/followings'
                     className='btn btn-light'
@@ -70,7 +70,7 @@ function Dashboard({ children, checkPage, user }) {
                         checkPage !== '/dashboard/reading-list'
                           ? '#eef0f1'
                           : '#fff',
-                      padding: '5px',
+                      padding: '0.5rem',
                       justifyContent: 'space-between',
                     }}
                     to='/dashboard/reading-list'

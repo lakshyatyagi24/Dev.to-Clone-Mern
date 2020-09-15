@@ -20,7 +20,7 @@ const LoginPopUp = ({ setAuth }) => {
         <h1 style={{ padding: '20px 0' }} className='text-dark'>
           Log in to continue
         </h1>
-        <p>
+        <p style={{ textAlign: 'center' }}>
           We're a place where coders share, stay up-to-date and grow their
           careers.
         </p>

@@ -10,26 +10,6 @@ import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import HashLoader from 'react-spinners/HashLoader';
 
-function hexToRGB(h) {
-  let r = 0,
-    g = 0,
-    b = 0;
-
-  // 3 digits
-  if (h.length == 4) {
-    r = '0x' + h[1] + h[1];
-    g = '0x' + h[2] + h[2];
-    b = '0x' + h[3] + h[3];
-
-    // 6 digits
-  } else if (h.length == 7) {
-    r = '0x' + h[1] + h[2];
-    g = '0x' + h[3] + h[4];
-    b = '0x' + h[5] + h[6];
-  }
-
-  return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
-}
 function UserProfile({
   profile: { profiles, loading },
   getUserProfile,
@@ -49,6 +29,26 @@ function UserProfile({
       return setAuth(true);
     }
   };
+  function hexToRGB(h) {
+    let r = 0,
+      g = 0,
+      b = 0;
+
+    // 3 digits
+    if (h.length === 4) {
+      r = '0x' + h[1] + h[1];
+      g = '0x' + h[2] + h[2];
+      b = '0x' + h[3] + h[3];
+
+      // 6 digits
+    } else if (h.length === 7) {
+      r = '0x' + h[1] + h[2];
+      g = '0x' + h[3] + h[4];
+      b = '0x' + h[5] + h[6];
+    }
+
+    return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
+  }
   return loading || profiles === null ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <HashLoader size={36} color={'#3b49df'} loading={true} />

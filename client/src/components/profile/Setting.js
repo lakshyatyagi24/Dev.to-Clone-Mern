@@ -17,7 +17,7 @@ const Setting = ({ auth: { user }, children, checkPage }) => {
               width: '100%',
               backgroundColor:
                 checkPage === '/settings/user/account' ? '#eef0f1' : '#fff',
-              padding: '5px',
+              padding: '0.5rem',
             }}
             to='/settings/user/profile'
             className='btn btn-light'
@@ -33,7 +33,7 @@ const Setting = ({ auth: { user }, children, checkPage }) => {
                 checkPage === '/settings'
                   ? '#eef0f1'
                   : '#fff',
-              padding: '5px',
+              padding: '0.5rem',
             }}
             to='/settings/user/account'
             className='btn btn-light'

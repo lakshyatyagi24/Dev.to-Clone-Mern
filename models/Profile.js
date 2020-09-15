@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
 const ProfileSchema = new mongoose.Schema({
   user: {
@@ -58,7 +57,7 @@ const ProfileSchema = new mongoose.Schema({
   },
   brand_color: {
     type: String,
-    default: 'rgb(65, 105, 225)',
+    default: '#4169e1',
   },
   date: {
     type: Date,

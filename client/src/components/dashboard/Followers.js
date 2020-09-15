@@ -9,7 +9,12 @@ function Followers({ follower }) {
         to={`/profile/user/${follower._id}`}
         className='followers__item-wrap'
       >
-        <img className='round-img-dashboard' alt='alt' src={follower.avatar} />
+        <img
+          style={{ objectFit: 'cover' }}
+          className='round-img-dashboard'
+          alt='alt'
+          src={follower.avatar}
+        />
         <div className='follower-name'>{'@' + follower.name}</div>
       </Link>
     </div>

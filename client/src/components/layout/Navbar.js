@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ActionFeed from './ActionFeed';
-
+import HashLoader from 'react-spinners/HashLoader';
 const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
   return (
     <nav className='wrap-header grid'>
@@ -23,7 +23,11 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
           </div>
         </div>
         <div>
-          {loading ? null : !isAuthenticated ? (
+          {loading ? (
+            <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+              <HashLoader size={36} color={'#3b49df'} loading={true} />
+            </div>
+          ) : !isAuthenticated ? (
             <div className='guest-link'>
               <Link
                 style={{ color: 'royalblue' }}
@@ -80,7 +84,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                   <i style={{ fontSize: '1.2rem' }} className='far fa-bell'></i>
                 </Link>
               </div>
-              {user === null ? null : (
+              {!user ? null : (
                 <div
                   className='avatar-feed'
                   style={{
@@ -93,7 +97,12 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                   <ActionFeed user={user} />
                   <div className='action-connect'></div>
 
-                  <img className='round-img' src={user.avatar} alt='' />
+                  <img
+                    style={{ objectFit: 'cover' }}
+                    className='round-img'
+                    src={user.avatar}
+                    alt=''
+                  />
                 </div>
               )}
             </div>

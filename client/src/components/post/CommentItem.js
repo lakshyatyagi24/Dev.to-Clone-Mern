@@ -95,7 +95,7 @@ const CommentItem = ({
               className='round-img'
               src={avatar}
               alt=''
-              style={{ borderRadius: '50%' }}
+              style={{ borderRadius: '50%', objectFit: 'cover' }}
             />
             <h5 className='text-dark'>{name}</h5>
             {userId === user && (

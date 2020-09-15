@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import HashLoader from 'react-spinners/HashLoader';
 
-function Me({ profile: { profile, loading }, getCurrentProfile }) {
+function Me({ auth, profile: { profile, loading }, getCurrentProfile }) {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
@@ -55,7 +55,10 @@ function Me({ profile: { profile, loading }, getCurrentProfile }) {
               </div>
               <div className='me__top'>
                 <img
-                  style={{ backgroundColor: hexToRGB(profile.brand_color) }}
+                  style={{
+                    backgroundColor: hexToRGB(profile.brand_color),
+                    objectFit: 'cover',
+                  }}
                   className='round-img me-avatar'
                   alt=''
                   src={profile.user.avatar}
@@ -182,7 +185,7 @@ function Me({ profile: { profile, loading }, getCurrentProfile }) {
               </div>
             </div>
           </div>
-          <Posts user_id={profile.user._id} profile_data={profile} />
+          <Posts user_id={auth.user._id} profile_data={profile} />
         </div>
       </div>
     </Fragment>
@@ -191,8 +194,10 @@ function Me({ profile: { profile, loading }, getCurrentProfile }) {
 Me.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { getCurrentProfile })(Me);

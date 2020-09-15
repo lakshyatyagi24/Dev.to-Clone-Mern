@@ -240,8 +240,8 @@ a {
   padding: 10px;
 }
 .round-img-feed {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
 }
 
 .line {
@@ -655,6 +655,7 @@ input[type="password"]:focus {
   border: unset;
   border-radius: 5px;
   word-break: break-word;
+  overflow: hidden;
 }
 .left-side-feed {
   word-break: break-word;
@@ -1098,4 +1099,13 @@ label #select {
 .cover-image__btn {
   background-color: #fff;
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+}
+
+.user-feed__info {
+  display: flex;
+  padding: 0.65rem;
+  border-radius: 5px;
+}
+.side-item:hover a {
+  background-color: #e2e4e6;
 }

@@ -54,17 +54,6 @@ const PostItem = ({
       return setAuth(false);
     }
   };
-  const style = {
-    backgroundImage: `url(${coverImage})`,
-    backgroundColor: '#fff',
-    height: '340px',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    position: 'relative',
-    borderTopLeftRadius: '5px',
-    borderTopRightRadius: '5px',
-  };
   return (
     <div className='post py post-main'>
       <ActionPostItem
@@ -84,7 +73,15 @@ const PostItem = ({
       />
       <div>
         <div className='main-post-item bg-white'>
-          {coverImage && <div style={style}></div>}
+          {coverImage && (
+            <div style={{ height: '340px' }}>
+              <img
+                alt=''
+                src={coverImage}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              />
+            </div>
+          )}
           <div style={{ padding: '30px 60px' }}>
             <h1
               style={{
@@ -105,7 +102,12 @@ const PostItem = ({
                 style={{ display: 'flex' }}
                 to={`/profile/user/${user._id}`}
               >
-                <img className='round-img' src={user.avatar} alt='' />
+                <img
+                  style={{ objectFit: 'cover' }}
+                  className='round-img'
+                  src={user.avatar}
+                  alt=''
+                />
                 <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
               </Link>
               <p

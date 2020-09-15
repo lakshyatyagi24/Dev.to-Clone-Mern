@@ -89,7 +89,10 @@ function UserProfile({
               </div>
               <div className='me__top'>
                 <img
-                  style={{ backgroundColor: hexToRGB(profiles.brand_color) }}
+                  style={{
+                    backgroundColor: hexToRGB(profiles.brand_color),
+                    objectFit: 'cover',
+                  }}
                   className='round-img me-avatar'
                   alt=''
                   src={profiles.user.avatar}

@@ -5,11 +5,13 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { addBookmarks } from '../../actions/post';
 import ActionPostFeed from './ActionPostFeed';
+import { timeSince } from '../../utils/timesince';
 
 const PostFeed = ({
   addBookmarks,
   auth,
   path,
+  index,
   post: {
     _id,
     title,
@@ -38,23 +40,19 @@ const PostFeed = ({
       return setAuth(false);
     }
   };
-  const style = {
-    backgroundImage: `url(${coverImage})`,
-    backgroundColor: '#fff',
-    height: '275px',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    position: 'relative',
-    borderTopLeftRadius: '5px',
-    borderTopRightRadius: '5px',
-  };
   return (
     <div className='my'>
       <div className='post-feed bg-white'>
-        {path === '/' && coverImage && (
-          <Link to={`/post/${_id}`}>
-            <div style={style}></div>
+        {path === '/' && coverImage && index === 0 && (
+          <Link
+            style={{ display: 'block', height: '275px' }}
+            to={`/post/${_id}`}
+          >
+            <img
+              alt=''
+              src={coverImage}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
           </Link>
         )}
         <div className='p-1'>
@@ -67,12 +65,18 @@ const PostFeed = ({
               }
               style={{ display: 'flex', width: 'fit-content' }}
             >
-              <img className='round-img-feed' src={user.avatar} alt='' />
+              <img
+                className='round-img'
+                style={{ objectFit: 'cover' }}
+                src={user.avatar}
+                alt=''
+              />
 
               <div style={{ marginLeft: '10px' }}>
                 <h5 className='text-dark'>{user.name}</h5>
                 <p className='post-date'>
-                  Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
+                  <Moment format='DD/MM/YY'>{date}</Moment>
+                  {` (${timeSince(date)} ago)`}
                 </p>
               </div>
             </Link>

@@ -281,7 +281,7 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
                   errors: [{ msg: 'Error resetting user password' }],
                 });
               }
-              res.json({
+              return res.json({
                 message: `Reset password done! You can login with your new password`,
               });
             });

@@ -61,6 +61,7 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
                 }
               >
                 <img
+                  style={{ objectFit: 'cover' }}
                   className='round-img side-avatar'
                   src={user.avatar}
                   alt=''

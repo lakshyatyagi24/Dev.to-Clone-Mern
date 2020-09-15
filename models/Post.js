@@ -28,6 +28,7 @@ const PostSchema = new Schema({
       text: {
         type: String,
         required: true,
+        trim: true,
       },
       name: {
         type: String,
@@ -47,6 +48,7 @@ const PostSchema = new Schema({
           text_reply: {
             type: String,
             required: true,
+            trim: true,
           },
           name_reply: {
             type: String,

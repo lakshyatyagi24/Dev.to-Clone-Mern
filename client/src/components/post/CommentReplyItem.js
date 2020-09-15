@@ -102,7 +102,7 @@ const CommentReplyItem = ({
               className='round-img'
               src={avatar_reply}
               alt=''
-              style={{ borderRadius: '50%' }}
+              style={{ borderRadius: '50%', objectFit: 'cover' }}
             />
             <h5 className='text-dark'>{name_reply}</h5>
             {userId === user_reply && (

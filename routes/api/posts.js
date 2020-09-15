@@ -169,10 +169,9 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
 // @access   Public
 router.get('/user/:id', checkObjectId('id'), async (req, res) => {
   try {
-    const post = await Post.find({ user: req.params.id }).populate('user', [
-      'avatar',
-      'name',
-    ]);
+    const post = await Post.find({ user: req.params.id })
+      .sort({ date: -1 })
+      .populate('user', ['avatar', 'name']);
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
@@ -219,6 +218,7 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
         await user[i].save();
       }
     }
+    return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);
 
@@ -246,6 +246,7 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
 
     await post.save();
+    return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

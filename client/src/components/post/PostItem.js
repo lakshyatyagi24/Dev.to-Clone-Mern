@@ -83,43 +83,40 @@ const PostItem = ({
         setAuth={setAuth}
       />
       <div>
-        {coverImage && <div style={style}></div>}
-
-        <div
-          style={
-            coverImage
-              ? { borderTopLeftRadius: 0, borderTopRightRadius: 0 }
-              : {}
-          }
-          className='bg-white main-post-item'
-        >
-          <h1
-            style={{
-              fontSize: '3rem',
-            }}
-            className='text-dark'
-          >
-            {title}
-          </h1>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              margin: '20px 0',
-            }}
-          >
-            <Link style={{ display: 'flex' }} to={`/profile/user/${user._id}`}>
-              <img className='round-img' src={user.avatar} alt='' />
-              <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
-            </Link>
-            <p
-              className='post-date'
-              style={{ alignSelf: 'flex-end', margin: '0' }}
+        <div className='main-post-item bg-white'>
+          {coverImage && <div style={style}></div>}
+          <div style={{ padding: '30px 60px' }}>
+            <h1
+              style={{
+                fontSize: '3rem',
+              }}
+              className='text-dark'
             >
-              Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
-            </p>
+              {title}
+            </h1>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                margin: '20px 0',
+              }}
+            >
+              <Link
+                style={{ display: 'flex' }}
+                to={`/profile/user/${user._id}`}
+              >
+                <img className='round-img' src={user.avatar} alt='' />
+                <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
+              </Link>
+              <p
+                className='post-date'
+                style={{ alignSelf: 'flex-end', margin: '0' }}
+              >
+                Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
+              </p>
+            </div>
+            <MarkdownPreview className='post-item' value={content} />
           </div>
-          <MarkdownPreview className='post-item' value={content} />
         </div>
       </div>
 

@@ -6,7 +6,12 @@ import { getPostByUser } from '../../actions/post';
 import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
 
-const Posts = ({ getPostByUser, profile: { posts, loading }, user_id }) => {
+const Posts = ({
+  getPostByUser,
+  profile: { posts, loading },
+  user_id,
+  profile_data,
+}) => {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
     getPostByUser(user_id);
@@ -17,7 +22,15 @@ const Posts = ({ getPostByUser, profile: { posts, loading }, user_id }) => {
 
       <div className='post feed container post-profile'>
         <div>
-          {/* <div className='left-side-feed p-1 my-1 bg-white'></div> */}
+          <div className='left-side-feed p-1 my'>
+            <div style={{ borderBottom: '1px solid #aaa' }}>
+              <h5>Skills/languages</h5>
+              <div className='my-2'>{profile_data.skills}</div>
+            </div>
+            <div className='my-2'>
+              <div>{posts.length} posts published</div>
+            </div>
+          </div>
         </div>
         <div>
           {loading || posts === null ? (

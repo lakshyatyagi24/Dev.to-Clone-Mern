@@ -573,6 +573,7 @@ input[type="password"]:focus {
   padding: 30px;
 }
 .post-item {
+  padding: 12px 0;
   word-break: break-word;
   overflow-x: auto;
 }
@@ -607,6 +608,7 @@ input[type="password"]:focus {
   overflow-x: hidden;
 }
 .comment-content {
+  padding: 12px 0;
   overflow-x: auto;
 }
 .comment-item img {
@@ -648,14 +650,15 @@ input[type="password"]:focus {
   grid-template-columns: 2fr 5fr 2fr;
 }
 .post .right-side-feed,
-.post .left-side-feed,
 .post-feed {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
   border-radius: 5px;
   word-break: break-word;
 }
-
+.left-side-feed {
+  word-break: break-word;
+}
 .title-hover:hover h1 {
   color: royalblue;
 }
@@ -815,17 +818,8 @@ li:hover .action-feed_s {
   word-break: break-word;
   height: 100%;
 }
-.side-post-item .box {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
 .main-post-item {
-  padding: 30px 60px;
   overflow-x: hidden;
-}
-.side-post-item .box {
-  padding: 15px;
 }
 
 .user-info {

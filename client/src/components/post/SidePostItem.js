@@ -37,76 +37,81 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
   return (
     <div className='side-post-item'>
       <div className='side-post-item__wrap'>
-        <div
-          style={{
-            height: '30px',
-            width: '100%',
-            borderTopRightRadius: '5px',
-            borderTopLeftRadius: '5px',
-            backgroundColor: hexToRGB(profile.brand_color),
-          }}
-        ></div>
-
         <div className='bg-white box'>
-          <div className='user-info'>
-            <Link
-              style={{
-                display: 'flex',
-                marginTop: '-30px',
-              }}
-              to={
-                auth.user && auth.user._id === user._id
-                  ? `/profile/me`
-                  : `/profile/user/${user._id}`
+          <div
+            style={{
+              height: '30px',
+              width: '100%',
+              borderTopRightRadius: '5px',
+              borderTopLeftRadius: '5px',
+              backgroundColor: hexToRGB(profile.brand_color),
+            }}
+          ></div>
+          <div style={{ padding: '15px' }}>
+            <div className='user-info'>
+              <Link
+                style={{
+                  display: 'flex',
+                  marginTop: '-30px',
+                }}
+                to={
+                  auth.user && auth.user._id === user._id
+                    ? `/profile/me`
+                    : `/profile/user/${user._id}`
+                }
+              >
+                <img
+                  className='round-img side-avatar'
+                  src={user.avatar}
+                  alt=''
+                />
+                <h4 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
+                  {user.name}
+                </h4>
+              </Link>
+            </div>
+            {profile.bio && <div className='my'>{profile.bio}</div>}
+            {auth.isAuthenticated && auth.user._id === user._id && (
+              <Link
+                style={{
+                  width: '100%',
+                  textAlign: 'center',
+                }}
+                className='btn btn-dark my'
+                to='/settings'
+              >
+                Edit Profile
+              </Link>
+            )}
+            <ActionFollow
+              setAuth={setAuth}
+              user={user}
+              handleFollow={handleFollow}
+              auth={auth}
+              isFollowing={
+                auth.user === null
+                  ? null
+                  : auth.user.following.some((item) => item._id === user._id)
               }
-            >
-              <img className='round-img side-avatar' src={user.avatar} alt='' />
-              <h4 style={{ marginLeft: '5px', alignSelf: 'flex-end' }}>
-                {user.name}
-              </h4>
-            </Link>
-          </div>
-          {profile.bio && <div className='my'>{profile.bio}</div>}
-          {auth.isAuthenticated && auth.user._id === user._id && (
-            <Link
-              style={{
-                width: '100%',
-                textAlign: 'center',
-              }}
-              className='btn btn-dark my'
-              to='/settings'
-            >
-              Edit Profile
-            </Link>
-          )}
-          <ActionFollow
-            setAuth={setAuth}
-            user={user}
-            handleFollow={handleFollow}
-            auth={auth}
-            isFollowing={
-              auth.user === null
-                ? null
-                : auth.user.following.some((item) => item._id === user._id)
-            }
-          />
+            />
 
-          {profile.title && (
-            <div className='py'>
-              <div className='info-post-item'>Work</div>
-              {profile.title}
-            </div>
-          )}
-          {profile.locations && (
-            <div className='py'>
-              <div className='info-post-item'>Location</div>
-              {profile.locations}
-            </div>
-          )}
+            {profile.title && (
+              <div className='py'>
+                <div className='info-post-item'>Work</div>
+                {profile.title}
+              </div>
+            )}
+            {profile.locations && (
+              <div className='py'>
+                <div className='info-post-item'>Location</div>
+                {profile.locations}
+              </div>
+            )}
 
-          <div className='py'>
-            <div className='info-post-item'>Joined</div>
-            <Moment format='DD/MM/YYYY'>{profile.date}</Moment>
+            <div className='py'>
+              <div className='info-post-item'>Joined</div>
+              <Moment format='DD/MM/YYYY'>{profile.date}</Moment>
+            </div>
           </div>
         </div>
       </div>

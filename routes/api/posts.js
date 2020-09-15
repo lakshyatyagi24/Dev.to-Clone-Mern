@@ -219,8 +219,6 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
         await user[i].save();
       }
     }
-
-    return res.json({ msg: 'Post removed' });
   } catch (err) {
     console.error(err.message);
 
@@ -248,8 +246,6 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
 
     await post.save();
-
-    return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -292,8 +288,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     await post.save();
     await user.save();
-    return res.status(200).json({
-      success: true,
+    return res.json({
       data: {
         name: post.user.name,
         avatar: post.user.avatar,

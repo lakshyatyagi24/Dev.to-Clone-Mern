@@ -182,7 +182,7 @@ function Me({ profile: { profile, loading }, getCurrentProfile }) {
               </div>
             </div>
           </div>
-          <Posts user_id={profile.user._id} />
+          <Posts user_id={profile.user._id} profile_data={profile} />
         </div>
       </div>
     </Fragment>

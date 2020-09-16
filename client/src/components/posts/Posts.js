@@ -93,9 +93,7 @@ const Posts = ({
                     to='/tags'
                   >
                     <Tags />
-                    <span style={{ marginLeft: '8px', fontWeight: '600' }}>
-                      Tags
-                    </span>
+                    <span style={{ marginLeft: '8px' }}>Tags</span>
                   </Link>
                 </div>
               </Fragment>
@@ -120,9 +118,7 @@ const Posts = ({
                     to='/tags'
                   >
                     <Tags />
-                    <span style={{ marginLeft: '8px', fontWeight: '600' }}>
-                      Tags
-                    </span>
+                    <span style={{ marginLeft: '8px' }}>Tags</span>
                   </Link>
                 </div>
               </Fragment>

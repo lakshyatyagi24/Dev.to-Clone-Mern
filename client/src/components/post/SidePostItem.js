@@ -7,7 +7,7 @@ import ActionFollow from './ActionFollow';
 
 const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
-    if (auth.isAuthenticated && localStorage.token) {
+    if (auth.isAuthenticated) {
       follow(user._id);
       return setAuth(false);
     } else {

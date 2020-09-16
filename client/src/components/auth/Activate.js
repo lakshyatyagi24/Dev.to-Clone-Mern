@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { activate } from '../../actions/auth';
 import HashLoader from 'react-spinners/HashLoader';
 
-const Activate = ({ activate, match }) => {
+const Activate = ({ activate, match, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     token: '',
@@ -24,6 +24,9 @@ const Activate = ({ activate, match }) => {
   }, []);
   const { name, token, isActived, isProcessing } = formData;
   const handleSubmit = async (e) => {
+    if (isAuthenticated) {
+      return;
+    }
     e.preventDefault();
     setFormData({
       ...formData,
@@ -44,7 +47,7 @@ const Activate = ({ activate, match }) => {
     }
   };
 
-  if (localStorage.token) {
+  if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 
@@ -95,6 +98,10 @@ const Activate = ({ activate, match }) => {
 
 Activate.propTypes = {
   activate: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
 
-export default connect(null, { activate })(Activate);
+export default connect(mapStateToProps, { activate })(Activate);

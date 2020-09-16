@@ -89,7 +89,11 @@ const CommentItem = ({
               display: 'flex',
               wordBreak: 'break-word',
             }}
-            to={`/profile/user/${user}`}
+            to={
+              auth.user && auth.user._id === user
+                ? `/profile/me`
+                : `/profile/user/${user}`
+            }
           >
             <img
               className='round-img'

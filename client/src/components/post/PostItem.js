@@ -39,7 +39,7 @@ const PostItem = ({
     setBookMarks(bookmarksCount);
   }, [likesCount, bookmarksCount]);
   const handleLikeAction = () => {
-    if (!auth.isAuthenticated && !localStorage.token) {
+    if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
       addLikeInReading(_id);
@@ -47,7 +47,7 @@ const PostItem = ({
     }
   };
   const handleBookmarksAction = () => {
-    if (!auth.isAuthenticated && !localStorage.token) {
+    if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
       addBookmarksInReading(_id);

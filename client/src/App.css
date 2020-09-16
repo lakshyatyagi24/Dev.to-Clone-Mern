@@ -1103,7 +1103,7 @@ label #select {
 
 .user-feed__info {
   display: flex;
-  padding: 0.65rem;
+  padding: 0.5rem;
   border-radius: 5px;
 }
 .side-item:hover a {

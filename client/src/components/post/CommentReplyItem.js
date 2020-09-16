@@ -96,7 +96,11 @@ const CommentReplyItem = ({
               display: 'flex',
               wordBreak: 'break-word',
             }}
-            to={`/profile/user/${user_reply}`}
+            to={
+              auth.user && auth.user._id === user_reply
+                ? `/profile/me`
+                : `/profile/user/${user_reply}`
+            }
           >
             <img
               className='round-img'

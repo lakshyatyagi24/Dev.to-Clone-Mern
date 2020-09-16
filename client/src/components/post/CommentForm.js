@@ -6,7 +6,7 @@ import { addComment } from '../../actions/post';
 const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
   const [text, setText] = useState('');
   const handleForm = () => {
-    if (!isAuth && !localStorage.token) {
+    if (!isAuth) {
       return setAuth(true);
     } else {
       return setAuth(false);
@@ -31,7 +31,12 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
           rows='8'
           placeholder='Login to post comments'
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            if (!isAuth) {
+              return setAuth(true);
+            }
+            setText(e.target.value);
+          }}
           required
           style={{
             resize: 'none',

@@ -15,7 +15,7 @@ const PrivateRoute = ({
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
           <HashLoader size={36} color={'#3b49df'} loading={loading} />
         </div>
-      ) : localStorage.token && isAuthenticated ? (
+      ) : isAuthenticated ? (
         <Component {...props} />
       ) : (
         <Redirect

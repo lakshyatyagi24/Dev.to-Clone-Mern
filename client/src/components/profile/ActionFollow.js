@@ -6,7 +6,7 @@ const ActionFollow = ({ setAuth, handleFollow, auth, isFollowing }) => {
     setIsFollowState(isFollowing);
   }, [isFollowing]);
   const handleFollowUser = () => {
-    if (auth.isAuthenticated && localStorage.token) {
+    if (auth.isAuthenticated) {
       if (isFollowState) {
         setIsFollowState(false);
         handleFollow();

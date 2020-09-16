@@ -22,7 +22,7 @@ function UserProfile({
     getUserProfile(match.params.id);
   }, [getUserProfile, match.params.id]);
   const handleFollow = () => {
-    if (auth.isAuthenticated && localStorage.token) {
+    if (auth.isAuthenticated) {
       follow(match.params.id);
       return setAuth(false);
     } else {

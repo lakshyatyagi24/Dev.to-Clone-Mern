@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 import HashLoader from 'react-spinners/HashLoader';
 
-const Register = ({ register }) => {
+const Register = ({ register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,6 +21,9 @@ const Register = ({ register }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
+    if (isAuthenticated) {
+      return;
+    }
     e.preventDefault();
     if (name && email && password) {
       if (password !== password2) {
@@ -39,10 +42,9 @@ const Register = ({ register }) => {
     }
   };
 
-  if (localStorage.token) {
+  if (isAuthenticated) {
     return <Redirect to='/' />;
   }
-
   return (
     <div className='container'>
       <div className='login-wrap sign-up'>
@@ -140,6 +142,9 @@ const Register = ({ register }) => {
 
 Register.propTypes = {
   register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-
-export default connect(null, { register })(Register);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+export default connect(mapStateToProps, { register })(Register);

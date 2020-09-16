@@ -23,7 +23,7 @@ const ActionPostItem = ({
     setBookMarked(bookmarkedState);
   }, [likedState, bookmarkedState]);
   const handleLike = () => {
-    if (auth.isAuthenticated && localStorage.token) {
+    if (auth.isAuthenticated) {
       if (liked) {
         setLiked(false);
         decLikes();
@@ -38,7 +38,7 @@ const ActionPostItem = ({
     }
   };
   const handleBookMark = () => {
-    if (auth.isAuthenticated && localStorage.token) {
+    if (auth.isAuthenticated) {
       if (bookmarked) {
         setBookMarked(false);
         decBookMarks();

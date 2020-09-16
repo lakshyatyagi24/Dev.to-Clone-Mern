@@ -33,7 +33,7 @@ const PostFeed = ({
     setBookMarks(bookmarksCount);
   }, [bookmarksCount]);
   const handleBookmarksAction = () => {
-    if (!auth.isAuthenticated && !localStorage.token) {
+    if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
       addBookmarks(_id);

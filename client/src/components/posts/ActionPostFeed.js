@@ -16,7 +16,7 @@ const ActionPostFeed = ({
     setbookMarkedState(isBookMarked);
   }, [isBookMarked]);
   const handleBookMark = () => {
-    if (auth.isAuthenticated && localStorage.token) {
+    if (auth.isAuthenticated) {
       if (bookMarkedState) {
         setbookMarkedState(false);
         decBookMarks();

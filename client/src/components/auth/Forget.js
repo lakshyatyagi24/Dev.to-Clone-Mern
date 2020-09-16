@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import HashLoader from 'react-spinners/HashLoader';
 import { Redirect } from 'react-router-dom';
 
-const Forget = ({ forget }) => {
+const Forget = ({ forget, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     isCompleted: false,
@@ -18,6 +18,9 @@ const Forget = ({ forget }) => {
   const onChange = (e) => setFormData({ ...formData, email: e.target.value });
 
   const onSubmit = async (e) => {
+    if (isAuthenticated) {
+      return;
+    }
     e.preventDefault();
     if (email) {
       setFormData({
@@ -41,7 +44,7 @@ const Forget = ({ forget }) => {
     }
   };
 
-  if (localStorage.token) {
+  if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 
@@ -93,5 +96,10 @@ const Forget = ({ forget }) => {
 
 Forget.propTypes = {
   forget: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
-export default connect(null, { forget })(Forget);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { forget })(Forget);

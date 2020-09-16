@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
-const Login = ({ login, history }) => {
+const Login = ({ login, history, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -17,6 +17,9 @@ const Login = ({ login, history }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = (e) => {
+    if (isAuthenticated) {
+      return;
+    }
     e.preventDefault();
     if (email && password) {
       login(email, password);
@@ -26,7 +29,7 @@ const Login = ({ login, history }) => {
     }
   };
 
-  if (localStorage.token) {
+  if (isAuthenticated) {
     return <Redirect to='/' />;
   }
 

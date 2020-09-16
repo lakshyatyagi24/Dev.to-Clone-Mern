@@ -21,7 +21,7 @@ const Posts = ({ _auth, getPosts, post: { posts, loading }, location }) => {
       <div className='post feed container'>
         <div className='my'>
           <div className='left-side-feed'>
-            {_auth.isAuthenticated && localStorage.token ? (
+            {_auth.isAuthenticated ? (
               <Fragment>
                 {!_auth.user ? null : (
                   <div className='side-item'>

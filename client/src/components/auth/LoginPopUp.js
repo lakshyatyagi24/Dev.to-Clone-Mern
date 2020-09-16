@@ -2,11 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LoginPopUp = ({ setAuth }) => {
-  // const handleClick = (e) => {
-  //   if (e.target.classList.contains('backdrop')) {
-  //     setAuth(false);
-  //   }
-  // };
   return (
     <div className='backdrop'>
       <div className='child close-action'>

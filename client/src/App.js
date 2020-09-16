@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import api from './utils/api';
 import Navbar from './components/layout/Navbar';
 import Routes from './components/routing/Routes';
 
@@ -8,7 +9,6 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
 import setAuthToken from './utils/setAuthToken';
-import api from './utils/api';
 import { LOGOUT, CLEAR_PROFILE } from './actions/types';
 import './App.css';
 import './styles.css';

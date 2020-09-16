@@ -18,6 +18,7 @@ import NotFound from '../layout/NotFound';
 import Account from '../profile/Account';
 import Profile from '../profile/Profile';
 import Me from '../profile/Me';
+import SignOut from '../../components/layout/SignOut';
 import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
@@ -28,6 +29,7 @@ const Routes = (props) => {
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Posts} />
+        <Route exact path='/signout_confirm' component={SignOut} />
         <Route exact path='/post/:id' component={Post} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />

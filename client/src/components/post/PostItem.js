@@ -86,6 +86,7 @@ const PostItem = ({
             <h1
               style={{
                 fontSize: '3rem',
+                lineHeight: '1.2',
               }}
               className='text-dark'
             >

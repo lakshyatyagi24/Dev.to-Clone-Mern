@@ -219,7 +219,7 @@ function UserProfile({
               </div>
             </div>
           </div>
-          <Posts user_id={profiles.user._id} profile_data={profiles} />
+          <Posts user_id={match.params.id} profile_data={profiles} />
         </div>
       </div>
     </Fragment>

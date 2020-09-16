@@ -7,9 +7,21 @@ import PostFeed from './PostFeed';
 import { getPosts } from '../../actions/post';
 import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
-import { ReadingLists, DashBoard, Settings } from '../icons/icons';
+import {
+  ReadingLists,
+  DashBoard,
+  Settings,
+  Sign_in_out,
+  Tags,
+} from '../icons/icons';
 
-const Posts = ({ _auth, getPosts, post: { posts, loading }, location }) => {
+const Posts = ({
+  _auth,
+  getPosts,
+  post: { posts, loading },
+  location,
+  usersCount,
+}) => {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
     getPosts();
@@ -74,8 +86,47 @@ const Posts = ({ _auth, getPosts, post: { posts, loading }, location }) => {
                     <span style={{ marginLeft: '8px' }}>Settings</span>
                   </Link>
                 </div>
+                <div className='side-item'>
+                  <Link
+                    className='user-feed__info'
+                    style={{ marginBottom: '0 ' }}
+                    to='/tags'
+                  >
+                    <Tags />
+                    <span style={{ marginLeft: '8px', fontWeight: '600' }}>
+                      Tags
+                    </span>
+                  </Link>
+                </div>
               </Fragment>
-            ) : null}
+            ) : (
+              <Fragment>
+                <div className='side-item'>
+                  <Link
+                    className='user-feed__info'
+                    style={{ marginBottom: '0 ' }}
+                    to='/login'
+                  >
+                    <Sign_in_out />
+                    <span style={{ marginLeft: '8px', fontWeight: '600' }}>
+                      Sign In/Up
+                    </span>
+                  </Link>
+                </div>
+                <div className='side-item'>
+                  <Link
+                    className='user-feed__info'
+                    style={{ marginBottom: '0 ' }}
+                    to='/tags'
+                  >
+                    <Tags />
+                    <span style={{ marginLeft: '8px', fontWeight: '600' }}>
+                      Tags
+                    </span>
+                  </Link>
+                </div>
+              </Fragment>
+            )}
           </div>
         </div>
         <div className='my-1'>
@@ -98,8 +149,70 @@ const Posts = ({ _auth, getPosts, post: { posts, loading }, location }) => {
             </Fragment>
           )}
         </div>
-        <div className=' my'>
-          {/* <div className='right-side-feed p-1 bg-white'></div> */}
+        <div className='my'>
+          <div className='right-side-feed'>
+            <div className='guest-welcome  p-1'>
+              <img
+                className='dev-image-welcome'
+                alt=''
+                height='48'
+                width='48'
+                src='https://res.cloudinary.com/practicaldev/image/fetch/s--g3JdSGe6--/c_limit,f_auto,fl_progressive,q_80,w_190/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/rainbowdev.svg'
+              />
+              <h3 className='text-dark'>
+                <Link to='/' style={{ color: 'royalblue' }}>
+                  DEV{' '}
+                </Link>
+                is a community of {usersCount} amazing developers
+              </h3>
+              <p className='text-dark'>
+                We're a place where coders share, stay up-to-date and grow their
+                careers.
+              </p>
+              {!_auth.isAuthenticated ? (
+                <Fragment>
+                  <Link
+                    to='/register'
+                    style={{
+                      textAlign: 'center',
+                      backgroundColor: 'royalblue',
+                      margin: '10px 0',
+                      width: '100%',
+                    }}
+                    className='btn btn-dark'
+                  >
+                    Create an account
+                  </Link>
+                  <Link
+                    to='/login'
+                    style={{
+                      color: 'royalblue',
+                      textAlign: 'center',
+                      margin: '0',
+                      width: '100%',
+                      backgroundColor: '#eee',
+                    }}
+                    className='btn btn-light'
+                  >
+                    Login
+                  </Link>
+                </Fragment>
+              ) : (
+                <Link
+                  to='/write-post'
+                  style={{
+                    textAlign: 'center',
+                    backgroundColor: 'royalblue',
+                    margin: '10px 0',
+                    width: '100%',
+                  }}
+                  className='btn btn-dark'
+                >
+                  Let's started
+                </Link>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </Fragment>
@@ -109,11 +222,13 @@ const Posts = ({ _auth, getPosts, post: { posts, loading }, location }) => {
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
+  usersCount: PropTypes.number,
   _auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   post: state.post,
+  usersCount: state.post.usersCount,
   _auth: state.auth,
 });
 

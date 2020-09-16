@@ -16,6 +16,7 @@ const initialState = {
   post: null,
   profile: null,
   loading: true,
+  usersCount: 0,
   error: {},
 };
 
@@ -25,7 +26,8 @@ export default function (state = initialState, action) {
     case GET_POSTS:
       return {
         ...state,
-        posts: payload,
+        posts: payload.posts,
+        usersCount: payload.usersCount,
         loading: false,
       };
 

@@ -42,9 +42,9 @@ const ActionFeed = ({ isAuthenticated, logout, user }) => {
             </li>
             <div className='separate'></div>
             <li>
-              <a className='action-feed_s' onClick={logout} href='#!'>
+              <Link className='action-feed_s' to='/signout_confirm'>
                 <span className='hide-sm'>Logout</span>
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

@@ -99,7 +99,8 @@ router.get('/', async (req, res) => {
     const posts = await Post.find()
       .sort({ date: -1 })
       .populate('user', ['avatar', 'name']);
-    return res.json(posts);
+    const usersCount = await User.estimatedDocumentCount();
+    return res.json({ posts, usersCount });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

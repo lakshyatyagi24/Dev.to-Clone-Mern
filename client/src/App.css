@@ -47,7 +47,11 @@ a {
   line-height: 1.2;
   margin-bottom: 1rem;
 }
-
+.medium {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
 .lead {
   font-size: 1.5rem;
   margin-bottom: 1rem;
@@ -647,7 +651,7 @@ input[type="password"]:focus {
   text-align: center;
 }
 .post.feed {
-  grid-template-columns: 2fr 5fr 2fr;
+  grid-template-columns: 2fr 5.5fr 2.5fr;
 }
 .post .right-side-feed,
 .post-feed {
@@ -1108,4 +1112,16 @@ label #select {
 }
 .side-item:hover a {
   background-color: #e2e4e6;
+}
+
+.guest-welcome {
+  background-color: #f9fafa;
+}
+.dev-image-welcome {
+  border-radius: 5px;
+  transform: rotate(-12deg);
+}
+.sign-out {
+  padding: calc(15% + 50px) 2% 30%;
+  text-align: center;
 }

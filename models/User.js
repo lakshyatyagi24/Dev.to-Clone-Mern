@@ -19,6 +19,11 @@ const UserSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    followingTags: [{ type: mongoose.Schema.ObjectId, ref: 'tag' }],
+    tagCounts: {
+      type: Number,
+      default: 0,
+    },
     followers: [{ type: mongoose.Schema.ObjectId, ref: 'user' }],
     followersCount: {
       type: Number,

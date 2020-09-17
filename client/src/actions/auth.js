@@ -171,6 +171,7 @@ export const login = (email, password) => async (dispatch) => {
     });
 
     dispatch(loadUser());
+    return true;
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -181,6 +182,7 @@ export const login = (email, password) => async (dispatch) => {
     dispatch({
       type: LOGIN_FAIL,
     });
+    return false;
   }
 };
 

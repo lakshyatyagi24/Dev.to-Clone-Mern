@@ -7,6 +7,7 @@ import { MarkdownPreview } from 'react-marked-markdown';
 import Guide from './Guide';
 import Image from './Image';
 import CoverImage from './CoverImage';
+import TagsModal from './TagsModal';
 import HashLoader from 'react-spinners/HashLoader';
 
 const EditorContainer = styled.div`
@@ -90,6 +91,7 @@ function PostNew({ addPost }) {
   const [write, setWrite] = useState(false);
   const [guide, setGuide] = useState(false);
   const [image, setImage] = useState(false);
+  const [tagsStatus, setTagsStatus] = useState(false);
   const [publish, setPublish] = useState(false);
 
   let dataPost = JSON.parse(localStorage.getItem('post'));
@@ -110,6 +112,7 @@ function PostNew({ addPost }) {
         {guide && <Guide setGuide={setGuide} />}
         {image && <Image setImage={setImage} />}
         {coverImage && <CoverImage setCoverImage={setCoverImage} />}
+        {tagsStatus && <TagsModal setTagsStatus={setTagsStatus} />}
         {!write && (
           <Container>
             <button
@@ -119,6 +122,7 @@ function PostNew({ addPost }) {
               Add cover image
               <i style={{ marginLeft: '10px' }} className='fas fa-images'></i>
             </button>
+
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -210,6 +214,12 @@ function PostNew({ addPost }) {
             onClick={() => setGuide(true)}
           >
             <i className='fab fa-glide'></i>
+          </button>
+          <button
+            className='btn btn-light btn-new-feed'
+            onClick={() => setTagsStatus(true)}
+          >
+            <i className='fas fa-tags'></i>
           </button>
         </SideAction>
       </EditorContainer>

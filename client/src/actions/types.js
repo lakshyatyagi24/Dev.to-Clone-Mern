@@ -34,3 +34,5 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const REPLY_COMMENT = 'REPLY_COMMENT';
 export const REMOVE_REPLY_COMMENT = 'REMOVE_REPLY_COMMENT';
 export const SET_LOADING = 'SET_LOADING';
+export const GET_TAGS = 'GET_TAGS';
+export const TAGS_ERROR = 'TAGS_ERROR';

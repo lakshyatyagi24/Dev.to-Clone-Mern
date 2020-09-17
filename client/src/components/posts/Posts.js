@@ -5,19 +5,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PostFeed from './PostFeed';
 import { getPosts } from '../../actions/post';
+import { getTags } from '../../actions/tags';
 import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
-import {
-  ReadingLists,
-  DashBoard,
-  Settings,
-  Sign_in_out,
-  Tags,
-} from '../icons/icons';
+import { ReadingLists, DashBoard, Settings, Sign, Tags } from '../icons/icons';
 
 const Posts = ({
   _auth,
   getPosts,
+  getTags,
   post: { posts, loading },
   location,
   usersCount,
@@ -26,7 +22,8 @@ const Posts = ({
   const [filterStatus, setFilterStatus] = useState('feed');
   useEffect(() => {
     getPosts();
-  }, [getPosts]);
+    getTags();
+  }, [getPosts, getTags]);
 
   // get d/m/y from data
   const getMonthValue = (value) => {
@@ -142,7 +139,7 @@ const Posts = ({
                     style={{ marginBottom: '0 ' }}
                     to='/login'
                   >
-                    <Sign_in_out />
+                    <Sign />
                     <span style={{ marginLeft: '8px', fontWeight: '600' }}>
                       Sign In/Up
                     </span>
@@ -302,6 +299,7 @@ const Posts = ({
 
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
+  getTags: PropTypes.func,
   post: PropTypes.object.isRequired,
   usersCount: PropTypes.number,
   _auth: PropTypes.object.isRequired,
@@ -313,4 +311,4 @@ const mapStateToProps = (state) => ({
   _auth: state.auth,
 });
 
-export default connect(mapStateToProps, { getPosts })(Posts);
+export default connect(mapStateToProps, { getPosts, getTags })(Posts);

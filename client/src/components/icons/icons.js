@@ -239,7 +239,7 @@ export const Settings = () => (
   </svg>
 );
 
-export const Sign_in_out = () => (
+export const Sign = () => (
   <svg
     version='1.1'
     id='Capa_1'

@@ -17,15 +17,17 @@ const Login = ({ login, history, isAuthenticated }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     if (isAuthenticated) {
       return;
     }
     e.preventDefault();
     if (email && password) {
-      login(email, password);
-      store.dispatch({ type: 'SET_LOADING', payload: true });
-      return history.push('/');
+      const res = await login(email, password);
+      if (res) {
+        store.dispatch({ type: 'SET_LOADING', payload: true });
+        return history.push('/');
+      }
     } else {
       return toast.error('Please fill all fields');
     }

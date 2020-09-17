@@ -7,13 +7,18 @@ import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 import LoginPopUp from '../auth/LoginPopUp';
+import store from '../../store';
 
 const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   const [auth, setAuth] = useState(false);
+
   useEffect(() => {
+    if (!loading) {
+      store.dispatch({ type: 'SET_LOADING', payload: true });
+    }
     getPost(match.params.id);
   }, [getPost, match.params.id]);
-  return loading || post === null ? (
+  return loading || !post ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>

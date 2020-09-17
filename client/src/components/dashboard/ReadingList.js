@@ -16,7 +16,12 @@ function ReadingList({ post }) {
             {post.title}
           </h3>
           <p className='date' style={{ display: 'flex', alignItems: 'center' }}>
-            <img className='round-img' alt='' src={post.user.avatar} />
+            <img
+              style={{ objectFit: 'cover' }}
+              className='round-img'
+              alt=''
+              src={post.user.avatar}
+            />
             <span
               style={{ margin: '0 8px', fontSize: '1rem' }}
               className='text-dark'

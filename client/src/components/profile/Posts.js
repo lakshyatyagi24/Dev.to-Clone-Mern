@@ -5,6 +5,7 @@ import PostFeed from '../posts/PostFeed';
 import { getPostByUser } from '../../actions/post';
 import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
+// import store from '../../store';
 
 const Posts = ({
   getPostByUser,
@@ -14,6 +15,9 @@ const Posts = ({
 }) => {
   const [auth, setAuth] = useState(false);
   useEffect(() => {
+    // if (!loading) {
+    //   store.dispatch({ type: 'SET_LOADING', payload: true });
+    // }
     getPostByUser(user_id);
   }, [getPostByUser, user_id]);
   return (
@@ -33,7 +37,7 @@ const Posts = ({
           </div>
         </div>
         <div>
-          {loading || posts === null ? (
+          {loading || !posts ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
               <HashLoader size={36} color={'#3b49df'} loading={true} />
             </div>

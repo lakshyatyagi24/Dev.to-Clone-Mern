@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 import { toast } from 'react-toastify';
+import store from '../../store';
 
 const Login = ({ login, history, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,7 @@ const Login = ({ login, history, isAuthenticated }) => {
     e.preventDefault();
     if (email && password) {
       login(email, password);
+      store.dispatch({ type: 'SET_LOADING', payload: true });
       return history.push('/');
     } else {
       return toast.error('Please fill all fields');

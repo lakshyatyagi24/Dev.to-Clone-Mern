@@ -59,11 +59,9 @@ const PostItem = ({
       <ActionPostItem
         handleBookmarksAction={handleBookmarksAction}
         handleLikeAction={handleLikeAction}
-        likedState={auth.user === null ? null : likes.includes(auth.user._id)}
+        likedState={!auth.user ? null : likes.includes(auth.user._id)}
         likesState={likesState}
-        bookmarkedState={
-          auth.user === null ? null : bookmarks.includes(auth.user._id)
-        }
+        bookmarkedState={!auth.user ? null : bookmarks.includes(auth.user._id)}
         bookmarksState={bookmarksState}
         incLikes={incLikes}
         decLikes={decLikes}

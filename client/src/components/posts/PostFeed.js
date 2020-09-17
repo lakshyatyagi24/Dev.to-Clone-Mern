@@ -82,7 +82,7 @@ const PostFeed = ({
             </Link>
             <ActionPostFeed
               isBookMarked={
-                auth.user === null ? null : bookmarks.includes(auth.user._id)
+                !auth.user ? null : bookmarks.includes(auth.user._id)
               }
               setAuth={setAuth}
               handleBookmarksAction={handleBookmarksAction}

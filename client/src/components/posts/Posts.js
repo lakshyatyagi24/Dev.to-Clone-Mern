@@ -23,9 +23,46 @@ const Posts = ({
   usersCount,
 }) => {
   const [auth, setAuth] = useState(false);
+  const [filterStatus, setFilterStatus] = useState('feed');
   useEffect(() => {
     getPosts();
   }, [getPosts]);
+
+  // get d/m/y from data
+  const getMonthValue = (value) => {
+    const res = new Date(value);
+    return res.getMonth() + 1;
+  };
+  const getDateValue = (value) => {
+    const res = new Date(value);
+    return res.getDate();
+  };
+  const getYearValue = (value) => {
+    const res = new Date(value);
+    return res.getFullYear();
+  };
+
+  // get d/m/y now
+  const Year = () => {
+    const year = new Date();
+    return year.getFullYear();
+  };
+  const Dates = () => {
+    const date = new Date();
+    return date.getDate();
+  };
+  const Month = () => {
+    const month = new Date();
+    return month.getMonth() + 1;
+  };
+  const dataFilter =
+    filterStatus === 'date'
+      ? posts.filter((post) => getDateValue(post.date) === Dates())
+      : filterStatus === 'month'
+      ? posts.filter((post) => getMonthValue(post.date) === Month())
+      : filterStatus === 'year'
+      ? posts.filter((post) => getYearValue(post.date) === Year())
+      : posts;
   return (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
@@ -125,15 +162,63 @@ const Posts = ({
             )}
           </div>
         </div>
-        <div className='my-1'>
-          <h4 className='text-dark'>Posts</h4>
-          {loading || posts === null ? (
+        <div className='my'>
+          <div className='top-feed'>
+            <h4 className='text-dark'>Posts</h4>
+            <div className='top-feed__filter'>
+              <button
+                style={{
+                  color: filterStatus === 'feed' ? 'royalblue' : '',
+                  borderBottom:
+                    filterStatus === 'feed' ? '3px solid royalblue' : '',
+                }}
+                onClick={() => setFilterStatus('feed')}
+                className='btn btn-light btn-hover'
+              >
+                Feed
+              </button>
+              <button
+                style={{
+                  color: filterStatus === 'date' ? 'royalblue' : '',
+                  borderBottom:
+                    filterStatus === 'date' ? '3px solid royalblue' : '',
+                }}
+                onClick={() => setFilterStatus('date')}
+                className='btn btn-light btn-hover'
+              >
+                Date
+              </button>
+              <button
+                style={{
+                  color: filterStatus === 'month' ? 'royalblue' : '',
+                  borderBottom:
+                    filterStatus === 'month' ? '3px solid royalblue' : '',
+                }}
+                onClick={() => setFilterStatus('month')}
+                className='btn btn-light btn-hover'
+              >
+                Month
+              </button>
+              <button
+                style={{
+                  color: filterStatus === 'year' ? 'royalblue' : '',
+                  borderBottom:
+                    filterStatus === 'year' ? '3px solid royalblue' : '',
+                }}
+                onClick={() => setFilterStatus('year')}
+                className='btn btn-light btn-hover'
+              >
+                Year
+              </button>
+            </div>
+          </div>
+          {loading || !posts ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
               <HashLoader size={36} color={'#3b49df'} loading={true} />
             </div>
           ) : (
             <Fragment>
-              {posts.map((post, index) => (
+              {dataFilter.map((post, index) => (
                 <PostFeed
                   index={index}
                   path={location.pathname}

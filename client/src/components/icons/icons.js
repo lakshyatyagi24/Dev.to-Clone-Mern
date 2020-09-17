@@ -346,3 +346,31 @@ export const Tags = () => (
     <g></g>
   </svg>
 );
+
+export const Notify = () => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    role='img'
+    aria-labelledby='assmsmaakk9hq80ctr13q2w3u11sr6fk'
+  >
+    <title id='assmsmaakk9hq80ctr13q2w3u11sr6fk'>Notifications</title>
+    <path d='M20 17h2v2H2v-2h2v-7a8 8 0 1116 0v7zm-2 0v-7a6 6 0 10-12 0v7h12zm-9 4h6v2H9v-2z'></path>
+  </svg>
+);
+
+export const Chat = () => (
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    width='24'
+    height='24'
+    viewBox='0 0 24 24'
+    role='img'
+    aria-labelledby='aj937ynt0urwkpylpfki55xquvn0gqg0'
+  >
+    <title id='aj937ynt0urwkpylpfki55xquvn0gqg0'>Connect</title>
+    <path d='M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10H2l2.929-2.929A9.969 9.969 0 012 12zm4.828 8H12a8 8 0 10-8-8c0 2.152.851 4.165 2.343 5.657l1.414 1.414-.929.929zM8 13h8a4 4 0 11-8 0z'></path>
+  </svg>
+);

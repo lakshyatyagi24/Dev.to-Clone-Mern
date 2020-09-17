@@ -5,12 +5,14 @@ import Dashboard from './Dashboard';
 import PostItem from './PostItem';
 function PostItemRoute({ user, location }) {
   const [value, setValue] = useState('recently-published');
+  const date = new Date(user.posts[0].date);
+  console.log(date.getDate());
   const filterData =
     value === 'most-comments'
       ? user.posts.sort((u, i) => i.commentsCount - u.commentsCount)
       : value === 'most-actions'
       ? user.posts.sort((u, i) => i.likesCount - u.likesCount)
-      : user.posts;
+      : user.posts.sort((u, i) => new Date(i.date) - new Date(u.date));
   return (
     <Dashboard checkPage={location.pathname}>
       <div className='post-dashboard__head'>

@@ -9,6 +9,7 @@ import {
   EDIT_COMMENT,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
+  SET_LOADING,
 } from '../actions/types';
 
 const initialState = {
@@ -23,6 +24,11 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: payload,
+      };
     case GET_POSTS:
       return {
         ...state,

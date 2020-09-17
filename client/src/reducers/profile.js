@@ -5,6 +5,7 @@ import {
   UPDATE_PROFILE,
   GET_PROFILES,
   GET_POSTS_BY_USER,
+  SET_LOADING,
 } from '../actions/types';
 
 const initialState = {
@@ -19,6 +20,11 @@ export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: payload,
+      };
     case GET_PROFILE:
     case UPDATE_PROFILE:
       return {

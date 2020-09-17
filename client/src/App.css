@@ -681,10 +681,6 @@ input[type='password']:focus {
   margin-right: 15px;
   background-color: royalblue;
 }
-.comment-nav,
-.chat-nav {
-  background-color: unset;
-}
 .nav-hover:hover a {
   background-color: var(--light-color);
 }
@@ -1125,4 +1121,21 @@ label #select {
 .sign-out {
   padding: calc(15% + 50px) 2% 30%;
   text-align: center;
+}
+.top-feed {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.113rem;
+}
+.top-feed__filter {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.top-feed__filter button:last-child {
+  margin-right: 0;
+}
+.top-feed__filter .btn {
+  padding: 0.2rem 0.6rem;
+  border-radius: unset;
 }

@@ -90,7 +90,7 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
               handleFollow={handleFollow}
               auth={auth}
               isFollowing={
-                auth.user === null
+                !auth.user
                   ? null
                   : auth.user.following.some((item) => item._id === user._id)
               }

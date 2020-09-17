@@ -32,7 +32,11 @@ const ActionPostFeed = ({
   };
   return (
     <div className='read-action'>
-      <button onClick={handleBookMark} className='btn btn-light btn-hover'>
+      <button
+        onClick={handleBookMark}
+        style={{ marginRight: 0 }}
+        className='btn btn-light btn-hover'
+      >
         {auth.isAuthenticated && bookMarkedState ? (
           <i
             className='fas fa-bookmark'

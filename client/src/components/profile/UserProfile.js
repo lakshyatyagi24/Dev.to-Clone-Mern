@@ -9,6 +9,7 @@ import ActionFollow from './ActionFollow';
 import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import HashLoader from 'react-spinners/HashLoader';
+import store from '../../store';
 
 function UserProfile({
   profile: { profiles, loading },
@@ -19,6 +20,9 @@ function UserProfile({
 }) {
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
+    if (!loading) {
+      store.dispatch({ type: 'SET_LOADING', payload: true });
+    }
     getUserProfile(match.params.id);
   }, [getUserProfile, match.params.id]);
   const handleFollow = () => {
@@ -49,7 +53,7 @@ function UserProfile({
 
     return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
   }
-  return loading || profiles === null ? (
+  return loading || !profiles ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>
@@ -78,7 +82,7 @@ function UserProfile({
                     handleFollow={handleFollow}
                     auth={auth}
                     isFollowing={
-                      auth.user === null
+                      !auth.user
                         ? null
                         : auth.user.following.some(
                             (item) => item._id === profiles.user._id

@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ActionFeed from './ActionFeed';
 import HashLoader from 'react-spinners/HashLoader';
+import { Notify, Chat } from '../icons/icons';
+
 const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
   return (
     <nav className='wrap-header grid'>
@@ -51,7 +53,6 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
               </Link>
               <div className='nav-hover'>
                 <Link
-                  className='btn btn-light btn-nav comment-nav'
                   style={{
                     borderRadius: '50%',
                     width: '40px',
@@ -59,18 +60,16 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    padding: '0.5rem',
+                    margin: '0.25rem',
                   }}
                   to='/write-post'
                 >
-                  <i
-                    style={{ fontSize: '1.2rem' }}
-                    className='far fa-comments'
-                  ></i>
+                  <Chat />
                 </Link>
               </div>
               <div className='nav-hover'>
                 <Link
-                  className='btn btn-light btn-nav chat-nav'
                   style={{
                     borderRadius: '50%',
                     width: '40px',
@@ -78,10 +77,12 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    padding: '0.5rem',
+                    margin: '0.25rem',
                   }}
                   to='/write-post'
                 >
-                  <i style={{ fontSize: '1.2rem' }} className='far fa-bell'></i>
+                  <Notify />
                 </Link>
               </div>
               {!user ? null : (
@@ -98,7 +99,11 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                   <div className='action-connect'></div>
 
                   <img
-                    style={{ objectFit: 'cover' }}
+                    style={{
+                      objectFit: 'cover',
+                      padding: '0.1rem',
+                      margin: '0.25rem',
+                    }}
                     className='round-img'
                     src={user.avatar}
                     alt=''

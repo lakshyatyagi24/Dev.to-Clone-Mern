@@ -6,9 +6,13 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import HashLoader from 'react-spinners/HashLoader';
+import store from '../../store';
 
 function Me({ auth, profile: { profile, loading }, getCurrentProfile }) {
   useEffect(() => {
+    if (!loading) {
+      store.dispatch({ type: 'SET_LOADING', payload: true });
+    }
     getCurrentProfile();
   }, [getCurrentProfile]);
   function hexToRGB(h) {
@@ -31,7 +35,7 @@ function Me({ auth, profile: { profile, loading }, getCurrentProfile }) {
 
     return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
   }
-  return loading || profile === null ? (
+  return loading || !profile ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>

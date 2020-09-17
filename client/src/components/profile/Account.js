@@ -83,7 +83,7 @@ const Account = ({
   };
   return (
     <Setting checkPage={location.pathname}>
-      {loading || user === null ? (
+      {loading || !user ? (
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
           <HashLoader size={36} color={'#3b49df'} loading={true} />
         </div>

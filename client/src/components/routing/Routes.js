@@ -17,6 +17,7 @@ import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
 import Account from '../profile/Account';
 import Profile from '../profile/Profile';
+import TagsDashBoard from '../Tags/TagsDashBoard';
 import Me from '../profile/Me';
 import SignOut from '../../components/layout/SignOut';
 import UserProfile from '../profile/UserProfile';
@@ -29,6 +30,7 @@ const Routes = (props) => {
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Posts} />
+        <Route exact path='/tags' component={TagsDashBoard} />
         <Route exact path='/signout_confirm' component={SignOut} />
         <Route exact path='/post/:id' component={Post} />
         <Route exact path='/register' component={Register} />

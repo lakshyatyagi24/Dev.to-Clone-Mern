@@ -7,7 +7,6 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   UPDATE_USER,
-  CLEAR_PROFILE,
   FOLLOW,
   UNFOLLOW,
 } from './types';
@@ -160,9 +159,6 @@ export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
 
   try {
-    dispatch({
-      type: CLEAR_PROFILE,
-    });
     const res = await api.post('/auth', body);
 
     dispatch({

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { TagsInput } from './TagsInput';
-import { getTags } from '../../actions/tags';
+import { getWriteTags } from '../../actions/tags';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-const TagsModal = ({ setTagsStatus, getTags, tags }) => {
+const TagsModal = ({ setTagsStatus, getWriteTags, tags }) => {
   useEffect(() => {
-    getTags();
-  }, [getTags]);
+    getWriteTags();
+  }, [getWriteTags]);
 
   return (
     <div className='backdrop'>
@@ -26,9 +26,10 @@ const TagsModal = ({ setTagsStatus, getTags, tags }) => {
   );
 };
 TagsModal.propTypes = {
-  getTags: PropTypes.func.isRequired,
+  getWriteTags: PropTypes.func.isRequired,
+  tags: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
-  tags: state.tags.tags,
+  tags: state.tags.tags_write,
 });
-export default connect(mapStateToProps, { getTags })(TagsModal);
+export default connect(mapStateToProps, { getWriteTags })(TagsModal);

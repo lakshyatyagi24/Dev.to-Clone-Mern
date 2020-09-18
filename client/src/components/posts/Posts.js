@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PostFeed from './PostFeed';
 import { getPosts } from '../../actions/post';
-import { getTags } from '../../actions/tags';
+import { getPopularTags } from '../../actions/tags';
 import PuffLoader from 'react-spinners/PuffLoader';
 import LoginPopUp from '../auth/LoginPopUp';
 import UserFeedSide from './UserFeedSide';
 import TopFeedFilter from './TopFeedFilter';
+import TagRecommend from './TagRecommend';
 
 const Posts = ({
   _auth,
   getPosts,
-  getTags,
+  getPopularTags,
+  tags,
   post: { posts, loading },
   location,
   usersCount,
@@ -22,8 +24,8 @@ const Posts = ({
   const [filterStatus, setFilterStatus] = useState('feed');
   useEffect(() => {
     getPosts();
-    getTags();
-  }, [getPosts, getTags]);
+    getPopularTags();
+  }, [getPosts, getPopularTags]);
 
   // get d/m/y from data
   const getMonthValue = (value) => {
@@ -68,6 +70,7 @@ const Posts = ({
         <div className='my'>
           <div className='left-side-feed'>
             <UserFeedSide _auth={_auth} />
+            <TagRecommend tags={tags} />
           </div>
         </div>
         <div className='my'>
@@ -168,7 +171,8 @@ const Posts = ({
 
 Posts.propTypes = {
   getPosts: PropTypes.func.isRequired,
-  getTags: PropTypes.func,
+  getPopularTags: PropTypes.func,
+  tags: PropTypes.array,
   post: PropTypes.object.isRequired,
   usersCount: PropTypes.number,
   _auth: PropTypes.object.isRequired,
@@ -178,6 +182,7 @@ const mapStateToProps = (state) => ({
   post: state.post,
   usersCount: state.post.usersCount,
   _auth: state.auth,
+  tags: state.tags.tags_popular,
 });
 
-export default connect(mapStateToProps, { getPosts, getTags })(Posts);
+export default connect(mapStateToProps, { getPosts, getPopularTags })(Posts);

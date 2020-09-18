@@ -2,9 +2,14 @@ import React from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import store from '../../store';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 function ReadingList({ post }) {
-  return (
+  return !post ? (
+    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+      <PuffLoader size={36} color={'#3b49df'} loading={true} />
+    </div>
+  ) : (
     <div className='post-list__item bg-white my'>
       <div className='post-list__item-wrap reading-list'>
         <Link

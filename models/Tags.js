@@ -17,6 +17,10 @@ const TagSchema = new Schema({
     type: Number,
     default: 1,
   },
+  tagDescription: {
+    type: String,
+    default: '',
+  },
   date: {
     type: Date,
     default: Date.now,

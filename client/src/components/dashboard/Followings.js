@@ -2,8 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import store from '../../store';
+import PuffLoader from 'react-spinners/PuffLoader';
 function Followings({ following }) {
-  return (
+  return !following ? (
+    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+      <PuffLoader size={36} color={'#3b49df'} loading={true} />
+    </div>
+  ) : (
     <div className='followers__item bg-white'>
       <Link
         onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}

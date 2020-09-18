@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
+import store from '../../store';
 
 const SignOut = ({ logout, history }) => {
   return (
@@ -11,6 +12,7 @@ const SignOut = ({ logout, history }) => {
         style={{ margin: '15px 0', fontSize: '1.2rem' }}
         onClick={() => {
           logout();
+          store.dispatch({ type: 'CLEAR_PROFILE' });
           return history.push('/');
         }}
         className='btn btn-dark'

@@ -5,11 +5,6 @@ import { replyComment } from '../../actions/post';
 
 const CommentReply = ({ setReply, tagName, replyComment, postId, comtId }) => {
   const [text, setText] = useState('');
-  // const handleClick = (e) => {
-  //   if (e.target.classList.contains('backdrop')) {
-  //     setReply(false);
-  //   }
-  // };
   return (
     <div className='backdrop'>
       <div className='child edit-comment close-action'>

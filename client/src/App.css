@@ -88,6 +88,9 @@ a {
 .py {
   padding: 0.5rem 0;
 }
+.py-tags {
+  padding: 0.5rem 0.3rem;
+}
 .py-1-fix {
   padding: 0.5rem 0 1rem 0;
 }
@@ -654,7 +657,8 @@ input[type="password"]:focus {
   justify-content: center;
   align-items: center;
   width: 30px;
-  border-radius: 10px;
+  height: 43px;
+  border-radius: 50%;
 }
 .error {
   color: var(--danger-color);
@@ -1244,4 +1248,37 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   font-size: 0.85rem;
   color: #64707d;
   padding: 4px;
+}
+.tag-recommend__wrap {
+  max-height: 333px;
+  overflow: auto;
+}
+.tag-recommend__item {
+  display: block;
+  color: #202428;
+  font-size: 0.85rem;
+  border-radius: 5px;
+}
+.tag-recommend__link:hover span {
+  background-color: #e2e4e6;
+  color: royalblue;
+}
+.tags-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.3rem;
+}
+.tag-card {
+  border-radius: 5px;
+  min-height: 200px;
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  border: unset;
+  outline: unset;
+}
+.tag-card__link:hover span {
+  color: royalblue;
+}
+.tag-card__link-name {
+  font-size: 1.2rem;
+  font-weight: 500;
 }

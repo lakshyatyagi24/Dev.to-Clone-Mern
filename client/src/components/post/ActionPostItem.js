@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Like, LikeFill, BookMark, UnBookMark } from '../icons/icons';
 const ActionPostItem = ({
   auth,
   handleBookmarksAction,
@@ -71,7 +72,7 @@ const ActionPostItem = ({
         <div className='like-action'>
           <button
             onClick={handleLike}
-            className='btn btn-light btn-hover action-post'
+            className='action-post'
             style={
               auth.isAuthenticated && liked
                 ? {
@@ -81,15 +82,7 @@ const ActionPostItem = ({
                 : {}
             }
           >
-            <i
-              className={
-                auth.isAuthenticated && liked ? 'fas fa-heart' : 'far fa-heart'
-              }
-              style={{
-                color: auth.isAuthenticated && liked ? '#dc1818' : '',
-                fontSize: '20px',
-              }}
-            />
+            {auth.isAuthenticated && liked ? <LikeFill /> : <Like />}
           </button>
         </div>
 
@@ -106,7 +99,7 @@ const ActionPostItem = ({
         <div className='read-action'>
           <button
             onClick={handleBookMark}
-            className='btn btn-light btn-hover action-post'
+            className='action-post'
             style={
               auth.isAuthenticated && bookmarked
                 ? {
@@ -116,17 +109,7 @@ const ActionPostItem = ({
                 : {}
             }
           >
-            <i
-              className={
-                auth.isAuthenticated && bookmarked
-                  ? 'fas fa-bookmark'
-                  : 'far fa-bookmark'
-              }
-              style={{
-                color: auth.isAuthenticated && bookmarked ? 'royalblue' : '',
-                fontSize: '20px',
-              }}
-            />
+            {auth.isAuthenticated && bookmarked ? <UnBookMark /> : <BookMark />}
           </button>
         </div>
 

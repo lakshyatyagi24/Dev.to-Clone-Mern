@@ -656,9 +656,11 @@ input[type="password"]:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  height: 43px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  outline: none;
+  cursor: pointer;
 }
 .error {
   color: var(--danger-color);

@@ -40,10 +40,10 @@ const ActionPostFeed = ({
         {auth.isAuthenticated && bookMarkedState ? (
           <i
             className='fas fa-bookmark'
-            style={{ color: 'royalblue', fontSize: '18px' }}
+            style={{ color: 'royalblue', fontSize: '1.2rem' }}
           />
         ) : (
-          <i className='far fa-bookmark' style={{ fontSize: '18px' }} />
+          <i className='far fa-bookmark' style={{ fontSize: '1.2rem' }} />
         )}
       </button>
     </div>

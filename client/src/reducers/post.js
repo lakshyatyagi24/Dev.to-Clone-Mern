@@ -10,6 +10,8 @@ import {
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
   SET_LOADING,
+  CLEAR_POST,
+  CLEAR_POSTS,
 } from '../actions/types';
 
 const initialState = {
@@ -24,6 +26,17 @@ const initialState = {
 export default function (state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
+    case CLEAR_POST:
+      return {
+        ...state,
+        post: null,
+        profile: null,
+      };
+    case CLEAR_POSTS:
+      return {
+        ...state,
+        posts: null,
+      };
     case SET_LOADING:
       return {
         ...state,

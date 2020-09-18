@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,7 +7,8 @@ import { getPosts } from '../../actions/post';
 import { getTags } from '../../actions/tags';
 import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
-import { ReadingLists, DashBoard, Settings, Sign, Tags } from '../icons/icons';
+import UserFeedSide from './UserFeedSide';
+import TopFeedFilter from './TopFeedFilter';
 
 const Posts = ({
   _auth,
@@ -67,147 +67,16 @@ const Posts = ({
       <div className='post feed container'>
         <div className='my'>
           <div className='left-side-feed'>
-            {_auth.isAuthenticated ? (
-              <Fragment>
-                {!_auth.user ? null : (
-                  <div className='side-item'>
-                    <Link to='/profile/me' className='user-feed__info'>
-                      <img
-                        alt=''
-                        style={{ objectFit: 'cover', marginRight: '5px' }}
-                        className='round-img-feed'
-                        src={_auth.user.avatar}
-                      />
-                      <div>
-                        <span
-                          className='text-dark'
-                          style={{ fontWeight: '600' }}
-                        >
-                          {`${_auth.user.name}`}{' '}
-                        </span>
-                        <p className='post-date'>
-                          <span>Joined </span>
-                          <Moment format='DD/MM/YYYY'>
-                            {_auth.user.createdAt}
-                          </Moment>
-                        </p>
-                      </div>
-                    </Link>
-                  </div>
-                )}
-                <div className='side-item'>
-                  <Link className='user-feed__info' to='/dashboard'>
-                    <DashBoard />
-                    <span style={{ marginLeft: '8px' }}>Dashboard</span>
-                  </Link>
-                </div>
-                <div className='side-item'>
-                  <Link
-                    className='user-feed__info'
-                    to='/dashboard/reading-list'
-                  >
-                    <ReadingLists />
-                    <span style={{ marginLeft: '8px' }}>Reading list</span>
-                  </Link>
-                </div>
-                <div className='side-item'>
-                  <Link
-                    className='user-feed__info'
-                    style={{ marginBottom: '0 ' }}
-                    to='/settings'
-                  >
-                    <Settings />
-                    <span style={{ marginLeft: '8px' }}>Settings</span>
-                  </Link>
-                </div>
-                <div className='side-item'>
-                  <Link
-                    className='user-feed__info'
-                    style={{ marginBottom: '0 ' }}
-                    to='/tags'
-                  >
-                    <Tags />
-                    <span style={{ marginLeft: '8px' }}>Tags</span>
-                  </Link>
-                </div>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <div className='side-item'>
-                  <Link
-                    className='user-feed__info'
-                    style={{ marginBottom: '0 ' }}
-                    to='/login'
-                  >
-                    <Sign />
-                    <span style={{ marginLeft: '8px', fontWeight: '600' }}>
-                      Sign In/Up
-                    </span>
-                  </Link>
-                </div>
-                <div className='side-item'>
-                  <Link
-                    className='user-feed__info'
-                    style={{ marginBottom: '0 ' }}
-                    to='/tags'
-                  >
-                    <Tags />
-                    <span style={{ marginLeft: '8px' }}>Tags</span>
-                  </Link>
-                </div>
-              </Fragment>
-            )}
+            <UserFeedSide _auth={_auth} />
           </div>
         </div>
         <div className='my'>
           <div className='top-feed'>
             <h4 className='text-dark'>Posts</h4>
-            <div className='top-feed__filter'>
-              <button
-                style={{
-                  color: filterStatus === 'feed' ? 'royalblue' : '',
-                  borderBottom:
-                    filterStatus === 'feed' ? '3px solid royalblue' : '',
-                }}
-                onClick={() => setFilterStatus('feed')}
-                className='btn btn-light btn-hover'
-              >
-                Feed
-              </button>
-              <button
-                style={{
-                  color: filterStatus === 'date' ? 'royalblue' : '',
-                  borderBottom:
-                    filterStatus === 'date' ? '3px solid royalblue' : '',
-                }}
-                onClick={() => setFilterStatus('date')}
-                className='btn btn-light btn-hover'
-              >
-                Date
-              </button>
-              <button
-                style={{
-                  color: filterStatus === 'month' ? 'royalblue' : '',
-                  borderBottom:
-                    filterStatus === 'month' ? '3px solid royalblue' : '',
-                }}
-                onClick={() => setFilterStatus('month')}
-                className='btn btn-light btn-hover'
-              >
-                Month
-              </button>
-              <button
-                style={{
-                  color: filterStatus === 'year' ? 'royalblue' : '',
-                  borderBottom:
-                    filterStatus === 'year' ? '3px solid royalblue' : '',
-                }}
-                onClick={() => setFilterStatus('year')}
-                className='btn btn-light btn-hover'
-              >
-                Year
-              </button>
-            </div>
+            <TopFeedFilter
+              filterStatus={filterStatus}
+              setFilterStatus={setFilterStatus}
+            />
           </div>
           {loading || !posts ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>

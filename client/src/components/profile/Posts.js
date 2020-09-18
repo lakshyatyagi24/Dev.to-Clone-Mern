@@ -1,25 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import PostFeed from '../posts/PostFeed';
-import { getPostByUser } from '../../actions/post';
-import HashLoader from 'react-spinners/HashLoader';
 import LoginPopUp from '../auth/LoginPopUp';
-// import store from '../../store';
 
-const Posts = ({
-  getPostByUser,
-  profile: { posts, loading },
-  user_id,
-  profile_data,
-}) => {
+const Posts = ({ posts, profile_data }) => {
   const [auth, setAuth] = useState(false);
-  useEffect(() => {
-    // if (!loading) {
-    //   store.dispatch({ type: 'SET_LOADING', payload: true });
-    // }
-    getPostByUser(user_id);
-  }, [getPostByUser, user_id]);
   return (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
@@ -37,17 +22,11 @@ const Posts = ({
           </div>
         </div>
         <div>
-          {loading || !posts ? (
-            <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-              <HashLoader size={36} color={'#3b49df'} loading={true} />
-            </div>
-          ) : (
-            <Fragment>
-              {posts.map((post) => (
-                <PostFeed key={post._id} post={post} setAuth={setAuth} />
-              ))}
-            </Fragment>
-          )}
+          <Fragment>
+            {posts.map((post) => (
+              <PostFeed key={post._id} post={post} setAuth={setAuth} />
+            ))}
+          </Fragment>
         </div>
         <div>
           {/* <div className='right-side-feed p-1 my-1 bg-white'></div> */}
@@ -58,12 +37,8 @@ const Posts = ({
 };
 
 Posts.propTypes = {
-  getPostByUser: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired,
+  posts: PropTypes.array.isRequired,
+  profile_data: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  profile: state.profile,
-});
-
-export default connect(mapStateToProps, { getPostByUser })(Posts);
+export default Posts;

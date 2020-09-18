@@ -7,14 +7,21 @@ import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import HashLoader from 'react-spinners/HashLoader';
 import store from '../../store';
+import { getPostByUser } from '../../actions/post';
 
-function Me({ auth, profile: { profile, loading }, getCurrentProfile }) {
+function Me({
+  auth,
+  profile: { profile, posts, loading },
+  getCurrentProfile,
+  getPostByUser,
+}) {
   useEffect(() => {
     if (!loading) {
-      store.dispatch({ type: 'SET_LOADING', payload: true });
+      store.dispatch({ type: 'CLEAR_DATA' });
     }
     getCurrentProfile();
-  }, [getCurrentProfile]);
+    getPostByUser(auth.user._id);
+  }, [getCurrentProfile, auth.user._id]);
   function hexToRGB(h) {
     let r = 0,
       g = 0,
@@ -35,7 +42,7 @@ function Me({ auth, profile: { profile, loading }, getCurrentProfile }) {
 
     return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
   }
-  return loading || !profile ? (
+  return loading || !profile || posts.length === 0 ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>
@@ -189,7 +196,7 @@ function Me({ auth, profile: { profile, loading }, getCurrentProfile }) {
               </div>
             </div>
           </div>
-          <Posts user_id={auth.user._id} profile_data={profile} />
+          <Posts posts={posts} profile_data={profile} />
         </div>
       </div>
     </Fragment>
@@ -204,4 +211,6 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
 });
-export default connect(mapStateToProps, { getCurrentProfile })(Me);
+export default connect(mapStateToProps, { getCurrentProfile, getPostByUser })(
+  Me
+);

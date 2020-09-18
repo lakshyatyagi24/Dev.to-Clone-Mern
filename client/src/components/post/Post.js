@@ -14,7 +14,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
 
   useEffect(() => {
     if (!loading) {
-      store.dispatch({ type: 'SET_LOADING', payload: true });
+      store.dispatch({ type: 'CLEAR_POST' });
     }
     getPost(match.params.id);
   }, [getPost, match.params.id]);

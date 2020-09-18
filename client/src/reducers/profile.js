@@ -6,6 +6,7 @@ import {
   GET_PROFILES,
   GET_POSTS_BY_USER,
   SET_LOADING,
+  CLEAR_DATA,
 } from '../actions/types';
 
 const initialState = {
@@ -54,8 +55,15 @@ export default function (state = initialState, action) {
     case CLEAR_PROFILE:
       return {
         ...state,
+        profiles: null,
         profile: null,
-        repos: [],
+        posts: [],
+      };
+    case CLEAR_DATA:
+      return {
+        ...state,
+        profiles: null,
+        posts: [],
       };
     default:
       return state;

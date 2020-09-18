@@ -27,14 +27,18 @@ router.post(
     }
 
     try {
-      const { tags } = req.body;
+      let { tags, coverImage } = req.body;
       let tags_saved = [];
       if (tags.length > 0) {
         tags_saved = tags.map((item) => item.id);
       }
+      if (coverImage.length === 0) {
+        coverImage =
+          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wp1904062-developer-wallpapers.jpg?alt=media&token=6b29b23c-7936-4b8b-9264-1bae2f41337a';
+      }
       let post = await Post.create({
         title: req.body.title,
-        coverImage: req.body.coverImage,
+        coverImage: coverImage,
         content: req.body.content,
         user: req.user.id,
         tags: tags_saved,

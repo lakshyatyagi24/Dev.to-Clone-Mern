@@ -25,7 +25,7 @@ const Login = ({ login, history, isAuthenticated }) => {
     if (email && password) {
       const res = await login(email, password);
       if (res) {
-        store.dispatch({ type: 'SET_LOADING', payload: true });
+        store.dispatch({ type: 'CLEAR_POSTS' });
         return history.push('/');
       }
     } else {

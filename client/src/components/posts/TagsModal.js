@@ -19,6 +19,7 @@ const TagsModal = ({ setTagsStatus, getTags, tags }) => {
           <i style={{ color: '#363c44' }} className='fas fa-times' />
         </button>
         <h2 className='text-dark'>You can add up to 4 tags</h2>
+        <span>Tag must be lower case, no space and no special characters</span>
         {tags && <TagsInput _suggestions={tags} />}
       </div>
     </div>

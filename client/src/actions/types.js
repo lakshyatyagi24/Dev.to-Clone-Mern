@@ -36,3 +36,7 @@ export const REMOVE_REPLY_COMMENT = 'REMOVE_REPLY_COMMENT';
 export const SET_LOADING = 'SET_LOADING';
 export const GET_TAGS = 'GET_TAGS';
 export const TAGS_ERROR = 'TAGS_ERROR';
+export const CLEAR_POST = 'CLEAR_POST';
+export const CLEAR_POSTS = 'CLEAR_POSTS';
+export const CLEAR_POSTS_PROFILE = 'CLEAR_POSTS_PROFILE';
+export const CLEAR_DATA = 'CLEAR_DATA';

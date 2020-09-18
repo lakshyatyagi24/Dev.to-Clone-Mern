@@ -104,7 +104,7 @@ const PostFeed = ({
                   key={tag._id}
                   to={`/tags/${tag._id}/${tag.tagName}`}
                 >
-                  <span>{'#' + tag.tagName}</span>
+                  <span key={tag._id}>{'#' + tag.tagName}</span>
                 </Link>
               ))}
           </div>

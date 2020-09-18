@@ -10,10 +10,12 @@ import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import HashLoader from 'react-spinners/HashLoader';
 import store from '../../store';
+import { getPostByUser } from '../../actions/post';
 
 function UserProfile({
-  profile: { profiles, loading },
+  profile: { profiles, posts, loading },
   getUserProfile,
+  getPostByUser,
   match,
   follow,
   auth,
@@ -21,10 +23,11 @@ function UserProfile({
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
     if (!loading) {
-      store.dispatch({ type: 'SET_LOADING', payload: true });
+      store.dispatch({ type: 'CLEAR_DATA' });
     }
     getUserProfile(match.params.id);
-  }, [getUserProfile, match.params.id]);
+    getPostByUser(match.params.id);
+  }, [getUserProfile, getPostByUser, match.params.id]);
   const handleFollow = () => {
     if (auth.isAuthenticated) {
       follow(match.params.id);
@@ -53,7 +56,7 @@ function UserProfile({
 
     return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
   }
-  return loading || !profiles ? (
+  return loading || !profiles || posts.length === 0 ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <HashLoader size={36} color={'#3b49df'} loading={true} />
     </div>
@@ -223,7 +226,7 @@ function UserProfile({
               </div>
             </div>
           </div>
-          <Posts user_id={match.params.id} profile_data={profiles} />
+          <Posts posts={posts} profile_data={profiles} />
         </div>
       </div>
     </Fragment>
@@ -231,6 +234,7 @@ function UserProfile({
 }
 UserProfile.propTypes = {
   getUserProfile: PropTypes.func.isRequired,
+  getPostByUser: PropTypes.func.isRequired,
   follow: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
@@ -239,6 +243,8 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
   auth: state.auth,
 });
-export default connect(mapStateToProps, { getUserProfile, follow })(
-  UserProfile
-);
+export default connect(mapStateToProps, {
+  getUserProfile,
+  getPostByUser,
+  follow,
+})(UserProfile);

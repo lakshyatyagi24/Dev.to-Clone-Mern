@@ -1,11 +1,17 @@
 import React from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+import store from '../../store';
+
 function ReadingList({ post }) {
   return (
     <div className='post-list__item bg-white my'>
       <div className='post-list__item-wrap reading-list'>
-        <Link to={`/post/${post._id}`} className='item-infor'>
+        <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
+          to={`/post/${post._id}`}
+          className='item-infor'
+        >
           <h3
             style={{
               fontSize: '1.2rem',

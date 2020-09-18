@@ -8,8 +8,8 @@ import LoginPopUp from '../auth/LoginPopUp';
 import ActionFollow from './ActionFollow';
 import { Link } from 'react-router-dom';
 import Posts from './Posts';
-import HashLoader from 'react-spinners/HashLoader';
-import store from '../../store';
+import PuffLoader from 'react-spinners/PuffLoader';
+// import store from '../../store';
 import { getPostByUser } from '../../actions/post';
 
 function UserProfile({
@@ -22,9 +22,9 @@ function UserProfile({
 }) {
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
-    if (!loading) {
-      store.dispatch({ type: 'CLEAR_DATA' });
-    }
+    // if (!loading) {
+    //   store.dispatch({ type: 'CLEAR_DATA' });
+    // }
     getUserProfile(match.params.id);
     getPostByUser(match.params.id);
   }, [getUserProfile, getPostByUser, match.params.id]);
@@ -58,7 +58,7 @@ function UserProfile({
   }
   return loading || !profiles || posts.length === 0 ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <HashLoader size={36} color={'#3b49df'} loading={true} />
+      <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (
     <Fragment>

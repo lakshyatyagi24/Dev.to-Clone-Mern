@@ -6,7 +6,7 @@ import { deleteAccount } from '../../actions/profile';
 import { loadUser, updateUser } from '../../actions/auth';
 import { ProgressBar } from '../posts/ProgressBar';
 import { toast } from 'react-toastify';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const initialState = {
   email: '',
@@ -85,7 +85,7 @@ const Account = ({
     <Setting checkPage={location.pathname}>
       {loading || !user ? (
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-          <HashLoader size={36} color={'#3b49df'} loading={true} />
+          <PuffLoader size={36} color={'#3b49df'} loading={true} />
         </div>
       ) : (
         <div className='main-setting'>
@@ -182,7 +182,7 @@ const Account = ({
                   onChange={onChange}
                 />
               </div>
-              {<HashLoader size={36} color={'#3b49df'} loading={isCompleted} />}
+              {<PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />}
               {!isCompleted && (
                 <input
                   type='submit'

@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import store from '../../store';
 function Followings({ following }) {
   return (
     <div className='followers__item bg-white'>
       <Link
+        onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
         to={`/profile/user/${following._id}`}
         className='followers__item-wrap'
       >

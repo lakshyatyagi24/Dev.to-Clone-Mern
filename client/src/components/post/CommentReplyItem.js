@@ -7,6 +7,7 @@ import { deleteReplyComment } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import CommentReply from './CommentReply';
 import CommentEditReply from './CommentEditReply';
+import store from '../../store';
 
 const CommentReplyItem = ({
   postId,
@@ -96,6 +97,7 @@ const CommentReplyItem = ({
               display: 'flex',
               wordBreak: 'break-word',
             }}
+            onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
             to={
               auth.user && auth.user._id === user_reply
                 ? `/profile/me`

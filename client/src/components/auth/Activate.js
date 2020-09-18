@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { activate } from '../../actions/auth';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const Activate = ({ activate, match, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -59,7 +59,7 @@ const Activate = ({ activate, match, isAuthenticated }) => {
           <form className='form' onSubmit={handleSubmit}>
             {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <HashLoader
+                <PuffLoader
                   size={36}
                   color={'#3b49df'}
                   loading={isProcessing}

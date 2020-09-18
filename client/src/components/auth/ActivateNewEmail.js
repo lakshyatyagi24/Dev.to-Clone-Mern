@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { activateNewEmail } from '../../actions/auth';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const ActivateNewEmail = ({ activateNewEmail, match }) => {
   const [formData, setFormData] = useState({
@@ -52,7 +52,7 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
           <form className='form' onSubmit={handleSubmit}>
             {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <HashLoader
+                <PuffLoader
                   size={36}
                   color={'#3b49df'}
                   loading={isProcessing}

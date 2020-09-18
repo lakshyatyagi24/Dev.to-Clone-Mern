@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { addBookmarks } from '../../actions/post';
 import ActionPostFeed from './ActionPostFeed';
 import { timeSince } from '../../utils/timesince';
-
+import store from '../../store';
 const PostFeed = ({
   addBookmarks,
   auth,
@@ -46,6 +46,7 @@ const PostFeed = ({
       <div className='post-feed bg-white'>
         {path === '/' && coverImage && index === 0 && (
           <Link
+            onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
             style={{ display: 'block', height: '275px' }}
             to={`/post/${_id}`}
           >
@@ -59,6 +60,11 @@ const PostFeed = ({
         <div className='p-1'>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <Link
+              onClick={() => {
+                if (path === '/') {
+                  store.dispatch({ type: 'CLEAR_DATA' });
+                }
+              }}
               to={
                 auth.user && auth.user._id === user._id
                   ? `/profile/me`
@@ -93,7 +99,11 @@ const PostFeed = ({
               decBookMarks={decBookMarks}
             />
           </div>
-          <Link className='title-hover' to={`/post/${_id}`}>
+          <Link
+            onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
+            className='title-hover'
+            to={`/post/${_id}`}
+          >
             <h1 className='text-dark m-1-tags'>{title}</h1>
           </Link>
           <div className='tags-feed m-1-tags'>
@@ -109,7 +119,11 @@ const PostFeed = ({
               ))}
           </div>
           <div className='m-1-actions-feed'>
-            <Link to={`/post/${_id}`} className='like-action'>
+            <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
+              to={`/post/${_id}`}
+              className='like-action'
+            >
               <button
                 style={{ marginRight: 0 }}
                 className='btn btn-light btn-hover'
@@ -118,7 +132,11 @@ const PostFeed = ({
                 <span>{likesCount}</span>
               </button>
             </Link>
-            <Link to={`/post/${_id}`} className='discuss-action'>
+            <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
+              to={`/post/${_id}`}
+              className='discuss-action'
+            >
               <button className='btn btn-light  btn-hover'>
                 <i
                   className='far fa-comment-alt'

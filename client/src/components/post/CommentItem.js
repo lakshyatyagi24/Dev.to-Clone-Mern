@@ -8,6 +8,7 @@ import { MarkdownPreview } from 'react-marked-markdown';
 import CommentEdit from './CommentEdit';
 import CommentReply from './CommentReply';
 import CommentReplyItem from './CommentReplyItem';
+import store from '../../store';
 
 const CommentItem = ({
   postId,
@@ -85,6 +86,7 @@ const CommentItem = ({
       <div className='comment-area'>
         <div className='comment-infor'>
           <Link
+            onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
             style={{
               display: 'flex',
               wordBreak: 'break-word',

@@ -7,6 +7,7 @@ import { addLikeInReading, addBookmarksInReading } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import ActionPostItem from './ActionPostItem';
 import SidePostItem from './SidePostItem';
+import store from '../../store';
 
 const PostItem = ({
   addLikeInReading,
@@ -140,6 +141,7 @@ const PostItem = ({
               }}
             >
               <Link
+                onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
                 style={{ display: 'flex' }}
                 to={`/profile/user/${user._id}`}
               >

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import PostFeed from './PostFeed';
 import { getPosts } from '../../actions/post';
 import { getTags } from '../../actions/tags';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 import LoginPopUp from '../auth/LoginPopUp';
 import UserFeedSide from './UserFeedSide';
 import TopFeedFilter from './TopFeedFilter';
@@ -80,7 +80,7 @@ const Posts = ({
           </div>
           {loading || !posts ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-              <HashLoader size={36} color={'#3b49df'} loading={true} />
+              <PuffLoader size={36} color={'#3b49df'} loading={true} />
             </div>
           ) : (
             <Fragment>

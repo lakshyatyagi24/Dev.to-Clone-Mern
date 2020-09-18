@@ -8,7 +8,7 @@ import Guide from './Guide';
 import Image from './Image';
 import CoverImage from './CoverImage';
 import TagsModal from './TagsModal';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const EditorContainer = styled.div`
   width: 100%;
@@ -172,7 +172,7 @@ function PostNew({ addPost }) {
                 required
                 value={content}
               />
-              {<HashLoader size={36} color={'#3b49df'} loading={publish} />}
+              {<PuffLoader size={36} color={'#3b49df'} loading={publish} />}
               {!publish && (
                 <input
                   type='submit'

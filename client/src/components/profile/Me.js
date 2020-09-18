@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import Posts from './Posts';
-import HashLoader from 'react-spinners/HashLoader';
-import store from '../../store';
+import PuffLoader from 'react-spinners/PuffLoader';
+// import store from '../../store';
 import { getPostByUser } from '../../actions/post';
 
 function Me({
@@ -16,9 +16,9 @@ function Me({
   getPostByUser,
 }) {
   useEffect(() => {
-    if (!loading) {
-      store.dispatch({ type: 'CLEAR_DATA' });
-    }
+    // if (!loading) {
+    //   store.dispatch({ type: 'CLEAR_DATA' });
+    // }
     getCurrentProfile();
     getPostByUser(auth.user._id);
   }, [getCurrentProfile, auth.user._id]);
@@ -44,7 +44,7 @@ function Me({
   }
   return loading || !profile || posts.length === 0 ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <HashLoader size={36} color={'#3b49df'} loading={true} />
+      <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (
     <Fragment>

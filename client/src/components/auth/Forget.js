@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { forget } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 import { Redirect } from 'react-router-dom';
 
 const Forget = ({ forget, isAuthenticated }) => {
@@ -71,7 +71,7 @@ const Forget = ({ forget, isAuthenticated }) => {
             </div>
             {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+                <PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />
               </div>
             }
             {!isCompleted && (

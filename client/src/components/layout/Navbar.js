@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ActionFeed from './ActionFeed';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 import { Notify, Chat } from '../icons/icons';
 
 const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
@@ -27,7 +27,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
         <div>
           {loading ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-              <HashLoader size={36} color={'#3b49df'} loading={true} />
+              <PuffLoader size={36} color={'#3b49df'} loading={true} />
             </div>
           ) : !isAuthenticated ? (
             <div className='guest-link'>

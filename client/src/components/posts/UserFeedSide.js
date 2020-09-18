@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import store from '../../store';
 import { ReadingLists, DashBoard, Settings, Sign, Tags } from '../icons/icons';
 
 function UserFeedSide({ _auth }) {
@@ -11,7 +12,11 @@ function UserFeedSide({ _auth }) {
         <Fragment>
           {!_auth.user ? null : (
             <div className='side-item'>
-              <Link to='/profile/me' className='user-feed__info'>
+              <Link
+                to='/profile/me'
+                onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
+                className='user-feed__info'
+              >
                 <img
                   alt=''
                   style={{ objectFit: 'cover', marginRight: '5px' }}

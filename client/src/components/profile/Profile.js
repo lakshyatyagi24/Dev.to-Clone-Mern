@@ -3,7 +3,7 @@ import Setting from './Setting';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const initialState = {
   website: '',
@@ -84,7 +84,7 @@ const Profile = ({
     <Setting checkPage={location.pathname}>
       {loading || !profile ? (
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-          <HashLoader size={36} color={'#3b49df'} loading={true} />
+          <PuffLoader size={36} color={'#3b49df'} loading={true} />
         </div>
       ) : (
         <div className='main-setting bg-white'>
@@ -317,7 +317,7 @@ const Profile = ({
                   </div>
                 </Fragment>
               )}
-              {<HashLoader size={36} color={'#3b49df'} loading={isCompleted} />}
+              {<PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />}
               {!isCompleted && (
                 <input
                   type='submit'

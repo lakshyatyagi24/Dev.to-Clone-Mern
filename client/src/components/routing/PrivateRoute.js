@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 const PrivateRoute = ({
   component: Component,
   auth: { isAuthenticated, loading },
@@ -13,7 +13,7 @@ const PrivateRoute = ({
     render={(props) =>
       loading ? (
         <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-          <HashLoader size={36} color={'#3b49df'} loading={loading} />
+          <PuffLoader size={36} color={'#3b49df'} loading={loading} />
         </div>
       ) : isAuthenticated ? (
         <Component {...props} />

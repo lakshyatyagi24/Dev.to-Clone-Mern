@@ -5,7 +5,7 @@ import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const Register = ({ register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
@@ -111,7 +111,7 @@ const Register = ({ register, isAuthenticated }) => {
 
             {
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <HashLoader size={36} color={'#3b49df'} loading={isCompleted} />
+                <PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />
               </div>
             }
             {!isCompleted && (

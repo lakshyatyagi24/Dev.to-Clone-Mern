@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { follow } from '../../actions/auth';
 import { connect } from 'react-redux';
 import ActionFollow from './ActionFollow';
+import store from '../../store';
 
 const SidePostItem = ({ user, profile, follow, auth, setAuth, hexToRGB }) => {
   const handleFollow = () => {
@@ -30,6 +31,7 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth, hexToRGB }) => {
           <div style={{ padding: '15px' }}>
             <div className='user-info'>
               <Link
+                onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
                 style={{
                   display: 'flex',
                   marginTop: '-30px',

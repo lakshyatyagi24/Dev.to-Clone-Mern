@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth';
 import { Link } from 'react-router-dom';
+import store from '../../store';
 const ActionFeed = ({ isAuthenticated, logout, user }) => {
   return (
     <div className='action-feed'>
@@ -14,6 +15,7 @@ const ActionFeed = ({ isAuthenticated, logout, user }) => {
                 style={{ color: 'royalblue', fontWeight: '600' }}
                 className='action-feed_s'
                 to='/profile/me'
+                onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
               >
                 {'@' + user.name}
               </Link>

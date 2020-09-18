@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import HashLoader from 'react-spinners/HashLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 import PostItem from './PostItem';
 import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 import LoginPopUp from '../auth/LoginPopUp';
-import store from '../../store';
+// import store from '../../store';
 
 const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    if (!loading) {
-      store.dispatch({ type: 'CLEAR_POST' });
-    }
+    // if (!loading) {
+    //   store.dispatch({ type: 'CLEAR_POST' });
+    // }
     getPost(match.params.id);
   }, [getPost, match.params.id]);
   return loading || !post ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <HashLoader size={36} color={'#3b49df'} loading={true} />
+      <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (
     <div className='container'>

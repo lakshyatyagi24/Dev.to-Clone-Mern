@@ -4,12 +4,14 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deletePost } from '../../actions/post';
+import store from '../../store';
 function PostItem({ post, deletePost }) {
   return (
     <div className='post-list__item bg-white my'>
       <div className='post-list__item-wrap'>
         <div className='item-infor'>
           <Link
+            onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
             to={`/post/${post._id}`}
             style={{
               color: 'royalblue',

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { ProgressBar } from './ProgressBar';
+import imageCompression from 'browser-image-compression';
 
 const Image = ({ setImage }) => {
   const [file, setFile] = useState(null);
@@ -14,11 +15,22 @@ const Image = ({ setImage }) => {
     e.target.focus();
     setCopySuccess('Copied!');
   };
-  const changeHandler = (e) => {
+  const changeHandler = async (e) => {
     let selected = e.target.files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
     if (selected && types.includes(selected.type)) {
-      setFile(selected);
-      setError('');
+      try {
+        const compressedFile = await imageCompression(selected, options);
+
+        setFile(compressedFile);
+        setError('');
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       setFile(null);
       setError('Plz select an image file (png or jpeg/jpg)');
@@ -39,6 +51,7 @@ const Image = ({ setImage }) => {
         </h3>
         <form>
           <input
+            accept='image/*'
             className='btn btn-light'
             type='file'
             style={{ margin: '10px 0', width: '100%' }}

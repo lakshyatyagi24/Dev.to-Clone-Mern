@@ -6,7 +6,6 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import PuffLoader from 'react-spinners/PuffLoader';
-// import store from '../../store';
 import { getPostByUser } from '../../actions/post';
 
 function Me({
@@ -16,9 +15,6 @@ function Me({
   getPostByUser,
 }) {
   useEffect(() => {
-    // if (!loading) {
-    //   store.dispatch({ type: 'CLEAR_DATA' });
-    // }
     getCurrentProfile();
     getPostByUser(auth.user._id);
   }, [getCurrentProfile, auth.user._id]);

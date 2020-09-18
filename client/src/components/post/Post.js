@@ -7,15 +7,11 @@ import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 import LoginPopUp from '../auth/LoginPopUp';
-// import store from '../../store';
 
 const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
-    // if (!loading) {
-    //   store.dispatch({ type: 'CLEAR_POST' });
-    // }
     getPost(match.params.id);
   }, [getPost, match.params.id]);
   return loading || !post ? (

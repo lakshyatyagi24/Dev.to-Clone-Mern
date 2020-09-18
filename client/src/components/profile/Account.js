@@ -7,6 +7,7 @@ import { loadUser, updateUser } from '../../actions/auth';
 import { ProgressBar } from '../posts/ProgressBar';
 import { toast } from 'react-toastify';
 import PuffLoader from 'react-spinners/PuffLoader';
+import imageCompression from 'browser-image-compression';
 
 const initialState = {
   email: '',
@@ -41,11 +42,29 @@ const Account = ({
   }, [loading, loadUser, user]);
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  const changeHandler = (e) => {
+  const changeHandler = async (e) => {
     let selected = e.target.files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
     if (selected && types.includes(selected.type)) {
-      setFile(selected);
-      setError('');
+      try {
+        const compressedFile = await imageCompression(selected, options);
+        console.log(
+          'compressedFile instanceof Blob',
+          compressedFile instanceof Blob
+        ); // true
+        console.log(
+          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+        ); // smaller than maxSizeMB
+
+        setFile(compressedFile);
+        setError('');
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       setFile(null);
       setError('Plz select an image file (png or jpeg/jpg)');
@@ -131,6 +150,7 @@ const Account = ({
                   className='round-img'
                 />
                 <input
+                  accept='image/*'
                   className='btn btn-light'
                   type='file'
                   name='avatar'

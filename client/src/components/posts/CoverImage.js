@@ -1,17 +1,36 @@
 import React, { useState } from 'react';
 import { ProgressBar } from './ProgressBar';
+import imageCompression from 'browser-image-compression';
 
 const CoverImage = ({ setCoverImage }) => {
   const [file, setFile] = useState(null);
   const [error, setError] = useState(null);
   const [showImage, setShowImage] = useState(true);
   const types = ['image/png', 'image/jpeg', 'image/jpg'];
-  const changeHandler = (e) => {
+  const changeHandler = async (e) => {
     setShowImage(true);
     let selected = e.target.files[0];
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
     if (selected && types.includes(selected.type)) {
-      setFile(selected);
-      setError('');
+      try {
+        const compressedFile = await imageCompression(selected, options);
+        console.log(
+          'compressedFile instanceof Blob',
+          compressedFile instanceof Blob
+        ); // true
+        console.log(
+          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+        ); // smaller than maxSizeMB
+
+        setFile(compressedFile);
+        setError('');
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       setFile(null);
       setError('Plz select an image file (png or jpeg/jpg)');
@@ -40,6 +59,7 @@ const CoverImage = ({ setCoverImage }) => {
         <h3 className='text-dark my-1'>Select your cover image</h3>
         <form>
           <input
+            accept='image/*'
             className='btn btn-light'
             type='file'
             style={{ margin: '10px 0', width: '100%' }}

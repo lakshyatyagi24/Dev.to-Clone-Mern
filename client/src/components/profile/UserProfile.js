@@ -9,7 +9,6 @@ import ActionFollow from './ActionFollow';
 import { Link } from 'react-router-dom';
 import Posts from './Posts';
 import PuffLoader from 'react-spinners/PuffLoader';
-// import store from '../../store';
 import { getPostByUser } from '../../actions/post';
 
 function UserProfile({
@@ -22,9 +21,6 @@ function UserProfile({
 }) {
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
-    // if (!loading) {
-    //   store.dispatch({ type: 'CLEAR_DATA' });
-    // }
     getUserProfile(match.params.id);
     getPostByUser(match.params.id);
   }, [getUserProfile, getPostByUser, match.params.id]);

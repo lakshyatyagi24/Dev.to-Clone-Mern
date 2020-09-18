@@ -17,6 +17,7 @@ const PostFeed = ({
     title,
     coverImage,
     user,
+    tags,
     bookmarks,
     bookmarksCount,
     likesCount,
@@ -93,27 +94,40 @@ const PostFeed = ({
             />
           </div>
           <Link className='title-hover' to={`/post/${_id}`}>
-            <h1 className='text-dark m-1'>{title}</h1>
+            <h1 className='text-dark m-1-tags'>{title}</h1>
           </Link>
-
-          <Link to={`/post/${_id}`} className='like-action'>
-            <button
-              style={{ marginRight: 0 }}
-              className='btn btn-light btn-hover'
-            >
-              <i className='far fa-heart' style={{ marginRight: '5px' }} />
-              <span>{likesCount}</span>
-            </button>
-          </Link>
-          <Link to={`/post/${_id}`} className='discuss-action'>
-            <button className='btn btn-light  btn-hover'>
-              <i
-                className='far fa-comment-alt'
-                style={{ marginRight: '5px' }}
-              />
-              <span>{commentsCount}</span>
-            </button>
-          </Link>
+          <div className='tags-feed m-1-tags'>
+            {tags.length > 0 &&
+              tags.map((tag) => (
+                <Link
+                  className='tags-item'
+                  key={tag._id}
+                  to={`/tags/${tag._id}/${tag.tagName}`}
+                >
+                  <span>{'#' + tag.tagName}</span>
+                </Link>
+              ))}
+          </div>
+          <div className='m-1-actions-feed'>
+            <Link to={`/post/${_id}`} className='like-action'>
+              <button
+                style={{ marginRight: 0 }}
+                className='btn btn-light btn-hover'
+              >
+                <i className='far fa-heart' style={{ marginRight: '5px' }} />
+                <span>{likesCount}</span>
+              </button>
+            </Link>
+            <Link to={`/post/${_id}`} className='discuss-action'>
+              <button className='btn btn-light  btn-hover'>
+                <i
+                  className='far fa-comment-alt'
+                  style={{ marginRight: '5px' }}
+                />
+                <span>{commentsCount}</span>
+              </button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

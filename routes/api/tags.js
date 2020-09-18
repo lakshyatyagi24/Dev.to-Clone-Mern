@@ -23,10 +23,11 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { tagName } = req.body;
+  const { tagName, tagColor } = req.body;
   try {
     const tag = new Tag({
       tagName,
+      tagColor,
     });
     await tag.save();
     return res.json(tag);

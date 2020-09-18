@@ -24,7 +24,7 @@ const Posts = ({
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
 
-      <div className='post feed container post-profile'>
+      <div className='post feed-profile container post-profile'>
         <div>
           <div className='left-side-feed p-1 my'>
             <div style={{ borderBottom: '1px solid #aaa' }}>

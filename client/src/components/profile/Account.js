@@ -124,7 +124,12 @@ const Account = ({
                 style={{ display: 'flex', alignItems: 'center' }}
                 className='form-group form-fix'
               >
-                <img alt='' src={user.avatar} className='round-img' />
+                <img
+                  style={{ objectFit: 'cover' }}
+                  alt=''
+                  src={user.avatar}
+                  className='round-img'
+                />
                 <input
                   className='btn btn-light'
                   type='file'

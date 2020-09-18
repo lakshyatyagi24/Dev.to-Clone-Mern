@@ -18,6 +18,7 @@ const PostItem = ({
     coverImage,
     likes,
     bookmarks,
+    tags,
     content,
     user,
     likesCount,
@@ -54,6 +55,26 @@ const PostItem = ({
       return setAuth(false);
     }
   };
+  function hexToRGB(h) {
+    let r = 0,
+      g = 0,
+      b = 0;
+
+    // 3 digits
+    if (h.length === 4) {
+      r = '0x' + h[1] + h[1];
+      g = '0x' + h[2] + h[2];
+      b = '0x' + h[3] + h[3];
+
+      // 6 digits
+    } else if (h.length === 7) {
+      r = '0x' + h[1] + h[2];
+      g = '0x' + h[3] + h[4];
+      b = '0x' + h[5] + h[6];
+    }
+
+    return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
+  }
   return (
     <div className='post py post-main'>
       <ActionPostItem
@@ -90,6 +111,27 @@ const PostItem = ({
             >
               {title}
             </h1>
+            <div className='tags-post_item my-1'>
+              {tags.length > 0 &&
+                tags.map((tag) => (
+                  <Link
+                    style={{
+                      height: '30px',
+                      width: 'auto',
+                      backgroundColor: hexToRGB(tag.tagColor),
+                      color: '#fff',
+                      padding: '4px',
+                      marginRight: '8px',
+                      fontSize: '0.85rem',
+                      borderRadius: '5px',
+                    }}
+                    key={tag._id}
+                    to={`/tags/${tag._id}/${tag.tagName}`}
+                  >
+                    {'#' + tag.tagName}
+                  </Link>
+                ))}
+            </div>
             <div
               style={{
                 display: 'flex',
@@ -122,6 +164,7 @@ const PostItem = ({
       </div>
 
       <SidePostItem
+        hexToRGB={hexToRGB}
         auth={auth}
         user={user}
         profile={profile}

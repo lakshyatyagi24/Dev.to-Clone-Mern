@@ -27,14 +27,20 @@ router.post(
     }
 
     try {
+      const { tags } = req.body;
+      let tags_saved = [];
+      if (tags.length > 0) {
+        tags_saved = tags.map((item) => item.id);
+      }
       let post = await Post.create({
         title: req.body.title,
         coverImage: req.body.coverImage,
         content: req.body.content,
         user: req.user.id,
+        tags: tags_saved,
       });
       await User.findByIdAndUpdate(req.user.id, {
-        $push: { posts: post._id },
+        $addToSet: { posts: post._id },
         $inc: { postCount: 1 },
       });
       post = await post.populate('user', ['avatar', 'name']).execPopulate();
@@ -98,7 +104,8 @@ router.get('/', async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({ date: -1 })
-      .populate('user', ['avatar', 'name']);
+      .populate('user', ['avatar', 'name'])
+      .populate('tags', ['tagName']);
     const usersCount = await User.estimatedDocumentCount();
     return res.json({ posts, usersCount });
   } catch (err) {
@@ -134,10 +141,9 @@ router.get('/edit/:id', checkObjectId('id'), async (req, res) => {
 // @access   Public
 router.get('/:id', checkObjectId('id'), async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).populate('user', [
-      'avatar',
-      'name',
-    ]);
+    const post = await Post.findById(req.params.id)
+      .populate('user', ['avatar', 'name'])
+      .populate('tags', ['tagName', 'tagColor']);
     const profile = await Profile.findOne({
       user: post.user.id,
     }).select([
@@ -172,7 +178,8 @@ router.get('/user/:id', checkObjectId('id'), async (req, res) => {
   try {
     const post = await Post.find({ user: req.params.id })
       .sort({ date: -1 })
-      .populate('user', ['avatar', 'name']);
+      .populate('user', ['avatar', 'name'])
+      .populate('tags', ['tagName']);
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }

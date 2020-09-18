@@ -128,10 +128,12 @@ function PostNew({ addPost }) {
                 e.preventDefault();
                 setPublish(true);
                 const cover_image = localStorage.getItem('Cover_Image');
+                const tagsData = JSON.parse(localStorage.getItem('tags'));
                 const res = await addPost({
                   title,
                   coverImage: !cover_image ? '' : cover_image,
                   content,
+                  tags: !tagsData ? [] : tagsData,
                 });
                 if (res) {
                   setPublish(false);
@@ -140,6 +142,7 @@ function PostNew({ addPost }) {
                 }
                 localStorage.removeItem('post');
                 localStorage.removeItem('Cover_Image');
+                localStorage.removeItem('tags');
               }}
             >
               <Title

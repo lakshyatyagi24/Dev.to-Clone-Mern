@@ -12,12 +12,9 @@ const TagSchema = new Schema({
   tagColor: {
     type: String,
     trim: true,
-    required: true,
-    default: '#000',
   },
   tagPostCount: {
     type: Number,
-    required: true,
     default: 1,
   },
   date: {

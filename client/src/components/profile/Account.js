@@ -45,20 +45,13 @@ const Account = ({
   const changeHandler = async (e) => {
     let selected = e.target.files[0];
     const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxSizeMB: 2,
+      maxWidthOrHeight: 200,
       useWebWorker: true,
     };
     if (selected && types.includes(selected.type)) {
       try {
         const compressedFile = await imageCompression(selected, options);
-        console.log(
-          'compressedFile instanceof Blob',
-          compressedFile instanceof Blob
-        ); // true
-        console.log(
-          `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-        ); // smaller than maxSizeMB
 
         setFile(compressedFile);
         setError('');

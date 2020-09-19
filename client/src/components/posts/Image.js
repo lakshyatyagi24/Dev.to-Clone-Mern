@@ -18,8 +18,8 @@ const Image = ({ setImage }) => {
   const changeHandler = async (e) => {
     let selected = e.target.files[0];
     const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 1920,
+      maxSizeMB: 2,
+      maxWidthOrHeight: 900,
       useWebWorker: true,
     };
     if (selected && types.includes(selected.type)) {

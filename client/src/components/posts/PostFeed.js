@@ -110,7 +110,7 @@ const PostFeed = ({
           <div className='tags-feed m-1-tags'>
             {tags.length > 0 &&
               tags.map((tag) => {
-                return <TagLink tag={tag} key={tag._id} />;
+                return <TagLink key={tag._id} tag={tag} />;
               })}
           </div>
           <div className='m-1-actions-feed'>

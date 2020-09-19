@@ -52,7 +52,7 @@ function UserProfile({
 
     return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
   }
-  return loading || !profiles || posts.length === 0 ? (
+  return loading || !profiles || !posts ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>

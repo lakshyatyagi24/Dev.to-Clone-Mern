@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const LoginPopUp = ({ setAuth }) => {
@@ -47,5 +48,7 @@ const LoginPopUp = ({ setAuth }) => {
     </div>
   );
 };
-
+LoginPopUp.propTypes = {
+  setAuth: PropTypes.func.isRequired,
+};
 export default LoginPopUp;

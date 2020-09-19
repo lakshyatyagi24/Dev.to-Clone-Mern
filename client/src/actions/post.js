@@ -78,7 +78,18 @@ export const addBookmarks = (id) => async (dispatch) => {
 // Add book mark
 export const addBookmarksInReading = (id) => async (dispatch) => {
   try {
-    await api.put(`/posts/bookmarks/${id}`);
+    const res = await api.put(`/posts/bookmarks/${id}`);
+    if (res.data.data.check) {
+      dispatch({
+        type: USER_UNBOOKMARK,
+        payload: res.data,
+      });
+    } else {
+      dispatch({
+        type: USER_BOOKMARK,
+        payload: res.data,
+      });
+    }
   } catch (err) {
     dispatch({
       type: POST_ERROR,

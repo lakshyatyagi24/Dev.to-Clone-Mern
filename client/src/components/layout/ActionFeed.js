@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
 import { Link } from 'react-router-dom';
 import store from '../../store';
-const ActionFeed = ({ isAuthenticated, logout, user }) => {
+const ActionFeed = ({ isAuthenticated, user }) => {
   return (
     <div className='action-feed'>
       {isAuthenticated ? (
@@ -56,7 +55,6 @@ const ActionFeed = ({ isAuthenticated, logout, user }) => {
 };
 
 ActionFeed.propTypes = {
-  logout: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
 };
 
@@ -64,4 +62,4 @@ const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
 });
 
-export default connect(mapStateToProps, { logout })(ActionFeed);
+export default connect(mapStateToProps)(ActionFeed);

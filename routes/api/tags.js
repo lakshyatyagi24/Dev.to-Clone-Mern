@@ -28,10 +28,15 @@ function hexToRGB(h) {
 // @access   Public
 router.get('/', async (req, res) => {
   try {
-    const tags = await Tag.find().select(['tagName', 'tagColor']);
+    const tags = await Tag.find({ isPopular: true }).select([
+      'tagName',
+      'tagColor',
+      'tagDescription',
+    ]);
     const tags_convert = tags.map((tag) => ({
       _id: tag.id,
       tagName: tag.tagName,
+      tagDescription: tag.tagDescription,
       tagColor: hexToRGB(tag.tagColor),
     }));
     return res.json(tags_convert);
@@ -46,7 +51,9 @@ router.get('/', async (req, res) => {
 // @access   Public
 router.get('/popular-tags', async (req, res) => {
   try {
-    const tags = await Tag.find().limit(16).select('tagName');
+    const tags = await Tag.find({ isPopular: true })
+      .limit(16)
+      .select('tagName');
     return res.json(tags);
   } catch (err) {
     console.error(err.message);
@@ -59,7 +66,7 @@ router.get('/popular-tags', async (req, res) => {
 // @access   Public
 router.get('/write-tags', async (req, res) => {
   try {
-    const tags = await Tag.find().select('tagName');
+    const tags = await Tag.find({ isPopular: true }).select('tagName');
     return res.json(tags);
   } catch (err) {
     console.error(err.message);

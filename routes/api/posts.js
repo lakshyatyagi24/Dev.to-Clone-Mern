@@ -6,6 +6,7 @@ const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const Tags = require('../../models/Tags');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/posts
@@ -30,9 +31,21 @@ router.post(
       let { tags, coverImage } = req.body;
       let tags_saved = [];
       if (tags.length > 0) {
-        tags_saved = tags.map((item) => item.id);
+        let i = 0;
+        let tags_length = tags.length;
+        for (i = 0; i < tags_length; ++i) {
+          let tags_find = await Tags.findOne({ tagName: tags[i].text });
+          if (!tags_find) {
+            let tag_create = await Tags.create({
+              tagName: tags[i].text,
+            });
+            tags_saved.unshift(tag_create._id);
+          } else {
+            tags_saved.unshift(tags[i].id);
+          }
+        }
       }
-      if (coverImage.length === 0) {
+      if (!coverImage) {
         coverImage =
           'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wp1904062-developer-wallpapers.jpg?alt=media&token=6b29b23c-7936-4b8b-9264-1bae2f41337a';
       }
@@ -83,13 +96,31 @@ router.put(
       if (post.user.toString() !== req.user.id) {
         return res.status(401).json({ msg: 'User not authorized' });
       }
-      const { title, content, coverImage } = req.body;
+      const { title, content, coverImage, tags } = req.body;
       post.title = title;
       post.content = content;
+      let tags_saved = [];
+      if (tags.length > 0) {
+        let i = 0;
+        let tags_length = tags.length;
+        for (i = 0; i < tags_length; ++i) {
+          let tags_find = await Tags.findOne({ tagName: tags[i].text });
+          if (!tags_find) {
+            let tag_create = await Tags.create({
+              tagName: tags[i].text,
+            });
+            tags_saved.unshift(tag_create._id);
+          } else {
+            tags_saved.unshift(tags[i].id);
+          }
+        }
+      }
+      post.tags = tags_saved;
       if (coverImage) {
         post.coverImage = coverImage;
       } else {
-        post.coverImage = '';
+        post.coverImage =
+          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wp1904062-developer-wallpapers.jpg?alt=media&token=6b29b23c-7936-4b8b-9264-1bae2f41337a';
       }
       await post.save();
 
@@ -123,11 +154,9 @@ router.get('/', async (req, res) => {
 // @access   Public
 router.get('/edit/:id', checkObjectId('id'), async (req, res) => {
   try {
-    const post = await Post.findById(req.params.id).select([
-      'title',
-      'content',
-      'coverImage',
-    ]);
+    const post = await Post.findById(req.params.id)
+      .select(['title', 'content', 'coverImage'])
+      .populate('tags', ['tagName']);
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }

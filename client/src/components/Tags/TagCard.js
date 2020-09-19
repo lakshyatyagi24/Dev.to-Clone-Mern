@@ -12,7 +12,7 @@ function TagCard({ tag }) {
         <Link className='tag-card__link' to={`/tags/${tag._id}/${tag.tagName}`}>
           <span className='text-dark tag-card__link-name'>{`#${tag.tagName}`}</span>
         </Link>
-        <p className='tag-descriptions'></p>
+        <p className='tag-descriptions'>{tag.tagDescription}</p>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ const TagSchema = new Schema({
   tagColor: {
     type: String,
     trim: true,
+    default: '#363c44',
   },
   tagPostCount: {
     type: Number,
@@ -20,6 +21,10 @@ const TagSchema = new Schema({
   tagDescription: {
     type: String,
     default: '',
+  },
+  isPopular: {
+    type: Boolean,
+    default: false,
   },
   date: {
     type: Date,

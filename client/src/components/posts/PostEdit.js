@@ -8,6 +8,7 @@ import api from '../../utils/api';
 import Guide from './Guide';
 import Image from './Image';
 import CoverImage from './CoverImage';
+import TagsModal from './TagsModal';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 const EditorContainer = styled.div`
@@ -91,12 +92,21 @@ function PostEdit({ editPost, match }) {
   const [write, setWrite] = useState(false);
   const [guide, setGuide] = useState(false);
   const [image, setImage] = useState(false);
+  const [tagsStatus, setTagsStatus] = useState(false);
   const [publish, setPublish] = useState(false);
 
   useEffect(() => {
     async function getData() {
       const res = await api.get(`/posts/edit/${match.params.id}`);
-      const { title, content, coverImage } = res.data;
+      const { title, content, coverImage, tags } = res.data;
+      if (tags.length > 0) {
+        let tags_convert = tags.map((item) => ({
+          id: item._id,
+          text: item.tagName,
+        }));
+        localStorage.setItem('tags', JSON.stringify(tags_convert));
+      }
+
       setTitle(title);
       setContent(content);
       localStorage.setItem('Cover_Image', coverImage);
@@ -110,6 +120,7 @@ function PostEdit({ editPost, match }) {
         {guide && <Guide setGuide={setGuide} />}
         {image && <Image setImage={setImage} />}
         {coverImage && <CoverImage setCoverImage={setCoverImage} />}
+        {tagsStatus && <TagsModal setTagsStatus={setTagsStatus} />}
         {!write && (
           <Container>
             <button
@@ -123,17 +134,20 @@ function PostEdit({ editPost, match }) {
               onSubmit={async (e) => {
                 e.preventDefault();
                 setPublish(true);
-                const cover_image = localStorage.getItem('Cover_Image');
+                let cover_image = localStorage.getItem('Cover_Image');
+                let tag_data = JSON.parse(localStorage.getItem('tags'));
                 const res = await editPost(match.params.id, {
                   title,
                   coverImage: !cover_image ? '' : cover_image,
                   content,
+                  tags: !tag_data ? [] : tag_data,
                 });
                 if (res) {
                   setPublish(false);
                 } else {
                   setPublish(false);
                 }
+                localStorage.removeItem('tags');
                 localStorage.removeItem('Cover_Image');
               }}
             >
@@ -201,6 +215,12 @@ function PostEdit({ editPost, match }) {
             onClick={() => setGuide(true)}
           >
             <i className='fab fa-glide'></i>
+          </button>
+          <button
+            className='btn btn-light btn-new-feed'
+            onClick={() => setTagsStatus(true)}
+          >
+            <i className='fas fa-tags'></i>
           </button>
         </SideAction>
       </EditorContainer>

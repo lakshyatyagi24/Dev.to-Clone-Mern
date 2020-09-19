@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { TagsInput } from './TagsInput';
 import { getWriteTags } from '../../actions/tags';
 import PropTypes from 'prop-types';

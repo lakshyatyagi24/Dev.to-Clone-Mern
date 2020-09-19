@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { addBookmarks } from '../../actions/post';
 import ActionPostFeed from './ActionPostFeed';
+import TagLink from './TagLink';
 import { timeSince } from '../../utils/timesince';
 import store from '../../store';
 const PostFeed = ({
@@ -108,15 +109,9 @@ const PostFeed = ({
           </Link>
           <div className='tags-feed m-1-tags'>
             {tags.length > 0 &&
-              tags.map((tag) => (
-                <Link
-                  className='tags-item'
-                  key={tag._id}
-                  to={`/tags/${tag._id}/${tag.tagName}`}
-                >
-                  <span key={tag._id}>{'#' + tag.tagName}</span>
-                </Link>
-              ))}
+              tags.map((tag) => {
+                return <TagLink tag={tag} key={tag._id} />;
+              })}
           </div>
           <div className='m-1-actions-feed'>
             <Link

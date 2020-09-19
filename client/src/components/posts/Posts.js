@@ -70,7 +70,14 @@ const Posts = ({
         <div className='my'>
           <div className='left-side-feed'>
             <UserFeedSide _auth={_auth} />
-            <TagRecommend tags={tags} />
+            <div className='tag-recommend my-1'>
+              <p className='p'>Popular tags</p>
+              <div className='p tag-recommend__wrap'>
+                {tags.map((tag) => (
+                  <TagRecommend key={tag._id} tag={tag} />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className='my'>

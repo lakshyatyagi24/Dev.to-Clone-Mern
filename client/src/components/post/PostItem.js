@@ -7,6 +7,7 @@ import { addLikeInReading, addBookmarksInReading } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import ActionPostItem from './ActionPostItem';
 import SidePostItem from './SidePostItem';
+import TagLink from './TagLink';
 import store from '../../store';
 
 const PostItem = ({
@@ -115,22 +116,7 @@ const PostItem = ({
             <div className='tags-post_item my-1'>
               {tags.length > 0 &&
                 tags.map((tag) => (
-                  <Link
-                    style={{
-                      height: '30px',
-                      width: 'auto',
-                      backgroundColor: hexToRGB(tag.tagColor),
-                      color: '#fff',
-                      padding: '4px',
-                      marginRight: '8px',
-                      fontSize: '0.85rem',
-                      borderRadius: '5px',
-                    }}
-                    key={tag._id}
-                    to={`/tags/${tag._id}/${tag.tagName}`}
-                  >
-                    {'#' + tag.tagName}
-                  </Link>
+                  <TagLink hexToRGB={hexToRGB} tag={tag} key={tag._id} />
                 ))}
             </div>
             <div

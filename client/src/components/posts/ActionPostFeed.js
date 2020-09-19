@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { BookMarkFeed, UnBookMarkFeed } from '../icons/icons';
 
 const ActionPostFeed = ({
   auth,
@@ -34,16 +35,19 @@ const ActionPostFeed = ({
     <div className='read-action'>
       <button
         onClick={handleBookMark}
-        style={{ marginRight: 0 }}
+        style={{
+          marginRight: 0,
+          padding: '0.5rem 0.85rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
         className='btn btn-light btn-hover'
       >
         {auth.isAuthenticated && bookMarkedState ? (
-          <i
-            className='fas fa-bookmark'
-            style={{ color: 'royalblue', fontSize: '1.2rem' }}
-          />
+          <UnBookMarkFeed />
         ) : (
-          <i className='far fa-bookmark' style={{ fontSize: '1.2rem' }} />
+          <BookMarkFeed />
         )}
       </button>
     </div>

@@ -17,7 +17,7 @@ function Me({
   useEffect(() => {
     getCurrentProfile();
     getPostByUser(auth.user._id);
-  }, [getCurrentProfile, auth.user._id]);
+  }, [getCurrentProfile, getPostByUser, auth.user._id]);
   function hexToRGB(h) {
     let r = 0,
       g = 0,

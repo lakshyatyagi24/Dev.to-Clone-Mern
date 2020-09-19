@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
+import { toast } from 'react-toastify';
 
 const KeyCodes = {
   comma: 188,
@@ -26,9 +27,30 @@ export const TagsInput = ({ _suggestions }) => {
 
   function handleAddition(tag) {
     if (tags.length === 4) {
-      return;
+      return toast.error('You only can add up to 4 tags');
     }
     localStorage.setItem('tags', JSON.stringify([...tags, tag]));
+
+    let tag_check = JSON.parse(localStorage.getItem('tags'));
+    let tag_text = tag_check[tag_check.length - 1].text;
+    if (/^[a-zA-Z0-9]*$/.test(tag_text) === false) {
+      localStorage.setItem(
+        'tags',
+        JSON.stringify(
+          tags.filter((tag, index) => index !== tag_check[tag_text])
+        )
+      );
+      return toast.error('Tag contains non-ASCII characters or space!');
+    }
+    if (tag_text !== tag_text.toLowerCase()) {
+      localStorage.setItem(
+        'tags',
+        JSON.stringify(
+          tags.filter((tag, index) => index !== tag_check[tag_text])
+        )
+      );
+      return toast.error('Tag must be lower case!');
+    }
     setTags([...tags, tag]);
   }
 
@@ -45,6 +67,8 @@ export const TagsInput = ({ _suggestions }) => {
   return (
     <div className='tags-input'>
       <ReactTags
+        maxLength={16}
+        minQueryLength={1}
         tags={tags}
         suggestions={data}
         handleDelete={handleDelete}

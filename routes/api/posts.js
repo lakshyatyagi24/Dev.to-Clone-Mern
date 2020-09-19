@@ -177,6 +177,9 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
     const post = await Post.findById(req.params.id)
       .populate('user', ['avatar', 'name'])
       .populate('tags', ['tagName', 'tagColor']);
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
     const profile = await Profile.findOne({
       user: post.user.id,
     }).select([
@@ -189,9 +192,6 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
       'brand_color',
     ]);
 
-    if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
-    }
     if (!profile) {
       return res.status(404).json({ msg: 'User not found' });
     }
@@ -205,19 +205,19 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
 });
 
 // @route    GET api/posts/:id
-// @desc     Get post by userId
+// @desc     Get posts by userId
 // @access   Public
 router.get('/user/:id', checkObjectId('id'), async (req, res) => {
   try {
-    const post = await Post.find({ user: req.params.id })
+    const posts = await Post.find({ user: req.params.id })
       .sort({ date: -1 })
       .populate('user', ['avatar', 'name'])
       .populate('tags', ['tagName']);
-    if (!post) {
+    if (!posts) {
       return res.status(404).json({ msg: 'Post not found' });
     }
 
-    return res.json(post);
+    return res.json(posts);
   } catch (err) {
     console.log('asdsd');
     console.error(err.message);
@@ -303,10 +303,11 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
       'name',
       'avatar',
     ]);
-    const user = await User.findById(req.user.id);
     if (!post) {
       return res.status(404).json({ msg: 'Post not found!' });
     }
+    const user = await User.findById(req.user.id);
+
     if (!user) {
       return res.status(404).json({ msg: 'User not found!' });
     }
@@ -404,11 +405,11 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     try {
-      const user = await User.findById(req.user.id).select('-password');
       const post = await Post.findById(req.params.id);
       if (!post) {
         return res.status(404).json({ msg: 'Post not found!' });
       }
+      const user = await User.findById(req.user.id).select('-password');
       if (!user) {
         return res.status(404).json({ msg: 'User not found!' });
       }

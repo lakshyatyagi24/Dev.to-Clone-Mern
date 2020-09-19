@@ -2,27 +2,9 @@ const express = require('express');
 const router = express.Router();
 
 const Tag = require('../../models/Tags');
+const Post = require('../../models/Post');
+const checkObjectId = require('../../middleware/checkObjectId');
 
-function hexToRGB(h) {
-  let r = 0,
-    g = 0,
-    b = 0;
-
-  // 3 digits
-  if (h.length === 4) {
-    r = '0x' + h[1] + h[1];
-    g = '0x' + h[2] + h[2];
-    b = '0x' + h[3] + h[3];
-
-    // 6 digits
-  } else if (h.length === 7) {
-    r = '0x' + h[1] + h[2];
-    g = '0x' + h[3] + h[4];
-    b = '0x' + h[5] + h[6];
-  }
-
-  return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
-}
 // @route    GET api/tags
 // @desc     get tags
 // @access   Public
@@ -33,20 +15,15 @@ router.get('/', async (req, res) => {
       'tagColor',
       'tagDescription',
     ]);
-    const tags_convert = tags.map((tag) => ({
-      _id: tag.id,
-      tagName: tag.tagName,
-      tagDescription: tag.tagDescription,
-      tagColor: hexToRGB(tag.tagColor),
-    }));
-    return res.json(tags_convert);
+
+    return res.json(tags);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
   }
 });
 
-// @route    GET api/tags
+// @route    GET api/popular-tags
 // @desc     get popular tags
 // @access   Public
 router.get('/popular-tags', async (req, res) => {
@@ -61,13 +38,52 @@ router.get('/popular-tags', async (req, res) => {
   }
 });
 
-// @route    GET api/tags
+// @route    GET api/write-tags
 // @desc     get  tags for write post
 // @access   Public
 router.get('/write-tags', async (req, res) => {
   try {
     const tags = await Tag.find({ isPopular: true }).select('tagName');
     return res.json(tags);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/tags
+// @desc     get tag by id
+// @access   Public
+router.get('/:id', checkObjectId('id'), async (req, res) => {
+  try {
+    const tag = await Tag.findById(req.params.id).select([
+      'tagName',
+      'tagColor',
+      'tagDescription',
+    ]);
+    if (!tag) {
+      return res.status(404).json({ msg: 'Tag not found' });
+    }
+    return res.json(tag);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/tags
+// @desc     get posts by tag id
+// @access   Public
+router.get('/posts/:id', checkObjectId('id'), async (req, res) => {
+  try {
+    const posts = await Post.find({ tags: req.params.id })
+      .sort({ date: -1 })
+      .populate('user', ['avatar', 'name'])
+      .populate('tags', ['tagName']);
+    if (!posts) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+    return res.json(posts);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

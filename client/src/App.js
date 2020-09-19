@@ -17,11 +17,9 @@ const App = () => {
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
-      store.dispatch(loadUser());
-    } else {
-      store.dispatch({ type: LOGOUT });
-      store.dispatch({ type: CLEAR_PROFILE });
     }
+    store.dispatch(loadUser());
+
     // log user out from all tabs if they logged out in one tab or the token expires, or user try to modify token
     window.addEventListener('storage', () => {
       if (

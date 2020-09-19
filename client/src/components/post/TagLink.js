@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import store from '../../store';
 
-function TagLink({ tag, hexToRGB }) {
+function TagLink({ tag }) {
   return (
     <Link
+      onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
       style={{
         height: '30px',
         width: 'auto',
-        backgroundColor: hexToRGB(tag.tagColor),
+        backgroundColor: `${tag.tagColor}`,
         color: '#fff',
         padding: '4px',
         marginRight: '8px',

@@ -32,26 +32,7 @@ function UserProfile({
       return setAuth(true);
     }
   };
-  function hexToRGB(h) {
-    let r = 0,
-      g = 0,
-      b = 0;
 
-    // 3 digits
-    if (h.length === 4) {
-      r = '0x' + h[1] + h[1];
-      g = '0x' + h[2] + h[2];
-      b = '0x' + h[3] + h[3];
-
-      // 6 digits
-    } else if (h.length === 7) {
-      r = '0x' + h[1] + h[2];
-      g = '0x' + h[3] + h[4];
-      b = '0x' + h[5] + h[6];
-    }
-
-    return 'rgb(' + +r + ',' + +g + ',' + +b + ')';
-  }
   return loading || !profiles || !posts ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <PuffLoader size={36} color={'#3b49df'} loading={true} />
@@ -61,7 +42,7 @@ function UserProfile({
       <div className='me'>
         {_auth ? <LoginPopUp setAuth={setAuth} /> : null}
         <div
-          style={{ backgroundColor: hexToRGB(profiles.brand_color) }}
+          style={{ backgroundColor: `${profiles.brand_color}` }}
           className='me__banner'
         >
           <div className='me__wrap'>
@@ -93,7 +74,7 @@ function UserProfile({
               <div className='me__top'>
                 <img
                   style={{
-                    backgroundColor: hexToRGB(profiles.brand_color),
+                    backgroundColor: `${profiles.brand_color}`,
                     objectFit: 'cover',
                   }}
                   className='round-img me-avatar'

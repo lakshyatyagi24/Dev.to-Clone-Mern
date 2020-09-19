@@ -42,6 +42,9 @@ export const getUserProfile = (userId) => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    if (err.response.status === 404) {
+      return toast.error('Profile not found!');
+    }
   }
 };
 
@@ -59,22 +62,9 @@ export const getProfileById = (userId) => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-  }
-};
-
-// Get Github repos
-export const getGithubRepos = (username) => async (dispatch) => {
-  try {
-    const res = await api.get(`/profile/github/${username}`);
-
-    dispatch({
-      type: GET_REPOS,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: NO_REPOS,
-    });
+    if (err.response.status === 404) {
+      return toast.error('Profile not found!');
+    }
   }
 };
 

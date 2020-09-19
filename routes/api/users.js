@@ -450,16 +450,17 @@ router.put('/updateNewEmail', async (req, res) => {
 router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const me = await User.findById(req.user.id);
-    const user = await User.findById(req.params.id);
-    if (req.user.id === req.params.id) {
-      return;
-    }
     if (!me) {
       return res.status(404).json({ msg: 'User not found' });
     }
+    const user = await User.findById(req.params.id);
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }
+    if (req.user.id === req.params.id) {
+      return;
+    }
+
     let check = false;
     if (me.following.includes(req.params.id)) {
       const index = me.following.indexOf(req.params.id);

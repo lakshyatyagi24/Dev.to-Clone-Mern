@@ -176,7 +176,7 @@ export const editPost = (id, formData) => async (dispatch) => {
     return false;
   }
 };
-// Get post by id
+// Get edit post by id
 export const getEditPost = (id) => async (dispatch) => {
   try {
     const res = await api.get(`/posts/edit/${id}`);
@@ -186,6 +186,9 @@ export const getEditPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    if (err.response.status === 404) {
+      return toast.error('Post not found!');
+    }
   }
 };
 
@@ -203,6 +206,9 @@ export const getPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    if (err.response.status === 404) {
+      return toast.error('Post not found!');
+    }
   }
 };
 
@@ -220,6 +226,9 @@ export const getPostByUser = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    if (err.response.status === 404) {
+      return toast.error('Post not found!');
+    }
   }
 };
 

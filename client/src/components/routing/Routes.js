@@ -19,17 +19,19 @@ import Account from '../profile/Account';
 import Profile from '../profile/Profile';
 import TagsDashBoard from '../Tags/TagsDashBoard';
 import Me from '../profile/Me';
+import TagHome from '../Tags/TagHome';
 import SignOut from '../../components/layout/SignOut';
 import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 
-const Routes = (props) => {
+const Routes = () => {
   return (
     <section className='main'>
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Posts} />
+        <Route exact path='/tags/:id/:name' component={TagHome} />
         <Route exact path='/tags' component={TagsDashBoard} />
         <Route exact path='/signout_confirm' component={SignOut} />
         <Route exact path='/post/:id' component={Post} />

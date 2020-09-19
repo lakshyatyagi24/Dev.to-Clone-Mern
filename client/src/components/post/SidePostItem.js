@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import ActionFollow from './ActionFollow';
 import store from '../../store';
 
-const SidePostItem = ({ user, profile, follow, auth, setAuth, hexToRGB }) => {
+const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated) {
       follow(user._id);
@@ -25,7 +25,7 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth, hexToRGB }) => {
               width: '100%',
               borderTopRightRadius: '5px',
               borderTopLeftRadius: '5px',
-              backgroundColor: hexToRGB(profile.brand_color),
+              backgroundColor: `${profile.brand_color}`,
             }}
           ></div>
           <div style={{ padding: '15px' }}>

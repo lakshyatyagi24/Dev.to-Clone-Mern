@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PostFeed from './PostFeed';
@@ -10,6 +9,7 @@ import LoginPopUp from '../auth/LoginPopUp';
 import UserFeedSide from './UserFeedSide';
 import TopFeedFilter from './TopFeedFilter';
 import TagRecommend from './TagRecommend';
+import Welcome from './Welcome';
 
 const Posts = ({
   _auth,
@@ -70,14 +70,7 @@ const Posts = ({
         <div className='my'>
           <div className='left-side-feed'>
             <UserFeedSide _auth={_auth} />
-            <div className='tag-recommend my-1'>
-              <p className='p'>Popular tags</p>
-              <div className='p tag-recommend__wrap'>
-                {tags.map((tag) => (
-                  <TagRecommend key={tag._id} tag={tag} />
-                ))}
-              </div>
-            </div>
+            <TagRecommend tags={tags} />
           </div>
         </div>
         <div className='my'>
@@ -108,67 +101,7 @@ const Posts = ({
         </div>
         <div className='my'>
           <div className='right-side-feed'>
-            <div className='guest-welcome  p-1'>
-              <img
-                className='dev-image-welcome'
-                alt=''
-                height='48'
-                width='48'
-                src='https://res.cloudinary.com/practicaldev/image/fetch/s--g3JdSGe6--/c_limit,f_auto,fl_progressive,q_80,w_190/https://practicaldev-herokuapp-com.freetls.fastly.net/assets/rainbowdev.svg'
-              />
-              <h3 className='text-dark'>
-                <Link to='/' style={{ color: 'royalblue' }}>
-                  DEV{' '}
-                </Link>
-                is a community of {usersCount} amazing developers
-              </h3>
-              <p className='text-dark'>
-                We're a place where coders share, stay up-to-date and grow their
-                careers.
-              </p>
-              {!_auth.isAuthenticated ? (
-                <Fragment>
-                  <Link
-                    to='/register'
-                    style={{
-                      textAlign: 'center',
-                      backgroundColor: 'royalblue',
-                      margin: '10px 0',
-                      width: '100%',
-                    }}
-                    className='btn btn-dark'
-                  >
-                    Create an account
-                  </Link>
-                  <Link
-                    to='/login'
-                    style={{
-                      color: 'royalblue',
-                      textAlign: 'center',
-                      margin: '0',
-                      width: '100%',
-                      backgroundColor: '#eee',
-                    }}
-                    className='btn btn-light'
-                  >
-                    Login
-                  </Link>
-                </Fragment>
-              ) : (
-                <Link
-                  to='/write-post'
-                  style={{
-                    textAlign: 'center',
-                    backgroundColor: 'royalblue',
-                    margin: '10px 0',
-                    width: '100%',
-                  }}
-                  className='btn btn-dark'
-                >
-                  Let's started
-                </Link>
-              )}
-            </div>
+            <Welcome _auth={_auth} usersCount={usersCount} />
           </div>
         </div>
       </div>

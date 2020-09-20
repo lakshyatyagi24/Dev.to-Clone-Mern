@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getTagById, getPostsByTagId } from '../../actions/tags';
+import { followTags } from '../../actions/auth';
+import ActionFollow from './ActionFollow';
+import LoginPopUp from '../auth/LoginPopUp';
 import Posts from './Posts';
 import PuffLoader from 'react-spinners/PuffLoader';
 import PropTypes from 'prop-types';
@@ -10,7 +13,19 @@ function TagHome({
   tag: { tag, posts, loading },
   getTagById,
   getPostsByTagId,
+  followTags,
+  location,
+  _auth,
 }) {
+  const [auth, setAuth] = useState(false);
+  const handleFollow = () => {
+    if (_auth.isAuthenticated) {
+      followTags(tag._id);
+      return setAuth(false);
+    } else {
+      return setAuth(true);
+    }
+  };
   useEffect(() => {
     getTagById(match.params.id);
     getPostsByTagId(match.params.id);
@@ -21,6 +36,7 @@ function TagHome({
     </div>
   ) : (
     <div className='container'>
+      {auth ? <LoginPopUp setAuth={setAuth} /> : null}
       <div className='tag-home my-1 py'>
         <div
           style={{
@@ -38,15 +54,19 @@ function TagHome({
               padding: '12px',
             }}
           >
-            <button
-              style={{
-                backgroundColor: `${tag.tagColor}`,
-                margin: 0,
-              }}
-              className='btn btn-dark'
-            >
-              Follow
-            </button>
+            <ActionFollow
+              path={location.pathname}
+              setAuth={setAuth}
+              handleFollow={handleFollow}
+              _auth={_auth}
+              isFollowing={
+                !_auth.user
+                  ? null
+                  : _auth.user.followingTags.some(
+                      (item) => item._id === tag._id
+                    )
+              }
+            />
           </div>
         </div>
 
@@ -59,11 +79,16 @@ TagHome.propTypes = {
   tag: PropTypes.object.isRequired,
   getTagById: PropTypes.func.isRequired,
   getPostsByTagId: PropTypes.func.isRequired,
+  _auth: PropTypes.object.isRequired,
+  followTags: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   tag: state.tags,
+  _auth: state.auth,
 });
-export default connect(mapStateToProps, { getTagById, getPostsByTagId })(
-  TagHome
-);
+export default connect(mapStateToProps, {
+  getTagById,
+  getPostsByTagId,
+  followTags,
+})(TagHome);

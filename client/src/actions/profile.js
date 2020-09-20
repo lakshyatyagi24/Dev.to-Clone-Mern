@@ -7,8 +7,6 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
-  GET_REPOS,
-  NO_REPOS,
 } from './types';
 
 // Get current users profile
@@ -62,9 +60,6 @@ export const getProfileById = (userId) => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    if (err.response.status === 404) {
-      return toast.error('Profile not found!');
-    }
   }
 };
 

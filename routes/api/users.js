@@ -17,6 +17,7 @@ const {
 
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const Tag = require('../../models/Tags');
 const auth = require('../../middleware/auth');
 const checkObjectId = require('../../middleware/checkObjectId');
 
@@ -496,5 +497,48 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
     return res.status(500).send('Server Error');
   }
 });
+
+// @route    PUT api/users/follow_tags
+// @desc     follow tags
+// @access   Private
+router.put(
+  '/follow_tags/:id',
+  [auth, checkObjectId('id')],
+  async (req, res) => {
+    try {
+      const tag = await Tag.findById(req.params.id);
+      if (!tag) {
+        return res.status(404).json({ msg: 'Tag not found!' });
+      }
+      const user = await User.findById(req.user.id);
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found' });
+      }
+      let check = false;
+      if (user.followingTags.includes(req.params.id)) {
+        const index = user.followingTags.indexOf(req.params.id);
+        user.followingTags.splice(index, 1);
+        user.tagCounts = user.tagCounts - 1;
+      } else {
+        check = true;
+        user.tagCounts = user.tagCounts + 1;
+        user.followingTags = [req.params.id, ...user.followingTags];
+      }
+      await user.save();
+      return res.status(200).json({
+        success: true,
+        data: {
+          tagId: req.params.id,
+          tagName: tag.tagName,
+          tagColor: tag.tagColor,
+          check,
+        },
+      });
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
+    }
+  }
+);
 
 module.exports = router;

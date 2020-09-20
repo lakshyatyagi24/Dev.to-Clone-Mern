@@ -9,17 +9,17 @@ function TagsDashBoard({ tags: { tags, loading }, getTags }) {
   useEffect(() => {
     getTags();
   }, [getTags]);
-  return (
+  return loading || !tags ? (
+    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+      <PuffLoader size={36} color={'#3b49df'} loading={true} />
+    </div>
+  ) : (
     <div className='container'>
       <h1 className='text-dark my-1'>Top tags</h1>
       <div className='tags-dashboard py'>
-        {loading || !tags ? (
-          <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-            <PuffLoader size={36} color={'#3b49df'} loading={true} />
-          </div>
-        ) : (
-          tags.map((tag) => <TagCard key={tag._id} tag={tag} />)
-        )}
+        {tags.map((tag) => (
+          <TagCard key={tag._id} tag={tag} />
+        ))}
       </div>
     </div>
   );

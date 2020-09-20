@@ -9,6 +9,8 @@ import {
   UPDATE_USER,
   FOLLOW,
   UNFOLLOW,
+  FOLLOW_TAGS,
+  UNFOLLOW_TAGS,
 } from './types';
 
 // Load User
@@ -25,7 +27,7 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
-//follow
+//follow user
 export const follow = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/users/follow/${id}`);
@@ -48,6 +50,29 @@ export const follow = (id) => async (dispatch) => {
   }
 };
 
+//follow tags
+export const followTags = (id) => async (dispatch) => {
+  try {
+    const res = await api.put(`/users/follow_tags/${id}`);
+    if (res.data.data.check) {
+      dispatch({
+        type: FOLLOW_TAGS,
+        payload: res.data.data,
+      });
+    } else {
+      dispatch({
+        type: UNFOLLOW_TAGS,
+        payload: res.data.data,
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: AUTH_ERROR,
+    });
+    toast.error(err.response.data.msg);
+  }
+};
+// update user
 export const updateUser = (formData) => async (dispatch) => {
   const { email } = formData;
   try {

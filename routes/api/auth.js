@@ -7,6 +7,7 @@ const { validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 const { validLogin } = require('../../helpers/valid');
+const { populate } = require('../../models/User');
 
 // @route    GET api/auth
 // @desc     Get user by token
@@ -34,7 +35,8 @@ router.get('/', auth, async (req, res) => {
         populate: { path: 'user', select: ['name', 'avatar'] },
       })
       .populate('followers', ['avatar', 'name'])
-      .populate('following', ['avatar', 'name']);
+      .populate('following', ['avatar', 'name'])
+      .populate('followingTags', ['tagName', 'tagColor']);
     if (!user) {
       return res.status(404).json({ msg: 'User not found' });
     }

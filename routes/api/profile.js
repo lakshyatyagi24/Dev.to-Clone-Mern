@@ -146,7 +146,7 @@ router.delete('/', auth, async (req, res) => {
     if (follwersLength > 0) {
       for (i = 0; i < follwersLength; ++i) {
         const index = userFollowers[i].followers.indexOf(req.user.id);
-        userFollowers[i].splice(index, 1);
+        userFollowers[i].followers.splice(index, 1);
         userFollowers[i].followersCount = userFollowers[i].followersCount - 1;
         await userFollowers[i].save();
       }
@@ -157,7 +157,7 @@ router.delete('/', auth, async (req, res) => {
     if (followingsLength > 0) {
       for (j = 0; j < followingsLength; ++j) {
         const index = userFollowings[j].following.indexOf(req.user.id);
-        userFollowings[j].splice(index, 1);
+        userFollowings[j].following.splice(index, 1);
         userFollowings[j].followingCount = userFollowings[j].followingCount - 1;
         await userFollowings[j].save();
       }

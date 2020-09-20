@@ -81,6 +81,23 @@ function Dashboard({ children, checkPage, user }) {
                       {user.bookMarkedPostsCount}
                     </div>
                   </Link>
+                  <Link
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      backgroundColor:
+                        checkPage !== '/dashboard/following-tags'
+                          ? '#eef0f1'
+                          : '#fff',
+                      padding: '0.5rem',
+                    }}
+                    to='/dashboard/following-tags'
+                    className='btn btn-light'
+                  >
+                    <div>Following Tags</div>
+                    <div className='count-dashboard'>{user.tagCounts}</div>
+                  </Link>
                 </div>
               </div>
             </aside>

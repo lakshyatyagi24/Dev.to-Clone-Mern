@@ -905,6 +905,13 @@ li:hover .action-feed_s {
   font-weight: 600;
   padding: 10px;
 }
+.followers__item-wrap:hover .follower-name.tag {
+  color: royalblue;
+}
+.follower-name.tag {
+  color: #64707d;
+  font-weight: 500;
+}
 .count-dashboard {
   height: 25px;
   min-width: 20px;
@@ -1274,7 +1281,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 .tag-card {
   border-radius: 5px;
-  min-height: 200px;
+  min-height: 100px;
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
   outline: unset;
@@ -1285,6 +1292,14 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 .tag-card__link-name {
   font-size: 1.2rem;
   font-weight: 500;
+}
+.tag-card__wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  word-break: break-word;
+  height: 100%;
 }
 .tag-home {
   padding: 0 1rem;

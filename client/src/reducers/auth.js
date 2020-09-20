@@ -12,6 +12,8 @@ import {
   USER_UNBOOKMARK,
   FOLLOW,
   UNFOLLOW,
+  FOLLOW_TAGS,
+  UNFOLLOW_TAGS,
 } from '../actions/types';
 
 const initialState = {
@@ -32,6 +34,20 @@ export default function (state = initialState, action) {
         loading: false,
         user: payload,
       };
+    case FOLLOW_TAGS:
+      const { tagId, tagName, tagColor } = payload;
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          tagCounts: state.user.tagCounts + 1,
+          followingTags: [
+            { _id: tagId, tagName, tagColor },
+            ...state.user.followingTags,
+          ],
+        },
+      };
     case FOLLOW:
       const { userId, userName, userAvatar } = payload;
       return {
@@ -46,6 +62,18 @@ export default function (state = initialState, action) {
           ],
         },
       };
+    case UNFOLLOW_TAGS:
+      return {
+        ...state,
+        loading: false,
+        user: {
+          ...state.user,
+          tagCounts: state.user.tagCounts - 1,
+          followingTags: state.user.followingTags.filter(
+            (item) => item._id !== payload.tagId
+          ),
+        },
+      };
     case UNFOLLOW:
       return {
         ...state,
@@ -58,6 +86,7 @@ export default function (state = initialState, action) {
           ),
         },
       };
+
     case LOGIN_SUCCESS:
       return {
         ...state,

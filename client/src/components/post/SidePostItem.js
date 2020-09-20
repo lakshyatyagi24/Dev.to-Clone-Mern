@@ -67,8 +67,8 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
               </Link>
             )}
             <ActionFollow
-              setAuth={setAuth}
               user={user}
+              setAuth={setAuth}
               handleFollow={handleFollow}
               auth={auth}
               isFollowing={

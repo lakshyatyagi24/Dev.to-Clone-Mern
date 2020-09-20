@@ -37,7 +37,7 @@ export const getPosts = () => async (dispatch) => {
 };
 
 // Add like
-export const addLikeInReading = (id) => async (dispatch) => {
+export const addLike = (id) => async (dispatch) => {
   try {
     await api.put(`/posts/like/${id}`);
   } catch (err) {
@@ -71,30 +71,6 @@ export const addBookmarks = (id) => async (dispatch) => {
       payload: { msg: err.response.statusText, status: err.response.status },
     });
 
-    toast.error(err.response.data.msg);
-  }
-};
-
-// Add book mark
-export const addBookmarksInReading = (id) => async (dispatch) => {
-  try {
-    const res = await api.put(`/posts/bookmarks/${id}`);
-    if (res.data.data.check) {
-      dispatch({
-        type: USER_UNBOOKMARK,
-        payload: res.data,
-      });
-    } else {
-      dispatch({
-        type: USER_BOOKMARK,
-        payload: res.data,
-      });
-    }
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
     toast.error(err.response.data.msg);
   }
 };
@@ -186,9 +162,6 @@ export const getEditPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    if (err.response.status === 404) {
-      return toast.error('Post not found!');
-    }
   }
 };
 
@@ -206,9 +179,6 @@ export const getPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    if (err.response.status === 404) {
-      return toast.error('Post not found!');
-    }
   }
 };
 

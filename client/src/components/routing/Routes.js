@@ -10,6 +10,7 @@ import PostItemRoute from '../dashboard/PostItemRoute';
 import ReadingListRoute from '../dashboard/ReadingListRoute';
 import FollowersRoute from '../dashboard/FollowersRoute';
 import FollowingsRoute from '../dashboard/FollowingsRoute';
+import FollowingTagsRoute from '../dashboard/FollowingTagsRoute';
 import PostNew from '../posts/PostNew';
 import PostEdit from '../posts/PostEdit';
 import Posts from '../posts/Posts';
@@ -62,6 +63,11 @@ const Routes = () => {
           exact
           path='/dashboard/followings'
           component={FollowingsRoute}
+        />
+        <PrivateRoute
+          exact
+          path='/dashboard/following-tags'
+          component={FollowingTagsRoute}
         />
         <PrivateRoute exact path='/settings' component={Profile} />
         <PrivateRoute exact path='/settings/user/profile' component={Profile} />

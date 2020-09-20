@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import { addLikeInReading, addBookmarksInReading } from '../../actions/post';
+import { addLike, addBookmarks } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import ActionPostItem from './ActionPostItem';
 import SidePostItem from './SidePostItem';
@@ -11,8 +11,8 @@ import TagLink from './TagLink';
 import store from '../../store';
 
 const PostItem = ({
-  addLikeInReading,
-  addBookmarksInReading,
+  addLike,
+  addBookmarks,
   auth,
   post: {
     _id,
@@ -45,7 +45,7 @@ const PostItem = ({
     if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
-      addLikeInReading(_id);
+      addLike(_id);
       return setAuth(false);
     }
   };
@@ -53,7 +53,7 @@ const PostItem = ({
     if (!auth.isAuthenticated) {
       return setAuth(true);
     } else {
-      addBookmarksInReading(_id);
+      addBookmarks(_id);
       return setAuth(false);
     }
   };
@@ -142,8 +142,8 @@ const PostItem = ({
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  addLikeInReading: PropTypes.func.isRequired,
-  addBookmarksInReading: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  addBookmarks: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -151,6 +151,6 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, {
-  addLikeInReading,
-  addBookmarksInReading,
+  addLike,
+  addBookmarks,
 })(PostItem);

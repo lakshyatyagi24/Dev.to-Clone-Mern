@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
+const ActionFollow = ({ setAuth, path, handleFollow, _auth, isFollowing }) => {
   const [isFollowState, setIsFollowState] = useState(isFollowing);
   useEffect(() => {
     setIsFollowState(isFollowing);
   }, [isFollowing]);
-  const handleFollowUser = () => {
-    if (auth.isAuthenticated) {
+  const handleFollowTag = () => {
+    if (_auth.isAuthenticated) {
       if (isFollowState) {
         setIsFollowState(false);
         handleFollow();
@@ -20,26 +20,22 @@ const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
   };
   return (
     <Fragment>
-      {auth.isAuthenticated &&
-      auth.user._id === user._id ? null : auth.isAuthenticated &&
-        isFollowState ? (
+      {_auth.isAuthenticated && isFollowState ? (
         <button
-          onClick={handleFollowUser}
-          style={{
-            width: '100%',
-          }}
-          className='btn btn-light my'
+          style={{ margin: path ? '0' : '20px 0' }}
+          onClick={handleFollowTag}
+          className='btn btn-light'
         >
           Following
         </button>
       ) : (
         <button
-          onClick={handleFollowUser}
+          onClick={handleFollowTag}
           style={{
             backgroundColor: 'royalblue',
-            width: '100%',
+            margin: path ? '0' : '20px 0',
           }}
-          className='btn btn-dark my'
+          className='btn btn-dark'
         >
           Follow
         </button>

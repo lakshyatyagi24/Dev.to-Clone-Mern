@@ -6,8 +6,7 @@ const TagSchema = new Schema({
     type: String,
     trim: true,
     required: true,
-    minlength: 1,
-    maxlength: 32,
+    lowercase: true,
   },
   tagColor: {
     type: String,

@@ -24,6 +24,7 @@ const PostSchema = new Schema({
     {
       user: {
         type: Schema.Types.ObjectId,
+        required: true,
       },
       text: {
         type: String,
@@ -32,6 +33,7 @@ const PostSchema = new Schema({
       },
       name: {
         type: String,
+        required: true,
       },
       avatar: {
         type: String,
@@ -44,6 +46,7 @@ const PostSchema = new Schema({
         {
           user_reply: {
             type: Schema.Types.ObjectId,
+            required: true,
           },
           text_reply: {
             type: String,
@@ -52,6 +55,7 @@ const PostSchema = new Schema({
           },
           name_reply: {
             type: String,
+            required: true,
           },
           avatar_reply: {
             type: String,

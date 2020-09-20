@@ -118,9 +118,6 @@ router.put(
       post.tags = tags_saved;
       if (coverImage) {
         post.coverImage = coverImage;
-      } else {
-        post.coverImage =
-          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wp1904062-developer-wallpapers.jpg?alt=media&token=6b29b23c-7936-4b8b-9264-1bae2f41337a';
       }
       await post.save();
 
@@ -143,6 +140,22 @@ router.get('/', async (req, res) => {
       .populate('tags', ['tagName']);
     const usersCount = await User.estimatedDocumentCount();
     return res.json({ posts, usersCount });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/posts
+// @desc     Get discuss posts by tag
+// @access   Public
+router.get('/discuss-posts', async (req, res) => {
+  try {
+    const posts = await Post.find({ tags: '5f637b99ef33812ce08e32dd' })
+      .sort({ date: -1 })
+      .select(['title', 'commentsCount'])
+      .limit(5);
+    return res.json(posts);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -306,7 +319,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     if (!post) {
       return res.status(404).json({ msg: 'Post not found!' });
     }
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id).select('-password');
 
     if (!user) {
       return res.status(404).json({ msg: 'User not found!' });

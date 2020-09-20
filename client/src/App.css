@@ -428,7 +428,6 @@ input[type="password"]:focus {
   gap: 1rem;
   border: unset;
   border-radius: 5px;
-  align-items: flex-start;
 }
 
 .post .comment-count {
@@ -672,17 +671,22 @@ input[type="password"]:focus {
 .post.feed-profile {
   grid-template-columns: 16.25rem 1fr 16.25rem;
 }
-.post .right-side-feed,
-.post-feed {
+.post-feed,
+.guest-welcome,
+.discuss-side {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
   border-radius: 5px;
   word-break: break-word;
   overflow: hidden;
 }
-.left-side-feed {
+.left-side-feed,
+.right-side-feed {
   word-break: break-word;
+  display: grid;
+  gap: 1rem;
 }
+
 .title-hover:hover h1 {
   color: royalblue;
 }
@@ -827,9 +831,6 @@ li:hover .action-feed_s {
   margin-top: 6px;
 }
 /* post item  */
-.post-main {
-  align-items: unset;
-}
 .main-post-item,
 .side-post-item .box {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
@@ -1314,4 +1315,13 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   border-radius: 5px;
   word-break: break-word;
   padding: 50px 25px;
+}
+/* discuss side */
+.discuss-side {
+  background-color: #f9fafa;
+}
+.discuss-side__wrap {
+  height: 200px;
+}
+.discuss-side__title {
 }

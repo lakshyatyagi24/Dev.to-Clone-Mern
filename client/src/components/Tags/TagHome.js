@@ -41,7 +41,7 @@ function TagHome({
         <div
           style={{
             boxShadow: `3px 5px 1px 1px ${tag.tagColor}`,
-            border: `1px solid ${tag.tagColor}`,
+            border: `2px solid ${tag.tagColor}`,
           }}
           className='tag-home__header'
         >

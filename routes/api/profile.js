@@ -95,19 +95,6 @@ router.put('/', auth, async (req, res) => {
   }
 });
 
-// @route    GET api/profile
-// @desc     Get all profiles
-// @access   Public
-router.get('/', async (req, res) => {
-  try {
-    const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-    return res.json(profiles);
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server Error');
-  }
-});
-
 // @route    GET api/profile/user/:user_id
 // @desc     Get profile by user ID
 // @access   Public

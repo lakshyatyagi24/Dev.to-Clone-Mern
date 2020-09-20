@@ -10,6 +10,7 @@ import UserFeedSide from './UserFeedSide';
 import TopFeedFilter from './TopFeedFilter';
 import TagRecommend from './TagRecommend';
 import Welcome from './Welcome';
+import DicussSide from './DicussSide';
 
 const Posts = ({
   _auth,
@@ -102,6 +103,7 @@ const Posts = ({
         <div className='my'>
           <div className='right-side-feed'>
             <Welcome _auth={_auth} usersCount={usersCount} />
+            <DicussSide />
           </div>
         </div>
       </div>

@@ -134,10 +134,9 @@ router.post('/activate', async (req, res) => {
                 errors: [{ msg: 'Already actived!' }],
               });
             } else {
-              const profile = new Profile({
+              await Profile.create({
                 user: user._id,
               });
-              await profile.save();
               return res.json({
                 message: 'Actived success, you can log in now',
               });
@@ -344,7 +343,9 @@ router.put('/update', auth, async (req, res) => {
         const findExistsEmail = await User.findOne({ email });
         if (findExistsEmail) {
           return res.status(400).json({
-            errors: [{ msg: 'User with that email exists. Try later!' }],
+            errors: [
+              { msg: 'User with that email exists. Try another email!' },
+            ],
           });
         }
         //* generate token for active email
@@ -356,7 +357,7 @@ router.put('/update', auth, async (req, res) => {
           },
           config.get('JWT_EMAIL_ACTIVATION'),
           {
-            expiresIn: '1d',
+            expiresIn: '15m',
           }
         );
         //* email sending

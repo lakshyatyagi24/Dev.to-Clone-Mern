@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import ActionFeed from './ActionFeed';
 import PuffLoader from 'react-spinners/PuffLoader';
 import { Notify, Chat } from '../icons/icons';
+import store from '../../store';
+import { getPosts } from '../../actions/post';
 
 const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
   return (
@@ -12,7 +14,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
       <div className='top-header'>
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <div className='logo'>
-            <Link to='/'>
+            <Link onClick={() => store.dispatch(getPosts())} to='/'>
               <i className='fas fa-code' /> DevCommunity
             </Link>
           </div>

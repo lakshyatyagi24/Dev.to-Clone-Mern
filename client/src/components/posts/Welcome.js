@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Welcome({ usersCount, _auth }) {
   return (
-    <div className='guest-welcome  p-1'>
+    <div className='guest-welcome p-1'>
       <img
         className='dev-image-welcome'
         alt=''

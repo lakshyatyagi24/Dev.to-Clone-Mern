@@ -814,7 +814,7 @@ li:hover .action-feed_s {
 /* Settings */
 .settings {
   display: grid;
-  grid-template-columns: 2fr 6fr;
+  grid-template-columns: 15rem 1fr;
   gap: 1rem;
 }
 
@@ -855,7 +855,7 @@ li:hover .action-feed_s {
 
 .dashboard__content {
   display: grid;
-  grid-template-columns: 2fr 7fr;
+  grid-template-columns: 15rem 1fr;
   gap: 1rem;
 }
 
@@ -1348,5 +1348,44 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   background-color: #fff;
 }
 .post-side__item:hover .post-side__item-title {
+  color: royalblue;
+}
+/* notify */
+.notify-home {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 1rem;
+}
+/* .notify-home__side {
+}
+.notify-home__main {
+} */
+.reaction-notify {
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  border: unset;
+  outline: unset;
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+}
+.reaction-notify__wrap {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+}
+.reaction-notify__user {
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+}
+
+.reaction-notify__user-name {
+  margin-left: 12px;
+}
+.reaction-notify__message {
+  word-break: break-word;
+  display: flex;
+  align-items: center;
+}
+.reaction-notify__message a {
   color: royalblue;
 }

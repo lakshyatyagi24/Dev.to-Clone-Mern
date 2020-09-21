@@ -25,6 +25,7 @@ import SignOut from '../../components/layout/SignOut';
 import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
+import NotifyHome from '../notifications/NotifyHome';
 
 const Routes = () => {
   return (
@@ -70,6 +71,7 @@ const Routes = () => {
           component={FollowingTagsRoute}
         />
         <PrivateRoute exact path='/settings' component={Profile} />
+        <PrivateRoute exact path='/notifications' component={NotifyHome} />
         <PrivateRoute exact path='/settings/user/profile' component={Profile} />
         <PrivateRoute exact path='/settings/user/account' component={Account} />
         <PrivateRoute exact path='/write-post' component={PostNew} />

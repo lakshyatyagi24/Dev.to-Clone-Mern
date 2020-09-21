@@ -7,6 +7,7 @@ const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const Tags = require('../../models/Tags');
+const Notification = require('../../models/Notification');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/posts
@@ -321,18 +322,32 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
-
+    let check = false;
     if (post.likes.includes(req.user.id)) {
       const index = post.likes.indexOf(req.user.id);
       post.likes.splice(index, 1);
       post.likesCount = post.likesCount - 1;
     } else {
+      check = true;
       post.likesCount = post.likesCount + 1;
       post.likes = [req.user.id, ...post.likes];
     }
-
     await post.save();
-    return res.status(200).json({ success: true, data: {} });
+    res.status(200).json({ success: true, data: {} });
+    if (check) {
+      await Notification.create({
+        me: post.user,
+        someone: req.user.id,
+        post: post._id,
+        type: 'like',
+      });
+    } else {
+      await Notification.findOneAndRemove({
+        type: 'like',
+        someone: req.user.id,
+        post: post._id,
+      });
+    }
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -358,6 +373,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     let check = false;
     if (post.bookmarks.includes(req.user.id)) {
+      check = true;
       const index = post.bookmarks.indexOf(req.user.id);
       post.bookmarks.splice(index, 1);
       post.bookmarksCount = post.bookmarksCount - 1;
@@ -376,7 +392,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     await post.save();
     await user.save();
-    return res.json({
+    res.json({
       data: {
         name: post.user.name,
         avatar: post.user.avatar,
@@ -386,6 +402,20 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
         check: check,
       },
     });
+    if (!check) {
+      await Notification.create({
+        me: post.user,
+        someone: req.user.id,
+        post: post._id,
+        type: 'bookmark',
+      });
+    } else {
+      await Notification.findOneAndRemove({
+        type: 'bookmark',
+        someone: req.user.id,
+        post: post._id,
+      });
+    }
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

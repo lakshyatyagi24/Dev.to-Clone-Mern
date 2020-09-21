@@ -82,7 +82,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                     padding: '0.5rem',
                     margin: '0.25rem',
                   }}
-                  to='/write-post'
+                  to='/notifications'
                 >
                   <Notify />
                 </Link>

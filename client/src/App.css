@@ -1356,9 +1356,11 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   gap: 1rem;
 }
 /* .notify-home__side {
-}
-.notify-home__main {
 } */
+.notify-home__main {
+  display: flex;
+  flex-direction: column;
+}
 .reaction-notify {
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   border: unset;
@@ -1369,16 +1371,19 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 .reaction-notify__wrap {
   display: grid;
-  grid-template-columns: 8rem 1fr;
+  grid-template-columns: 9rem 1fr;
 }
 .reaction-notify__user {
   display: flex;
   align-items: center;
   word-break: break-word;
 }
-
-.reaction-notify__user-name {
-  margin-left: 12px;
+.reaction-notify__user-date {
+  font-size: 0.7rem;
+  color: #64707d;
+}
+.reaction-notify__user-info {
+  margin-left: 5px;
 }
 .reaction-notify__message {
   word-break: break-word;
@@ -1398,4 +1403,17 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   position: absolute;
   top: 1px;
   right: 10px;
+}
+.notify-home__main-actions {
+  margin-bottom: 1rem;
+  margin-left: auto;
+}
+.notify-home__main-actions .btn-light {
+  background-color: #fff;
+}
+.notify-home__main-actions button {
+  margin-right: 0;
+  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
+  border: unset;
+  outline: unset;
 }

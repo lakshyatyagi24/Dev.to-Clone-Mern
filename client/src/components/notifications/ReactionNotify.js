@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { LikeFill, UnBookMark } from '../icons/icons';
+import { timeSince } from '../../utils/timesince';
 
 function ReactionNotify({ data }) {
   return (
@@ -20,12 +21,17 @@ function ReactionNotify({ data }) {
             style={{ objectFit: 'cover' }}
             alt=''
           />
-          <h4
-            className='reaction-notify__user-name'
-            style={{ color: 'royalblue' }}
-          >
-            {data.someone.name}
-          </h4>
+          <div className='reaction-notify__user-info'>
+            <h4
+              className='reaction-notify__user-name'
+              style={{ color: 'royalblue' }}
+            >
+              {data.someone.name}
+            </h4>
+            <p className='reaction-notify__user-date'>{` (${timeSince(
+              data.date
+            )} ago)`}</p>
+          </div>
         </Link>
         <div className='reaction-notify__message'>
           <span>

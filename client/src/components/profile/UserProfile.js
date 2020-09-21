@@ -21,8 +21,11 @@ function UserProfile({
 }) {
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
-    getPostByUser(match.params.id);
-    getUserProfile(match.params.id);
+    async function loadData() {
+      await getPostByUser(match.params.id);
+      await getUserProfile(match.params.id);
+    }
+    loadData();
   }, [getUserProfile, getPostByUser, match.params.id]);
   const handleFollow = () => {
     if (auth.isAuthenticated) {

@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { replyComment } from '../../actions/post';
 
-const CommentReply = ({ setReply, tagName, replyComment, postId, comtId }) => {
+const CommentReply = ({
+  setReply,
+  tagName,
+  to,
+  replyComment,
+  postId,
+  comtId,
+}) => {
   const [text, setText] = useState('');
   return (
     <div className='backdrop'>
@@ -12,7 +19,7 @@ const CommentReply = ({ setReply, tagName, replyComment, postId, comtId }) => {
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            replyComment(postId, comtId, { data: text });
+            replyComment(postId, comtId, { data: text, to });
             setReply(false);
           }}
         >

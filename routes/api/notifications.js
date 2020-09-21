@@ -51,4 +51,17 @@ router.put('/mark_notifications', auth, async (req, res) => {
     return res.status(500).send('Server Error');
   }
 });
+
+// @route    GET api/notify
+// @desc     Clear all notification
+// @access   Private
+router.delete('/clear_notifications', auth, async (req, res) => {
+  try {
+    await Notification.deleteMany({ me: req.user.id });
+    return res.status(200).json({ success: true, data: {} });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
 module.exports = router;

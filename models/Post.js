@@ -48,6 +48,10 @@ const PostSchema = new Schema({
             type: Schema.Types.ObjectId,
             required: true,
           },
+          to: {
+            type: Schema.Types.ObjectId,
+            required: true,
+          },
           text_reply: {
             type: String,
             required: true,

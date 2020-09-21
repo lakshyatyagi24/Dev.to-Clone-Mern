@@ -7,6 +7,7 @@ import PuffLoader from 'react-spinners/PuffLoader';
 import { Notify, Chat } from '../icons/icons';
 import store from '../../store';
 import { getPosts } from '../../actions/post';
+import { getNotifications } from '../../actions/notify';
 
 const Navbar = ({
   auth: { isAuthenticated, user, loading },
@@ -17,7 +18,13 @@ const Navbar = ({
       <div className='top-header'>
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <div className='logo'>
-            <Link onClick={() => store.dispatch(getPosts())} to='/'>
+            <Link
+              onClick={() => {
+                store.dispatch(getPosts());
+                store.dispatch(getNotifications());
+              }}
+              to='/'
+            >
               <i className='fas fa-code' /> DevCommunity
             </Link>
           </div>
@@ -75,6 +82,7 @@ const Navbar = ({
               </div>
               <div style={{ position: 'relative' }} className='nav-hover'>
                 <Link
+                  // onClick={() => store.dispatch({ type: 'MARK_NOTIFCATIONS' })}
                   style={{
                     borderRadius: '50%',
                     width: '40px',

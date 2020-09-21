@@ -160,12 +160,12 @@ export const addBookmarks = (id) => async (dispatch) => {
 
     if (res.data.data.check) {
       dispatch({
-        type: USER_UNBOOKMARK,
+        type: USER_BOOKMARK,
         payload: res.data,
       });
     } else {
       dispatch({
-        type: USER_BOOKMARK,
+        type: USER_UNBOOKMARK,
         payload: res.data,
       });
     }

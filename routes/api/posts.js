@@ -334,6 +334,9 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     await post.save();
     res.status(200).json({ success: true, data: {} });
+    if (req.user.id === post.user.toString()) {
+      return;
+    }
     if (check) {
       await Notification.create({
         me: post.user,
@@ -355,7 +358,7 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
 });
 
 // @route    PUT api/posts/bookmarks/:id
-// @desc     Get bookmarks
+// @desc     Bookmarks
 // @access   Private
 router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
@@ -373,20 +376,20 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     let check = false;
     if (post.bookmarks.includes(req.user.id)) {
-      check = true;
       const index = post.bookmarks.indexOf(req.user.id);
       post.bookmarks.splice(index, 1);
       post.bookmarksCount = post.bookmarksCount - 1;
     } else {
+      check = true;
       post.bookmarksCount = post.bookmarksCount + 1;
       post.bookmarks = [req.user.id, ...post.bookmarks];
     }
     if (user.bookMarkedPosts.includes(req.params.id)) {
-      check = true;
       const index = user.bookMarkedPosts.indexOf(req.params.id);
       user.bookMarkedPosts.splice(index, 1);
       user.bookMarkedPostsCount = user.bookMarkedPostsCount - 1;
     } else {
+      check = true;
       user.bookMarkedPostsCount = user.bookMarkedPostsCount + 1;
       user.bookMarkedPosts = [req.params.id, ...user.bookMarkedPosts];
     }
@@ -402,7 +405,11 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
         check: check,
       },
     });
-    if (!check) {
+    if (req.user.id === post.user._id.toString()) {
+      return;
+    }
+
+    if (check) {
       await Notification.create({
         me: post.user,
         someone: req.user.id,
@@ -453,9 +460,18 @@ router.post(
 
       await post.save();
 
-      return res.json({
+      res.json({
         comments: post.comments,
         commentsCount: post.commentsCount,
+      });
+      if (req.user.id === post.user.toString()) {
+        return;
+      }
+      await Notification.create({
+        me: post.user,
+        someone: req.user.id,
+        post: post._id,
+        type: 'comment',
       });
     } catch (err) {
       console.error(err.message);
@@ -490,7 +506,7 @@ router.post(
       }
       let commentsLength = post.comments.length;
       let i;
-      let getComments = [];
+      let getComments = {};
       for (i = 0; i < commentsLength; ++i) {
         if (post.comments[i].id === req.params.comment_id) {
           getComments = post.comments[i];
@@ -502,13 +518,23 @@ router.post(
         name_reply: user.name,
         avatar_reply: user.avatar,
         user_reply: req.user.id,
+        to: req.body.to,
       };
       getComments.reply = [...getComments.reply, newComment];
       post.commentsCount = post.commentsCount + 1;
       await post.save();
-      return res.json({
+      res.json({
         commentsCount: post.commentsCount,
         reply: getComments.reply,
+      });
+      if (req.user.id === req.body.to) {
+        return;
+      }
+      await Notification.create({
+        me: req.body.to,
+        someone: req.user.id,
+        post: post._id,
+        type: 'reply_comment',
       });
     } catch (err) {
       console.error(err.message);
@@ -552,9 +578,14 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    return res.json({
+    res.json({
       commentsCount: post.commentsCount,
     });
+    // await Notification.findOneAndRemove({
+    //   type: 'comment',
+    //   someone: req.user.id,
+    //   post: post._id,
+    // });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -603,9 +634,15 @@ router.delete(
 
       await post.save();
 
-      return res.json({
+      res.json({
         commentsCount: post.commentsCount,
       });
+
+      // await Notification.findOneAndRemove({
+      //   type: 'reply_comment',
+      //   someone: req.user.id,
+      //   post: post._id,
+      // });
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');

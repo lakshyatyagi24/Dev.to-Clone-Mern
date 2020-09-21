@@ -19,7 +19,7 @@ const NotifySchema = new Schema({
   },
   type: {
     type: String,
-    enum: ['like', 'bookmark', 'comment', 'post'],
+    enum: ['like', 'bookmark', 'comment', 'reply_comment', 'post'],
     required: true,
   },
   isSeen: {

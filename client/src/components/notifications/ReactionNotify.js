@@ -5,7 +5,10 @@ import { LikeFill, UnBookMark } from '../icons/icons';
 
 function ReactionNotify({ data }) {
   return (
-    <div className='reaction-notify bg-white'>
+    <div
+      style={{ backgroundColor: !data.isSeen ? '#f3f5ff' : '#fff' }}
+      className='reaction-notify'
+    >
       <div className='reaction-notify__wrap'>
         <Link
           className='reaction-notify__user'
@@ -15,6 +18,7 @@ function ReactionNotify({ data }) {
             src={data.someone.avatar}
             className='round-img reaction-notify__user-avatar'
             style={{ objectFit: 'cover' }}
+            alt=''
           />
           <h4
             className='reaction-notify__user-name'

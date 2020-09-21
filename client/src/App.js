@@ -9,6 +9,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import { toast } from 'react-toastify';
 import { loadUser } from './actions/auth';
+import { getNotifications } from './actions/notify';
 import setAuthToken from './utils/setAuthToken';
 import { LOGOUT, CLEAR_PROFILE } from './actions/types';
 import './App.css';
@@ -17,6 +18,7 @@ const App = () => {
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
+      store.dispatch(getNotifications());
     }
     store.dispatch(loadUser());
 

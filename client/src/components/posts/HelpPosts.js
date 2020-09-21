@@ -13,7 +13,7 @@ function HelpPosts({ help_posts, getHelpPosts }) {
       <div className='post-side__wrap'>
         <Link
           to='/tags/5f64172e64d4d31b38cdef25/help'
-          className='text-dark post-side__title p-1'
+          className='text-dark post-side__title p'
         >
           <span>#help</span>
         </Link>

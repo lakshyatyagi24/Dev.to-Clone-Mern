@@ -14,9 +14,8 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #eef0f1;
@@ -285,10 +284,10 @@ a {
   color: #888;
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -298,7 +297,7 @@ a {
   border: 1px solid #ddd;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
 }
@@ -306,9 +305,9 @@ button {
   transition: all 0.1s ease-in-out;
   outline: none;
 }
-input[type='text'],
-input[type='email'],
-input[type='password'] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   transition: all 0.1s ease-in-out;
   outline: none;
   padding: 3px 0px 3px 3px;
@@ -320,9 +319,9 @@ input[type='password'] {
   border-right: 2px solid royalblue;
   border-bottom: 2px solid royalblue;
 }
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
   border-top: 1px solid royalblue;
   border-left: 1px solid royalblue;
   border-right: 2px solid royalblue;
@@ -510,11 +509,11 @@ input[type='password']:focus {
 
   .profile-grid {
     grid-template-areas:
-      'top'
-      'about'
-      'exp'
-      'edu'
-      'github';
+      "top"
+      "about"
+      "exp"
+      "edu"
+      "github";
   }
 
   .profile-about .skills {
@@ -961,7 +960,7 @@ notfound {
 }
 
 .notfound .notfound-404 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -982,7 +981,7 @@ notfound {
 }
 
 .notfound .notfound-404 h3 {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   position: relative;
   font-size: 16px;
   font-weight: 700;
@@ -994,7 +993,7 @@ notfound {
 }
 
 .notfound h2 {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-transform: uppercase;
@@ -1388,4 +1387,15 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 .reaction-notify__message a {
   color: royalblue;
+}
+.notifications-status {
+  padding: 0.1rem 0.15rem;
+  background-color: rgb(220, 24, 24);
+  color: rgb(255, 255, 255);
+  font-size: 0.7rem;
+  border-radius: 5px;
+  text-align: center;
+  position: absolute;
+  top: 1px;
+  right: 10px;
 }

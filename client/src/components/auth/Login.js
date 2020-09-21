@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
+import { getNotifications } from '../../actions/notify';
 import { toast } from 'react-toastify';
 import store from '../../store';
 
@@ -26,6 +27,7 @@ const Login = ({ login, history, isAuthenticated }) => {
       const res = await login(email, password);
       if (res) {
         store.dispatch({ type: 'CLEAR_POSTS' });
+        store.dispatch(getNotifications());
         return history.push('/');
       }
     } else {

@@ -13,6 +13,7 @@ const SignOut = ({ logout, history }) => {
         onClick={() => {
           logout();
           store.dispatch({ type: 'CLEAR_PROFILE' });
+          store.dispatch({ type: 'CLEAR_NOTIFCATIONS' });
           return history.push('/');
         }}
         className='btn btn-dark'

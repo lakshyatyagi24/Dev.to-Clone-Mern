@@ -13,7 +13,7 @@ function NewsPosts({ news_posts, getNewsPosts }) {
       <div className='post-side__wrap'>
         <Link
           to='/tags/5f64174164d4d31b38cdef26/news'
-          className='text-dark post-side__title p-1'
+          className='text-dark post-side__title p'
         >
           <span>#news</span>
         </Link>

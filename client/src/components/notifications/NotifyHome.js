@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { getNotifications } from '../../actions/notify';
+import { getNotifications, markNotifications } from '../../actions/notify';
 import PropTypes from 'prop-types';
 import ReactionNotify from './ReactionNotify';
 
-function NotifyHome({ getNotifications, notifications }) {
+function NotifyHome({ getNotifications, markNotifications, notifications }) {
   useEffect(() => {
     getNotifications();
-  }, [getNotifications]);
+    markNotifications();
+  }, [getNotifications, markNotifications]);
   return (
     <div className='container'>
       <div style={{ padding: '0 6rem' }} className='notify-home my-1'>
@@ -37,9 +38,13 @@ function NotifyHome({ getNotifications, notifications }) {
 }
 NotifyHome.propTypes = {
   getNotifications: PropTypes.func.isRequired,
+  markNotifications: PropTypes.func.isRequired,
   notifications: PropTypes.array.isRequired,
 };
 const mapStateToProps = (state) => ({
   notifications: state.notify.notifications,
 });
-export default connect(mapStateToProps, { getNotifications })(NotifyHome);
+export default connect(mapStateToProps, {
+  getNotifications,
+  markNotifications,
+})(NotifyHome);

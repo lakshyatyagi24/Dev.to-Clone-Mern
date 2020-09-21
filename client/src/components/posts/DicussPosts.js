@@ -13,7 +13,7 @@ function DicussPosts({ discuss_posts, getDiscussPosts }) {
       <div className='post-side__wrap'>
         <Link
           to='/tags/5f637b99ef33812ce08e32dd/discuss'
-          className='text-dark post-side__title p-1'
+          className='text-dark post-side__title p'
         >
           <span>#discuss</span>
         </Link>

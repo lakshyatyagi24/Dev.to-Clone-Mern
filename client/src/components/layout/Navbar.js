@@ -8,7 +8,10 @@ import { Notify, Chat } from '../icons/icons';
 import store from '../../store';
 import { getPosts } from '../../actions/post';
 
-const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
+const Navbar = ({
+  auth: { isAuthenticated, user, loading },
+  notifications_count,
+}) => {
   return (
     <nav className='wrap-header grid'>
       <div className='top-header'>
@@ -70,7 +73,7 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                   <Chat />
                 </Link>
               </div>
-              <div className='nav-hover'>
+              <div style={{ position: 'relative' }} className='nav-hover'>
                 <Link
                   style={{
                     borderRadius: '50%',
@@ -86,6 +89,13 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
                 >
                   <Notify />
                 </Link>
+                {notifications_count >= 99 ? (
+                  <span className='notifications-status'>99</span>
+                ) : notifications_count === 0 ? null : (
+                  <span className='notifications-status'>
+                    {notifications_count}
+                  </span>
+                )}
               </div>
               {!user ? null : (
                 <div
@@ -122,10 +132,12 @@ const Navbar = ({ auth: { isAuthenticated, user, loading } }) => {
 
 Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
+  notifications_count: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  notifications_count: state.notify.notifications_count,
 });
 
 export default connect(mapStateToProps)(Navbar);

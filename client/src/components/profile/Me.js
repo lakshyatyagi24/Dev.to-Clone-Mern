@@ -15,8 +15,8 @@ function Me({
   getPostByUser,
 }) {
   useEffect(() => {
-    getCurrentProfile();
     getPostByUser(auth.user._id);
+    getCurrentProfile();
   }, [getCurrentProfile, getPostByUser, auth.user._id]);
 
   return loading || !profile || !posts ? (

@@ -47,7 +47,7 @@ router.post(
       }
       if (!coverImage) {
         coverImage =
-          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wp1904062-developer-wallpapers.jpg?alt=media&token=6b29b23c-7936-4b8b-9264-1bae2f41337a';
+          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wall.jpg?alt=media&token=d11815a1-2759-405c-8f2d-caffd63c4367';
       }
       let post = await Post.create({
         title: req.body.title,
@@ -152,6 +152,38 @@ router.get('/', async (req, res) => {
 router.get('/discuss-posts', async (req, res) => {
   try {
     const posts = await Post.find({ tags: '5f637b99ef33812ce08e32dd' })
+      .sort({ date: -1 })
+      .select(['title', 'commentsCount'])
+      .limit(5);
+    return res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/posts
+// @desc     Get news posts by tag
+// @access   Public
+router.get('/news-posts', async (req, res) => {
+  try {
+    const posts = await Post.find({ tags: '5f64174164d4d31b38cdef26' })
+      .sort({ date: -1 })
+      .select(['title', 'commentsCount'])
+      .limit(5);
+    return res.json(posts);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+// @route    GET api/posts
+// @desc     Get news posts by tag
+// @access   Public
+router.get('/help-posts', async (req, res) => {
+  try {
+    const posts = await Post.find({ tags: '5f64172e64d4d31b38cdef25' })
       .sort({ date: -1 })
       .select(['title', 'commentsCount'])
       .limit(5);

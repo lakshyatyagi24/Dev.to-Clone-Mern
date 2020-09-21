@@ -2,6 +2,9 @@ import api from '../utils/api';
 import { toast } from 'react-toastify';
 import {
   GET_POSTS,
+  GET_DISCUSS_POSTS,
+  GET_HELP_POSTS,
+  GET_NEWS_POSTS,
   POST_ERROR,
   DELETE_POST,
   ADD_POST,
@@ -19,7 +22,7 @@ import {
   USER_EDIT_POST,
 } from './types';
 
-// Get posts
+// Get all posts
 export const getPosts = () => async (dispatch) => {
   try {
     const res = await api.get('/posts');
@@ -33,6 +36,107 @@ export const getPosts = () => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+  }
+};
+
+// Get dicuss posts
+export const getDiscussPosts = () => async (dispatch) => {
+  try {
+    const res = await api.get('/posts/discuss-posts');
+
+    dispatch({
+      type: GET_DISCUSS_POSTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get news posts
+export const getNewsPosts = () => async (dispatch) => {
+  try {
+    const res = await api.get('/posts/news-posts');
+
+    dispatch({
+      type: GET_NEWS_POSTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get news posts
+export const getHelpPosts = () => async (dispatch) => {
+  try {
+    const res = await api.get('/posts/help-posts');
+
+    dispatch({
+      type: GET_HELP_POSTS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get edit post by id
+export const getEditPost = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/posts/edit/${id}`);
+    return res.data;
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get post by id
+export const getPost = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/posts/${id}`);
+    const { post, profile } = res.data;
+    dispatch({
+      type: GET_POST,
+      payload: { post, profile },
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get post by userid
+export const getPostByUser = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/posts/user/${id}`);
+
+    dispatch({
+      type: GET_POSTS_BY_USER,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    if (err.response.status === 404) {
+      return toast.error('Post not found!');
+    }
   }
 };
 
@@ -150,55 +254,6 @@ export const editPost = (id, formData) => async (dispatch) => {
       errors.forEach((error) => toast.error(error.msg));
     }
     return false;
-  }
-};
-// Get edit post by id
-export const getEditPost = (id) => async (dispatch) => {
-  try {
-    const res = await api.get(`/posts/edit/${id}`);
-    return res.data;
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Get post by id
-export const getPost = (id) => async (dispatch) => {
-  try {
-    const res = await api.get(`/posts/${id}`);
-    const { post, profile } = res.data;
-    dispatch({
-      type: GET_POST,
-      payload: { post, profile },
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
-
-// Get post by userid
-export const getPostByUser = (id) => async (dispatch) => {
-  try {
-    const res = await api.get(`/posts/user/${id}`);
-
-    dispatch({
-      type: GET_POSTS_BY_USER,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch({
-      type: POST_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-    if (err.response.status === 404) {
-      return toast.error('Post not found!');
-    }
   }
 };
 

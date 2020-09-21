@@ -1,5 +1,8 @@
 import {
   GET_POSTS,
+  GET_DISCUSS_POSTS,
+  GET_NEWS_POSTS,
+  GET_HELP_POSTS,
   POST_ERROR,
   DELETE_POST,
   ADD_POST,
@@ -17,6 +20,9 @@ import {
 const initialState = {
   posts: [],
   post: null,
+  discuss_posts: [],
+  help_posts: [],
+  news_posts: [],
   profile: null,
   loading: true,
   usersCount: 0,
@@ -49,7 +55,24 @@ export default function (state = initialState, action) {
         usersCount: payload.usersCount,
         loading: false,
       };
-
+    case GET_DISCUSS_POSTS:
+      return {
+        ...state,
+        discuss_posts: payload,
+        loading: false,
+      };
+    case GET_HELP_POSTS:
+      return {
+        ...state,
+        help_posts: payload,
+        loading: false,
+      };
+    case GET_NEWS_POSTS:
+      return {
+        ...state,
+        news_posts: payload,
+        loading: false,
+      };
     case GET_POST:
       return {
         ...state,

@@ -1,37 +1,42 @@
 /* * Style for markdown */
+
 blockquote {
   color: #666;
-  margin: 0;
-  padding-left: 3em;
-  border-left: 0.5em #eee solid;
+  margin: 1rem 0;
+  padding-left: 2em;
+  border-left: 4px #7d8a97 solid;
 }
 pre {
-  margin: 10px auto;
+  margin: 1rem auto;
 }
 code {
   border-radius: 5px;
 }
-tr {
-  border-top: 1px solid #c6cbd1;
-  background: #fff;
+p code {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  max-width: 100%;
+  font-size: 1.2rem;
+  padding: 0.2em 0.35em;
 }
-
-th,
 td {
-  padding: 6px 13px;
-  border: 1px solid #dfe2e5;
-  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px 1vw;
 }
 table {
   border-collapse: collapse;
+  margin: 0.8em auto 1.2em;
+  table-layout: fixed;
   border-spacing: 0;
+  overflow-x: auto;
 }
-table tr:nth-child(2n) {
-  background: #f6f8fa;
+th {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px 1vw;
+  background: #eef0f1;
+  text-align: left;
 }
+
 ul {
   padding-left: 40px;
 }
-/* .post-item img {
-  cursor: zoom-in;
-} */

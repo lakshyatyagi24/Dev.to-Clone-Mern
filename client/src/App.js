@@ -18,6 +18,8 @@ const App = () => {
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token);
+    }
+    if (api.defaults.headers.common['x-auth-token'] && localStorage.token) {
       store.dispatch(getNotifications());
     }
     store.dispatch(loadUser());

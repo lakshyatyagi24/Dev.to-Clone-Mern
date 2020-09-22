@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { timeSince } from '../../utils/timesince';
 import { Comment, ReplyComment } from '../icons/icons';
+import store from '../../store';
 
 function CommentNotify({ data }) {
   return (
@@ -12,6 +13,7 @@ function CommentNotify({ data }) {
     >
       <div className='reaction-notify__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
           className='reaction-notify__user'
           to={`/profile/user/${data.someone._id}`}
         >
@@ -38,6 +40,7 @@ function CommentNotify({ data }) {
             <span>
               commented <Comment /> on
               <Link
+                onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
                 to={`/post/${data.post._id}`}
               >{` [${data.post.title}]`}</Link>{' '}
             </span>
@@ -45,6 +48,7 @@ function CommentNotify({ data }) {
             <span>
               replied your comment <ReplyComment /> on
               <Link
+                onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
                 to={`/post/${data.post._id}`}
               >{` [${data.post.title}]`}</Link>{' '}
             </span>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getHelpPosts } from '../../actions/post';
 import PropTypes from 'prop-types';
+import store from '../../store';
 
 function HelpPosts({ help_posts, getHelpPosts }) {
   useEffect(() => {
@@ -12,6 +13,7 @@ function HelpPosts({ help_posts, getHelpPosts }) {
     <div className='post-side'>
       <div className='post-side__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
           to='/tags/5f64172e64d4d31b38cdef25/help'
           className='text-dark post-side__title p'
         >

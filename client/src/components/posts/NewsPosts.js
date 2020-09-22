@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getNewsPosts } from '../../actions/post';
 import PropTypes from 'prop-types';
-
+import store from '../../store';
 function NewsPosts({ news_posts, getNewsPosts }) {
   useEffect(() => {
     getNewsPosts();
@@ -12,6 +12,7 @@ function NewsPosts({ news_posts, getNewsPosts }) {
     <div className='post-side'>
       <div className='post-side__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
           to='/tags/5f64174164d4d31b38cdef26/news'
           className='text-dark post-side__title p'
         >

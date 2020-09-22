@@ -588,6 +588,20 @@ input[type="password"]:focus {
   width: 500px;
   padding: 30px;
 }
+/* *style for post item, preview write post, comment item */
+.preview p,
+.post-item p,
+.comment-item p,
+.post-item ul,
+.preview ul,
+.comment-item ul {
+  margin: 1rem 0;
+}
+.post-item li,
+.preview li,
+.comment-item li {
+  margin: 0.5rem 0;
+}
 .post-item {
   padding: 12px 0;
   word-break: break-word;
@@ -600,7 +614,52 @@ input[type="password"]:focus {
   height: auto;
   border-radius: 5px;
   display: block;
+  margin: 1rem auto;
 }
+.post-item h1,
+.post-item h2,
+.post-item h3,
+.post-item h4,
+.post-item h5,
+.post-item h6,
+.preview h1,
+.preview h2,
+.preview h3,
+.preview h4,
+.preview h5,
+.preview h6,
+.comment-item h1,
+.comment-item h2,
+.comment-item h3,
+.comment-item h4,
+.comment-item h5,
+.comment-item h6 {
+  margin: 1rem 0;
+  margin-top: 2rem;
+  padding: 0;
+}
+.post-item h1,
+.preview h1,
+.comment-item h1 {
+  font-size: 1.85em;
+  line-height: 1.25em;
+  font-weight: 400;
+}
+.post-item h2,
+.preview h2,
+.comment-item h2 {
+  font-size: 1.7em;
+  font-weight: 400;
+  line-height: 1.25em;
+}
+.post-item h3,
+.preview h3,
+.comment-item h3 {
+  font-size: 1.32em;
+  font-weight: 400;
+  line-height: 1.25em;
+}
+
 .reply-area {
   width: 85%;
   display: flex;
@@ -610,10 +669,7 @@ input[type="password"]:focus {
 .reply-item {
   width: 100%;
 }
-.post-item img,
-.preview img {
-  margin: 12px 0;
-}
+
 .comment-infor {
   width: fit-content;
 }
@@ -626,9 +682,6 @@ input[type="password"]:focus {
 .comment-content {
   padding: 12px 0;
   overflow-x: auto;
-}
-.comment-item img {
-  margin: 8px 0;
 }
 .comment-item .round-img {
   height: 40px;

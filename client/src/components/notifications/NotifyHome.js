@@ -34,15 +34,35 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
           >
             All
           </Link>
+          <Link
+            onClick={() => getNotifications()}
+            style={{
+              display: 'block',
+              width: '100%',
+              backgroundColor: '#eef0f1',
+              padding: '0.35rem',
+            }}
+            to='/notifications'
+            className='btn btn-light'
+          >
+            Comments
+          </Link>
+          <Link
+            onClick={() => getNotifications()}
+            style={{
+              display: 'block',
+              width: '100%',
+              backgroundColor: '#eef0f1',
+              padding: '0.35rem',
+            }}
+            to='/notifications'
+            className='btn btn-light'
+          >
+            Posts
+          </Link>
         </div>
 
         <div className='notify-home__main'>
-          <div className='notify-home__main-actions'>
-            <button className='btn btn-light'>
-              Clear <i className='fas fa-trash-alt'></i>
-            </button>
-          </div>
-
           {notifications.map((item) => {
             if (item.type === 'like' || item.type === 'bookmark') {
               return <ReactionNotify key={item._id} data={item} />;

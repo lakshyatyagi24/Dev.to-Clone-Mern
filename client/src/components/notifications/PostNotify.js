@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import store from '../../store';
 
 function PostNotify({ data }) {
   return (
@@ -10,6 +11,7 @@ function PostNotify({ data }) {
     >
       <div className='reaction-notify__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
           className='reaction-notify__user'
           to={`/profile/user/${data.someone._id}`}
         >
@@ -32,6 +34,7 @@ function PostNotify({ data }) {
           <span>
             make a new post, check it{' '}
             <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
               style={{ color: 'royalblue', textDecoration: 'underline' }}
               to={`/post/${data.post._id}`}
             >

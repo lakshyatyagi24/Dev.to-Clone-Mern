@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getDiscussPosts } from '../../actions/post';
 import PropTypes from 'prop-types';
+import store from '../../store';
 
 function DicussPosts({ discuss_posts, getDiscussPosts }) {
   useEffect(() => {
@@ -12,6 +13,7 @@ function DicussPosts({ discuss_posts, getDiscussPosts }) {
     <div className='post-side'>
       <div className='post-side__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
           to='/tags/5f637b99ef33812ce08e32dd/discuss'
           className='text-dark post-side__title p'
         >

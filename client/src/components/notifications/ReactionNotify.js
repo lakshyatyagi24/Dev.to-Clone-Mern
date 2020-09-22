@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { LikeFill, UnBookMark } from '../icons/icons';
 import { timeSince } from '../../utils/timesince';
+import store from '../../store';
 
 function ReactionNotify({ data }) {
   return (
@@ -12,6 +13,7 @@ function ReactionNotify({ data }) {
     >
       <div className='reaction-notify__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
           className='reaction-notify__user'
           to={`/profile/user/${data.someone._id}`}
         >
@@ -37,6 +39,7 @@ function ReactionNotify({ data }) {
           <span>
             reacted {data.type === 'like' ? <LikeFill /> : <UnBookMark />} to
             <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
               to={`/post/${data.post._id}`}
             >{` [${data.post.title}]`}</Link>{' '}
           </span>

@@ -8,6 +8,7 @@ import { Notify, Chat } from '../icons/icons';
 import store from '../../store';
 import { getPosts } from '../../actions/post';
 import { getNotifications } from '../../actions/notify';
+import api from '../../utils/api';
 
 const Navbar = ({
   auth: { isAuthenticated, user, loading },
@@ -21,7 +22,12 @@ const Navbar = ({
             <Link
               onClick={() => {
                 store.dispatch(getPosts());
-                store.dispatch(getNotifications());
+                if (
+                  localStorage.token &&
+                  api.defaults.headers.common['x-auth-token']
+                ) {
+                  store.dispatch(getNotifications());
+                }
               }}
               to='/'
             >

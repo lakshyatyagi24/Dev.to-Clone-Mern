@@ -790,4 +790,23 @@ router.put(
   }
 );
 
+router.get('/find/search', async (req, res) => {
+  try {
+    let q = req.query.q;
+    const regex = new RegExp(q, 'i');
+    const posts = await Post.find({
+      $or: [{ title: regex }, { content: regex }, { 'comments.text': regex }],
+    }).select(['title', 'content', 'date']);
+    const comments = await Post.find({ 'comments.text': regex }).select([
+      'title',
+      'content',
+      'date',
+    ]);
+    const users = await User.find({ name: regex }).select(['avatar', 'name']);
+    res.status(200).json({ posts, users, comments });
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 module.exports = router;

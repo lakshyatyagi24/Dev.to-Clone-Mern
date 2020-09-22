@@ -2,6 +2,7 @@ import React from 'react';
 import { Follow } from '../icons/icons';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import store from '../../store';
 
 function FollowNotify({ data }) {
   return (
@@ -11,6 +12,7 @@ function FollowNotify({ data }) {
     >
       <div className='reaction-notify__wrap'>
         <Link
+          onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
           className='reaction-notify__user'
           to={`/profile/user/${data.someone._id}`}
         >

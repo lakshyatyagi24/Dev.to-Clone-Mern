@@ -71,8 +71,7 @@ const ResultArea = styled.div`
   background-color: #fff;
   color: #282c34;
   border-radius: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: auto;
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   word-break: break-word;
 `;

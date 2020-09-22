@@ -6,6 +6,8 @@ import { markNotifications, getNotifications } from '../../actions/notify';
 import PropTypes from 'prop-types';
 import ReactionNotify from './ReactionNotify';
 import CommentNotify from './CommentNotify';
+import FollowNotify from './FollowNotify';
+import PostNotify from './PostNotify';
 
 function NotifyHome({ markNotifications, getNotifications, notifications }) {
   useEffect(() => {
@@ -49,8 +51,10 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
               item.type === 'reply_comment'
             ) {
               return <CommentNotify key={item._id} data={item} />;
+            } else if (item.type === 'follow') {
+              return <FollowNotify key={item._id} data={item} />;
             } else {
-              return '';
+              return <PostNotify key={item._id} data={item} />;
             }
           })}
         </div>

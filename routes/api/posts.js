@@ -63,8 +63,21 @@ router.post(
         $inc: { postCount: 1 },
       });
       post = await post.populate('user', ['avatar', 'name']).execPopulate();
+      res.json(post);
 
-      return res.json(post);
+      const user = await User.findById(req.user.id);
+      let followersLength = user.followers.length;
+      if (followersLength > 0) {
+        let i = 0;
+        for (i = 0; i < followersLength; ++i) {
+          await Notification.create({
+            type: 'post',
+            post: post._id,
+            me: user.followers[i],
+            someone: req.user.id,
+          });
+        }
+      }
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');
@@ -306,10 +319,20 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
         await user[i].save();
       }
     }
-    return res.status(200).json({ success: true, data: {} });
+    res.status(200).json({ success: true, data: {} });
+
+    await Notification.deleteMany({
+      $or: [
+        { type: 'like' },
+        { type: 'bookmark' },
+        { type: 'comment' },
+        { type: 'reply_comment' },
+        { type: 'post' },
+      ],
+      post: req.params.id,
+    });
   } catch (err) {
     console.error(err.message);
-
     return res.status(500).send('Server Error');
   }
 });

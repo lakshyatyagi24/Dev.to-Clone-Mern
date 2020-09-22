@@ -1,9 +1,8 @@
 import React from 'react';
-import { Follow } from '../icons/icons';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-function FollowNotify({ data }) {
+function PostNotify({ data }) {
   return (
     <div
       style={{ backgroundColor: !data.isSeen ? '#f3f5ff' : '#fff' }}
@@ -31,12 +30,20 @@ function FollowNotify({ data }) {
         </Link>
         <div className='reaction-notify__message'>
           <span>
-            followed <Follow /> you
+            make a new post, check it{' '}
+            <Link
+              style={{ color: 'royalblue', textDecoration: 'underline' }}
+              to={`/post/${data.post._id}`}
+            >
+              here
+            </Link>
           </span>
         </div>
       </div>
     </div>
   );
 }
-FollowNotify.propTypes = { data: PropTypes.object.isRequired };
-export default FollowNotify;
+PostNotify.propTypes = {
+  data: PropTypes.object.isRequired,
+};
+export default PostNotify;

@@ -17,6 +17,7 @@ const {
 
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
+const Notification = require('../../models/Notification');
 const Tag = require('../../models/Tags');
 const auth = require('../../middleware/auth');
 const checkObjectId = require('../../middleware/checkObjectId');
@@ -493,9 +494,9 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
         check,
       },
     });
-    if (req.user.id === req.params.id) {
-      return;
-    }
+    // if (req.user.id === req.params.id) {
+    //   return;
+    // }
     if (check) {
       await Notification.create({
         me: req.params.id,

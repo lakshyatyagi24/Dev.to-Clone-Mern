@@ -51,7 +51,7 @@ router.post('/', validSign, async (req, res) => {
       },
       config.get('JWT_ACCOUNT_ACTIVATION'),
       {
-        expiresIn: '1d',
+        expiresIn: '15m',
       }
     );
     //* email sending
@@ -461,6 +461,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
       return res.status(404).json({ msg: 'User not found' });
     }
     if (req.user.id === req.params.id) {
+      // a user cannot follow themselves
       return;
     }
 
@@ -494,9 +495,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
         check,
       },
     });
-    // if (req.user.id === req.params.id) {
-    //   return;
-    // }
+    // send notifications
     if (check) {
       await Notification.create({
         me: req.params.id,
@@ -529,7 +528,7 @@ router.put(
       }
       const user = await User.findById(req.user.id);
       if (!user) {
-        return res.status(404).json({ msg: 'User not found' });
+        return res.status(404).json({ msg: 'User not found!' });
       }
       let check = false;
       if (user.followingTags.includes(req.params.id)) {

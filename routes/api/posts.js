@@ -65,6 +65,7 @@ router.post(
       post = await post.populate('user', ['avatar', 'name']).execPopulate();
       res.json(post);
 
+      // notify for every users if they follow me
       const user = await User.findById(req.user.id);
       let followersLength = user.followers.length;
       if (followersLength > 0) {
@@ -85,7 +86,7 @@ router.post(
   }
 );
 
-// @route    PUT api/posts
+// @route    PUT api/posts/edit/:id
 // @desc     Edit  post
 // @access   Private
 router.put(
@@ -106,7 +107,7 @@ router.put(
     try {
       const post = await Post.findById(req.params.id);
       if (!post) {
-        return res.status(404).json({ msg: 'Post not found' });
+        return res.status(404).json({ msg: 'Post not found!' });
       }
       if (post.user.toString() !== req.user.id) {
         return res.status(401).json({ msg: 'User not authorized' });
@@ -161,7 +162,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route    GET api/posts
+// @route    GET api/posts/discuss-posts
 // @desc     Get discuss posts by tag
 // @access   Public
 router.get('/discuss-posts', async (req, res) => {
@@ -177,7 +178,7 @@ router.get('/discuss-posts', async (req, res) => {
   }
 });
 
-// @route    GET api/posts
+// @route    GET api/posts/news-posts
 // @desc     Get news posts by tag
 // @access   Public
 router.get('/news-posts', async (req, res) => {
@@ -193,7 +194,7 @@ router.get('/news-posts', async (req, res) => {
   }
 });
 
-// @route    GET api/posts
+// @route    GET api/posts/help-posts
 // @desc     Get news posts by tag
 // @access   Public
 router.get('/help-posts', async (req, res) => {
@@ -209,28 +210,26 @@ router.get('/help-posts', async (req, res) => {
   }
 });
 
-// @route    GET api/posts/:id
-// @desc     Get edited post by ID
-// @access   Public
-router.get('/edit/:id', checkObjectId('id'), async (req, res) => {
+// @route    GET api/posts/edit/:id
+// @desc     Get edited data by post id
+// @access   Private
+router.get('/edit/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id)
       .select(['title', 'content', 'coverImage'])
       .populate('tags', ['tagName']);
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Post not found!' });
     }
-
     return res.json(post);
   } catch (err) {
     console.error(err.message);
-
     return res.status(500).send('Server Error');
   }
 });
 
 // @route    GET api/posts/:id
-// @desc     Get post by ID
+// @desc     Get post by post id
 // @access   Public
 router.get('/:id', checkObjectId('id'), async (req, res) => {
   try {
@@ -238,8 +237,9 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
       .populate('user', ['avatar', 'name'])
       .populate('tags', ['tagName', 'tagColor']);
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Post not found!' });
     }
+    // get user info for side post
     const profile = await Profile.findOne({
       user: post.user.id,
     }).select([
@@ -253,7 +253,7 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
     ]);
 
     if (!profile) {
-      return res.status(404).json({ msg: 'User not found' });
+      return res.status(404).json({ msg: 'User not found!' });
     }
 
     return res.json({ post, profile });
@@ -264,7 +264,7 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
   }
 });
 
-// @route    GET api/posts/:id
+// @route    GET api/posts/user/:id
 // @desc     Get posts by userId
 // @access   Public
 router.get('/user/:id', checkObjectId('id'), async (req, res) => {
@@ -274,14 +274,12 @@ router.get('/user/:id', checkObjectId('id'), async (req, res) => {
       .populate('user', ['avatar', 'name'])
       .populate('tags', ['tagName']);
     if (!posts) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Post not found!' });
     }
 
     return res.json(posts);
   } catch (err) {
-    console.log('asdsd');
     console.error(err.message);
-
     return res.status(500).send('Server Error');
   }
 });
@@ -308,6 +306,7 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
     });
     await post.remove();
 
+    // delete all bookmarked from others users if they bookmark my post
     const user = await User.find({ bookMarkedPosts: req.params.id });
     let i;
     let userLength = user.length;
@@ -321,6 +320,7 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     res.status(200).json({ success: true, data: {} });
 
+    // delete all notifications on others users if they interact to the post
     await Notification.deleteMany({
       $or: [
         { type: 'like' },
@@ -344,9 +344,9 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Post not found!' });
     }
-    let check = false;
+    let check = false; // check user like or unlike
     if (post.likes.includes(req.user.id)) {
       const index = post.likes.indexOf(req.user.id);
       post.likes.splice(index, 1);
@@ -358,9 +358,12 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     await post.save();
     res.status(200).json({ success: true, data: {} });
+
     if (req.user.id === post.user.toString()) {
+      // if user own the post, do not notify
       return;
     }
+    // notify for owner post if user like, if unlike, do not notify and delete this notifications
     if (check) {
       await Notification.create({
         me: post.user,
@@ -400,6 +403,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     let check = false;
     if (post.bookmarks.includes(req.user.id)) {
+      // set status bookmark or un bookmark
       const index = post.bookmarks.indexOf(req.user.id);
       post.bookmarks.splice(index, 1);
       post.bookmarksCount = post.bookmarksCount - 1;
@@ -408,7 +412,9 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
       post.bookmarksCount = post.bookmarksCount + 1;
       post.bookmarks = [req.user.id, ...post.bookmarks];
     }
+
     if (user.bookMarkedPosts.includes(req.params.id)) {
+      // add post to bookmarked post of user
       const index = user.bookMarkedPosts.indexOf(req.params.id);
       user.bookMarkedPosts.splice(index, 1);
       user.bookMarkedPostsCount = user.bookMarkedPostsCount - 1;
@@ -421,6 +427,7 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     await user.save();
     res.json({
       data: {
+        // add this data to Reading list in dashboard if user bookmark a post
         name: post.user.name,
         avatar: post.user.avatar,
         id: req.params.id,
@@ -429,12 +436,15 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
         check: check,
       },
     });
+
     if (req.user.id === post.user._id.toString()) {
+      // same like
       return;
     }
 
     if (check) {
       await Notification.create({
+        // same like
         me: post.user,
         someone: req.user.id,
         post: post._id,
@@ -472,6 +482,9 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select('-password');
       const post = await Post.findById(req.params.id);
+      if (!post) {
+        res.status(404).json({ msg: 'Post not fonud!' });
+      }
 
       const newComment = {
         _id: mongoose.Types.ObjectId(),
@@ -489,9 +502,12 @@ router.post(
         comments: post.comments,
         commentsCount: post.commentsCount,
       });
+
       if (req.user.id === post.user.toString()) {
+        // if user own the post, do not notify
         return;
       }
+      // notify for owner post if others users comment
       await Notification.create({
         me: post.user,
         someone: req.user.id,
@@ -554,10 +570,13 @@ router.post(
         commentsCount: post.commentsCount,
         reply: getComments.reply,
       });
+
       if (req.user.id === req.body.toUser) {
+        // same comment
         return;
       }
       await Notification.create({
+        // same comment
         me: req.body.toUser,
         someone: req.user.id,
         post: post._id,
@@ -609,7 +628,9 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     res.json({
       commentsCount: post.commentsCount,
     });
+
     await Notification.deleteMany({
+      // delete all notificattions about this comment
       $or: [
         { type: 'comment' },
         { type: 'reply_comment' },
@@ -625,7 +646,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   }
 });
 
-// @route    DELETE api/posts/comment-reply/:id/:comment_id
+// @route    DELETE api/posts/comment-reply/:id/:comment_reply_id
 // @desc     Delete reply comment
 // @access   Private
 router.delete(
@@ -672,6 +693,7 @@ router.delete(
       });
 
       await Notification.findOneAndRemove({
+        //same delete comment
         type: 'reply_comment',
         someone: req.user.id,
         comment: req.params.comment_id,
@@ -789,7 +811,7 @@ router.put(
     }
   }
 );
-
+// search data
 router.get('/find/search', async (req, res) => {
   try {
     let q = req.query.q;

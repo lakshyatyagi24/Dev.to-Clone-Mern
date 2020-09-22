@@ -100,6 +100,7 @@ export const getEditPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -117,6 +118,7 @@ export const getPost = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -134,9 +136,7 @@ export const getPostByUser = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    if (err.response.status === 404) {
-      return toast.error('Post not found!');
-    }
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -149,7 +149,7 @@ export const addLike = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-    toast.error(err.response.data.msg);
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -174,8 +174,7 @@ export const addBookmarks = (id) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
-
-    toast.error(err.response.data.msg);
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -198,6 +197,7 @@ export const deletePost = (id) => async (dispatch) => {
         type: POST_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
+      return toast.error(err.response.data.msg);
     }
   }
 };
@@ -399,7 +399,7 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
         type: POST_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
-      toast.error(err.response.data.msg);
+      return toast.error(err.response.data.msg);
     }
   }
 };
@@ -430,7 +430,7 @@ export const deleteReplyComment = (
         type: POST_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },
       });
-      toast.error(err.response.data.msg);
+      return toast.error(err.response.data.msg);
     }
   }
 };

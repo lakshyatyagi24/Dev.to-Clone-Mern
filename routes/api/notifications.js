@@ -1,19 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 
-const Post = require('../../models/Post');
-const User = require('../../models/User');
-const Profile = require('../../models/Profile');
-const Tags = require('../../models/Tags');
 const Notification = require('../../models/Notification');
-const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    GET api/notify
 // @desc     Get all notification
 // @access   Private
-
 router.get('/', auth, async (req, res) => {
   try {
     const notify = await Notification.find({ me: req.user.id })
@@ -34,8 +27,8 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route    GET api/notify
-// @desc     Mark all notification
+// @route    PUT api/notify
+// @desc     Mark all notification, auto mark when get in url
 // @access   Private
 router.put('/mark_notifications', auth, async (req, res) => {
   try {
@@ -52,8 +45,8 @@ router.put('/mark_notifications', auth, async (req, res) => {
   }
 });
 
-// @route    GET api/notify
-// @desc     Clear all notification
+// @route    DELETE api/notify
+// @desc     Clear all notification, not use
 // @access   Private
 router.delete('/clear_notifications', auth, async (req, res) => {
   try {

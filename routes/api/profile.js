@@ -6,6 +6,7 @@ const normalize = require('normalize-url');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
+const Notification = require('../../models/Notification');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 
@@ -32,6 +33,7 @@ router.get('/me', auth, async (req, res) => {
 // @desc     Update user profile
 // @access   Private
 function checkHex(color) {
+  // check hex brand color if user type invalid
   return /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
 }
 router.put('/', auth, async (req, res) => {
@@ -98,24 +100,20 @@ router.put('/', auth, async (req, res) => {
 // @route    GET api/profile/user/:user_id
 // @desc     Get profile by user ID
 // @access   Public
-router.get(
-  '/user/:user_id',
-  checkObjectId('user_id'),
-  async ({ params: { user_id } }, res) => {
-    try {
-      const profile = await Profile.findOne({
-        user: user_id,
-      }).populate('user', ['name', 'avatar']);
+router.get('/user/:user_id', checkObjectId('user_id'), async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id,
+    }).populate('user', ['name', 'avatar']);
 
-      if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+    if (!profile) return res.status(400).json({ msg: 'Profile not found!' });
 
-      return res.json(profile);
-    } catch (err) {
-      console.error(err.message);
-      return res.status(500).json({ msg: 'Server error' });
-    }
+    return res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ msg: 'Server error' });
   }
-);
+});
 
 // @route    DELETE api/profile
 // @desc     Delete profile, user & posts
@@ -124,9 +122,11 @@ router.delete('/', auth, async (req, res) => {
   try {
     // Remove user posts
     await Post.deleteMany({ user: req.user.id });
+
     // Remove profile
     await Profile.findOneAndRemove({ user: req.user.id });
-    // Remove user
+
+    // Remove user from others users
     const userFollowers = await User.find({ followers: req.user.id });
     let i;
     let follwersLength = userFollowers.length;
@@ -149,6 +149,18 @@ router.delete('/', auth, async (req, res) => {
         await userFollowings[j].save();
       }
     }
+    // delete all notifications about this user
+    await Notification.deleteMany({
+      $or: [
+        { type: 'like' },
+        { type: 'bookmark' },
+        { type: 'comment' },
+        { type: 'reply_comment' },
+        { type: 'follow' },
+        { type: 'post' },
+      ],
+      someone: req.user.id,
+    });
     await User.findOneAndRemove({ _id: req.user.id });
 
     return res.json({ msg: 'User deleted' });

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { markNotifications, getNotifications } from '../../actions/notify';
@@ -10,6 +10,15 @@ import FollowNotify from './FollowNotify';
 import PostNotify from './PostNotify';
 
 function NotifyHome({ markNotifications, getNotifications, notifications }) {
+  const [filterValue, setFilterValue] = useState('all');
+  const filterData =
+    filterValue === 'comment'
+      ? notifications.filter(
+          (item) => item.type === 'comment' || item.type === 'reply_comment'
+        )
+      : filterValue === 'post'
+      ? notifications.filter((item) => item.type === 'post')
+      : notifications;
   useEffect(() => {
     async function loadData() {
       await getNotifications();
@@ -22,11 +31,13 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
       <div style={{ padding: '0 6rem' }} className='notify-home my-1'>
         <div className='notify-home__side'>
           <Link
-            onClick={() => getNotifications()}
+            onClick={() => {
+              setFilterValue('all');
+            }}
             style={{
               display: 'block',
               width: '100%',
-              backgroundColor: '#fff',
+              backgroundColor: filterValue === 'all' ? '#fff' : '#eef0f1',
               padding: '0.35rem',
             }}
             to='/notifications'
@@ -35,11 +46,13 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
             All
           </Link>
           <Link
-            onClick={() => getNotifications()}
+            onClick={() => {
+              setFilterValue('comment');
+            }}
             style={{
               display: 'block',
               width: '100%',
-              backgroundColor: '#eef0f1',
+              backgroundColor: filterValue === 'comment' ? '#fff' : '#eef0f1',
               padding: '0.35rem',
             }}
             to='/notifications'
@@ -48,11 +61,13 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
             Comments
           </Link>
           <Link
-            onClick={() => getNotifications()}
+            onClick={() => {
+              setFilterValue('post');
+            }}
             style={{
               display: 'block',
               width: '100%',
-              backgroundColor: '#eef0f1',
+              backgroundColor: filterValue === 'post' ? '#fff' : '#eef0f1',
               padding: '0.35rem',
             }}
             to='/notifications'
@@ -63,7 +78,7 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
         </div>
 
         <div className='notify-home__main'>
-          {notifications.map((item) => {
+          {filterData.map((item) => {
             if (item.type === 'like' || item.type === 'bookmark') {
               return <ReactionNotify key={item._id} data={item} />;
             } else if (

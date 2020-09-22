@@ -62,7 +62,7 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
       'tagDescription',
     ]);
     if (!tag) {
-      return res.status(404).json({ msg: 'Tag not found' });
+      return res.status(404).json({ msg: 'Tag not found!' });
     }
     return res.json(tag);
   } catch (err) {
@@ -81,7 +81,7 @@ router.get('/posts/:id', checkObjectId('id'), async (req, res) => {
       .populate('user', ['avatar', 'name'])
       .populate('tags', ['tagName']);
     if (!posts) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Posts not found!' });
     }
     return res.json(posts);
   } catch (err) {
@@ -90,13 +90,14 @@ router.get('/posts/:id', checkObjectId('id'), async (req, res) => {
   }
 });
 
-// test add tags
+//  add tags
 router.post('/', async (req, res) => {
-  const { tagName, tagColor } = req.body;
+  const { tagName, tagColor, isPopular } = req.body;
   try {
     const tag = new Tag({
       tagName,
       tagColor,
+      isPopular,
     });
     await tag.save();
     return res.json(tag);

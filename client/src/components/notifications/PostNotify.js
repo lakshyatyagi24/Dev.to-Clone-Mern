@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { timeSince } from '../../utils/timesince';
+import { WritePost } from '../icons/icons';
 import store from '../../store';
 
 function PostNotify({ data }) {
@@ -28,11 +30,14 @@ function PostNotify({ data }) {
             >
               {data.someone.name}
             </h4>
+            <p className='reaction-notify__user-date'>{` (${timeSince(
+              data.date
+            )} ago)`}</p>
           </div>
         </Link>
         <div className='reaction-notify__message'>
           <span>
-            make a new post, check it{' '}
+            make <WritePost /> a new post, check it{' '}
             <Link
               onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
               style={{ color: 'royalblue', textDecoration: 'underline' }}

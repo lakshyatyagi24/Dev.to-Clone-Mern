@@ -1,5 +1,5 @@
 import api from '../utils/api';
-
+import { toast } from 'react-toastify';
 import {
   GET_TAGS,
   GET_TAG,
@@ -70,6 +70,7 @@ export const getTagById = (id) => async (dispatch) => {
       type: TAGS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -86,5 +87,6 @@ export const getPostsByTagId = (id) => async (dispatch) => {
       type: TAGS_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
+    return toast.error(err.response.data.msg);
   }
 };

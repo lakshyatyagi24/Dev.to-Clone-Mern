@@ -7,7 +7,6 @@ const { validationResult } = require('express-validator');
 
 const User = require('../../models/User');
 const { validLogin } = require('../../helpers/valid');
-const { populate } = require('../../models/User');
 
 // @route    GET api/auth
 // @desc     Get user by token

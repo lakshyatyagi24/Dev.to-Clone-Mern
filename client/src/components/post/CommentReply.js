@@ -6,7 +6,8 @@ import { replyComment } from '../../actions/post';
 const CommentReply = ({
   setReply,
   tagName,
-  to,
+  toUser,
+  toComment,
   replyComment,
   postId,
   comtId,
@@ -19,7 +20,7 @@ const CommentReply = ({
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            replyComment(postId, comtId, { data: text, to });
+            replyComment(postId, comtId, { data: text, toUser, toComment });
             setReply(false);
           }}
         >

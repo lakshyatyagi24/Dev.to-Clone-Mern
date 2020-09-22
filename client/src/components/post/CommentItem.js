@@ -32,7 +32,8 @@ const CommentItem = ({
       )}
       {replyState && (
         <CommentReply
-          to={user}
+          toUser={user}
+          toComment={_id}
           tagName={name}
           comtId={_id}
           postId={postId}

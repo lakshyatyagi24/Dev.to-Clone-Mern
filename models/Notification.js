@@ -15,11 +15,15 @@ const NotifySchema = new Schema({
   post: {
     type: mongoose.Schema.ObjectId,
     ref: 'post',
-    required: true,
+    default: null,
+  },
+  comment: {
+    type: mongoose.Schema.ObjectId,
+    default: null,
   },
   type: {
     type: String,
-    enum: ['like', 'bookmark', 'comment', 'reply_comment', 'post'],
+    enum: ['like', 'bookmark', 'comment', 'reply_comment', 'follow', 'post'],
     required: true,
   },
   isSeen: {

@@ -484,7 +484,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
     await user.save();
     await me.save();
 
-    return res.status(200).json({
+    res.status(200).json({
       success: true,
       data: {
         userId: req.params.id,
@@ -493,6 +493,21 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
         check,
       },
     });
+    if (req.user.id === req.params.id) {
+      return;
+    }
+    if (check) {
+      await Notification.create({
+        me: req.params.id,
+        someone: req.user.id,
+        type: 'follow',
+      });
+    } else {
+      await Notification.findOneAndRemove({
+        type: 'follow',
+        someone: req.user.id,
+      });
+    }
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

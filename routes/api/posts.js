@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 
@@ -450,6 +451,7 @@ router.post(
       const post = await Post.findById(req.params.id);
 
       const newComment = {
+        _id: mongoose.Types.ObjectId(),
         text: req.body.text,
         name: user.name,
         avatar: user.avatar,
@@ -471,6 +473,7 @@ router.post(
         me: post.user,
         someone: req.user.id,
         post: post._id,
+        comment: newComment._id,
         type: 'comment',
       });
     } catch (err) {
@@ -518,7 +521,8 @@ router.post(
         name_reply: user.name,
         avatar_reply: user.avatar,
         user_reply: req.user.id,
-        to: req.body.to,
+        toUser: req.body.toUser,
+        toComment: req.body.toComment,
       };
       getComments.reply = [...getComments.reply, newComment];
       post.commentsCount = post.commentsCount + 1;
@@ -527,13 +531,14 @@ router.post(
         commentsCount: post.commentsCount,
         reply: getComments.reply,
       });
-      if (req.user.id === req.body.to) {
+      if (req.user.id === req.body.toUser) {
         return;
       }
       await Notification.create({
-        me: req.body.to,
+        me: req.body.toUser,
         someone: req.user.id,
         post: post._id,
+        comment: req.params.comment_id,
         type: 'reply_comment',
       });
     } catch (err) {
@@ -581,11 +586,16 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     res.json({
       commentsCount: post.commentsCount,
     });
-    // await Notification.findOneAndRemove({
-    //   type: 'comment',
-    //   someone: req.user.id,
-    //   post: post._id,
-    // });
+    await Notification.deleteMany({
+      $or: [
+        { type: 'comment' },
+        { type: 'reply_comment' },
+        { someone: req.user.id },
+        { me: post.user },
+      ],
+      comment: req.params.comment_id,
+      post: post._id,
+    });
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');
@@ -638,11 +648,12 @@ router.delete(
         commentsCount: post.commentsCount,
       });
 
-      // await Notification.findOneAndRemove({
-      //   type: 'reply_comment',
-      //   someone: req.user.id,
-      //   post: post._id,
-      // });
+      await Notification.findOneAndRemove({
+        type: 'reply_comment',
+        someone: req.user.id,
+        comment: req.params.comment_id,
+        post: post._id,
+      });
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');

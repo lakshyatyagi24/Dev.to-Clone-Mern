@@ -48,7 +48,11 @@ const PostSchema = new Schema({
             type: Schema.Types.ObjectId,
             required: true,
           },
-          to: {
+          toUser: {
+            type: Schema.Types.ObjectId,
+            required: true,
+          },
+          toComment: {
             type: Schema.Types.ObjectId,
             required: true,
           },

@@ -1,24 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { timeSince } from '../../utils/timesince';
-import { WritePost } from '../icons/icons';
 import store from '../../store';
 
-function PostNotify({ data }) {
+function SearchItem({ data }) {
   return (
-    <div
-      style={{ backgroundColor: !data.isSeen ? '#f3f5ff' : '#fff' }}
-      className='reaction-notify'
-    >
+    <div className='reaction-notify bg-white'>
       <div className='reaction-notify__wrap'>
         <Link
           onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
           className='reaction-notify__user'
-          to={`/profile/user/${data.someone._id}`}
+          to={`/profile/user/${data.user._id}`}
         >
           <img
-            src={data.someone.avatar}
+            src={data.user.avatar}
             className='round-img reaction-notify__user-avatar'
             style={{ objectFit: 'cover' }}
             alt=''
@@ -28,7 +24,7 @@ function PostNotify({ data }) {
               className='reaction-notify__user-name'
               style={{ color: 'royalblue' }}
             >
-              {data.someone.name}
+              {data.user.name}
             </h4>
             <p className='reaction-notify__user-date'>{` (${timeSince(
               data.date
@@ -37,21 +33,17 @@ function PostNotify({ data }) {
         </Link>
         <div className='reaction-notify__message'>
           <span>
-            made <WritePost /> a new post, check it{' '}
             <Link
               onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
-              style={{ color: 'royalblue', textDecoration: 'underline' }}
-              to={`/post/${data.post._id}`}
-            >
-              here
-            </Link>
+              to={`/post/${data._id}`}
+            >{` [${data.title}]`}</Link>{' '}
           </span>
         </div>
       </div>
     </div>
   );
 }
-PostNotify.propTypes = {
+SearchItem.propTypes = {
   data: PropTypes.object.isRequired,
 };
-export default PostNotify;
+export default SearchItem;

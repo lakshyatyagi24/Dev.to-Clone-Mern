@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { markNotifications, getNotifications } from '../../actions/notify';
 // import store from '../../store';
@@ -30,51 +29,51 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
     <div className='container'>
       <div style={{ padding: '0 6rem' }} className='notify-home my-1'>
         <div className='notify-home__side'>
-          <Link
+          <button
             onClick={() => {
               setFilterValue('all');
             }}
             style={{
+              textAlign: 'left',
               display: 'block',
               width: '100%',
               backgroundColor: filterValue === 'all' ? '#fff' : '#eef0f1',
               padding: '0.35rem',
             }}
-            to='/notifications'
             className='btn btn-light'
           >
             All
-          </Link>
-          <Link
+          </button>
+          <button
             onClick={() => {
               setFilterValue('comment');
             }}
             style={{
+              textAlign: 'left',
               display: 'block',
               width: '100%',
               backgroundColor: filterValue === 'comment' ? '#fff' : '#eef0f1',
               padding: '0.35rem',
             }}
-            to='/notifications'
             className='btn btn-light'
           >
             Comments
-          </Link>
-          <Link
+          </button>
+          <button
             onClick={() => {
               setFilterValue('post');
             }}
             style={{
+              textAlign: 'left',
               display: 'block',
               width: '100%',
               backgroundColor: filterValue === 'post' ? '#fff' : '#eef0f1',
               padding: '0.35rem',
             }}
-            to='/notifications'
             className='btn btn-light'
           >
             Posts
-          </Link>
+          </button>
         </div>
 
         <div className='notify-home__main'>

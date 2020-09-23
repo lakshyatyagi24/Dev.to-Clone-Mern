@@ -4,14 +4,9 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { deletePost } from '../../actions/post';
-import PuffLoader from 'react-spinners/PuffLoader';
 import store from '../../store';
 function PostItem({ post, deletePost }) {
-  return !post ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
-    </div>
-  ) : (
+  return (
     <div className='post-list__item bg-white my'>
       <div className='post-list__item-wrap'>
         <div className='item-infor'>

@@ -812,22 +812,29 @@ router.put(
   }
 );
 // search data
-router.get('/find/search', async (req, res) => {
+router.get('/dev/search', async (req, res) => {
   try {
     let q = req.query.q;
     const regex = new RegExp(q, 'i');
     const posts = await Post.find({
-      $or: [{ title: regex }, { content: regex }, { 'comments.text': regex }],
-    }).select(['title', 'content', 'date']);
-    const comments = await Post.find({ 'comments.text': regex }).select([
-      'title',
-      'content',
-      'date',
+      $or: [{ title: regex }, { content: regex }],
+    })
+      .populate('user', ['name', 'avatar'])
+      .select(['title', 'content', 'date'])
+      .sort({ date: -1 });
+    const comments = await Post.find({ 'comments.text': regex })
+      .populate('user', ['name', 'avatar'])
+      .select(['title', 'content', 'date'])
+      .sort({ date: -1 });
+    const users = await User.find({ name: regex }).select([
+      'avatar',
+      'name',
+      'createdAt',
     ]);
-    const users = await User.find({ name: regex }).select(['avatar', 'name']);
     res.status(200).json({ posts, users, comments });
   } catch (err) {
     console.log(err.message);
+    return res.status(500).send('Server Error');
   }
 });
 

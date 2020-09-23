@@ -72,60 +72,58 @@ const PostItem = ({
         decBookMarks={decBookMarks}
         setAuth={setAuth}
       />
-      <div>
-        <div className='main-post-item bg-white'>
-          {coverImage && (
-            <div style={{ height: '340px' }}>
-              <img
-                alt=''
-                src={coverImage}
-                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-              />
-            </div>
-          )}
-          <div style={{ padding: '30px 60px' }}>
-            <h1
-              style={{
-                fontSize: '3rem',
-                lineHeight: '1.2',
-              }}
-              className='text-dark'
-            >
-              {title}
-            </h1>
-            <div className='tags-post_item my-1'>
-              {tags.length > 0 &&
-                tags.map((tag) => <TagLink tag={tag} key={tag._id} />)}
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                margin: '20px 0',
-              }}
-            >
-              <Link
-                onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
-                style={{ display: 'flex' }}
-                to={`/profile/user/${user._id}`}
-              >
-                <img
-                  style={{ objectFit: 'cover' }}
-                  className='round-img'
-                  src={user.avatar}
-                  alt=''
-                />
-                <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
-              </Link>
-              <p
-                className='post-date'
-                style={{ alignSelf: 'flex-end', margin: '0' }}
-              >
-                Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
-              </p>
-            </div>
-            <MarkdownPreview className='post-item' value={content} />
+      <div className='main-post-item bg-white'>
+        {coverImage && (
+          <div style={{ height: '340px' }}>
+            <img
+              alt=''
+              src={coverImage}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            />
           </div>
+        )}
+        <div style={{ padding: '30px 60px' }}>
+          <h1
+            style={{
+              fontSize: '3rem',
+              lineHeight: '1.2',
+            }}
+            className='text-dark'
+          >
+            {title}
+          </h1>
+          <div className='tags-post_item my-1'>
+            {tags.length > 0 &&
+              tags.map((tag) => <TagLink tag={tag} key={tag._id} />)}
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              margin: '20px 0',
+            }}
+          >
+            <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_DATA' })}
+              style={{ display: 'flex' }}
+              to={`/profile/user/${user._id}`}
+            >
+              <img
+                style={{ objectFit: 'cover' }}
+                className='round-img'
+                src={user.avatar}
+                alt=''
+              />
+              <h5 style={{ marginLeft: '5px' }}>{user.name}</h5>
+            </Link>
+            <p
+              className='post-date'
+              style={{ alignSelf: 'flex-end', margin: '0' }}
+            >
+              Posted on <Moment format='DD/MM/YYYY'>{date}</Moment>
+            </p>
+          </div>
+          <MarkdownPreview className='post-item' value={content} />
         </div>
       </div>
 

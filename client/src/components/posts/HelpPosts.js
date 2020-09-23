@@ -22,6 +22,7 @@ function HelpPosts({ help_posts, getHelpPosts }) {
         <div className='post-side__content'>
           {help_posts.map((post) => (
             <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
               key={post._id}
               to={`/post/${post._id}`}
               className='post-side__item p-1'

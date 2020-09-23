@@ -9,7 +9,7 @@ function TagsDashBoard({ tags: { tags, loading }, getTags }) {
   useEffect(() => {
     getTags();
   }, [getTags]);
-  return loading || !tags ? (
+  return loading || !tags.length ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
       <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Dashboard from './Dashboard';
 import PostItem from './PostItem';
+import PuffLoader from 'react-spinners/PuffLoader';
 function PostItemRoute({ user, location }) {
   const [value, setValue] = useState('recently-published');
   const filterData =
@@ -27,9 +28,13 @@ function PostItemRoute({ user, location }) {
       </div>
 
       <div className='post-list my-1'>
-        {filterData.map((post) => (
-          <PostItem key={post._id} post={post} />
-        ))}
+        {!user ? (
+          <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+            <PuffLoader size={36} color={'#3b49df'} loading={true} />
+          </div>
+        ) : (
+          filterData.map((post) => <PostItem key={post._id} post={post} />)
+        )}
       </div>
     </Dashboard>
   );

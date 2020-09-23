@@ -22,6 +22,7 @@ function DicussPosts({ discuss_posts, getDiscussPosts }) {
         <div className='post-side__content'>
           {discuss_posts.map((post) => (
             <Link
+              onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
               key={post._id}
               to={`/post/${post._id}`}
               className='post-side__item p-1'

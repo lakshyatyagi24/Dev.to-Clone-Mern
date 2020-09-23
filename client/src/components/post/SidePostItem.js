@@ -18,7 +18,7 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
   return (
     <div className='side-post-item'>
       <div className='side-post-item__wrap'>
-        <div className='bg-white box'>
+        <div className='bg-white side-post-item__profile'>
           <div
             style={{
               height: '30px',

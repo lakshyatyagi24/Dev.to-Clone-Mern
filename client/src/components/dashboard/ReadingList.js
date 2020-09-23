@@ -2,14 +2,9 @@ import React from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import store from '../../store';
-import PuffLoader from 'react-spinners/PuffLoader';
 
 function ReadingList({ post }) {
-  return !post ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
-    </div>
-  ) : (
+  return (
     <div className='post-list__item bg-white my'>
       <div className='post-list__item-wrap reading-list'>
         <Link
@@ -17,15 +12,7 @@ function ReadingList({ post }) {
           to={`/post/${post._id}`}
           className='item-infor'
         >
-          <h3
-            style={{
-              fontSize: '1.2rem',
-              fontWeight: '600',
-              color: 'royalblue',
-            }}
-          >
-            {post.title}
-          </h3>
+          <h3>{post.title}</h3>
           <p className='date' style={{ display: 'flex', alignItems: 'center' }}>
             <img
               style={{ objectFit: 'cover' }}

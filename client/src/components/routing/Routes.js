@@ -26,6 +26,7 @@ import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
 import { ToastContainer } from 'react-toastify';
 import NotifyHome from '../notifications/NotifyHome';
+import Search from '../search/Search';
 
 const Routes = () => {
   return (
@@ -33,6 +34,7 @@ const Routes = () => {
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={Posts} />
+        <Route exact path='/dev/search' component={Search} />
         <Route exact path='/tags/:id/:name' component={TagHome} />
         <Route exact path='/tags' component={TagsDashBoard} />
         <Route exact path='/signout_confirm' component={SignOut} />

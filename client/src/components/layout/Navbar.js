@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,6 +14,12 @@ const Navbar = ({
   auth: { isAuthenticated, user, loading },
   notifications_count,
 }) => {
+  const [value, setValue] = useState('');
+  const handleSubmit = (e) => {
+    if (!value) {
+      return e.preventDefault();
+    }
+  };
   return (
     <nav className='wrap-header grid'>
       <div className='top-header'>
@@ -35,11 +41,22 @@ const Navbar = ({
             </Link>
           </div>
           <div className='header-search_bar'>
-            <input
-              className='header-search_bar-input'
-              type='text'
-              placeholder='Search...'
-            />
+            <form
+              onSubmit={handleSubmit}
+              action={`/dev/search`}
+              method='GET'
+              acceptCharset='UTF-8'
+            >
+              <input
+                className='header-search_bar-input'
+                type='text'
+                name='q'
+                placeholder='Search...'
+                onChange={(e) => setValue(e.target.value)}
+                value={value}
+                autoComplete='off'
+              />
+            </form>
           </div>
         </div>
         <div>
@@ -70,37 +87,12 @@ const Navbar = ({
                 Write Post
               </Link>
               <div className='nav-hover'>
-                <Link
-                  style={{
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0.5rem',
-                    margin: '0.25rem',
-                  }}
-                  to='/write-post'
-                >
+                <Link to='/write-post'>
                   <Chat />
                 </Link>
               </div>
               <div style={{ position: 'relative' }} className='nav-hover'>
-                <Link
-                  // onClick={() => store.dispatch({ type: 'MARK_NOTIFCATIONS' })}
-                  style={{
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '0.5rem',
-                    margin: '0.25rem',
-                  }}
-                  to='/notifications'
-                >
+                <Link to='/notifications'>
                   <Notify />
                 </Link>
                 {notifications_count >= 99 ? (
@@ -112,15 +104,7 @@ const Navbar = ({
                 )}
               </div>
               {!user ? null : (
-                <div
-                  className='avatar-feed'
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    cursor: 'pointer',
-                  }}
-                >
+                <div className='avatar-feed'>
                   <ActionFeed user={user} />
                   <div className='action-connect'></div>
 

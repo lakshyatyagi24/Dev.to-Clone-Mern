@@ -4,6 +4,7 @@ import {
   projectFireStore,
   timestamp,
 } from '../utils/firebase/config';
+import shortid from 'shortid';
 
 const useStorage = (file) => {
   const [progress, setProgress] = useState(0);
@@ -12,7 +13,7 @@ const useStorage = (file) => {
 
   useEffect(() => {
     //* references
-    const storageRef = projectStorage.ref(file.name);
+    const storageRef = projectStorage.ref(file.name + shortid.generate());
     const collectionRef = projectFireStore.collection('images');
     storageRef.put(file).on(
       'state_changed',

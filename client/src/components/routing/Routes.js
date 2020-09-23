@@ -24,9 +24,10 @@ import TagHome from '../tags/TagHome';
 import SignOut from '../../components/layout/SignOut';
 import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
-import { ToastContainer } from 'react-toastify';
 import NotifyHome from '../notifications/NotifyHome';
 import Search from '../search/Search';
+
+import { ToastContainer } from 'react-toastify';
 
 const Routes = () => {
   return (
@@ -37,7 +38,6 @@ const Routes = () => {
         <Route exact path='/dev/search' component={Search} />
         <Route exact path='/tags/:id/:name' component={TagHome} />
         <Route exact path='/tags' component={TagsDashBoard} />
-        <Route exact path='/signout_confirm' component={SignOut} />
         <Route exact path='/post/:id' component={Post} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
@@ -50,6 +50,7 @@ const Routes = () => {
         <Route exact path='/users/password/forget' component={Forget} />
         <Route exact path='/users/password/reset/:token' component={Reset} />
         <Route exact path='/profile/user/:id' component={UserProfile} />
+        <PrivateRoute exact path='/signout_confirm' component={SignOut} />
         <PrivateRoute exact path='/profile/me' component={Me} />
         <PrivateRoute exact path='/dashboard' component={PostItemRoute} />
         <PrivateRoute

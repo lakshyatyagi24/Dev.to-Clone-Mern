@@ -7,25 +7,28 @@ import Routes from './components/routing/Routes';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import { toast } from 'react-toastify';
 import { loadUser } from './actions/auth';
 import { getNotifications } from './actions/notify';
 import setAuthToken from './utils/setAuthToken';
 import { LOGOUT, CLEAR_PROFILE } from './actions/types';
+
 import './App.css';
 import './styles.css';
+import { toast } from 'react-toastify';
 const App = () => {
   useEffect(() => {
+    // set token to localStorage
     if (localStorage.token) {
       setAuthToken(localStorage.token);
     }
+    // get notifications if user signed in
     if (api.defaults.headers.common['x-auth-token'] && localStorage.token) {
       store.dispatch(getNotifications());
     }
     store.dispatch(loadUser());
 
-    // log user out from all tabs if they logged out in one tab or the token expires, or user try to modify token
     window.addEventListener('storage', () => {
+      // log user out from all tabs if they logged out in one tab or the token expires, or user try to modify token
       if (
         api.defaults.headers.common['x-auth-token'] !== localStorage.token ||
         !localStorage.token
@@ -33,7 +36,7 @@ const App = () => {
         store.dispatch({ type: LOGOUT });
         store.dispatch({ type: CLEAR_PROFILE });
       }
-      // valid tag input
+      // valid tag input if user try modify in localStorage
       let tag_check = JSON.parse(localStorage.getItem('tags'));
       if (tag_check) {
         tag_check.forEach((item) => {

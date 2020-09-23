@@ -12,7 +12,7 @@ const CoverImage = ({ setCoverImage }) => {
     let selected = e.target.files[0];
     const options = {
       maxSizeMB: 2,
-      maxWidthOrHeight: 900,
+      maxWidthOrHeight: 1000,
       useWebWorker: true,
     };
     if (selected && types.includes(selected.type)) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,17 +9,18 @@ import store from '../../store';
 import { getPosts } from '../../actions/post';
 import { getNotifications } from '../../actions/notify';
 import api from '../../utils/api';
+import { toast } from 'react-toastify';
 
 const Navbar = ({
   auth: { isAuthenticated, user, loading },
   notifications_count,
 }) => {
-  const [value, setValue] = useState('');
-  const handleSubmit = (e) => {
-    if (!value) {
-      return e.preventDefault();
-    }
-  };
+  // const [value, setValue] = useState('');
+  // const handleSubmit = (e) => {
+  //   if (!value) {
+  //     return e.preventDefault();
+  //   }
+  // };
   return (
     <nav className='wrap-header grid'>
       <div className='top-header'>
@@ -42,7 +43,7 @@ const Navbar = ({
           </div>
           <div className='header-search_bar'>
             <form
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
               action={`/dev/search`}
               method='GET'
               acceptCharset='UTF-8'
@@ -52,8 +53,8 @@ const Navbar = ({
                 type='text'
                 name='q'
                 placeholder='Search...'
-                onChange={(e) => setValue(e.target.value)}
-                value={value}
+                // onChange={(e) => setValue(e.target.value)}
+                // value={value}
                 autoComplete='off'
               />
             </form>
@@ -87,7 +88,14 @@ const Navbar = ({
                 Write Post
               </Link>
               <div className='nav-hover'>
-                <Link to='/write-post'>
+                <Link
+                  onClick={() =>
+                    toast.dark(
+                      'This feature has not been developed yet, because i"m lazy ^^ '
+                    )
+                  }
+                  to='#!'
+                >
                   <Chat />
                 </Link>
               </div>

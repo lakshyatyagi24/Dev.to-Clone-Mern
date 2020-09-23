@@ -16,13 +16,12 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #eef0f1;
-  color: #363c44;
+  color: var(--dark-color);
 }
 
 a {
@@ -260,10 +259,10 @@ a {
   color: var(--dark-color);
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -273,7 +272,7 @@ a {
   border: 1px solid #ddd;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
 }
@@ -281,9 +280,9 @@ button {
   transition: all 0.1s ease-in-out;
   outline: none;
 }
-input[type='text'],
-input[type='email'],
-input[type='password'] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   transition: all 0.1s ease-in-out;
   outline: none;
   padding: 3px 0px 3px 3px;
@@ -295,9 +294,9 @@ input[type='password'] {
   border-right: 2px solid var(--mainstream-color);
   border-bottom: 2px solid var(--mainstream-color);
 }
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
   border-top: 1px solid var(--mainstream-color);
   border-left: 1px solid var(--mainstream-color);
   border-right: 2px solid var(--mainstream-color);
@@ -370,6 +369,9 @@ input[type='password']:focus {
   border-radius: 5px;
   border: 1px solid rgb(218, 214, 214);
   background-color: #f9fafa;
+}
+.header-search_bar-input.reading-list__input {
+  width: unset;
 }
 .auth-link {
   display: flex;
@@ -914,7 +916,9 @@ li:hover .action-feed_s {
 .reading-list__head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+}
+.reading-list__head input {
+  margin-left: auto;
 }
 .action-statis,
 .action-button {
@@ -1001,7 +1005,7 @@ notfound {
 }
 
 .notfound .notfound-404 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -1022,7 +1026,7 @@ notfound {
 }
 
 .notfound .notfound-404 h3 {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   position: relative;
   font-size: 16px;
   font-weight: 700;
@@ -1034,7 +1038,7 @@ notfound {
 }
 
 .notfound h2 {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-transform: uppercase;
@@ -1399,7 +1403,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   grid-template-columns: 15rem 1fr;
   gap: 1rem;
 }
-.notify-home__side a:hover {
+.notify-home__side button:hover {
   color: var(--mainstream-color);
 }
 .notify-home__main {
@@ -1429,6 +1433,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 }
 .reaction-notify__user-info {
   margin-left: 5px;
+}
+.reaction-notify__user-info h4 {
+  font-weight: 500;
 }
 .reaction-notify__message {
   word-break: break-word;

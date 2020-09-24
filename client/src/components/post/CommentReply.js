@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { replyComment } from '../../actions/post';
+import mongoose from 'mongoose';
 
 const CommentReply = ({
   setReply,
   tagName,
   toUser,
   toComment,
-  replyComment,
   postId,
   comtId,
+  replyComment,
+  auth,
 }) => {
   const [text, setText] = useState('');
   return (
@@ -20,11 +22,17 @@ const CommentReply = ({
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
+            const date = new Date();
             replyComment(postId, comtId, {
+              _id: mongoose.Types.ObjectId(),
               data: text,
               toUser,
               toComment,
               toName: tagName,
+              name_reply: auth.user.name,
+              user_reply: auth.user._id,
+              avatar_reply: auth.user.avatar,
+              date: date.toISOString(),
             });
             setReply(false);
             document.body.style.overflow = '';
@@ -66,5 +74,8 @@ CommentReply.propTypes = {
   tagName: PropTypes.string.isRequired,
   replyComment: PropTypes.func.isRequired,
 };
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 
-export default connect(null, { replyComment })(CommentReply);
+export default connect(mapStateToProps, { replyComment })(CommentReply);

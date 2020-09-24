@@ -105,7 +105,7 @@ export default function (state = initialState, action) {
         post: {
           ...state.post,
           comments: [payload.data, ...state.post.comments],
-          commentsCount: payload.commentsCount,
+          commentsCount: state.post.commentsCount + 1,
         },
         loading: false,
       };
@@ -114,7 +114,7 @@ export default function (state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          commentsCount: payload.commentsCount,
+          commentsCount: state.post.commentsCount + 1,
           comments: state.post.comments.map((item) =>
             item._id === payload.commentId
               ? { ...item, reply: [...item.reply, payload.data] }
@@ -157,11 +157,20 @@ export default function (state = initialState, action) {
         loading: false,
       };
     case REMOVE_COMMENT:
+      let i;
+      let comtLength = state.post.comments.length;
+      let replyCount = 0;
+      for (i = 0; i < comtLength; ++i) {
+        if (state.post.comments[i]._id === payload.commentId) {
+          replyCount = state.post.comments[i].reply.length;
+          break;
+        }
+      }
       return {
         ...state,
         post: {
           ...state.post,
-          commentsCount: payload.commentsCount,
+          commentsCount: state.post.commentsCount - replyCount - 1,
           comments: state.post.comments.filter(
             (item) => item._id !== payload.commentId
           ),
@@ -173,7 +182,7 @@ export default function (state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          commentsCount: payload.commentsCount,
+          commentsCount: state.post.commentsCount - 1,
           comments: state.post.comments.map((item) =>
             item._id === payload.commentId
               ? {

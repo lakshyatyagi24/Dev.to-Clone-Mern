@@ -2,8 +2,9 @@ import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addComment } from '../../actions/post';
+import mongoose from 'mongoose';
 
-const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
+const CommentForm = ({ postId, addComment, isAuth, setAuth, auth }) => {
   const [text, setText] = useState('');
   const handleForm = () => {
     if (!isAuth) {
@@ -20,7 +21,16 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
         className='form'
         onSubmit={(e) => {
           e.preventDefault();
-          addComment(postId, { text });
+          const date = new Date();
+          addComment(postId, {
+            _id: mongoose.Types.ObjectId(),
+            name: auth.user.name,
+            avatar: auth.user.avatar,
+            userId: auth.user._id,
+            text,
+            date: date.toISOString(),
+            reply: [],
+          });
           setText('');
         }}
       >
@@ -56,9 +66,11 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
 
 CommentForm.propTypes = {
   addComment: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
   isAuth: PropTypes.bool,
 };
 const mapStateToProps = (state) => ({
   isAuth: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { addComment })(CommentForm);

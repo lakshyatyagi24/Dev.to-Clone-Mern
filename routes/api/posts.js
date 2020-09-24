@@ -481,26 +481,31 @@ router.post(
 
     try {
       const user = await User.findById(req.user.id).select('-password');
+      if (!user) {
+        return res.status(404).json({ msg: 'User not found!' });
+      }
       const post = await Post.findById(req.params.id);
       if (!post) {
         res.status(404).json({ msg: 'Post not fonud!' });
       }
-
+      const { _id, text, name, avatar, userId, date } = req.body;
       const newComment = {
-        _id: mongoose.Types.ObjectId(),
-        text: req.body.text,
-        name: user.name,
-        avatar: user.avatar,
-        user: req.user.id,
+        _id,
+        text,
+        name,
+        avatar,
+        user: userId,
+        date,
       };
       post.comments = [...post.comments, newComment];
       post.commentsCount = post.commentsCount + 1;
 
       await post.save();
-      res.json({
-        comments: post.comments[post.comments.length - 1],
-        commentsCount: post.commentsCount,
-      });
+      res.status(200).json({ success: true, data: {} });
+      // res.json({
+      //   comments: post.comments[post.comments.length - 1],
+      //   commentsCount: post.commentsCount,
+      // });
 
       if (req.user.id === post.user.toString()) {
         // if user own the post, do not notify
@@ -554,23 +559,36 @@ router.post(
           break;
         }
       }
+      const {
+        _id,
+        data,
+        toUser,
+        toComment,
+        avatar_reply,
+        toName,
+        name_reply,
+        user_reply,
+        date,
+      } = req.body;
       const newComment = {
-        _id: mongoose.Types.ObjectId(),
-        text_reply: req.body.data,
-        name_reply: user.name,
-        avatar_reply: user.avatar,
-        user_reply: req.user.id,
-        toUser: req.body.toUser,
-        toComment: req.body.toComment,
-        toName: req.body.toName,
+        _id,
+        text_reply: data,
+        name_reply,
+        avatar_reply,
+        user_reply,
+        toUser,
+        toComment,
+        toName,
+        date,
       };
       getComments.reply = [...getComments.reply, newComment];
       post.commentsCount = post.commentsCount + 1;
       await post.save();
-      res.json({
-        commentsCount: post.commentsCount,
-        reply: getComments.reply[getComments.reply.length - 1],
-      });
+      res.status(200).json({ success: true, data: {} });
+      // res.json({
+      //   commentsCount: post.commentsCount,
+      //   reply: getComments.reply[getComments.reply.length - 1],
+      // });
 
       if (req.user.id === req.body.toUser) {
         // same comment
@@ -626,9 +644,10 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     await post.save();
 
-    res.json({
-      commentsCount: post.commentsCount,
-    });
+    res.status(200).json({ success: true, data: {} });
+    // res.json({
+    //   commentsCount: post.commentsCount,
+    // });
 
     await Notification.deleteMany({
       // delete all notificattions about this comment
@@ -748,7 +767,7 @@ router.put(
 
       await post.save();
 
-      return res.json(data);
+      return res.status(200).json({ success: true, data: {} });
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');
@@ -805,7 +824,7 @@ router.put(
 
       await post.save();
 
-      return res.json(data);
+      return res.status(200).json({ success: true, data: {} });
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');
@@ -823,12 +842,10 @@ router.get('/dev/search', async (req, res) => {
       $or: [{ title: regex }, { content: regex }],
     })
       .populate('user', ['name', 'avatar'])
-      .select(['title', 'content', 'date'])
-      .sort({ date: -1 });
+      .select(['title', 'content', 'date']);
     const comments = await Post.find({ 'comments.text': regex })
       .populate('user', ['name', 'avatar'])
-      .select(['title', 'content', 'date'])
-      .sort({ date: -1 });
+      .select(['title', 'content', 'date']);
     const users = await User.find({ name: regex }).select([
       'avatar',
       'name',

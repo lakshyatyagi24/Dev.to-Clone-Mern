@@ -28,7 +28,7 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route    PUT api/notify
-// @desc     Mark all notification, auto mark when get in url
+// @desc     Mark all notification, auto mark when get in page
 // @access   Private
 router.put('/mark_notifications', auth, async (req, res) => {
   try {

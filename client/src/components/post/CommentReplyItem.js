@@ -42,6 +42,7 @@ const CommentReplyItem = ({
       )}
       {reply && (
         <CommentReply
+          user_reply={user_reply}
           toUser={user_reply}
           toComment={_id}
           tagName={name_reply}
@@ -154,7 +155,7 @@ const CommentReplyItem = ({
                   marginLeft: '0.3rem',
                 }}
               >
-                reply to Me
+                reply to <b>Me</b>
               </span>
             ) : (
               <span

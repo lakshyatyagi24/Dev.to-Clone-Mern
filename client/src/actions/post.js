@@ -261,16 +261,15 @@ export const editPost = (id, formData) => async (dispatch) => {
 // Add comment
 export const addComment = (postId, formData) => async (dispatch) => {
   try {
-    const res = await api.post(`/posts/comment/${postId}`, formData);
-
+    const { _id, text, name, avatar, userId, date, reply } = formData;
     dispatch({
       type: ADD_COMMENT,
       payload: {
         id: postId,
-        data: res.data.comments,
-        commentsCount: res.data.commentsCount,
+        data: { _id, text, name, avatar, user: userId, date, reply },
       },
     });
+    await api.post(`/posts/comment/${postId}`, formData);
     return true;
   } catch (err) {
     dispatch({
@@ -287,25 +286,41 @@ export const addComment = (postId, formData) => async (dispatch) => {
   }
 };
 
-// Add comment
+// Add reply comment
 export const replyComment = (postId, commentId, formData) => async (
   dispatch
 ) => {
   try {
-    const res = await api.post(
-      `/posts/comment/${postId}/${commentId}`,
-      formData
-    );
-
+    const {
+      _id,
+      data,
+      toUser,
+      toComment,
+      toName,
+      name_reply,
+      user_reply,
+      avatar_reply,
+      date,
+    } = formData;
     dispatch({
       type: REPLY_COMMENT,
       payload: {
         commentId,
         postId,
-        data: res.data.reply,
-        commentsCount: res.data.commentsCount,
+        data: {
+          _id,
+          text_reply: data,
+          toUser,
+          toComment,
+          toName,
+          name_reply,
+          user_reply,
+          avatar_reply,
+          date_reply: date,
+        },
       },
     });
+    await api.post(`/posts/comment/${postId}/${commentId}`, formData);
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -325,18 +340,15 @@ export const editComment = (postId, commentId, formData) => async (
   dispatch
 ) => {
   try {
-    const res = await api.put(
-      `/posts/comment/${postId}/${commentId}`,
-      formData
-    );
-
+    const { data } = formData;
     dispatch({
       type: EDIT_COMMENT,
       payload: {
         commentId,
-        data: res.data,
+        data: data,
       },
     });
+    await api.put(`/posts/comment/${postId}/${commentId}`, formData);
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -359,19 +371,19 @@ export const editReplyComment = (
   formData
 ) => async (dispatch) => {
   try {
-    const res = await api.put(
-      `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`,
-      formData
-    );
-
+    const { data } = formData;
     dispatch({
       type: EDIT_REPLY_COMMENT,
       payload: {
         commentId,
         comment_replyId,
-        data: res.data,
+        data: data,
       },
     });
+    await api.put(
+      `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`,
+      formData
+    );
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -390,12 +402,11 @@ export const editReplyComment = (
 export const deleteComment = (postId, commentId) => async (dispatch) => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
-      const res = await api.delete(`/posts/comment/${postId}/${commentId}`);
-
       dispatch({
         type: REMOVE_COMMENT,
-        payload: { commentId, postId, commentsCount: res.data.commentsCount },
+        payload: { commentId },
       });
+      await api.delete(`/posts/comment/${postId}/${commentId}`);
     } catch (err) {
       dispatch({
         type: POST_ERROR,
@@ -414,19 +425,16 @@ export const deleteReplyComment = (
 ) => async (dispatch) => {
   if (window.confirm('Are you sure? This can NOT be undone!')) {
     try {
-      const res = await api.delete(
-        `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`
-      );
-
       dispatch({
         type: REMOVE_REPLY_COMMENT,
         payload: {
           commentId,
-          postId,
           comment_replyId,
-          commentsCount: res.data.commentsCount,
         },
       });
+      await api.delete(
+        `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`
+      );
     } catch (err) {
       dispatch({
         type: POST_ERROR,

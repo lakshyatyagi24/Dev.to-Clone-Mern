@@ -502,10 +502,6 @@ router.post(
 
       await post.save();
       res.status(200).json({ success: true, data: {} });
-      // res.json({
-      //   comments: post.comments[post.comments.length - 1],
-      //   commentsCount: post.commentsCount,
-      // });
 
       if (req.user.id === post.user.toString()) {
         // if user own the post, do not notify
@@ -534,7 +530,7 @@ router.post(
   [
     auth,
     checkObjectId('id'),
-    [check('data', 'Text is required').not().isEmpty()],
+    [check('text', 'Text is required').not().isEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -561,7 +557,7 @@ router.post(
       }
       const {
         _id,
-        data,
+        text,
         toUser,
         toComment,
         avatar_reply,
@@ -572,7 +568,7 @@ router.post(
       } = req.body;
       const newComment = {
         _id,
-        text_reply: data,
+        text_reply: text,
         name_reply,
         avatar_reply,
         user_reply,
@@ -585,11 +581,6 @@ router.post(
       post.commentsCount = post.commentsCount + 1;
       await post.save();
       res.status(200).json({ success: true, data: {} });
-      // res.json({
-      //   commentsCount: post.commentsCount,
-      //   reply: getComments.reply[getComments.reply.length - 1],
-      // });
-
       if (req.user.id === req.body.toUser) {
         // same comment
         return;
@@ -707,10 +698,10 @@ router.delete(
       }
 
       await post.save();
-
-      res.json({
-        commentsCount: post.commentsCount,
-      });
+      res.status(200).json({ success: true, data: {} });
+      // res.json({
+      //   commentsCount: post.commentsCount,
+      // });
 
       await Notification.findOneAndRemove({
         //same delete comment
@@ -729,13 +720,12 @@ router.delete(
 // @route    PUT api/posts/comment/:id/:comment_id
 // @desc     EDIT comment
 // @access   Private
-
 router.put(
   '/comment/:id/:comment_id',
   [
     auth,
     checkObjectId('id'),
-    [check('data', 'Text is required').not().isEmpty()],
+    [check('text', 'Text is required').not().isEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -747,7 +737,7 @@ router.put(
       if (!post) {
         return res.status(404).json({ msg: 'Post not found!' });
       }
-      const { data } = req.body;
+      const { text } = req.body;
       let check = false;
       let i;
       let postLength = post.comments.length;
@@ -756,7 +746,7 @@ router.put(
           if (post.comments[i].user.toString() !== req.user.id) {
             return res.status(401).json({ msg: 'User not authorized' });
           }
-          post.comments[i].text = data;
+          post.comments[i].text = text;
           check = true;
           break;
         }
@@ -784,7 +774,7 @@ router.put(
   [
     auth,
     checkObjectId('id'),
-    [check('data', 'Text is required').not().isEmpty()],
+    [check('text', 'Text is required').not().isEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -796,7 +786,7 @@ router.put(
       if (!post) {
         return res.status(404).json({ msg: 'Post not found!' });
       }
-      const { data } = req.body;
+      const { text } = req.body;
       let check = false;
       let i;
       let j;
@@ -811,7 +801,7 @@ router.put(
               ) {
                 return res.status(401).json({ msg: 'User not authorized' });
               }
-              post.comments[i].reply[j].text_reply = data;
+              post.comments[i].reply[j].text_reply = text;
               check = true;
               break;
             }

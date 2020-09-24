@@ -1,12 +1,18 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
+const ActionFollow = ({
+  setAuth,
+  _user,
+  handleFollow,
+  auth: { isAuthenticated, user, loading },
+  isFollowing,
+}) => {
   const [isFollowState, setIsFollowState] = useState(isFollowing);
   useEffect(() => {
     setIsFollowState(isFollowing);
   }, [isFollowing]);
   const handleFollowUser = () => {
-    if (auth.isAuthenticated) {
+    if (isAuthenticated) {
       if (isFollowState) {
         setIsFollowState(false);
         handleFollow();
@@ -21,9 +27,8 @@ const ActionFollow = ({ setAuth, user, handleFollow, auth, isFollowing }) => {
   };
   return (
     <Fragment>
-      {auth.isAuthenticated &&
-      auth.user._id === user._id ? null : auth.isAuthenticated &&
-        isFollowState ? (
+      {loading ? null : isAuthenticated &&
+        user._id === _user._id ? null : isAuthenticated && isFollowState ? (
         <button
           onClick={handleFollowUser}
           style={{

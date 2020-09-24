@@ -43,6 +43,6 @@ DicussPosts.propTypes = {
   getDiscussPosts: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
-  discuss_posts: state.post.discuss_posts,
+  discuss_posts: state.side_posts.discuss_posts,
 });
 export default connect(mapStateToProps, { getDiscussPosts })(DicussPosts);

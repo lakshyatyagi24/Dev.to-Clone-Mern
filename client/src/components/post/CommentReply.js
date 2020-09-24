@@ -25,7 +25,7 @@ const CommentReply = ({
             const date = new Date();
             replyComment(postId, comtId, {
               _id: mongoose.Types.ObjectId(),
-              data: text,
+              text,
               toUser,
               toComment,
               toName: tagName,

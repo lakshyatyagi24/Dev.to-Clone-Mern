@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ActionFeed from './ActionFeed';
-import PuffLoader from 'react-spinners/PuffLoader';
 import { Notify, Chat } from '../icons/icons';
 import store from '../../store';
 import { getPosts } from '../../actions/post';
@@ -61,11 +60,7 @@ const Navbar = ({
           </div>
         </div>
         <div>
-          {loading ? (
-            <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-              <PuffLoader size={36} color={'#3b49df'} loading={true} />
-            </div>
-          ) : !isAuthenticated ? (
+          {loading ? null : !isAuthenticated ? (
             <div className='guest-link'>
               <Link
                 style={{ color: 'royalblue' }}

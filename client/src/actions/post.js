@@ -6,6 +6,7 @@ import {
   GET_HELP_POSTS,
   GET_NEWS_POSTS,
   POST_ERROR,
+  SIDE_POST_ERROR,
   DELETE_POST,
   ADD_POST,
   GET_POST,
@@ -51,7 +52,7 @@ export const getDiscussPosts = () => async (dispatch) => {
     });
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: SIDE_POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
@@ -68,7 +69,7 @@ export const getNewsPosts = () => async (dispatch) => {
     });
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: SIDE_POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
@@ -85,7 +86,7 @@ export const getHelpPosts = () => async (dispatch) => {
     });
   } catch (err) {
     dispatch({
-      type: POST_ERROR,
+      type: SIDE_POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status },
     });
   }
@@ -293,7 +294,7 @@ export const replyComment = (postId, commentId, formData) => async (
   try {
     const {
       _id,
-      data,
+      text,
       toUser,
       toComment,
       toName,
@@ -309,7 +310,7 @@ export const replyComment = (postId, commentId, formData) => async (
         postId,
         data: {
           _id,
-          text_reply: data,
+          text_reply: text,
           toUser,
           toComment,
           toName,
@@ -340,12 +341,12 @@ export const editComment = (postId, commentId, formData) => async (
   dispatch
 ) => {
   try {
-    const { data } = formData;
+    const { text } = formData;
     dispatch({
       type: EDIT_COMMENT,
       payload: {
         commentId,
-        data: data,
+        data: text,
       },
     });
     await api.put(`/posts/comment/${postId}/${commentId}`, formData);
@@ -371,13 +372,13 @@ export const editReplyComment = (
   formData
 ) => async (dispatch) => {
   try {
-    const { data } = formData;
+    const { text } = formData;
     dispatch({
       type: EDIT_REPLY_COMMENT,
       payload: {
         commentId,
         comment_replyId,
-        data: data,
+        data: text,
       },
     });
     await api.put(

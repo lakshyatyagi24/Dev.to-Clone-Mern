@@ -57,4 +57,17 @@ router.delete('/clear_notifications', auth, async (req, res) => {
     return res.status(500).send('Server Error');
   }
 });
+
+router.get('/test', async (req, res) => {
+  try {
+    const data = await Notification.find({
+      me: '5f57a1ec638d6a12302a26d9',
+      $or: [{ type: 'like' }, { type: 'bookmark' }],
+    });
+    res.json(data);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
 module.exports = router;

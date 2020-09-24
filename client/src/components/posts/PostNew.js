@@ -97,12 +97,9 @@ function PostNew({ addPost }) {
   useEffect(() => {
     if (!dataPost) {
       dataPost = { title: '', content: '' };
-      setTitle(dataPost.title);
-      setContent(dataPost.content);
-    } else {
-      setTitle(dataPost.title);
-      setContent(dataPost.content);
     }
+    setTitle(dataPost.title);
+    setContent(dataPost.content);
   }, []);
 
   return (

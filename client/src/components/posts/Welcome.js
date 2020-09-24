@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function Welcome({ usersCount, _auth }) {
+function Welcome({ usersCount, _auth: { loading, isAuthenticated } }) {
   return (
     <div className='guest-welcome p-1'>
       <img
@@ -22,7 +22,7 @@ function Welcome({ usersCount, _auth }) {
         We're a place where coders share, stay up-to-date and grow their
         careers.
       </p>
-      {!_auth.isAuthenticated ? (
+      {loading ? null : !isAuthenticated ? (
         <Fragment>
           <Link
             to='/register'
@@ -69,6 +69,6 @@ function Welcome({ usersCount, _auth }) {
 }
 Welcome.propTypes = {
   usersCount: PropTypes.number.isRequired,
-  _auth: PropTypes.object.isRequired,
+  _aut: PropTypes.object,
 };
 export default Welcome;

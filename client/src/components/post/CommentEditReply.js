@@ -12,12 +12,6 @@ const CommentEditReply = ({
   comtId,
 }) => {
   const [text, setText] = useState(comment);
-
-  // const handleClick = (e) => {
-  //   if (e.target.classList.contains('backdrop')) {
-  //     setEdit(false);
-  //   }
-  // };
   return (
     <div className='backdrop'>
       <div className='child edit-comment close-action'>
@@ -25,7 +19,7 @@ const CommentEditReply = ({
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            editReplyComment(postId, comtId, replyId, { data: text });
+            editReplyComment(postId, comtId, replyId, { text });
             setEdit(false);
             document.body.style.overflow = '';
           }}

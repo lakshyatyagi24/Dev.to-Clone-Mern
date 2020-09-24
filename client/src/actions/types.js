@@ -27,6 +27,7 @@ export const GET_DISCUSS_POSTS = 'GET_DISCUSS_POSTS';
 export const GET_POSTS_BY_USER = 'GET_POSTS_BY_USER';
 export const GET_POST = 'GET_POST';
 export const POST_ERROR = 'POST_ERROR';
+export const SIDE_POST_ERROR = 'SIDE_POST_ERROR';
 export const DELETE_POST = 'DELETE_POST';
 export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';

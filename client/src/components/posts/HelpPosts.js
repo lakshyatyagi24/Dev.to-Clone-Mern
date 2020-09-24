@@ -43,6 +43,6 @@ HelpPosts.propTypes = {
   getHelpPosts: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
-  help_posts: state.post.help_posts,
+  help_posts: state.side_posts.help_posts,
 });
 export default connect(mapStateToProps, { getHelpPosts })(HelpPosts);

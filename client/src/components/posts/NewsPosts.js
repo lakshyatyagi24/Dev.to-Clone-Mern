@@ -42,6 +42,6 @@ NewsPosts.propTypes = {
   getNewsPosts: PropTypes.func.isRequired,
 };
 const mapStateToProps = (state) => ({
-  news_posts: state.post.news_posts,
+  news_posts: state.side_posts.news_posts,
 });
 export default connect(mapStateToProps, { getNewsPosts })(NewsPosts);

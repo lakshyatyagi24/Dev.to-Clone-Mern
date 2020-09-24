@@ -6,11 +6,6 @@ import { editComment } from '../../actions/post';
 const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
   const [text, setText] = useState(comment);
 
-  // const handleClick = (e) => {
-  //   if (e.target.classList.contains('backdrop')) {
-  //     setEdit(false);
-  //   }
-  // };
   return (
     <div className='backdrop'>
       <div className='child edit-comment close-action'>
@@ -18,7 +13,7 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            editComment(postId, comtId, { data: text });
+            editComment(postId, comtId, { text });
             setEdit(false);
             document.body.style.overflow = '';
           }}

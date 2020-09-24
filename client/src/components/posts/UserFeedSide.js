@@ -5,12 +5,12 @@ import PropTypes from 'prop-types';
 import store from '../../store';
 import { ReadingLists, DashBoard, Settings, Sign, Tags } from '../icons/icons';
 
-function UserFeedSide({ _auth }) {
+function UserFeedSide({ _auth: { loading, isAuthenticated, user } }) {
   return (
     <div className='user-feed-side'>
-      {_auth.isAuthenticated ? (
+      {loading ? null : isAuthenticated ? (
         <Fragment>
-          {!_auth.user ? null : (
+          {!user ? null : (
             <div className='side-item'>
               <Link
                 to='/profile/me'
@@ -21,15 +21,15 @@ function UserFeedSide({ _auth }) {
                   alt=''
                   style={{ objectFit: 'cover', marginRight: '5px' }}
                   className='round-img-feed'
-                  src={_auth.user.avatar}
+                  src={user.avatar}
                 />
                 <div>
                   <span className='text-dark' style={{ fontWeight: '600' }}>
-                    {`${_auth.user.name}`}{' '}
+                    {`${user.name}`}{' '}
                   </span>
                   <p className='post-date'>
                     <span>Joined </span>
-                    <Moment format='DD/MM/YYYY'>{_auth.user.createdAt}</Moment>
+                    <Moment format='DD/MM/YYYY'>{user.createdAt}</Moment>
                   </p>
                 </div>
               </Link>

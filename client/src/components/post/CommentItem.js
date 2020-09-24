@@ -8,6 +8,7 @@ import { MarkdownPreview } from 'react-marked-markdown';
 import CommentEdit from './CommentEdit';
 import CommentReply from './CommentReply';
 import CommentReplyItem from './CommentReplyItem';
+import { timeSince } from '../../utils/timesince';
 import store from '../../store';
 
 const CommentItem = ({
@@ -46,12 +47,24 @@ const CommentItem = ({
           justifyContent: 'space-between',
         }}
       >
-        <p className='post-date' style={{ alignSelf: 'flex-end' }}>
-          Posted on <Moment format='DD/MM/YY'>{date}</Moment>
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <p className='post-date' style={{ alignSelf: 'flex-end' }}>
+            Posted on <Moment format='DD/MM/YY'>{date}</Moment>
+          </p>
+          <span
+            className='post-date'
+            style={{
+              display: 'block',
+              margin: '1rem 0 0.5rem 0.3rem',
+            }}
+          >{` (${timeSince(date)} ago)`}</span>
+        </div>
         {auth.isAuthenticated && auth.user._id !== user && (
           <button
-            onClick={() => setReplyState(true)}
+            onClick={() => {
+              setReplyState(true);
+              document.body.style.overflow = 'hidden';
+            }}
             type='button'
             className='btn btn-light action-comt'
           >
@@ -62,14 +75,20 @@ const CommentItem = ({
         {auth.isAuthenticated && user === auth.user._id && (
           <div style={{ display: 'flex' }}>
             <button
-              onClick={() => setReplyState(true)}
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setReplyState(true);
+              }}
               type='button'
               className='btn btn-light action-comt'
             >
               <i className='fas fa-reply' />
             </button>
             <button
-              onClick={() => setEdit(true)}
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setEdit(true);
+              }}
               type='button'
               className='btn btn-light action-comt'
             >

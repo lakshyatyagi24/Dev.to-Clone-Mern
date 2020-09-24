@@ -9,8 +9,8 @@ function Search({ location }) {
   const [filterValue, setFilterValue] = useState('post');
   const [data, setData] = useState(null);
   useEffect(() => {
+    let q = queryString.parse(location.search).q;
     async function getData() {
-      let q = queryString.parse(location.search).q;
       const res = await api.get(`/posts/dev/search?q=${q}`);
       const { posts, users, comments } = res.data;
       setData({ posts, users, comments });

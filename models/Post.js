@@ -52,6 +52,9 @@ const PostSchema = new Schema({
             type: Schema.Types.ObjectId,
             required: true,
           },
+          toName: {
+            type: String,
+          },
           toComment: {
             type: Schema.Types.ObjectId,
             required: true,

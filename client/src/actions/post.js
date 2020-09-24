@@ -12,6 +12,7 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   EDIT_COMMENT,
+  EDIT_REPLY_COMMENT,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
   USER_DELETE_POST,
@@ -332,7 +333,7 @@ export const editComment = (postId, commentId, formData) => async (
     dispatch({
       type: EDIT_COMMENT,
       payload: {
-        id: postId,
+        commentId,
         data: res.data,
       },
     });
@@ -364,9 +365,10 @@ export const editReplyComment = (
     );
 
     dispatch({
-      type: EDIT_COMMENT,
+      type: EDIT_REPLY_COMMENT,
       payload: {
-        id: postId,
+        commentId,
+        comment_replyId,
         data: res.data,
       },
     });

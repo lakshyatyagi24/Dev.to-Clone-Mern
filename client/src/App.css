@@ -713,7 +713,8 @@ input[type="password"]:focus {
 }
 .like-action:hover .btn-hover,
 .discuss-action:hover .btn-hover,
-.read-action:hover .btn-hover {
+.read-action:hover .btn-hover,
+.more-action:hover .btn-hover {
   background-color: var(--light-color);
 }
 

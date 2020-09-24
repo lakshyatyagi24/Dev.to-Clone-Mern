@@ -7,6 +7,7 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth }) => {
   const [text, setText] = useState('');
   const handleForm = () => {
     if (!isAuth) {
+      document.body.style.overflow = 'hidden';
       return setAuth(true);
     } else {
       return setAuth(false);

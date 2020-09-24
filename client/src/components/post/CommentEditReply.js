@@ -13,13 +13,13 @@ const CommentEditReply = ({
 }) => {
   const [text, setText] = useState(comment);
 
-  const handleClick = (e) => {
-    if (e.target.classList.contains('backdrop')) {
-      setEdit(false);
-    }
-  };
+  // const handleClick = (e) => {
+  //   if (e.target.classList.contains('backdrop')) {
+  //     setEdit(false);
+  //   }
+  // };
   return (
-    <div className='backdrop' onClick={handleClick}>
+    <div className='backdrop'>
       <div className='child edit-comment close-action'>
         <form
           className='form'
@@ -27,6 +27,7 @@ const CommentEditReply = ({
             e.preventDefault();
             editReplyComment(postId, comtId, replyId, { data: text });
             setEdit(false);
+            document.body.style.overflow = '';
           }}
         >
           <textarea
@@ -47,7 +48,10 @@ const CommentEditReply = ({
           />
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
           <button
-            onClick={() => setEdit(false)}
+            onClick={() => {
+              setEdit(false);
+              document.body.style.overflow = '';
+            }}
             className='btn btn-light btn-hover'
           >
             <i style={{ color: '#363c44' }} className='fas fa-times' />

@@ -493,13 +493,12 @@ router.post(
         avatar: user.avatar,
         user: req.user.id,
       };
-      post.comments = [newComment, ...post.comments];
+      post.comments = [...post.comments, newComment];
       post.commentsCount = post.commentsCount + 1;
 
       await post.save();
-
       res.json({
-        comments: post.comments,
+        comments: post.comments[post.comments.length - 1],
         commentsCount: post.commentsCount,
       });
 
@@ -556,19 +555,21 @@ router.post(
         }
       }
       const newComment = {
+        _id: mongoose.Types.ObjectId(),
         text_reply: req.body.data,
         name_reply: user.name,
         avatar_reply: user.avatar,
         user_reply: req.user.id,
         toUser: req.body.toUser,
         toComment: req.body.toComment,
+        toName: req.body.toName,
       };
       getComments.reply = [...getComments.reply, newComment];
       post.commentsCount = post.commentsCount + 1;
       await post.save();
       res.json({
         commentsCount: post.commentsCount,
-        reply: getComments.reply,
+        reply: getComments.reply[getComments.reply.length - 1],
       });
 
       if (req.user.id === req.body.toUser) {
@@ -706,7 +707,7 @@ router.delete(
   }
 );
 
-// @route    EDIT api/posts/comment/:id/:comment_id
+// @route    PUT api/posts/comment/:id/:comment_id
 // @desc     EDIT comment
 // @access   Private
 
@@ -747,7 +748,7 @@ router.put(
 
       await post.save();
 
-      return res.json(post.comments);
+      return res.json(data);
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');
@@ -755,7 +756,7 @@ router.put(
   }
 );
 
-// @route    EDIT api/posts/comment/:id/:comment_id
+// @route    PUT api/posts/comment/:id/:comment_id
 // @desc     EDIT reply comment
 // @access   Private
 
@@ -804,14 +805,16 @@ router.put(
 
       await post.save();
 
-      return res.json(post.comments);
+      return res.json(data);
     } catch (err) {
       console.error(err.message);
       return res.status(500).send('Server Error');
     }
   }
 );
-// search data
+// @route    GET api/posts/dev/search
+// @desc     Search data
+// @access   Public
 router.get('/dev/search', async (req, res) => {
   try {
     let q = req.query.q;

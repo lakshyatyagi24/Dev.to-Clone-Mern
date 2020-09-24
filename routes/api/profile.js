@@ -149,6 +149,29 @@ router.delete('/', auth, async (req, res) => {
         await userFollowings[j].save();
       }
     }
+    //  remove like and bookmarks from post
+    const likes = await Post.find({ likes: req.user.id });
+    let k;
+    let likesLength = likes.length;
+    if (likesLength > 0) {
+      for (k = 0; k < likesLength; ++k) {
+        const index = likes[k].likes.indexOf(req.user.id);
+        likes[k].likes.splice(index, 1);
+        likes[k].likesCount = likes[k].likesCount - 1;
+        await likes[k].save();
+      }
+    }
+    const bookmarks = await Post.find({ bookmarks: req.user.id });
+    let l;
+    let bookmarksLength = bookmarks.length;
+    if (bookmarksLength > 0) {
+      for (l = 0; l < bookmarksLength; ++l) {
+        const index = bookmarks[l].bookmarks.indexOf(req.user.id);
+        bookmarks[l].bookmarks.splice(index, 1);
+        bookmarks[l].likesCount = bookmarks[l].likesCount - 1;
+        await bookmarks[l].save();
+      }
+    }
     // delete all notifications about this user
     await Notification.deleteMany({
       $or: [

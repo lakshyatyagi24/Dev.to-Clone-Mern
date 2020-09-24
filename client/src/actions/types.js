@@ -31,6 +31,7 @@ export const DELETE_POST = 'DELETE_POST';
 export const ADD_POST = 'ADD_POST';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const EDIT_REPLY_COMMENT = 'EDIT_REPLY_COMMENT';
 export const GET_COMMENT = 'GET_COMMENT';
 export const REMOVE_COMMENT = 'REMOVE_COMMENT';
 export const UPDATE_USER = 'UPDATE_USER';

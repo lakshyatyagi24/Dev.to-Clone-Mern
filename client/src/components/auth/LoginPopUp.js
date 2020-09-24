@@ -7,7 +7,10 @@ const LoginPopUp = ({ setAuth }) => {
     <div className='backdrop'>
       <div className='child close-action'>
         <button
-          onClick={() => setAuth(false)}
+          onClick={() => {
+            setAuth(false);
+            document.body.style.overflow = '';
+          }}
           style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
           className='btn btn-light btn-hover '
         >

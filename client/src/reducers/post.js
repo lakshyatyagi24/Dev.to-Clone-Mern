@@ -10,6 +10,7 @@ import {
   ADD_COMMENT,
   REMOVE_COMMENT,
   EDIT_COMMENT,
+  EDIT_REPLY_COMMENT,
   REPLY_COMMENT,
   REMOVE_REPLY_COMMENT,
   SET_LOADING,
@@ -103,7 +104,7 @@ export default function (state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          comments: payload.data,
+          comments: [payload.data, ...state.post.comments],
           commentsCount: payload.commentsCount,
         },
         loading: false,
@@ -116,7 +117,7 @@ export default function (state = initialState, action) {
           commentsCount: payload.commentsCount,
           comments: state.post.comments.map((item) =>
             item._id === payload.commentId
-              ? { ...item, reply: payload.data }
+              ? { ...item, reply: [...item.reply, payload.data] }
               : item
           ),
         },
@@ -127,7 +128,31 @@ export default function (state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          comments: payload.data,
+          comments: state.post.comments.map((comt) =>
+            comt._id === payload.commentId
+              ? { ...comt, text: payload.data }
+              : comt
+          ),
+        },
+        loading: false,
+      };
+    case EDIT_REPLY_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.map((comt) =>
+            comt._id === payload.commentId
+              ? {
+                  ...comt,
+                  reply: comt.reply.map((rep) =>
+                    rep._id === payload.comment_replyId
+                      ? { ...rep, text_reply: payload.data }
+                      : rep
+                  ),
+                }
+              : comt
+          ),
         },
         loading: false,
       };

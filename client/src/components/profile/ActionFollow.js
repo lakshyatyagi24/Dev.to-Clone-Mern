@@ -15,6 +15,7 @@ const ActionFollow = ({ setAuth, handleFollow, auth, isFollowing }) => {
         handleFollow();
       }
     } else {
+      document.body.style.overflow = 'hidden';
       return setAuth(true);
     }
   };

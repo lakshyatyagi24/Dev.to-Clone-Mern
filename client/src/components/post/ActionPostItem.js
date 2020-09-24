@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Like, LikeFill, BookMark, UnBookMark } from '../icons/icons';
+import { Like, LikeFill, BookMark, UnBookMark, More } from '../icons/icons';
 const ActionPostItem = ({
   auth,
   handleBookmarksAction,
@@ -35,6 +35,7 @@ const ActionPostItem = ({
         handleLikeAction();
       }
     } else {
+      document.body.style.overflow = 'hidden';
       return setAuth(true);
     }
   };
@@ -50,6 +51,7 @@ const ActionPostItem = ({
         handleBookmarksAction();
       }
     } else {
+      document.body.style.overflow = 'hidden';
       return setAuth(true);
     }
   };
@@ -116,11 +118,21 @@ const ActionPostItem = ({
         <span
           style={{
             display: 'block',
+            marginBottom: '10px',
             color: auth.isAuthenticated && bookmarked ? 'royalblue' : '',
           }}
         >
           <span>{bookmarksState >= 0 && bookmarksState}</span>
         </span>
+
+        <div className='more-action'>
+          <button
+            // onClick={handleBookMark}
+            className='action-post'
+          >
+            <More />
+          </button>
+        </div>
       </div>
     </div>
   );

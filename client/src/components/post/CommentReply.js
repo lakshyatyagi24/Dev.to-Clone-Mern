@@ -20,8 +20,14 @@ const CommentReply = ({
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            replyComment(postId, comtId, { data: text, toUser, toComment });
+            replyComment(postId, comtId, {
+              data: text,
+              toUser,
+              toComment,
+              toName: tagName,
+            });
             setReply(false);
+            document.body.style.overflow = '';
           }}
         >
           <textarea
@@ -43,7 +49,10 @@ const CommentReply = ({
           />
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
           <button
-            onClick={() => setReply(false)}
+            onClick={() => {
+              setReply(false);
+              document.body.style.overflow = '';
+            }}
             className='btn btn-light btn-hover'
           >
             <i style={{ color: '#363c44' }} className='fas fa-times' />

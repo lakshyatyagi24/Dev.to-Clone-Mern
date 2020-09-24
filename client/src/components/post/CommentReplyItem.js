@@ -7,6 +7,7 @@ import { deleteReplyComment } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import CommentReply from './CommentReply';
 import CommentEditReply from './CommentEditReply';
+import { timeSince } from '../../utils/timesince';
 import store from '../../store';
 
 const CommentReplyItem = ({
@@ -19,6 +20,8 @@ const CommentReplyItem = ({
     avatar_reply,
     user_reply,
     date_reply,
+    toUser,
+    toName,
   },
   auth,
   deleteReplyComment,
@@ -53,12 +56,24 @@ const CommentReplyItem = ({
           justifyContent: 'space-between',
         }}
       >
-        <p className='post-date' style={{ alignSelf: 'flex-end' }}>
-          Posted on <Moment format='DD/MM/YY'>{date_reply}</Moment>
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <p className='post-date' style={{ alignSelf: 'flex-end' }}>
+            Posted on <Moment format='DD/MM/YY'>{date_reply}</Moment>
+          </p>
+          <span
+            className='post-date'
+            style={{
+              display: 'block',
+              margin: '1rem 0 0.5rem 0.3rem',
+            }}
+          >{` (${timeSince(date_reply)} ago)`}</span>
+        </div>
         {auth.isAuthenticated && auth.user._id !== user_reply && (
           <button
-            onClick={() => setReply(true)}
+            onClick={() => {
+              setReply(true);
+              document.body.style.overflow = 'hidden';
+            }}
             type='button'
             className='btn btn-light action-comt'
           >
@@ -69,14 +84,20 @@ const CommentReplyItem = ({
         {auth.isAuthenticated && user_reply === auth.user._id && (
           <div style={{ display: 'flex' }}>
             <button
-              onClick={() => setReply(true)}
+              onClick={() => {
+                setReply(true);
+                document.body.style.overflow = 'hidden';
+              }}
               type='button'
               className='btn btn-light action-comt'
             >
               <i className='fas fa-reply' />
             </button>
             <button
-              onClick={() => setEdit(true)}
+              onClick={() => {
+                setEdit(true);
+                document.body.style.overflow = 'hidden';
+              }}
               type='button'
               className='btn btn-light action-comt'
             >
@@ -94,6 +115,17 @@ const CommentReplyItem = ({
       </div>
       <div className='comment-area'>
         <div className='comment-infor'>
+          {userId === user_reply && (
+            <h5
+              style={{
+                color: 'royalblue',
+                fontWeight: '700',
+                marginLeft: '4px',
+              }}
+            >
+              @Author
+            </h5>
+          )}
           <Link
             style={{
               display: 'flex',
@@ -113,16 +145,28 @@ const CommentReplyItem = ({
               style={{ borderRadius: '50%', objectFit: 'cover' }}
             />
             <h5 className='text-dark'>{name_reply}</h5>
-            {userId === user_reply && (
-              <h5
+            {auth.isAuthenticated && auth.user._id === toUser ? (
+              <span
                 style={{
-                  color: 'royalblue',
-                  fontWeight: '700',
-                  marginLeft: '4px',
+                  display: 'block',
+                  color: '#64707d',
+                  fontSize: '0.8rem',
+                  marginLeft: '0.3rem',
                 }}
               >
-                @Author
-              </h5>
+                reply to Me
+              </span>
+            ) : (
+              <span
+                style={{
+                  display: 'block',
+                  color: '#64707d',
+                  fontSize: '0.8rem',
+                  marginLeft: '0.3rem',
+                }}
+              >
+                reply to {`@${toName}`}
+              </span>
             )}
           </Link>
         </div>

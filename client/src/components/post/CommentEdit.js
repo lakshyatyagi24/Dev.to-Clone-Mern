@@ -20,6 +20,7 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
             e.preventDefault();
             editComment(postId, comtId, { data: text });
             setEdit(false);
+            document.body.style.overflow = '';
           }}
         >
           <textarea
@@ -40,7 +41,10 @@ const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {
           />
           <input type='submit' className='btn btn-dark my-1' value='Submit' />
           <button
-            onClick={() => setEdit(false)}
+            onClick={() => {
+              setEdit(false);
+              document.body.style.overflow = '';
+            }}
             className='btn btn-light btn-hover'
           >
             <i style={{ color: '#363c44' }} className='fas fa-times' />

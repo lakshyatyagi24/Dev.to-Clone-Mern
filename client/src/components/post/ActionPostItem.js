@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Like, LikeFill, BookMark, UnBookMark, More } from '../icons/icons';
+import SharePost from './SharePost';
 const ActionPostItem = ({
   auth,
   handleBookmarksAction,
@@ -18,6 +19,7 @@ const ActionPostItem = ({
 }) => {
   const [liked, setLiked] = useState(likedState);
   const [bookmarked, setBookMarked] = useState(bookmarkedState);
+  const [share, setShare] = useState(false);
 
   useEffect(() => {
     setLiked(likedState);
@@ -126,10 +128,9 @@ const ActionPostItem = ({
         </span>
 
         <div className='more-action'>
-          <button
-            // onClick={handleBookMark}
-            className='action-post'
-          >
+          {share && <SharePost setShare={setShare} />}
+
+          <button onClick={() => setShare(!share)} className='action-post'>
             <More />
           </button>
         </div>

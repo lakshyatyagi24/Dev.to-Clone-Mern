@@ -401,20 +401,18 @@ export const editReplyComment = (
 
 // Delete comment
 export const deleteComment = (postId, commentId) => async (dispatch) => {
-  if (window.confirm('Are you sure? This can NOT be undone!')) {
-    try {
-      dispatch({
-        type: REMOVE_COMMENT,
-        payload: { commentId },
-      });
-      await api.delete(`/posts/comment/${postId}/${commentId}`);
-    } catch (err) {
-      dispatch({
-        type: POST_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
-      return toast.error(err.response.data.msg);
-    }
+  try {
+    dispatch({
+      type: REMOVE_COMMENT,
+      payload: { commentId },
+    });
+    await api.delete(`/posts/comment/${postId}/${commentId}`);
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    return toast.error(err.response.data.msg);
   }
 };
 
@@ -424,24 +422,22 @@ export const deleteReplyComment = (
   commentId,
   comment_replyId
 ) => async (dispatch) => {
-  if (window.confirm('Are you sure? This can NOT be undone!')) {
-    try {
-      dispatch({
-        type: REMOVE_REPLY_COMMENT,
-        payload: {
-          commentId,
-          comment_replyId,
-        },
-      });
-      await api.delete(
-        `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`
-      );
-    } catch (err) {
-      dispatch({
-        type: POST_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status },
-      });
-      return toast.error(err.response.data.msg);
-    }
+  try {
+    dispatch({
+      type: REMOVE_REPLY_COMMENT,
+      payload: {
+        commentId,
+        comment_replyId,
+      },
+    });
+    await api.delete(
+      `/posts/comment-reply/${postId}/${commentId}/${comment_replyId}`
+    );
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+    return toast.error(err.response.data.msg);
   }
 };

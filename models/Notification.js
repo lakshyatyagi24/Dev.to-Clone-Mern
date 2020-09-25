@@ -25,6 +25,10 @@ const NotifySchema = new Schema({
     type: mongoose.Schema.ObjectId,
     default: null,
   },
+  to_comment: {
+    type: mongoose.Schema.ObjectId,
+    default: null,
+  },
   type: {
     type: String,
     enum: [

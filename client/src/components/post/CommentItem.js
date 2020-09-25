@@ -8,6 +8,7 @@ import { MarkdownPreview } from 'react-marked-markdown';
 import CommentEdit from './CommentEdit';
 import CommentReply from './CommentReply';
 import CommentReplyItem from './CommentReplyItem';
+import ConfirmRemoveComt from './ConfirmRemoveComt';
 import { timeSince } from '../../utils/timesince';
 import store from '../../store';
 
@@ -20,6 +21,7 @@ const CommentItem = ({
 }) => {
   const [showReply, setShowReply] = useState(true);
   const [edit, setEdit] = useState(false);
+  const [removeComt, setRemoveComt] = useState(false);
   const [replyState, setReplyState] = useState(false);
   return (
     <Fragment>
@@ -39,6 +41,14 @@ const CommentItem = ({
           comtId={_id}
           postId={postId}
           setReply={setReplyState}
+        />
+      )}
+      {removeComt && (
+        <ConfirmRemoveComt
+          deleteComment={deleteComment}
+          postId={postId}
+          _id={_id}
+          setRemoveComt={setRemoveComt}
         />
       )}
       <div
@@ -95,7 +105,10 @@ const CommentItem = ({
               <i className='far fa-edit' />
             </button>
             <button
-              onClick={() => deleteComment(postId, _id)}
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setRemoveComt(true);
+              }}
               type='button'
               className='btn btn-light action-comt'
             >

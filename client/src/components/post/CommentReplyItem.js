@@ -7,6 +7,7 @@ import { deleteReplyComment } from '../../actions/post';
 import { MarkdownPreview } from 'react-marked-markdown';
 import CommentReply from './CommentReply';
 import CommentEditReply from './CommentEditReply';
+import ConfirmRemoveReComt from './ConfirmRemoveReComt';
 import { timeSince } from '../../utils/timesince';
 import store from '../../store';
 
@@ -29,6 +30,7 @@ const CommentReplyItem = ({
 }) => {
   const [edit, setEdit] = useState(false);
   const [reply, setReply] = useState(false);
+  const [removeReComt, setRemoveReComt] = useState(false);
   return (
     <div className='reply-item'>
       {edit && (
@@ -49,6 +51,15 @@ const CommentReplyItem = ({
           comtId={comtId}
           postId={postId}
           setReply={setReply}
+        />
+      )}
+      {removeReComt && (
+        <ConfirmRemoveReComt
+          deleteReplyComment={deleteReplyComment}
+          comtId={comtId}
+          postId={postId}
+          _id={_id}
+          setRemoveReComt={setRemoveReComt}
         />
       )}
       <div
@@ -105,7 +116,10 @@ const CommentReplyItem = ({
               <i className='far fa-edit' />
             </button>
             <button
-              onClick={() => deleteReplyComment(postId, comtId, _id)}
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setRemoveReComt(true);
+              }}
               type='button'
               className='btn btn-light action-comt'
             >

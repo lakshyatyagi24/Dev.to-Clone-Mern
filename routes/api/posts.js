@@ -659,7 +659,8 @@ router.post(
         someone: req.user.id,
         post: post._id,
         comment: req.params.comment_id,
-        reply_comment: toComment,
+        reply_comment: newComment._id,
+        to_comment: toComment,
         type: 'reply_comment',
       });
     } catch (err) {
@@ -770,7 +771,8 @@ router.delete(
         type: 'reply_comment',
         me: toUser,
         comment: req.params.comment_id,
-        reply_comment: toComment,
+        reply_comment: req.params.comment_reply_id,
+        to_comment: toComment,
         post: post._id,
       });
     } catch (err) {

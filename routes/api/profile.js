@@ -124,7 +124,7 @@ router.delete('/', auth, async (req, res) => {
     await Post.deleteMany({ user: req.user.id });
 
     // Remove profile
-    await Profile.findOneAndRemove({ user: req.user.id });
+    await Profile.findOneAndDelete({ user: req.user.id });
 
     // Remove user from others users
     const userFollowers = await User.find({ followers: req.user.id });
@@ -184,7 +184,7 @@ router.delete('/', auth, async (req, res) => {
       ],
       someone: req.user.id,
     });
-    await User.findOneAndRemove({ _id: req.user.id });
+    await User.findByIdAndDelete(req.user.id);
 
     return res.json({ msg: 'User deleted' });
   } catch (err) {

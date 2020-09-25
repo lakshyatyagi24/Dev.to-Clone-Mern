@@ -322,13 +322,6 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
 
     // delete all notifications on others users if they interact to the post
     await Notification.deleteMany({
-      $or: [
-        { type: 'like' },
-        { type: 'bookmark' },
-        { type: 'comment' },
-        { type: 'reply_comment' },
-        { type: 'post' },
-      ],
       post: req.params.id,
     });
   } catch (err) {
@@ -365,18 +358,57 @@ router.put('/like/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
     // notify for owner post if user like, if unlike, do not notify and delete this notifications
     if (check) {
-      await Notification.create({
-        me: post.user,
+      const checkBookMark = await Notification.findOne({
         someone: req.user.id,
         post: post._id,
-        type: 'like',
+        type: 'bookmark',
       });
+      if (checkBookMark) {
+        await Notification.findOneAndDelete({
+          type: 'bookmark',
+          someone: req.user.id,
+          post: post._id,
+        });
+        await Notification.create({
+          me: post.user,
+          someone: req.user.id,
+          post: post._id,
+          type: 'like_bookmark',
+        });
+      } else {
+        await Notification.create({
+          me: post.user,
+          someone: req.user.id,
+          post: post._id,
+          type: 'like',
+        });
+      }
     } else {
-      await Notification.findOneAndRemove({
-        type: 'like',
+      const checkLikeBookMark = await Notification.findOne({
         someone: req.user.id,
         post: post._id,
+        type: 'like_bookmark',
       });
+      if (checkLikeBookMark) {
+        await Notification.findOneAndDelete({
+          someone: req.user.id,
+          post: post._id,
+          type: 'like_bookmark',
+        });
+        await Notification.create({
+          me: post.user,
+          someone: req.user.id,
+          post: post._id,
+          type: 'bookmark',
+          isSeen: true,
+        });
+      } else {
+        await Notification.findOneAndDelete({
+          type: 'like',
+          someone: req.user.id,
+          post: post._id,
+        });
+      }
     }
   } catch (err) {
     console.error(err.message);
@@ -443,19 +475,57 @@ router.put('/bookmarks/:id', [auth, checkObjectId('id')], async (req, res) => {
     }
 
     if (check) {
-      await Notification.create({
-        // same like
-        me: post.user,
+      const checkLike = await Notification.findOne({
         someone: req.user.id,
         post: post._id,
-        type: 'bookmark',
+        type: 'like',
       });
+      if (checkLike) {
+        await Notification.findOneAndDelete({
+          type: 'like',
+          someone: req.user.id,
+          post: post._id,
+        });
+        await Notification.create({
+          me: post.user,
+          someone: req.user.id,
+          post: post._id,
+          type: 'like_bookmark',
+        });
+      } else {
+        await Notification.create({
+          me: post.user,
+          someone: req.user.id,
+          post: post._id,
+          type: 'bookmark',
+        });
+      }
     } else {
-      await Notification.findOneAndRemove({
-        type: 'bookmark',
+      const checkLikeBookMark = await Notification.findOne({
         someone: req.user.id,
         post: post._id,
+        type: 'like_bookmark',
       });
+      if (checkLikeBookMark) {
+        await Notification.findOneAndDelete({
+          someone: req.user.id,
+          post: post._id,
+          type: 'like_bookmark',
+        });
+        await Notification.create({
+          me: post.user,
+          someone: req.user.id,
+          post: post._id,
+          type: 'like',
+          isSeen: true,
+        });
+      } else {
+        await Notification.findOneAndDelete({
+          type: 'bookmark',
+          someone: req.user.id,
+          post: post._id,
+        });
+      }
     }
   } catch (err) {
     console.error(err.message);
@@ -582,15 +652,14 @@ router.post(
       await post.save();
       res.status(200).json({ success: true, data: {} });
       if (req.user.id === req.body.toUser) {
-        // same comment
         return;
       }
       await Notification.create({
-        // same comment
         me: req.body.toUser,
         someone: req.user.id,
         post: post._id,
         comment: req.params.comment_id,
+        reply_comment: toComment,
         type: 'reply_comment',
       });
     } catch (err) {
@@ -636,18 +705,9 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     await post.save();
 
     res.status(200).json({ success: true, data: {} });
-    // res.json({
-    //   commentsCount: post.commentsCount,
-    // });
 
     await Notification.deleteMany({
       // delete all notificattions about this comment
-      $or: [
-        { type: 'comment' },
-        { type: 'reply_comment' },
-        { someone: req.user.id },
-        { me: post.user },
-      ],
       comment: req.params.comment_id,
       post: post._id,
     });
@@ -673,6 +733,8 @@ router.delete(
       let i;
       let j;
       let postLength = post.comments.length;
+      let toComment;
+      let toUser;
       for (i = 0; i < postLength; ++i) {
         if (post.comments[i].id === req.params.comment_id) {
           let subComtLength = post.comments[i].reply.length;
@@ -684,6 +746,8 @@ router.delete(
               ) {
                 return res.status(401).json({ msg: 'User not authorized' });
               }
+              toUser = post.comments[i].reply[j].toUser;
+              toComment = post.comments[i].reply[j].toComment;
               post.commentsCount = post.commentsCount - 1;
               post.comments[i].reply.splice(j, 1);
               check = true;
@@ -699,15 +763,14 @@ router.delete(
 
       await post.save();
       res.status(200).json({ success: true, data: {} });
-      // res.json({
-      //   commentsCount: post.commentsCount,
-      // });
-
-      await Notification.findOneAndRemove({
-        //same delete comment
+      if (req.user.id === toUser.toString()) {
+        return;
+      }
+      await Notification.findOneAndDelete({
         type: 'reply_comment',
-        someone: req.user.id,
+        me: toUser,
         comment: req.params.comment_id,
+        reply_comment: toComment,
         post: post._id,
       });
     } catch (err) {

@@ -69,11 +69,7 @@ const Navbar = ({
               >
                 Login
               </Link>
-              <Link
-                style={{ backgroundColor: 'royalblue' }}
-                className='btn btn-dark'
-                to='/register'
-              >
+              <Link className='btn btn-blue' to='/register'>
                 Create account
               </Link>
             </div>

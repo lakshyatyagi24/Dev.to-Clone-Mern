@@ -78,7 +78,11 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
 
         <div className='notify-home__main'>
           {filterData.map((item) => {
-            if (item.type === 'like' || item.type === 'bookmark') {
+            if (
+              item.type === 'like' ||
+              item.type === 'bookmark' ||
+              item.type === 'like_bookmark'
+            ) {
               return <ReactionNotify key={item._id} data={item} />;
             } else if (
               item.type === 'comment' ||

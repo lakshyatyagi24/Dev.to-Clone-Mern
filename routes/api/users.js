@@ -503,7 +503,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
         type: 'follow',
       });
     } else {
-      await Notification.findOneAndRemove({
+      await Notification.findOneAndDelete({
         type: 'follow',
         someone: req.user.id,
       });

@@ -21,9 +21,21 @@ const NotifySchema = new Schema({
     type: mongoose.Schema.ObjectId,
     default: null,
   },
+  reply_comment: {
+    type: mongoose.Schema.ObjectId,
+    default: null,
+  },
   type: {
     type: String,
-    enum: ['like', 'bookmark', 'comment', 'reply_comment', 'follow', 'post'],
+    enum: [
+      'like',
+      'bookmark',
+      'like_bookmark',
+      'comment',
+      'reply_comment',
+      'follow',
+      'post',
+    ],
     required: true,
   },
   isSeen: {

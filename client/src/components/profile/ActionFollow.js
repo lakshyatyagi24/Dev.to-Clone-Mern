@@ -35,10 +35,9 @@ const ActionFollow = ({ setAuth, handleFollow, auth, isFollowing }) => {
         <button
           onClick={handleFollowUser}
           style={{
-            backgroundColor: 'royalblue',
             marginRight: 0,
           }}
-          className='btn btn-dark'
+          className='btn btn-blue'
         >
           Follow
         </button>

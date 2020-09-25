@@ -28,11 +28,10 @@ function Welcome({ usersCount, _auth: { loading, isAuthenticated } }) {
             to='/register'
             style={{
               textAlign: 'center',
-              backgroundColor: 'royalblue',
               margin: '10px 0',
               width: '100%',
             }}
-            className='btn btn-dark'
+            className='btn btn-blue'
           >
             Create an account
           </Link>
@@ -55,11 +54,10 @@ function Welcome({ usersCount, _auth: { loading, isAuthenticated } }) {
           to='/write-post'
           style={{
             textAlign: 'center',
-            backgroundColor: 'royalblue',
             margin: '10px 0',
             width: '100%',
           }}
-          className='btn btn-dark'
+          className='btn btn-blue'
         >
           Let's started
         </Link>

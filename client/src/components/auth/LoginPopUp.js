@@ -26,7 +26,6 @@ const LoginPopUp = ({ setAuth }) => {
 
         <Link
           style={{
-            backgroundColor: 'royalblue',
             width: '100%',
             textAlign: 'center',
             margin: '20px 0 0 0',
@@ -35,7 +34,7 @@ const LoginPopUp = ({ setAuth }) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          className='btn btn-dark'
+          className='btn btn-blue'
           to='/login'
         >
           <i style={{ fontSize: '1.6rem' }} className='fas fa-sign-in-alt'></i>

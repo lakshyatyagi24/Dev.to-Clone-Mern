@@ -42,10 +42,9 @@ const ActionFollow = ({
         <button
           onClick={handleFollowUser}
           style={{
-            backgroundColor: 'royalblue',
             width: '100%',
           }}
-          className='btn btn-dark my'
+          className='btn btn-blue my'
         >
           Follow
         </button>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { LikeFill, UnBookMark } from '../icons/icons';
@@ -37,7 +37,18 @@ function ReactionNotify({ data }) {
         </Link>
         <div className='reaction-notify__message'>
           <span>
-            reacted {data.type === 'like' ? <LikeFill /> : <UnBookMark />} to
+            reacted{' '}
+            {data.type === 'like' ? (
+              <LikeFill />
+            ) : data.type === 'bookmark' ? (
+              <UnBookMark />
+            ) : (
+              <Fragment>
+                <LikeFill />
+                <UnBookMark />
+              </Fragment>
+            )}{' '}
+            to
             <Link
               onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
               to={`/post/${data.post._id}`}

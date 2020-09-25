@@ -61,9 +61,8 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
             }
             {!isProcessing && (
               <input
-                className='btn btn-dark'
+                className='btn btn-blue'
                 style={{
-                  backgroundColor: 'royalblue',
                   width: '100%',
                   textAlign: 'center',
                   height: '50px',

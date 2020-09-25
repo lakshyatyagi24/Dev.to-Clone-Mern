@@ -155,7 +155,17 @@ const CommentReplyItem = ({
                   marginLeft: '0.3rem',
                 }}
               >
-                reply to <b>Me</b>
+                reply to{' '}
+                <b
+                  style={{
+                    padding: '0.2rem',
+                    backgroundColor: '#eee',
+                    borderRadius: '5px',
+                    color: 'royalblue',
+                  }}
+                >
+                  Me
+                </b>
               </span>
             ) : (
               <span
@@ -166,7 +176,14 @@ const CommentReplyItem = ({
                   marginLeft: '0.3rem',
                 }}
               >
-                reply to {`@${toName}`}
+                reply to{' '}
+                <span
+                  style={{
+                    padding: '0.2rem',
+                    backgroundColor: '#eee',
+                    borderRadius: '5px',
+                  }}
+                >{`@${toName}`}</span>
               </span>
             )}
           </Link>

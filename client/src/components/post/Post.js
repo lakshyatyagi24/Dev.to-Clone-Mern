@@ -16,7 +16,7 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   }, [getPost, match.params.id]);
   return loading || !post ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
+      <PuffLoader size={46} color={'#3b49df'} loading={true} />
     </div>
   ) : (
     <div className='container'>

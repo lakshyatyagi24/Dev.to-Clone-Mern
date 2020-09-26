@@ -24,7 +24,7 @@ function Me({
 
   return loading || !profile || !posts ? (
     <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
+      <PuffLoader size={46} color={'#3b49df'} loading={true} />
     </div>
   ) : (
     <Fragment>

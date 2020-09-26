@@ -4,6 +4,7 @@ import {
   LinkedinShareButton,
   RedditShareButton,
   TwitterShareButton,
+  InstapaperShareButton,
 } from 'react-share';
 
 const SharePost = ({ setShare }) => {
@@ -14,9 +15,9 @@ const SharePost = ({ setShare }) => {
           setShare(false);
         }
       }
-      document.addEventListener('mouseup', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
       return () => {
-        document.removeEventListener('mouseup', handleClickOutside);
+        document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [ref]);
   };
@@ -93,6 +94,15 @@ const SharePost = ({ setShare }) => {
         >
           Share to reddit
         </RedditShareButton>
+      </div>
+      <div className='btn-share'>
+        <InstapaperShareButton
+          style={{ width: '100%' }}
+          className='btn btn-light '
+          url={window.location.href}
+        >
+          Share to instapaper
+        </InstapaperShareButton>
       </div>
     </div>
   );

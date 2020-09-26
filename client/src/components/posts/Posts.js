@@ -21,7 +21,7 @@ const Posts = ({
   usersCount,
 }) => {
   const [auth, setAuth] = useState(false);
-  const [filterStatus, setFilterStatus] = useState('feed');
+  const [filterStatus, setFilterStatus] = useState('latest');
   useEffect(() => {
     getPosts();
   }, [getPosts]);
@@ -82,7 +82,7 @@ const Posts = ({
           </div>
           {loading || !posts ? (
             <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-              <PuffLoader size={36} color={'#3b49df'} loading={true} />
+              <PuffLoader size={46} color={'#3b49df'} loading={true} />
             </div>
           ) : (
             <Fragment>

@@ -36,19 +36,6 @@ const App = () => {
         store.dispatch({ type: LOGOUT });
         store.dispatch({ type: CLEAR_PROFILE });
       }
-      // valid tag input if user try modify in localStorage
-      let tag_check = JSON.parse(localStorage.getItem('tags'));
-      if (tag_check) {
-        tag_check.forEach((item) => {
-          if (
-            /^[a-zA-Z0-9]*$/.test(item.text) === false ||
-            item.text !== item.text.toLowerCase()
-          ) {
-            localStorage.removeItem('tags');
-            return toast.error('Do not do stupid things');
-          }
-        });
-      }
     });
   }, []);
 

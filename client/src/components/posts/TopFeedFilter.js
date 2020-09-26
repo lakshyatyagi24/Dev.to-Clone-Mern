@@ -6,13 +6,13 @@ function TopFeedFilter({ filterStatus, setFilterStatus }) {
     <div className='top-feed__filter'>
       <button
         style={{
-          color: filterStatus === 'feed' ? 'royalblue' : '',
-          borderBottom: filterStatus === 'feed' ? '3px solid royalblue' : '',
+          color: filterStatus === 'latest' ? 'royalblue' : '',
+          borderBottom: filterStatus === 'latest' ? '3px solid royalblue' : '',
         }}
-        onClick={() => setFilterStatus('feed')}
+        onClick={() => setFilterStatus('latest')}
         className='btn btn-light btn-hover'
       >
-        Feed
+        Latest
       </button>
       <button
         style={{

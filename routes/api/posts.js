@@ -32,10 +32,21 @@ router.post(
     try {
       let { tags, coverImage } = req.body;
       let tags_saved = [];
-      if (tags.length > 0) {
+      let tags_length = tags.length;
+      if (tags_length > 4) {
+        return res.status(400).json({ msg: 'You can only add up to 4 tags!' });
+      }
+      if (tags_length > 0) {
         let i = 0;
-        let tags_length = tags.length;
         for (i = 0; i < tags_length; ++i) {
+          if (/^[a-zA-Z0-9]*$/.test(tags[i].text) === false) {
+            return res
+              .status(400)
+              .json({ msg: 'Tag contains non-ASCII characters or space!' });
+          }
+          if (tags[i].text !== tags[i].text.toLowerCase()) {
+            return res.status(400).json({ msg: 'Tag must be lower case!' });
+          }
           let tags_find = await Tags.findOne({ tagName: tags[i].text });
           if (!tags_find) {
             let tag_create = await Tags.create({

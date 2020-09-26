@@ -9,6 +9,7 @@ import { getPosts } from '../../actions/post';
 import { getNotifications } from '../../actions/notify';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
+import queryString from 'query-string';
 
 const Navbar = ({
   auth: { isAuthenticated, user, loading },
@@ -51,9 +52,10 @@ const Navbar = ({
                 className='header-search_bar-input'
                 type='text'
                 name='q'
+                defaultValue={queryString.parse(window.location.search).q}
                 placeholder='Search...'
                 // onChange={(e) => setValue(e.target.value)}
-                // value={value}
+                // value={queryString.parse(window.location.search).q}
                 autoComplete='off'
               />
             </form>

@@ -14,7 +14,7 @@ function DicussPosts({ discuss_posts, getDiscussPosts }) {
       <div className='post-side__wrap'>
         <Link
           onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
-          to='/tags/5f637b99ef33812ce08e32dd/discuss'
+          to='/tags/5f6f2988468cdd24307fee86/discuss'
           className='text-dark post-side__title p'
         >
           <span>#discuss</span>

@@ -8,12 +8,14 @@ import { ProgressBar } from '../posts/ProgressBar';
 import { toast } from 'react-toastify';
 import PuffLoader from 'react-spinners/PuffLoader';
 import imageCompression from 'browser-image-compression';
+import api from '../../utils/api';
 
 const initialState = {
   email: '',
   name: '',
   password1: '',
   password2: '',
+  password_old: '',
 };
 
 const Account = ({
@@ -28,8 +30,9 @@ const Account = ({
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
   const [isCompleted, setComplete] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [imageUrl, setImageUpdateUser] = useState('');
-  const { name, email, password1, password2 } = formData;
+  const { name, email, password1, password2, password_old } = formData;
   useEffect(() => {
     if (!user) loadUser();
     if (!loading && user) {
@@ -65,7 +68,10 @@ const Account = ({
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { email, name, password1, password2 } = formData;
+    const { email, name, password1, password2, password_old } = formData;
+    if (!password_old) {
+      return toast.error('Old password is required!');
+    }
     if (password1 !== password2) {
       return toast.error('Password does not match!');
     }
@@ -76,6 +82,7 @@ const Account = ({
         email,
         name,
         password: password1,
+        password_old: password_old,
         avatar: avt,
       });
       if (res) {
@@ -85,11 +92,31 @@ const Account = ({
       }
     } else {
       setComplete(true);
-      const res = await updateUser({ email, name, password: password1 });
+      const res = await updateUser({
+        email,
+        name,
+        password: password1,
+        password_old: password_old,
+      });
       if (res) {
         return setComplete(false);
       } else {
         return setComplete(false);
+      }
+    }
+  };
+  const handleDeleteAccount = async () => {
+    setIsDelete(true);
+    try {
+      const res = await api.put('/profile/delete_account_request');
+      toast.success(res.data.message);
+      setIsDelete(false);
+    } catch (err) {
+      setIsDelete(false);
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.forEach((error) => toast.error(error.msg));
       }
     }
   };
@@ -131,7 +158,7 @@ const Account = ({
                   onChange={onChange}
                 />
               </div>
-              <label htmlFor='Avatar'>Avatar</label>
+              <label htmlFor='avatar'>Avatar</label>
               <div
                 style={{ display: 'flex', alignItems: 'center' }}
                 className='form-group form-fix'
@@ -167,7 +194,21 @@ const Account = ({
                   />
                 )}
               </div>
-              <label htmlFor='email'>Password</label>
+              <label htmlFor='password_old'>Old password</label>
+              <div className='form-group form-fix'>
+                <input
+                  type='password'
+                  name='password_old'
+                  style={{
+                    borderRadius: '5px',
+                    height: '50px',
+                    backgroundColor: '#f9fafa',
+                  }}
+                  value={password_old}
+                  onChange={onChange}
+                />
+              </div>
+              <label htmlFor='password1'>Password</label>
               <div className='form-group form-fix'>
                 <input
                   type='password'
@@ -181,7 +222,7 @@ const Account = ({
                   onChange={onChange}
                 />
               </div>
-              <label htmlFor='email'>Re-password</label>
+              <label htmlFor='password2'>Re-password</label>
               <div className='form-group form-fix'>
                 <input
                   type='password'
@@ -226,12 +267,19 @@ const Account = ({
               <li>allow your username to become available to anyone.</li>
             </ul>
             <div className='my-1'>
-              <button
-                className='btn btn-danger'
-                onClick={() => deleteAccount()}
-              >
-                <i className='fas fa-user-minus' /> Delete My Account
-              </button>
+              {
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <PuffLoader size={36} color={'#3b49df'} loading={isDelete} />
+                </div>
+              }
+              {!isDelete && (
+                <button
+                  className='btn btn-danger'
+                  onClick={handleDeleteAccount}
+                >
+                  <i className='fas fa-user-minus' /> Delete My Account
+                </button>
+              )}
             </div>
           </div>
         </div>

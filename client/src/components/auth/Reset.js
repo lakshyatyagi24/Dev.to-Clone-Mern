@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { reset } from '../../actions/auth';
 import { toast } from 'react-toastify';
 
-const Reset = ({ reset, match, isAuthenticated }) => {
+const Reset = ({ reset, match, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
     password1: '',
     password2: '',
@@ -24,10 +24,10 @@ const Reset = ({ reset, match, isAuthenticated }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
-    if (isAuthenticated) {
-      return;
-    }
     e.preventDefault();
+    if (localStorage.token) {
+      return window.location.reload(false);
+    }
     if (password1 && password2) {
       if (password1 === password2) {
         const res = await reset({
@@ -57,7 +57,7 @@ const Reset = ({ reset, match, isAuthenticated }) => {
     return <Redirect to='/' />;
   }
 
-  return (
+  return loading ? null : (
     <div className='container'>
       <div className='login-wrap reset-pwd'>
         <div className='login'>
@@ -120,10 +120,10 @@ const Reset = ({ reset, match, isAuthenticated }) => {
 
 Reset.propTypes = {
   reset: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { reset })(Reset);

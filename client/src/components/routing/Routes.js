@@ -26,6 +26,7 @@ import UserProfile from '../profile/UserProfile';
 import PrivateRoute from '../routing/PrivateRoute';
 import NotifyHome from '../notifications/NotifyHome';
 import Search from '../search/Search';
+import DeleteAccount from '../auth/DeleteAccount';
 
 import { ToastContainer } from 'react-toastify';
 
@@ -79,6 +80,11 @@ const Routes = () => {
         <PrivateRoute exact path='/settings/user/account' component={Account} />
         <PrivateRoute exact path='/write-post' component={PostNew} />
         <PrivateRoute exact path='/write-post/edit/:id' component={PostEdit} />
+        <PrivateRoute
+          exact
+          path='/profile/delete_account/:token'
+          component={DeleteAccount}
+        />
         <Route component={NotFound} />
       </Switch>
     </section>

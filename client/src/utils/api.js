@@ -1,12 +1,12 @@
 import axios from 'axios';
 import store from '../store';
-import { LOGOUT } from '../actions/types';
+import { LOGOUT, CLEAR_PROFILE, CLEAR_NOTIFCATIONS } from '../actions/types';
 
 const api = axios.create({
   baseURL: '/api',
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
 /**
  intercept any error responses from the api
@@ -20,6 +20,8 @@ api.interceptors.response.use(
   (err) => {
     if (err.response.status === 401) {
       store.dispatch({ type: LOGOUT });
+      store.dispatch({ type: CLEAR_PROFILE });
+      store.dispatch({ type: CLEAR_NOTIFCATIONS });
     }
     return Promise.reject(err);
   }

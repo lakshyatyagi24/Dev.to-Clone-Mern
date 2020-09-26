@@ -14,7 +14,7 @@ function HelpPosts({ help_posts, getHelpPosts }) {
       <div className='post-side__wrap'>
         <Link
           onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
-          to='/tags/5f64172e64d4d31b38cdef25/help'
+          to='/tags/5f6f2a04468cdd24307fee92/help'
           className='text-dark post-side__title p'
         >
           <span>#help</span>

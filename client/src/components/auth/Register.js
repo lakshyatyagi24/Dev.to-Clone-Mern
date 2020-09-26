@@ -7,7 +7,11 @@ import { toast } from 'react-toastify';
 
 import PuffLoader from 'react-spinners/PuffLoader';
 
-const Register = ({ register, isAuthenticated }) => {
+const Register = ({
+  register,
+  history,
+  auth: { isAuthenticated, loading },
+}) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,10 +25,11 @@ const Register = ({ register, isAuthenticated }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
-    if (isAuthenticated) {
-      return;
-    }
     e.preventDefault();
+    if (localStorage.token) {
+      return window.location.reload(false);
+    }
+
     if (name && email && password) {
       if (password !== password2) {
         return toast.error('Passwords do not match');
@@ -45,7 +50,7 @@ const Register = ({ register, isAuthenticated }) => {
   if (isAuthenticated) {
     return <Redirect to='/' />;
   }
-  return (
+  return loading ? null : (
     <div className='container'>
       <div className='login-wrap sign-up'>
         <div className='login'>
@@ -141,9 +146,9 @@ const Register = ({ register, isAuthenticated }) => {
 
 Register.propTypes = {
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 export default connect(mapStateToProps, { register })(Register);

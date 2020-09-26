@@ -13,7 +13,7 @@ function NewsPosts({ news_posts, getNewsPosts }) {
       <div className='post-side__wrap'>
         <Link
           onClick={() => store.dispatch({ type: 'CLEAR_TAG' })}
-          to='/tags/5f64174164d4d31b38cdef26/news'
+          to='/tags/5f6f2a0e468cdd24307fee93/news'
           className='text-dark post-side__title p'
         >
           <span>#news</span>

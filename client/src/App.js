@@ -14,7 +14,6 @@ import { LOGOUT, CLEAR_PROFILE } from './actions/types';
 
 import './App.css';
 import './styles.css';
-import { toast } from 'react-toastify';
 const App = () => {
   useEffect(() => {
     // set token to localStorage

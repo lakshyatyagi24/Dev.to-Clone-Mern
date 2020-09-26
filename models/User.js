@@ -45,7 +45,11 @@ const UserSchema = new mongoose.Schema(
       default: 0,
     },
     resetPasswordLink: {
-      data: String,
+      type: String,
+      default: '',
+    },
+    deleteAccountLink: {
+      type: String,
       default: '',
     },
   },

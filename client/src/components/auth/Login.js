@@ -7,7 +7,7 @@ import { getNotifications } from '../../actions/notify';
 import { toast } from 'react-toastify';
 import store from '../../store';
 
-const Login = ({ login, history, isAuthenticated }) => {
+const Login = ({ login, history, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -19,10 +19,11 @@ const Login = ({ login, history, isAuthenticated }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
-    if (isAuthenticated) {
-      return;
-    }
     e.preventDefault();
+    if (localStorage.token) {
+      return window.location.reload(false);
+    }
+
     if (email && password) {
       const res = await login(email, password);
       if (res) {
@@ -39,7 +40,7 @@ const Login = ({ login, history, isAuthenticated }) => {
     return <Redirect to='/' />;
   }
 
-  return (
+  return loading ? null : (
     <div className='container'>
       <div className='login-wrap'>
         <div className='login'>
@@ -107,11 +108,11 @@ const Login = ({ login, history, isAuthenticated }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { login })(Login);

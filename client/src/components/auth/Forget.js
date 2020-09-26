@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import PuffLoader from 'react-spinners/PuffLoader';
 import { Redirect } from 'react-router-dom';
 
-const Forget = ({ forget, isAuthenticated }) => {
+const Forget = ({ forget, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
     email: '',
     isCompleted: false,
@@ -18,10 +18,11 @@ const Forget = ({ forget, isAuthenticated }) => {
   const onChange = (e) => setFormData({ ...formData, email: e.target.value });
 
   const onSubmit = async (e) => {
-    if (isAuthenticated) {
-      return;
-    }
     e.preventDefault();
+    if (localStorage.token) {
+      return window.location.reload(false);
+    }
+
     if (email) {
       setFormData({
         ...formData,
@@ -48,7 +49,7 @@ const Forget = ({ forget, isAuthenticated }) => {
     return <Redirect to='/' />;
   }
 
-  return (
+  return loading ? null : (
     <div className='container'>
       <div className='login-wrap forget-pwd'>
         <div className='login'>
@@ -95,10 +96,10 @@ const Forget = ({ forget, isAuthenticated }) => {
 
 Forget.propTypes = {
   forget: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { forget })(Forget);

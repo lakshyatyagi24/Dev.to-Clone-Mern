@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { activate } from '../../actions/auth';
 import PuffLoader from 'react-spinners/PuffLoader';
 
-const Activate = ({ activate, match, isAuthenticated }) => {
+const Activate = ({ activate, match, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
     name: '',
     token: '',
@@ -24,10 +24,11 @@ const Activate = ({ activate, match, isAuthenticated }) => {
   }, []);
   const { name, token, isActived, isProcessing } = formData;
   const handleSubmit = async (e) => {
-    if (isAuthenticated) {
-      return;
-    }
     e.preventDefault();
+    if (localStorage.token) {
+      return window.location.reload(false);
+    }
+
     setFormData({
       ...formData,
       isProcessing: true,
@@ -51,7 +52,7 @@ const Activate = ({ activate, match, isAuthenticated }) => {
     return <Redirect to='/' />;
   }
 
-  return (
+  return loading ? null : (
     <div className='container'>
       <div className='login-wrap active-acc'>
         <div className='login'>
@@ -97,10 +98,10 @@ const Activate = ({ activate, match, isAuthenticated }) => {
 
 Activate.propTypes = {
   activate: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  auth: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { activate })(Activate);

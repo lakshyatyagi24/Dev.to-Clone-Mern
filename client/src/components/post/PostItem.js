@@ -74,7 +74,7 @@ const PostItem = ({
       />
       <div className='main-post-item bg-white'>
         {coverImage && (
-          <div style={{ height: '340px' }}>
+          <div className='post-cover-image'>
             <img
               alt=''
               src={coverImage}
@@ -82,16 +82,17 @@ const PostItem = ({
             />
           </div>
         )}
-        <div style={{ padding: '30px 60px' }}>
+        <div className='main-post-item__article'>
           <h1
             style={{
               fontSize: '3rem',
               lineHeight: '1.2',
             }}
-            className='text-dark'
+            className='text-dark post-item__title'
           >
             {title}
           </h1>
+
           <div className='tags-post_item my-1'>
             {tags.length > 0 &&
               tags.map((tag) => <TagLink tag={tag} key={tag._id} />)}

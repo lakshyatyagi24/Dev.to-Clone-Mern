@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ActionFeed from './ActionFeed';
-import { Notify, Chat } from '../icons/icons';
+import { Notify, Chat, Menu } from '../icons/icons';
 import store from '../../store';
 import { getPosts } from '../../actions/post';
 import { getNotifications } from '../../actions/notify';
 import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import queryString from 'query-string';
+import Welcome from './Welcome';
 
 const Navbar = ({
   auth: { isAuthenticated, user, loading },
   notifications_count,
+  usersCount,
 }) => {
+  const [guestLink, setGuestLink] = useState(false);
   return (
     <nav className='wrap-header grid'>
       <div className='top-header'>
+        {guestLink && (
+          <div className='header-welcome'>
+            <Welcome usersCount={usersCount} />
+          </div>
+        )}
         <div style={{ display: 'flex', alignItems: 'center', flex: 1 }}>
           <div className='logo'>
             <Link
@@ -32,7 +40,8 @@ const Navbar = ({
               }}
               to='/'
             >
-              <i className='fas fa-code' /> DevCommunity
+              <i className='fas fa-code' />
+              <span>DevCommunity</span>
             </Link>
           </div>
           <div className='header-search_bar'>
@@ -48,7 +57,27 @@ const Navbar = ({
             </form>
           </div>
         </div>
-        <div>
+
+        <div className='header-link'>
+          {!isAuthenticated && (
+            <div
+              style={
+                guestLink
+                  ? {
+                      height: '34px',
+                      width: '34px',
+                      borderRadius: '50%',
+                      backgroundColor: '#eef0f1',
+                    }
+                  : {}
+              }
+              onClick={() => setGuestLink(!guestLink)}
+              className='header-guest'
+            >
+              <Menu />
+            </div>
+          )}
+
           {loading ? null : !isAuthenticated ? (
             <div className='guest-link'>
               <Link
@@ -64,7 +93,10 @@ const Navbar = ({
             </div>
           ) : (
             <div className='auth-link'>
-              <Link className='btn btn-dark btn-nav' to='/write-post'>
+              <Link
+                className='btn btn-dark btn-nav write-post'
+                to='/write-post'
+              >
                 Write Post
               </Link>
               <div className='nav-hover'>
@@ -119,11 +151,13 @@ const Navbar = ({
 Navbar.propTypes = {
   auth: PropTypes.object.isRequired,
   notifications_count: PropTypes.number,
+  usersCount: PropTypes.number,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
   notifications_count: state.notify.notifications_count,
+  usersCount: state.post.usersCount,
 });
 
 export default connect(mapStateToProps)(Navbar);

@@ -12,6 +12,7 @@ import Welcome from './Welcome';
 import DicussPosts from './DicussPosts';
 import NewsPosts from './NewsPosts';
 import HelpPosts from './HelpPosts';
+import { LeftSideFeed } from '../icons/icons';
 
 const Posts = ({
   _auth,
@@ -21,6 +22,8 @@ const Posts = ({
   usersCount,
 }) => {
   const [auth, setAuth] = useState(false);
+  const [showRSide, setShowRSide] = useState(false);
+  const [showLSide, setShowLSide] = useState(false);
   const [filterStatus, setFilterStatus] = useState('latest');
   useEffect(() => {
     getPosts();
@@ -61,21 +64,46 @@ const Posts = ({
       : filterStatus === 'year'
       ? posts.filter((post) => getYearValue(post.date) === Year())
       : posts;
+  const handleClickSide = (e) => {
+    if (e.target.classList.contains('backdrop-side')) {
+      setShowRSide(false);
+      setShowLSide(false);
+      document.body.style.overflow = '';
+    }
+  };
   return (
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
 
-      <div className='post feed container'>
-        <div className='my'>
-          <div className='left-side-feed'>
-            <UserFeedSide _auth={_auth} />
-            <TagRecommend />
+      <div
+        style={{ marginTop: showLSide ? '4rem' : '' }}
+        className='post feed container'
+      >
+        <div
+          onClick={handleClickSide}
+          className={!showLSide ? 'my' : 'my backdrop-side'}
+        >
+          <div className='left-side-feed__wrap'>
+            <div className='left-side-feed'>
+              <UserFeedSide _auth={_auth} />
+              <TagRecommend />
+            </div>
           </div>
         </div>
         <div className='my'>
           <div className='top-feed'>
+            <div
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setShowLSide(true);
+              }}
+              className='left-side-feed__icon'
+            >
+              <LeftSideFeed />
+            </div>
             <h4 className='text-dark'>Posts</h4>
             <TopFeedFilter
+              setShowRSide={setShowRSide}
               filterStatus={filterStatus}
               setFilterStatus={setFilterStatus}
             />
@@ -98,12 +126,17 @@ const Posts = ({
             </Fragment>
           )}
         </div>
-        <div className='my'>
-          <div className='right-side-feed'>
-            <Welcome _auth={_auth} usersCount={usersCount} />
-            <DicussPosts />
-            <NewsPosts />
-            <HelpPosts />
+        <div
+          onClick={handleClickSide}
+          className={!showRSide ? 'my' : 'my backdrop-side'}
+        >
+          <div className='right-side-feed__wrap'>
+            <div className='right-side-feed'>
+              <Welcome _auth={_auth} usersCount={usersCount} />
+              <DicussPosts />
+              <NewsPosts />
+              <HelpPosts />
+            </div>
           </div>
         </div>
       </div>

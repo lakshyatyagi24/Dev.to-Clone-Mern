@@ -19,23 +19,14 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
       <PuffLoader size={46} color={'#3b49df'} loading={true} />
     </div>
   ) : (
-    <div className='container'>
+    <div className='post-item-container container'>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
       <PostItem post={post} profile={profile} setAuth={setAuth} />
 
-      <div className='post py'>
+      <div className='post post-comment py'>
         <div></div>
 
-        <div
-          className='bg-white comment-item'
-          style={{
-            border: 'none',
-            outline: 'none',
-            boxShadow: '0 0 0 1px rgba(8, 9, 10, 0.1)',
-            padding: '30px',
-            borderRadius: '5px',
-          }}
-        >
+        <div className='bg-white comment-item'>
           <CommentForm setAuth={setAuth} postId={post._id} />
           <p className='text-dark my'>Comments ({post.commentsCount})</p>
 

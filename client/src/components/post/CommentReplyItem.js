@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -62,13 +62,8 @@ const CommentReplyItem = ({
           setRemoveReComt={setRemoveReComt}
         />
       )}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className='comment-item__info'>
+        <div className='comment-item__date'>
           <p className='post-date' style={{ alignSelf: 'flex-end' }}>
             Posted on <Moment format='DD/MM/YY'>{date_reply}</Moment>
           </p>
@@ -94,7 +89,7 @@ const CommentReplyItem = ({
         )}
 
         {auth.isAuthenticated && user_reply === auth.user._id && (
-          <div style={{ display: 'flex' }}>
+          <div className='comment-item__action'>
             <button
               onClick={() => {
                 setReply(true);

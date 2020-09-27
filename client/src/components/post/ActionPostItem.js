@@ -59,6 +59,7 @@ const ActionPostItem = ({
   };
   return (
     <div
+      className='post-item__action'
       style={{
         display: 'flex',
         justifyContent: 'center',

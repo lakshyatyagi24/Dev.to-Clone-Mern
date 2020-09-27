@@ -48,7 +48,8 @@ const PostFeed = ({
         {path === '/' && coverImage && index === 0 && (
           <Link
             onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
-            style={{ display: 'block', height: '275px' }}
+            className='post-cover-image'
+            style={{ display: 'block' }}
             to={`/post/${_id}`}
           >
             <img

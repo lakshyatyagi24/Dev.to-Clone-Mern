@@ -51,13 +51,8 @@ const CommentItem = ({
           setRemoveComt={setRemoveComt}
         />
       )}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div className='comment-item__info'>
+        <div className='comment-item__date'>
           <p className='post-date' style={{ alignSelf: 'flex-end' }}>
             Posted on <Moment format='DD/MM/YY'>{date}</Moment>
           </p>
@@ -83,7 +78,7 @@ const CommentItem = ({
         )}
 
         {auth.isAuthenticated && user === auth.user._id && (
-          <div style={{ display: 'flex' }}>
+          <div className='comment-item__action'>
             <button
               onClick={() => {
                 document.body.style.overflow = 'hidden';
@@ -156,6 +151,11 @@ const CommentItem = ({
             style={{ margin: '16px', wordWrap: 'break-word' }}
             value={text}
           />
+        </div>
+        <div className='comment-area__action'>
+          <div className='comment-area__action-item'>Reply</div>
+          <div className='comment-area__action-item'>Edit</div>
+          <div className='comment-area__action-item'>Delete</div>
         </div>
       </div>
       <div style={{ display: 'flex' }}>

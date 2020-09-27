@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { RightSideFeed } from '../icons/icons';
 
-function TopFeedFilter({ filterStatus, setFilterStatus }) {
+function TopFeedFilter({ filterStatus, setFilterStatus, setShowRSide }) {
+  const [value, setValue] = useState('latest');
+  useEffect(() => {
+    setFilterStatus(value);
+  }, [value, setFilterStatus]);
   return (
     <div className='top-feed__filter'>
+      <select
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className='select filter-feed-select'
+      >
+        <option value='latest'>Latest</option>
+        <option value='date'>Date</option>
+        <option value='month'>Month</option>
+        <option value='year'>Year</option>
+      </select>
+
       <button
         style={{
           color: filterStatus === 'latest' ? 'royalblue' : '',
@@ -44,6 +60,15 @@ function TopFeedFilter({ filterStatus, setFilterStatus }) {
       >
         Year
       </button>
+      <div
+        onClick={() => {
+          document.body.style.overflow = 'hidden';
+          setShowRSide(true);
+        }}
+        className='right-side-feed__icon'
+      >
+        <RightSideFeed />
+      </div>
     </div>
   );
 }

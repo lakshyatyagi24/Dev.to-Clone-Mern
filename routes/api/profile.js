@@ -23,7 +23,7 @@ router.get('/me', auth, async (req, res) => {
       user: req.user.id,
     }).populate('user', ['name', 'avatar']);
     if (!profile) {
-      return res.status(400).json({ msg: 'There is no profile for this user' });
+      return res.status(404).json({ msg: 'There is no profile for this user' });
     }
 
     return res.json(profile);
@@ -110,7 +110,7 @@ router.get('/user/:user_id', checkObjectId('user_id'), async (req, res) => {
       user: req.params.user_id,
     }).populate('user', ['name', 'avatar']);
 
-    if (!profile) return res.status(400).json({ msg: 'Profile not found!' });
+    if (!profile) return res.status(404).json({ msg: 'Profile not found!' });
 
     return res.json(profile);
   } catch (err) {
@@ -127,7 +127,7 @@ router.put('/delete_account_request', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: 'User do not exists' }] });
+      return res.status(404).json({ errors: [{ msg: 'User do not exists' }] });
     }
     const token = jwt.sign(
       {
@@ -191,7 +191,7 @@ router.put('/delete_account_request', auth, async (req, res) => {
   }
 });
 
-// @route    DELETE api/profile
+// @route    POST api/profile
 // @desc     Delete profile, user & posts
 // @access   Private
 router.post('/', auth, async (req, res) => {
@@ -305,7 +305,6 @@ router.post('/', auth, async (req, res) => {
         }
       );
     } else {
-      console.log('aaaa');
       return res.status(400).json({
         errors: [{ msg: 'Error happening please try again' }],
       });

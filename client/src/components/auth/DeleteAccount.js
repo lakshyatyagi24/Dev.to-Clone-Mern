@@ -5,7 +5,11 @@ import PropTypes from 'prop-types';
 import { deleteAccount } from '../../actions/profile';
 import { toast } from 'react-toastify';
 
-const DeleteAccount = ({ deleteAccount, match, isAuthenticated }) => {
+const DeleteAccount = ({
+  deleteAccount,
+  match,
+  auth: { isAuthenticated, loading },
+}) => {
   const [formData, setFormData] = useState({
     password_confirm: '',
     confirm_string: '',
@@ -52,7 +56,7 @@ const DeleteAccount = ({ deleteAccount, match, isAuthenticated }) => {
     return <Redirect to='/' />;
   }
 
-  return (
+  return loading ? null : (
     <div className='container'>
       <div className='login-wrap active-acc' style={{ height: '360px' }}>
         <div className='login' style={{ padding: '3rem' }}>
@@ -109,10 +113,10 @@ const DeleteAccount = ({ deleteAccount, match, isAuthenticated }) => {
 
 DeleteAccount.propTypes = {
   deleteAccount: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
+  isAuthenticated: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
-  isAuthenticated: state.auth.isAuthenticated,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { deleteAccount })(DeleteAccount);

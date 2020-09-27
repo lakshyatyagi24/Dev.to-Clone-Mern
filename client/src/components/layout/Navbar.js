@@ -15,12 +15,6 @@ const Navbar = ({
   auth: { isAuthenticated, user, loading },
   notifications_count,
 }) => {
-  // const [value, setValue] = useState('');
-  // const handleSubmit = (e) => {
-  //   if (!value) {
-  //     return e.preventDefault();
-  //   }
-  // };
   return (
     <nav className='wrap-header grid'>
       <div className='top-header'>
@@ -42,20 +36,13 @@ const Navbar = ({
             </Link>
           </div>
           <div className='header-search_bar'>
-            <form
-              // onSubmit={handleSubmit}
-              action={`/dev/search`}
-              method='GET'
-              acceptCharset='UTF-8'
-            >
+            <form action={`/dev/search`} method='GET' acceptCharset='UTF-8'>
               <input
                 className='header-search_bar-input'
                 type='text'
                 name='q'
                 defaultValue={queryString.parse(window.location.search).q}
                 placeholder='Search...'
-                // onChange={(e) => setValue(e.target.value)}
-                // value={queryString.parse(window.location.search).q}
                 autoComplete='off'
               />
             </form>

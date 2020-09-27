@@ -40,10 +40,6 @@ const Reset = ({ reset, match, auth: { isAuthenticated, loading } }) => {
             isCompleted: true,
           });
         } else {
-          // return setFormData({
-          //   ...formData,
-          //   isCompleted: false
-          // });
         }
       } else {
         return toast.error("Passwords don't matches");

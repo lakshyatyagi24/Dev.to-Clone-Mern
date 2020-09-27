@@ -69,7 +69,7 @@ const Account = ({
   const onSubmit = async (e) => {
     e.preventDefault();
     const { email, name, password1, password2, password_old } = formData;
-    if (!password_old) {
+    if (password1 && password2 && !password_old) {
       return toast.error('Old password is required!');
     }
     if (password1 !== password2) {

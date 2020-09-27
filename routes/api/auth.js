@@ -14,7 +14,7 @@ const { validLogin } = require('../../helpers/valid');
 router.get('/', auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id)
-      .select(['-password', '-resetPasswordLink'])
+      .select(['-password', '-resetPasswordLink', '-deleteAccountLink'])
       .populate({
         path: 'posts',
         select: [
@@ -37,7 +37,7 @@ router.get('/', auth, async (req, res) => {
       .populate('following', ['avatar', 'name'])
       .populate('followingTags', ['tagName', 'tagColor']);
     if (!user) {
-      return res.status(404).json({ msg: 'User not found' });
+      return res.status(404).json({ msg: 'User not found!' });
     }
     return res.json(user);
   } catch (err) {
@@ -78,8 +78,8 @@ router.post('/', validLogin, async (req, res) => {
 
     jwt.sign(
       payload,
-      config.get('jwtSecret'),
-      { expiresIn: '5 days' },
+      config.get('JWT_SECRET'),
+      { expiresIn: '7d' },
       (err, token) => {
         if (err) throw err;
         return res.json({ token });

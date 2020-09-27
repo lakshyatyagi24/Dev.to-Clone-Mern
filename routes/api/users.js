@@ -4,6 +4,8 @@ const gravatar = require('gravatar');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const auth = require('../../middleware/auth');
+const checkObjectId = require('../../middleware/checkObjectId');
 const config = require('config');
 const { validationResult } = require('express-validator');
 const normalize = require('normalize-url');
@@ -19,8 +21,6 @@ const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const Notification = require('../../models/Notification');
 const Tag = require('../../models/Tags');
-const auth = require('../../middleware/auth');
-const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/users
 // @desc     Register user
@@ -167,14 +167,13 @@ router.put('/password/forget', forgotPasswordValidator, async (req, res) => {
     const { email } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const firstError = errors.array().map((error) => error.msg)[0];
-      return res.status(422).json({
-        errors: [{ msg: firstError }],
+      return res.status(400).json({
+        errors: errors.array(),
       });
     } else {
       const user = await User.findOne({ email });
       if (!user) {
-        return res.status(400).json({
+        return res.status(404).json({
           errors: [{ msg: 'User with this email does not exist' }],
         });
       }
@@ -251,56 +250,55 @@ router.put('/password/reset', resetPasswordValidator, async (req, res) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-      const firstError = errors.array().map((error) => error.msg)[0];
-      return res.status(422).json({
-        errors: [{ msg: firstError }],
+      return res.status(400).json({
+        errors: errors.array(),
       });
     } else {
       if (resetPasswordLink) {
         jwt.verify(
           resetPasswordLink,
           config.get('JWT_RESET_PASSWORD'),
-          function (err, decoded) {
+          async function (err, decoded) {
             if (err) {
               return res.status(400).json({
                 errors: [{ msg: 'Expired link. Try again' }],
               });
             }
+            let user = await User.findById(decoded._id);
+            if (
+              !user.resetPasswordLink ||
+              user.resetPasswordLink !== resetPasswordLink
+            ) {
+              return res.status(400).json({
+                errors: [{ msg: 'Something went wrong. Try later' }],
+              });
+            }
+            const salt = await bcrypt.genSalt(10);
 
-            User.findOne(
-              {
-                resetPasswordLink,
-              },
-              async (err, user) => {
-                if (err || !user) {
-                  return res.status(400).json({
-                    errors: [{ msg: 'Something went wrong. Try later' }],
-                  });
-                }
-                const salt = await bcrypt.genSalt(10);
+            const hashPassword = await bcrypt.hash(newPassword, salt);
+            const updatedFields = {
+              password: hashPassword,
+              resetPasswordLink: '',
+            };
 
-                const hashPassword = await bcrypt.hash(newPassword, salt);
-                const updatedFields = {
-                  password: hashPassword,
-                  resetPasswordLink: '',
-                };
+            user = _.extend(user, updatedFields);
 
-                user = _.extend(user, updatedFields);
-
-                user.save((err, result) => {
-                  if (err) {
-                    return res.status(400).json({
-                      errors: [{ msg: 'Error resetting user password' }],
-                    });
-                  }
-                  return res.json({
-                    message: `Reset password done! You can login with your new password`,
-                  });
+            user.save((err, result) => {
+              if (err) {
+                return res.status(400).json({
+                  errors: [{ msg: 'Error resetting user password' }],
                 });
               }
-            );
+              return res.json({
+                message: `Reset password done! You can login with your new password`,
+              });
+            });
           }
         );
+      } else {
+        return res.status(400).json({
+          errors: [{ msg: 'Error happening please try again' }],
+        });
       }
     }
   } catch (err) {
@@ -322,21 +320,24 @@ router.put('/update', auth, async (req, res) => {
     let user = await User.findById(req.user.id);
     let oldMail = user.email;
     if (!user) {
-      return res.status(400).json({ errors: [{ msg: 'User not found!' }] });
+      return res.status(404).json({ errors: [{ msg: 'User not found!' }] });
     }
-    const isMatch = await user.checkPassword(password_old);
-    if (!isMatch) {
-      return res
-        .status(400)
-        .json({ errors: [{ msg: 'Old password is wrong!' }] });
+    if (password_old) {
+      const isMatch = await user.checkPassword(password_old);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Old password is wrong!' }] });
+      }
     }
+
     if (!email) {
-      return res.status(400).json({ errors: [{ msg: 'Email is required' }] });
+      return res.status(400).json({ errors: [{ msg: 'Email is required!' }] });
     } else {
       user.email = oldMail;
     }
     if (!name) {
-      return res.status(400).json({ errors: [{ msg: 'Name is required' }] });
+      return res.status(400).json({ errors: [{ msg: 'Name is required!' }] });
     } else {
       user.name = name;
     }
@@ -437,21 +438,26 @@ router.put('/updateNewEmail', async (req, res) => {
         async (err, decoded) => {
           if (err) {
             return res.status(400).json({
-              errors: [{ msg: 'Expired link. Sign Up again' }],
+              errors: [{ msg: 'Expired link. Try again' }],
             });
           } else {
-            const { userId, email } = jwt.decode(token);
+            const { userId, email } = decoded;
             const user = await User.findById(userId);
             if (!user) {
-              return res.status(400).json({
+              return res.status(404).json({
                 errors: [{ msg: 'User not exists!' }],
+              });
+            }
+            if (email && user.email === email) {
+              return res.status(400).json({
+                errors: [{ msg: 'Already verified!' }],
               });
             }
             user.email = email;
             user.save(async (err, user) => {
               if (err) {
                 return res.status(400).json({
-                  errors: [{ msg: 'Already verified!' }],
+                  errors: [{ msg: 'Some thing went wrong, try later!' }],
                 });
               } else {
                 return res.json({
@@ -481,17 +487,19 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const me = await User.findById(req.user.id);
     if (!me) {
-      return res.status(404).json({ msg: 'User not found' });
+      return res.status(404).json({ msg: 'User not found!' });
     }
     const user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(404).json({ msg: 'User not found' });
+      return res.status(404).json({ msg: 'User not found!' });
     }
     if (req.user.id === req.params.id) {
       // a user cannot follow themselves
       return;
     }
 
+    // i don't use findOneAndUpdate, because use array methods are more efficient in case user trigger constantly
+    // like, bookmark, follow tags and comment i also use array method to update data
     let check = false;
     if (me.following.includes(req.params.id)) {
       const index = me.following.indexOf(req.params.id);
@@ -522,6 +530,7 @@ router.put('/follow/:id', [auth, checkObjectId('id')], async (req, res) => {
         check,
       },
     });
+
     // send notifications
     if (check) {
       await Notification.create({

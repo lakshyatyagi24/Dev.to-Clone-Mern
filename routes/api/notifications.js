@@ -27,7 +27,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route    PUT api/notify
+// @route    PUT api/notify/mark_notifications
 // @desc     Mark all notification, auto mark when get in page
 // @access   Private
 router.put('/mark_notifications', auth, async (req, res) => {
@@ -38,19 +38,6 @@ router.put('/mark_notifications', auth, async (req, res) => {
         isSeen: true,
       }
     );
-    return res.status(200).json({ success: true, data: {} });
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).send('Server Error');
-  }
-});
-
-// @route    DELETE api/notify
-// @desc     Clear all notification, not use
-// @access   Private
-router.delete('/clear_notifications', auth, async (req, res) => {
-  try {
-    await Notification.deleteMany({ me: req.user.id });
     return res.status(200).json({ success: true, data: {} });
   } catch (err) {
     console.error(err.message);

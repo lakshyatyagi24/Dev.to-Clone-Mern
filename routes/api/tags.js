@@ -23,13 +23,13 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @route    GET api/popular-tags
+// @route    GET api/tags/popular-tags
 // @desc     get popular tags
 // @access   Public
 router.get('/popular-tags', async (req, res) => {
   try {
     const tags = await Tag.find({ isPopular: true })
-      .limit(16)
+      .limit(20)
       .select('tagName');
     return res.json(tags);
   } catch (err) {
@@ -38,7 +38,7 @@ router.get('/popular-tags', async (req, res) => {
   }
 });
 
-// @route    GET api/write-tags
+// @route    GET api/tags/write-tags
 // @desc     get  tags for write post
 // @access   Public
 router.get('/write-tags', async (req, res) => {
@@ -51,7 +51,7 @@ router.get('/write-tags', async (req, res) => {
   }
 });
 
-// @route    GET api/tags
+// @route    GET api/tags/:id
 // @desc     get tag by id
 // @access   Public
 router.get('/:id', checkObjectId('id'), async (req, res) => {
@@ -71,7 +71,7 @@ router.get('/:id', checkObjectId('id'), async (req, res) => {
   }
 });
 
-// @route    GET api/tags
+// @route    GET api/tags/posts/:id
 // @desc     get posts by tag id
 // @access   Public
 router.get('/posts/:id', checkObjectId('id'), async (req, res) => {

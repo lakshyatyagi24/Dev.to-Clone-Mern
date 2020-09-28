@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+// router
 import { Link } from 'react-router-dom';
 
 function Welcome({ usersCount }) {

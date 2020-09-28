@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
-import PuffLoader from 'react-spinners/PuffLoader';
+
+// component
 import PostItem from './PostItem';
 import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
-import { getPost } from '../../actions/post';
 import LoginPopUp from '../auth/LoginPopUp';
+
+// action
+import { getPost } from '../../actions/post';
+
+// others
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const Post = ({ getPost, post: { post, loading, profile }, match }) => {
   const [auth, setAuth] = useState(false);
@@ -15,7 +23,14 @@ const Post = ({ getPost, post: { post, loading, profile }, match }) => {
     getPost(match.params.id);
   }, [getPost, match.params.id]);
   return loading || !post ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+    <div
+      style={{
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
       <PuffLoader size={46} color={'#3b49df'} loading={true} />
     </div>
   ) : (

@@ -1,89 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components'; // test thu style component
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// action
 import { editPost } from '../../actions/post';
-import { MarkdownPreview } from 'react-marked-markdown';
-import api from '../../utils/api';
+
+// component
 import Guide from './Guide';
 import Image from './Image';
 import CoverImage from './CoverImage';
 import TagsModal from './TagsModal';
+
+// others
+import { MarkdownPreview } from 'react-marked-markdown';
 import PuffLoader from 'react-spinners/PuffLoader';
 
-const EditorContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-`;
-const Container = styled.div`
-  width: 80%;
-  min-height: 800px;
-  padding: 13px;
-`;
-const SideAction = styled.div`
-  width: 10%;
-  height: 600px;
-  padding: 13px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 55px;
-`;
-const Title = styled.textarea`
-  font-family: 'Poppins', sans-serif;
-  padding: 5px;
-  font-size: 32px;
-  height: 60px;
-  font-weight: 600;
-  width: 100%;
-  outline: none;
-  border: none;
-  resize: none;
-  background-color: #fff;
-  color: #282c34;
-  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
-  border-radius: 5px;
-`;
-
-const TextArea = styled.textarea`
-  font-family: 'Poppins', sans-serif;
-  padding: 40px;
-  width: 100%;
-  height: 600px;
-  resize: none;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  background-color: #fff;
-  color: #282c34;
-  border-radius: 5px;
-  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
-`;
-const ResultArea = styled.div`
-  font-family: 'Poppins', sans-serif;
-  margin-top: 40px;
-  padding: 40px;
-  width: 100%;
-  height: 600px;
-  border: none;
-  font-size: 1rem;
-  background-color: #fff;
-  color: #282c34;
-  border-radius: 5px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
-  word-break: break-word;
-`;
-const Preview = styled.div`
-  font-size: 22px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(15, 15, 15, 0.3);
-`;
+// api
+import api from '../../utils/api';
 
 function PostEdit({ editPost, match }) {
   const [title, setTitle] = useState('');
@@ -106,7 +41,6 @@ function PostEdit({ editPost, match }) {
         }));
         localStorage.setItem('tags', JSON.stringify(tags_convert));
       }
-
       setTitle(title);
       setContent(content);
       localStorage.setItem('Cover_Image', coverImage);
@@ -115,14 +49,14 @@ function PostEdit({ editPost, match }) {
   }, [match.params.id]);
 
   return (
-    <div className='container'>
-      <EditorContainer>
+    <div className='editor container'>
+      <div className='editor-container'>
         {guide && <Guide setGuide={setGuide} />}
         {image && <Image setImage={setImage} />}
         {coverImage && <CoverImage setCoverImage={setCoverImage} />}
         {tagsStatus && <TagsModal setTagsStatus={setTagsStatus} />}
         {!write && (
-          <Container>
+          <div className='editor-container__wrap'>
             <button
               onClick={() => setCoverImage(true)}
               className='btn btn-light my cover-image__btn'
@@ -131,6 +65,7 @@ function PostEdit({ editPost, match }) {
               <i style={{ marginLeft: '10px' }} className='fas fa-images'></i>
             </button>
             <form
+              className='editor-form'
               onSubmit={async (e) => {
                 e.preventDefault();
                 setPublish(true);
@@ -151,7 +86,8 @@ function PostEdit({ editPost, match }) {
                 localStorage.removeItem('Cover_Image');
               }}
             >
-              <Title
+              <textarea
+                className='editor-title'
                 placeholder='Title...'
                 name='title'
                 required
@@ -161,7 +97,8 @@ function PostEdit({ editPost, match }) {
                 }}
               />
 
-              <TextArea
+              <textarea
+                className='editor-main'
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
@@ -179,51 +116,53 @@ function PostEdit({ editPost, match }) {
                 />
               )}
             </form>
-          </Container>
+          </div>
         )}
         {write && (
-          <Container>
-            <Preview>
+          <div className='editor-container__wrap'>
+            <div className='post-preview'>
               <p style={{ margin: '0' }}>Preview</p>
-            </Preview>
-            <ResultArea className='preview'>
+            </div>
+            <div className='preview result-area'>
               <MarkdownPreview value={content} />
-            </ResultArea>
-          </Container>
+            </div>
+          </div>
         )}
-        <SideAction>
-          <button
-            style={{ marginTop: '0' }}
-            className='btn btn-light btn-new-feed'
-            onClick={() => setWrite(!write)}
-          >
-            {write ? (
-              <i className='far fa-edit'></i>
-            ) : (
-              <i className='fas fa-eye'></i>
-            )}
-          </button>
-          <button
-            onClick={() => setImage(true)}
-            className='btn btn-light btn-new-feed'
-          >
-            <i className='fas fa-images'></i>
-          </button>
+        <div className='side-action__wrap'>
+          <div className='side-action__content'>
+            <button
+              style={{ marginTop: '0' }}
+              className='btn btn-light btn-new-feed'
+              onClick={() => setWrite(!write)}
+            >
+              {write ? (
+                <i className='far fa-edit'></i>
+              ) : (
+                <i className='fas fa-eye'></i>
+              )}
+            </button>
+            <button
+              onClick={() => setImage(true)}
+              className='btn btn-light btn-new-feed'
+            >
+              <i className='fas fa-images'></i>
+            </button>
 
-          <button
-            className='btn btn-light btn-new-feed'
-            onClick={() => setGuide(true)}
-          >
-            <i className='fab fa-glide'></i>
-          </button>
-          <button
-            className='btn btn-light btn-new-feed'
-            onClick={() => setTagsStatus(true)}
-          >
-            <i className='fas fa-tags'></i>
-          </button>
-        </SideAction>
-      </EditorContainer>
+            <button
+              className='btn btn-light btn-new-feed'
+              onClick={() => setGuide(true)}
+            >
+              <i className='fab fa-glide'></i>
+            </button>
+            <button
+              className='btn btn-light btn-new-feed'
+              onClick={() => setTagsStatus(true)}
+            >
+              <i className='fas fa-tags'></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

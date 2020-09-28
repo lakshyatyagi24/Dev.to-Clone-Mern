@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { getTags } from '../../actions/tags';
-import TagCard from './TagCard';
-import PuffLoader from 'react-spinners/PuffLoader';
 import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+
+import { getTags } from '../../actions/tags';
+
+import TagCard from './TagCard';
+
+import PuffLoader from 'react-spinners/PuffLoader';
 
 function TagsDashBoard({ tags: { tags, loading }, getTags }) {
   useEffect(() => {
     getTags();
   }, [getTags]);
   return loading || !tags ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+    <div
+      style={{
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
       <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (

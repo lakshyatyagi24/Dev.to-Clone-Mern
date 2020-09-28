@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+// Router/redux
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import store from '../../store';
+
+// action
 import { login } from '../../actions/auth';
 import { getNotifications } from '../../actions/notify';
+
+// others
 import { toast } from 'react-toastify';
-import store from '../../store';
 
 const Login = ({ login, history, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
@@ -41,7 +47,7 @@ const Login = ({ login, history, auth: { isAuthenticated, loading } }) => {
   }
 
   return loading ? null : (
-    <div className='container'>
+    <div className='login-container container'>
       <div className='login-wrap'>
         <div className='login'>
           <h1 className='text-dark'>Welcome to Dev!</h1>

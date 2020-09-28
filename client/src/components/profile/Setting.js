@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Setting = ({ auth: { user }, children, checkPage }) => {
+  let history = useHistory();
   return (
-    <div className='container'>
-      <h1 style={{ padding: '0 6rem' }} className='text-dark my-1'>
+    <div className='setting-container container'>
+      <h1 className='text-dark setting-title my-1'>
         Setting for <span style={{ color: 'royalblue' }}>@{user.name}</span>
       </h1>
-      <div style={{ padding: '0 6rem' }} className='settings my-1'>
+      <select
+        value={checkPage === '/settings/user/account' ? 'account' : 'profile'}
+        onChange={(e) => {
+          if (e.target.value === 'profile') {
+            return history.push('/settings/user/profile');
+          }
+          if (e.target.value === 'account') {
+            return history.push('/settings/user/account');
+          }
+        }}
+        className='select filter-feed-select settings-select'
+      >
+        <option value='profile'>Profile</option>
+        <option value='account'>Account</option>
+      </select>
+      <div className='settings my-1'>
         <div className='side-setting'>
           <Link
             style={{

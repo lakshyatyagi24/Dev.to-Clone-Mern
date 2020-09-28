@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { forget } from '../../actions/auth';
-import { toast } from 'react-toastify';
 
-import PuffLoader from 'react-spinners/PuffLoader';
+// Router/redux
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+
+// action
+import { forget } from '../../actions/auth';
+
+// others
+import { toast } from 'react-toastify';
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const Forget = ({ forget, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
@@ -50,7 +55,7 @@ const Forget = ({ forget, auth: { isAuthenticated, loading } }) => {
   }
 
   return loading ? null : (
-    <div className='container'>
+    <div className='login-container container'>
       <div className='login-wrap forget-pwd'>
         <div className='login'>
           <h1 className='text-dark'>Forget Password</h1>

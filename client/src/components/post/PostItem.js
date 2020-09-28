@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
 import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import { addLike, addBookmarks } from '../../actions/post';
-import { MarkdownPreview } from 'react-marked-markdown';
-import ActionPostItem from './ActionPostItem';
-import SidePostItem from './SidePostItem';
-import TagLink from './TagLink';
 import store from '../../store';
+
+// action
+import { addLike, addBookmarks } from '../../actions/post';
+
+// component
+import ActionPostItem from './ActionPostItem';
+import SidePostItem from './SidePostProfile';
+import TagLink from './TagLink';
+
+// others
+import Moment from 'react-moment';
+import { MarkdownPreview } from 'react-marked-markdown';
 
 const PostItem = ({
   addLike,
@@ -74,7 +82,7 @@ const PostItem = ({
       />
       <div className='main-post-item bg-white'>
         {coverImage && (
-          <div className='post-cover-image'>
+          <div style={{ height: '340px', display: 'block' }}>
             <img
               alt=''
               src={coverImage}

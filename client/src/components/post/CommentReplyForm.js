@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// action
 import { replyComment } from '../../actions/post';
+
+// mongodb
 import mongoose from 'mongoose';
 
-const CommentReply = ({
+const CommentReplyForm = ({
   setReply,
   tagName,
   toUser,
@@ -39,7 +45,7 @@ const CommentReply = ({
           }}
         >
           <textarea
-            placeholder={'@' + tagName}
+            placeholder={'to @' + tagName}
             name='text'
             rows='8'
             cols='80'
@@ -70,7 +76,7 @@ const CommentReply = ({
     </div>
   );
 };
-CommentReply.propTypes = {
+CommentReplyForm.propTypes = {
   tagName: PropTypes.string.isRequired,
   replyComment: PropTypes.func.isRequired,
 };
@@ -78,4 +84,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { replyComment })(CommentReply);
+export default connect(mapStateToProps, { replyComment })(CommentReplyForm);

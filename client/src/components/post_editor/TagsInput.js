@@ -61,7 +61,6 @@ export const TagsInput = ({ _suggestions }) => {
     newTags.splice(currPos, 1);
     newTags.splice(newPos, 0, tag);
 
-    // re-render
     setTags(newTags);
   }
   return (

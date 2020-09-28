@@ -1,32 +1,48 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+
+// auth
 import Register from '../auth/Register';
 import Login from '../auth/Login';
 import Activate from '../auth/Activate';
 import ActivateNewEmail from '../auth/ActivateNewEmail';
 import Forget from '../auth/Forget';
 import Reset from '../auth/Reset';
+import SignOut from '../../components/layout/SignOut';
+
+// Dashboard
 import PostItemRoute from '../dashboard/PostItemRoute';
 import ReadingListRoute from '../dashboard/ReadingListRoute';
 import FollowersRoute from '../dashboard/FollowersRoute';
 import FollowingsRoute from '../dashboard/FollowingsRoute';
 import FollowingTagsRoute from '../dashboard/FollowingTagsRoute';
-import PostNew from '../posts/PostNew';
-import PostEdit from '../posts/PostEdit';
-import Posts from '../posts/Posts';
+
+// post
 import Post from '../post/Post';
-import NotFound from '../layout/NotFound';
+import Posts from '../posts/Posts';
+import PostEditor from '../post_editor/PostEditor';
+import PostEdit from '../post_editor/PostEdit';
+
+// user porfile
 import Account from '../profile/Account';
 import Profile from '../profile/Profile';
-import TagsDashBoard from '../tags/TagsDashBoard';
 import Me from '../profile/Me';
-import TagHome from '../tags/TagHome';
-import SignOut from '../../components/layout/SignOut';
-import UserProfile from '../profile/UserProfile';
-import PrivateRoute from '../routing/PrivateRoute';
-import NotifyHome from '../notifications/NotifyHome';
-import Search from '../search/Search';
 import DeleteAccount from '../auth/DeleteAccount';
+
+// tags
+import TagsDashBoard from '../tags/TagsDashBoard';
+import TagHome from '../tags/TagHome';
+import UserProfile from '../profile/UserProfile';
+
+// notifications
+import NotifyHome from '../notifications/NotifyHome';
+
+// search
+import Search from '../search/Search';
+// private route
+import PrivateRoute from '../routing/PrivateRoute';
+
+import NotFound from '../layout/NotFound';
 
 import { ToastContainer } from 'react-toastify';
 
@@ -78,7 +94,7 @@ const Routes = () => {
         <PrivateRoute exact path='/notifications' component={NotifyHome} />
         <PrivateRoute exact path='/settings/user/profile' component={Profile} />
         <PrivateRoute exact path='/settings/user/account' component={Account} />
-        <PrivateRoute exact path='/write-post' component={PostNew} />
+        <PrivateRoute exact path='/write-post' component={PostEditor} />
         <PrivateRoute exact path='/write-post/edit/:id' component={PostEdit} />
         <PrivateRoute
           exact

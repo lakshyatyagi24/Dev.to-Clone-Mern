@@ -1,9 +1,15 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { LikeFill, UnBookMark } from '../icons/icons';
-import { timeSince } from '../../utils/timesince';
+
+// router/redux
+import { Link } from 'react-router-dom';
 import store from '../../store';
+
+// icons
+import { LikeFill, UnBookMark } from '../icons/icons';
+
+// others
+import { timeSince } from '../../utils/timesince';
 
 function ReactionNotify({ data }) {
   return (

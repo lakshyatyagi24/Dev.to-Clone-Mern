@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+// Router.redux
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+// action
 import { deleteAccount } from '../../actions/profile';
+
+// others
 import { toast } from 'react-toastify';
 
 const DeleteAccount = ({
@@ -57,9 +63,9 @@ const DeleteAccount = ({
   }
 
   return loading ? null : (
-    <div className='container'>
-      <div className='login-wrap active-acc' style={{ height: '360px' }}>
-        <div className='login' style={{ padding: '3rem' }}>
+    <div className='login-container container'>
+      <div className='login-wrap'>
+        <div className='login'>
           <form className='form' onSubmit={handleSubmit}>
             <div className='form-group'>
               <input
@@ -80,7 +86,7 @@ const DeleteAccount = ({
               Type <b>delete my account</b> to confirm
             </label>
 
-            <div className='form-group'>
+            <div className='form-group '>
               <input
                 type='text'
                 name='confirm_string'
@@ -94,7 +100,7 @@ const DeleteAccount = ({
               />
             </div>
             <input
-              className='btn btn-dark'
+              className='btn btn-dark my-1'
               style={{
                 width: '100%',
                 textAlign: 'center',

@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import Setting from './Setting';
 import PropTypes from 'prop-types';
+
+// redux
+import { connect } from 'react-redux';
+
+// action
 import { deleteAccount } from '../../actions/profile';
 import { loadUser, updateUser } from '../../actions/auth';
-import { ProgressBar } from '../posts/ProgressBar';
+
+// component
+import Setting from './Setting';
+import { ProgressBar } from '../post_editor/ProgressBar';
+
+// api
+import api from '../../utils/api';
+
+// others
 import { toast } from 'react-toastify';
 import PuffLoader from 'react-spinners/PuffLoader';
 import imageCompression from 'browser-image-compression';
-import api from '../../utils/api';
 
 const initialState = {
   email: '',
@@ -20,7 +30,6 @@ const initialState = {
 
 const Account = ({
   auth: { user, loading },
-  deleteAccount,
   location,
   loadUser,
   updateUser,
@@ -47,6 +56,12 @@ const Account = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const changeHandler = async (e) => {
     let selected = e.target.files[0];
+    if (selected) {
+      let file_size = selected.size;
+      if (parseInt(file_size) > 2097152) {
+        return toast.error('Image size must be < 2 mb');
+      }
+    }
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 300,
@@ -123,7 +138,14 @@ const Account = ({
   return (
     <Setting checkPage={location.pathname}>
       {loading || !user ? (
-        <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+        <div
+          style={{
+            position: 'fixed',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
           <PuffLoader size={36} color={'#3b49df'} loading={true} />
         </div>
       ) : (

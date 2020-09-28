@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
+
 import PostFeed from '../posts/PostFeed';
 import LoginPopUp from '../auth/LoginPopUp';
 import TopFeedFilter from '../posts/TopFeedFilter';
@@ -46,18 +47,8 @@ const Posts = ({ posts }) => {
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
 
-      <div className='post feed-profile post-profile my-2'>
-        <div>
-          {/* <div className='left-side-feed p-1 my'>
-            <div style={{ borderBottom: '1px solid #aaa' }}>
-              <h5>Skills/languages</h5>
-              <div className='my-2'>{profile_data.skills}</div>
-            </div>
-            <div className='my-2'>
-              <div>{posts.length} posts published</div>
-            </div>
-          </div> */}
-        </div>
+      <div className='post feed-profile post-profile my-1'>
+        <div></div>
         <div>
           <div className='top-feed'>
             <h4 className='text-dark'>Posts</h4>
@@ -72,9 +63,7 @@ const Posts = ({ posts }) => {
             ))}
           </Fragment>
         </div>
-        <div>
-          {/* <div className='right-side-feed p-1 my-1 bg-white'></div> */}
-        </div>
+        <div></div>
       </div>
     </Fragment>
   );

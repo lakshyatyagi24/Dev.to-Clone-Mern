@@ -1,9 +1,15 @@
 import React, { Fragment } from 'react';
-import Moment from 'react-moment';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+// router/redux
+import { Link } from 'react-router-dom';
 import store from '../../store';
+
+// icons
 import { ReadingLists, DashBoard, Settings, Sign, Tags } from '../icons/icons';
+
+// others
+import Moment from 'react-moment';
 
 function UserFeedSide({ _auth: { loading, isAuthenticated, user } }) {
   return (

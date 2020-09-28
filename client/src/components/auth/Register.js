@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+// Router/redux
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
-import { register } from '../../actions/auth';
-import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 
+// action
+import { register } from '../../actions/auth';
+
+// others
+import { toast } from 'react-toastify';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 const Register = ({
@@ -51,7 +56,7 @@ const Register = ({
     return <Redirect to='/' />;
   }
   return loading ? null : (
-    <div className='container'>
+    <div className='login-container container'>
       <div className='login-wrap sign-up'>
         <div className='login'>
           <h1 className='text-dark'>Welcome to Dev!</h1>

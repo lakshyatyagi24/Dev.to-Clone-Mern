@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { RightSideFeed } from '../icons/icons';
 
-function TopFeedFilter({ filterStatus, setFilterStatus, setShowRSide }) {
+function TopFeedFilter({ filterStatus, setFilterStatus, setShowRSide, path }) {
   const [value, setValue] = useState('latest');
   useEffect(() => {
     setFilterStatus(value);
@@ -60,15 +60,17 @@ function TopFeedFilter({ filterStatus, setFilterStatus, setShowRSide }) {
       >
         Year
       </button>
-      <div
-        onClick={() => {
-          document.body.style.overflow = 'hidden';
-          setShowRSide(true);
-        }}
-        className='right-side-feed__icon'
-      >
-        <RightSideFeed />
-      </div>
+      {path === '/' && (
+        <div
+          onClick={() => {
+            document.body.style.overflow = 'hidden';
+            setShowRSide(true);
+          }}
+          className='right-side-feed__icon'
+        >
+          <RightSideFeed />
+        </div>
+      )}
     </div>
   );
 }

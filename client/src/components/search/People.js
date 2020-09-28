@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { timeSince } from '../../utils/timesince';
+
+import { Link } from 'react-router-dom';
 import store from '../../store';
+
+import { timeSince } from '../../utils/timesince';
 
 function People({ data }) {
   return (

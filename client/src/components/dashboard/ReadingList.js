@@ -1,8 +1,11 @@
 import React from 'react';
-import Moment from 'react-moment';
+
+// router/redux
 import { Link } from 'react-router-dom';
 import store from '../../store';
 
+// others
+import Moment from 'react-moment';
 function ReadingList({ post }) {
   return (
     <div className='post-list__item bg-white my'>

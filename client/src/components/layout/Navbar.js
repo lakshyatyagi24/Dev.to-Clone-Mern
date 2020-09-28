@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+// router/redux
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import ActionFeed from './ActionFeed';
-import { Notify, Chat, Menu } from '../icons/icons';
 import store from '../../store';
+
+// component
+import ActionFeed from './ActionFeed';
+import Welcome from './Welcome';
+
+// icons
+import { Notify, Chat, Menu } from '../icons/icons';
+
+// action
 import { getPosts } from '../../actions/post';
 import { getNotifications } from '../../actions/notify';
+
+// api
 import api from '../../utils/api';
+
+// others
 import { toast } from 'react-toastify';
 import queryString from 'query-string';
-import Welcome from './Welcome';
 
 const Navbar = ({
   auth: { isAuthenticated, user, loading },

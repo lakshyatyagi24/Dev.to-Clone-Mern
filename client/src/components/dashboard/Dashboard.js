@@ -1,14 +1,55 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+
+// Router/redux
+import { Link, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 function Dashboard({ children, checkPage, user }) {
+  let history = useHistory();
+  const handleNavigate = (e) => {
+    let filter = e.target.value;
+    switch (filter) {
+      case 'posts':
+        return history.push('/dashboard');
+      case 'followers':
+        return history.push('/dashboard/followers');
+      case 'followings':
+        return history.push('/dashboard/followings');
+      case 'reading-list':
+        return history.push('/dashboard/reading-list');
+      case 'tags':
+        return history.push('/dashboard/following-tags');
+      default:
+        return '';
+    }
+  };
   return (
-    <div className='container'>
+    <div className='dashboard-container container'>
       <div className='dashboard my-1'>
         <div className='dashboard__wrap'>
           <h1 className='dashboard__title text-dark'>Dashboard</h1>
+          <select
+            value={
+              checkPage === '/dashboard'
+                ? 'posts'
+                : checkPage === '/dashboard/followers'
+                ? 'followers'
+                : checkPage === '/dashboard/followings'
+                ? 'followings'
+                : checkPage === '/dashboard/reading-list'
+                ? 'reading-list'
+                : 'tags'
+            }
+            onChange={handleNavigate}
+            className='select filter-feed-select dashboard-select'
+          >
+            <option value='posts'>Posts</option>
+            <option value='followers'>Followers</option>
+            <option value='followings'>Following</option>
+            <option value='reading-list'>Reading list</option>
+            <option value='tags'>Tags</option>
+          </select>
           <div className='dashboard__content my-1'>
             <aside className='dashboard__side'>
               <div className='dashboard__side-wrap'>

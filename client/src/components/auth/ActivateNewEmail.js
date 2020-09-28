@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+// action
 import { activateNewEmail } from '../../actions/auth';
+
+import jwt from 'jsonwebtoken';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 const ActivateNewEmail = ({ activateNewEmail, match }) => {
@@ -45,7 +48,7 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
   };
 
   return (
-    <div className='container'>
+    <div className='login-container container'>
       <div className='login-wrap active-acc'>
         <div className='login'>
           <p className='lead'>Hi! {name}</p>

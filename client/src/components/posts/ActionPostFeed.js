@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// icons
 import { BookMarkFeed, UnBookMarkFeed } from '../icons/icons';
 
 const ActionPostFeed = ({

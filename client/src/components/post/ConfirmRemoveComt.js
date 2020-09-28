@@ -1,6 +1,13 @@
 import React from 'react';
 
-const ConfirmRemoveComt = ({ setRemoveComt, deleteComment, postId, _id }) => {
+const ConfirmRemoveComt = ({
+  setRemoveComt,
+  deleteComment,
+  deleteReplyComment,
+  postId,
+  _id,
+  comtId,
+}) => {
   return (
     <div className='backdrop'>
       <div className='child remove-comt close-action'>
@@ -18,7 +25,12 @@ const ConfirmRemoveComt = ({ setRemoveComt, deleteComment, postId, _id }) => {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <button
             onClick={() => {
-              deleteComment(postId, _id);
+              if (deleteComment) {
+                deleteComment(postId, _id);
+              }
+              if (deleteReplyComment) {
+                deleteReplyComment(postId, comtId, _id);
+              }
               document.body.style.overflow = '';
               setRemoveComt(false);
             }}

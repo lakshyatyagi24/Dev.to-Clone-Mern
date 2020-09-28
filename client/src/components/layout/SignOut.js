@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
 import store from '../../store';
+
+// action
+import { logout } from '../../actions/auth';
 
 const SignOut = ({ logout, history }) => {
   return (

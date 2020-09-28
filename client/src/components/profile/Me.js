@@ -1,19 +1,27 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { getCurrentProfile } from '../../actions/profile';
+
+// router/redux
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+
+// component
 import Posts from './Posts';
-import PuffLoader from 'react-spinners/PuffLoader';
+
+// action
+import { getCurrentProfile } from '../../actions/profile';
 import { getPostByUser } from '../../actions/post';
 
-function Me({
+// others
+import Moment from 'react-moment';
+import PuffLoader from 'react-spinners/PuffLoader';
+
+const Me = ({
   auth,
   profile: { profile, posts, loading },
   getCurrentProfile,
   getPostByUser,
-}) {
+}) => {
   useEffect(() => {
     async function loadData() {
       await getPostByUser(auth.user._id);
@@ -21,9 +29,15 @@ function Me({
     }
     loadData();
   }, [getCurrentProfile, getPostByUser, auth.user._id]);
-
   return loading || !profile || !posts ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+    <div
+      style={{
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
       <PuffLoader size={46} color={'#3b49df'} loading={true} />
     </div>
   ) : (
@@ -79,72 +93,74 @@ function Me({
                     />
                     Joined <Moment format='DD/MM/YYYY'>{profile.date}</Moment>
                   </p>
-                  {profile.social.github && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profile.social.github}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-github'
-                      />
-                    </a>
-                  )}
-                  {profile.social.twitter && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profile.social.twitter}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-twitter'
-                      />
-                    </a>
-                  )}
-                  {profile.social.facebook && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profile.social.facebook}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-facebook'
-                      />
-                    </a>
-                  )}
-                  {profile.social.youtube && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profile.social.youtube}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-youtube'
-                      />
-                    </a>
-                  )}
-                  {profile.social.linkedin && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profile.social.linkedin}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-linkedin'
-                      />
-                    </a>
-                  )}
-                  {profile.social.instagram && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profile.social.instagram}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-instagram'
-                      />
-                    </a>
-                  )}
+                  <p className='me-social'>
+                    {profile.social.github && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profile.social.github}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-github'
+                        />
+                      </a>
+                    )}
+                    {profile.social.twitter && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profile.social.twitter}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-twitter'
+                        />
+                      </a>
+                    )}
+                    {profile.social.facebook && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profile.social.facebook}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-facebook'
+                        />
+                      </a>
+                    )}
+                    {profile.social.youtube && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profile.social.youtube}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-youtube'
+                        />
+                      </a>
+                    )}
+                    {profile.social.linkedin && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profile.social.linkedin}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-linkedin'
+                        />
+                      </a>
+                    )}
+                    {profile.social.instagram && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profile.social.instagram}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-instagram'
+                        />
+                      </a>
+                    )}
+                  </p>
                 </div>
               </div>
               <div className='me-work'>
@@ -176,12 +192,13 @@ function Me({
               </div>
             </div>
           </div>
+
           <Posts posts={posts} profile_data={profile} />
         </div>
       </div>
     </Fragment>
   );
-}
+};
 Me.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,

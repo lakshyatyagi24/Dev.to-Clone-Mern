@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// component
 import Dashboard from './Dashboard';
 import ReadingList from './ReadingList';
+
+// others
 import PuffLoader from 'react-spinners/PuffLoader';
 function ReadingListRoute({ user, location }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,7 +35,14 @@ function ReadingListRoute({ user, location }) {
 
       <div className='post-list my-1'>
         {!user ? (
-          <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+          <div
+            style={{
+              position: 'fixed',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
             <PuffLoader size={36} color={'#3b49df'} loading={true} />
           </div>
         ) : (

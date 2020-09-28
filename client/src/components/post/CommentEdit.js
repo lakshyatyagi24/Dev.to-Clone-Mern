@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// action
 import { editComment } from '../../actions/post';
 
 const CommentEdit = ({ setEdit, comment, editComment, postId, comtId }) => {

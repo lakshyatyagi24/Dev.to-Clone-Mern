@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+// router/redux
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getNewsPosts } from '../../actions/post';
-import PropTypes from 'prop-types';
 import store from '../../store';
+
+// aciton
+import { getNewsPosts } from '../../actions/post';
+
 function NewsPosts({ news_posts, getNewsPosts }) {
   useEffect(() => {
     getNewsPosts();

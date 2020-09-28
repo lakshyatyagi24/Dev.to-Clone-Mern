@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
 import { Link } from 'react-router-dom';
-import { timeSince } from '../../utils/timesince';
-import { WritePost } from '../icons/icons';
 import store from '../../store';
 
+// icons
+import { WritePost } from '../icons/icons';
+
+// others
+import { timeSince } from '../../utils/timesince';
 function PostNotify({ data }) {
   return (
     <div

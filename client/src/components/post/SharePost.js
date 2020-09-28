@@ -1,4 +1,6 @@
-import React, { useRef, useEffect, Fragment, useState } from 'react';
+import React, { useRef, Fragment, useState } from 'react';
+
+// others
 import {
   FacebookShareButton,
   LinkedinShareButton,
@@ -7,24 +9,9 @@ import {
   InstapaperShareButton,
 } from 'react-share';
 
-const SharePost = ({ setShare }) => {
-  const useOutside = (ref) => {
-    useEffect(() => {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          setShare(false);
-        }
-      }
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-      };
-    }, [ref]);
-  };
+const SharePost = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const textAreaRef = useRef(null);
-  const wrapperRef = useRef(null);
-  useOutside(wrapperRef);
 
   const copyToClipboard = (e) => {
     textAreaRef.current.select();
@@ -33,7 +20,7 @@ const SharePost = ({ setShare }) => {
     setCopySuccess('Ok!');
   };
   return (
-    <div ref={wrapperRef} className='share-post'>
+    <div className='share-post'>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <input
           ref={textAreaRef}

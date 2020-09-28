@@ -1,8 +1,16 @@
 import React, { useState, Fragment, useEffect } from 'react';
-import Setting from './Setting';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// action
 import { createProfile, getCurrentProfile } from '../../actions/profile';
+
+// component
+import Setting from './Setting';
+
+// others
 import PuffLoader from 'react-spinners/PuffLoader';
 
 const initialState = {
@@ -83,7 +91,14 @@ const Profile = ({
   return (
     <Setting checkPage={location.pathname}>
       {loading || !profile ? (
-        <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+        <div
+          style={{
+            position: 'fixed',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
           <PuffLoader size={36} color={'#3b49df'} loading={true} />
         </div>
       ) : (
@@ -216,7 +231,6 @@ const Profile = ({
                 >
                   Add Social Network Links
                 </button>
-                <span>Optional</span>
               </div>
 
               {displaySocialInputs && (

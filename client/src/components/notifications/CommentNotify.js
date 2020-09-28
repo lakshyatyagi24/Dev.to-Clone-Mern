@@ -1,9 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { timeSince } from '../../utils/timesince';
-import { Comment, ReplyComment } from '../icons/icons';
+
+// router/redux
+import { Link } from 'react-router-dom';
 import store from '../../store';
+
+// icons
+import { Comment, ReplyComment } from '../icons/icons';
+
+// others
+import { timeSince } from '../../utils/timesince';
 
 function CommentNotify({ data }) {
   return (

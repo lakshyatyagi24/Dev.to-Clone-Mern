@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
 import { Link } from 'react-router-dom';
 import store from '../../store';
+
+// others
 import PuffLoader from 'react-spinners/PuffLoader';
 function TagCard({ tag }) {
   return !tag ? (

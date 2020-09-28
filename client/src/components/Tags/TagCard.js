@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import ActionFollow from './ActionFollow';
-import { connect } from 'react-redux';
-import { followTags } from '../../actions/auth';
-import LoginPopUp from '../auth/LoginPopUp';
 import PropTypes from 'prop-types';
+
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import store from '../../store';
+
+import { followTags } from '../../actions/auth';
+
+import ActionFollow from './ActionFollow';
+import LoginPopUp from '../auth/LoginPopUp';
 
 function TagCard({ tag, followTags, _auth }) {
   const [auth, setAuth] = useState(false);

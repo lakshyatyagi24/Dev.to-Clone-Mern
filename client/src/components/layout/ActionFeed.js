@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import store from '../../store';
+
 const ActionFeed = ({ isAuthenticated, user }) => {
   return (
     <div className='action-feed'>

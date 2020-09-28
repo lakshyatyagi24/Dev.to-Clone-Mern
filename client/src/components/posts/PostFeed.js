@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
 import { Link } from 'react-router-dom';
-import Moment from 'react-moment';
 import { connect } from 'react-redux';
+import store from '../../store';
+
+// action
 import { addBookmarks } from '../../actions/post';
+
+// component
 import ActionPostFeed from './ActionPostFeed';
 import TagLink from './TagLink';
+
+// others
+import Moment from 'react-moment';
 import { timeSince } from '../../utils/timesince';
-import store from '../../store';
+
 const PostFeed = ({
   addBookmarks,
   auth,
@@ -48,8 +57,7 @@ const PostFeed = ({
         {path === '/' && coverImage && index === 0 && (
           <Link
             onClick={() => store.dispatch({ type: 'CLEAR_POST' })}
-            className='post-cover-image'
-            style={{ display: 'block' }}
+            style={{ display: 'block', height: '275px' }}
             to={`/post/${_id}`}
           >
             <img

@@ -1,16 +1,24 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+// router/redux
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
-import { deleteComment } from '../../actions/post';
-import { MarkdownPreview } from 'react-marked-markdown';
+import store from '../../store';
+
+// component
 import CommentEdit from './CommentEdit';
-import CommentReply from './CommentReply';
+import CommentReplyForm from './CommentReplyForm';
 import CommentReplyItem from './CommentReplyItem';
 import ConfirmRemoveComt from './ConfirmRemoveComt';
+
+// action
+import { deleteComment } from '../../actions/post';
+
+// pthers
+import { MarkdownPreview } from 'react-marked-markdown';
+import Moment from 'react-moment';
 import { timeSince } from '../../utils/timesince';
-import store from '../../store';
 
 const CommentItem = ({
   postId,
@@ -34,7 +42,7 @@ const CommentItem = ({
         />
       )}
       {replyState && (
-        <CommentReply
+        <CommentReplyForm
           toUser={user}
           toComment={_id}
           tagName={name}
@@ -54,7 +62,7 @@ const CommentItem = ({
       <div className='comment-item__info'>
         <div className='comment-item__date'>
           <p className='post-date' style={{ alignSelf: 'flex-end' }}>
-            Posted on <Moment format='DD/MM/YY'>{date}</Moment>
+            <span>Posted on</span> <Moment format='DD/MM/YY'>{date}</Moment>
           </p>
           <span
             className='post-date'
@@ -64,53 +72,6 @@ const CommentItem = ({
             }}
           >{` (${timeSince(date)} ago)`}</span>
         </div>
-        {auth.isAuthenticated && auth.user._id !== user && (
-          <button
-            onClick={() => {
-              setReplyState(true);
-              document.body.style.overflow = 'hidden';
-            }}
-            type='button'
-            className='btn btn-light action-comt'
-          >
-            <i className='fas fa-reply' />
-          </button>
-        )}
-
-        {auth.isAuthenticated && user === auth.user._id && (
-          <div className='comment-item__action'>
-            <button
-              onClick={() => {
-                document.body.style.overflow = 'hidden';
-                setReplyState(true);
-              }}
-              type='button'
-              className='btn btn-light action-comt'
-            >
-              <i className='fas fa-reply' />
-            </button>
-            <button
-              onClick={() => {
-                document.body.style.overflow = 'hidden';
-                setEdit(true);
-              }}
-              type='button'
-              className='btn btn-light action-comt'
-            >
-              <i className='far fa-edit' />
-            </button>
-            <button
-              onClick={() => {
-                document.body.style.overflow = 'hidden';
-                setRemoveComt(true);
-              }}
-              type='button'
-              className='btn btn-light action-comt'
-            >
-              <i className='fas fa-times' />
-            </button>
-          </div>
-        )}
       </div>
       <div className='comment-area'>
         <div className='comment-infor'>
@@ -152,13 +113,52 @@ const CommentItem = ({
             value={text}
           />
         </div>
-        <div className='comment-area__action'>
-          <div className='comment-area__action-item'>Reply</div>
-          <div className='comment-area__action-item'>Edit</div>
-          <div className='comment-area__action-item'>Delete</div>
-        </div>
+        {auth.isAuthenticated && auth.user._id !== user && (
+          <div className='comment-area__action'>
+            <div
+              onClick={() => {
+                setReplyState(true);
+                document.body.style.overflow = 'hidden';
+              }}
+              className='comment-area__action-item reply'
+            >
+              Reply
+            </div>
+          </div>
+        )}
+        {auth.isAuthenticated && user === auth.user._id && (
+          <div className='comment-area__action'>
+            <div
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setReplyState(true);
+              }}
+              className='comment-area__action-item reply'
+            >
+              Reply
+            </div>
+            <div
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setEdit(true);
+              }}
+              className='comment-area__action-item edit'
+            >
+              Edit
+            </div>
+            <div
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setRemoveComt(true);
+              }}
+              className='comment-area__action-item delete'
+            >
+              Delete
+            </div>
+          </div>
+        )}
       </div>
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {reply.length > 0 && (
           <button
             onClick={() => setShowReply(!showReply)}
@@ -175,7 +175,6 @@ const CommentItem = ({
         {reply.length > 0 && !showReply && (
           <i
             style={{
-              margin: '-15px 0 0 8px',
               color: '#aaa',
               fontSize: '0.9rem',
             }}
@@ -186,7 +185,7 @@ const CommentItem = ({
       </div>
       {showReply && (
         <div
-          style={{ marginTop: reply.length > 0 ? '-35px' : '' }}
+          style={{ marginTop: reply.length > 0 ? '-45px' : '' }}
           className='reply-area'
         >
           {reply.map((rep) => (

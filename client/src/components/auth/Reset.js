@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+// Router/redux
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
+// action
 import { reset } from '../../actions/auth';
+
+// others
 import { toast } from 'react-toastify';
 
 const Reset = ({ reset, match, auth: { isAuthenticated, loading } }) => {
@@ -54,7 +60,7 @@ const Reset = ({ reset, match, auth: { isAuthenticated, loading } }) => {
   }
 
   return loading ? null : (
-    <div className='container'>
+    <div className='login-container container'>
       <div className='login-wrap reset-pwd'>
         <div className='login'>
           <h1 className='text-dark'>Reset Password</h1>

@@ -1,8 +1,12 @@
 import React from 'react';
-import { Follow } from '../icons/icons';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+// router/redux
+import { Link } from 'react-router-dom';
 import store from '../../store';
+
+// icons
+import { Follow } from '../icons/icons';
 
 function FollowNotify({ data }) {
   return (

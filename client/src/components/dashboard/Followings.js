@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
 import { Link } from 'react-router-dom';
 import store from '../../store';
 function Followings({ following }) {

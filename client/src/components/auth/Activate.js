@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import jwt from 'jsonwebtoken';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
+// Router/redux
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+// action
 import { activate } from '../../actions/auth';
+
+// others
+import jwt from 'jsonwebtoken';
 import PuffLoader from 'react-spinners/PuffLoader';
 
 const Activate = ({ activate, match, auth: { isAuthenticated, loading } }) => {
@@ -53,7 +59,7 @@ const Activate = ({ activate, match, auth: { isAuthenticated, loading } }) => {
   }
 
   return loading ? null : (
-    <div className='container'>
+    <div className='login-container container'>
       <div className='login-wrap active-acc'>
         <div className='login'>
           <p className='lead'>Welcome {name}</p>

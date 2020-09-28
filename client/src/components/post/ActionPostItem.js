@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// icons
 import { Like, LikeFill, BookMark, UnBookMark, More } from '../icons/icons';
+
+// component
 import SharePost from './SharePost';
 const ActionPostItem = ({
   auth,
@@ -58,22 +64,8 @@ const ActionPostItem = ({
     }
   };
   return (
-    <div
-      className='post-item__action'
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          position: 'fixed',
-          marginTop: '3rem',
-        }}
-      >
+    <div className='post-item__action'>
+      <div className='post-item__action-content wrap'>
         <div className='like-action'>
           <button
             onClick={handleLike}
@@ -92,6 +84,7 @@ const ActionPostItem = ({
         </div>
 
         <span
+          className='post-item__count'
           style={{
             display: 'block',
             marginBottom: '10px',
@@ -119,6 +112,7 @@ const ActionPostItem = ({
         </div>
 
         <span
+          className='post-item__count'
           style={{
             display: 'block',
             marginBottom: '10px',

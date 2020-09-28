@@ -1,7 +1,9 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 import PuffLoader from 'react-spinners/PuffLoader';
 const PrivateRoute = ({
   component: Component,
@@ -12,7 +14,14 @@ const PrivateRoute = ({
     {...rest}
     render={(props) =>
       loading ? (
-        <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+        <div
+          style={{
+            position: 'fixed',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
           <PuffLoader size={36} color={'#3b49df'} loading={loading} />
         </div>
       ) : isAuthenticated ? (

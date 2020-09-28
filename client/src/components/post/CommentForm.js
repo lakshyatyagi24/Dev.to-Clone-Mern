@@ -1,7 +1,13 @@
 import React, { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
+
+// action
 import { addComment } from '../../actions/post';
+
+// mongodb
 import mongoose from 'mongoose';
 
 const CommentForm = ({ postId, addComment, isAuth, setAuth, auth }) => {

@@ -1,12 +1,20 @@
 import React from 'react';
-import Moment from 'react-moment';
+
+// router/redux
 import { Link } from 'react-router-dom';
-import { follow } from '../../actions/auth';
 import { connect } from 'react-redux';
-import ActionFollow from './ActionFollow';
 import store from '../../store';
 
-const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
+// action
+import { follow } from '../../actions/auth';
+
+// component
+import ActionFollow from './ActionFollow';
+
+// others
+import Moment from 'react-moment';
+
+const SidePostProfile = ({ user, profile, follow, auth, setAuth }) => {
   const handleFollow = () => {
     if (auth.isAuthenticated) {
       follow(user._id);
@@ -101,4 +109,4 @@ const SidePostItem = ({ user, profile, follow, auth, setAuth }) => {
     </div>
   );
 };
-export default connect(null, { follow })(SidePostItem);
+export default connect(null, { follow })(SidePostProfile);

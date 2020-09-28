@@ -1,15 +1,23 @@
-import React, { useState, Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+// router/redux
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
-import { deleteReplyComment } from '../../actions/post';
-import { MarkdownPreview } from 'react-marked-markdown';
-import CommentReply from './CommentReply';
-import CommentEditReply from './CommentEditReply';
-import ConfirmRemoveReComt from './ConfirmRemoveReComt';
-import { timeSince } from '../../utils/timesince';
 import store from '../../store';
+
+// action
+import { deleteReplyComment } from '../../actions/post';
+
+// component
+import CommentReplyForm from './CommentReplyForm';
+import CommentEditReply from './CommentEditReply';
+import ConfirmRemoveComt from './ConfirmRemoveComt';
+
+// others
+import Moment from 'react-moment';
+import { timeSince } from '../../utils/timesince';
+import { MarkdownPreview } from 'react-marked-markdown';
 
 const CommentReplyItem = ({
   postId,
@@ -30,7 +38,7 @@ const CommentReplyItem = ({
 }) => {
   const [edit, setEdit] = useState(false);
   const [reply, setReply] = useState(false);
-  const [removeReComt, setRemoveReComt] = useState(false);
+  const [removeComt, setRemoveComt] = useState(false);
   return (
     <div className='reply-item'>
       {edit && (
@@ -43,7 +51,7 @@ const CommentReplyItem = ({
         />
       )}
       {reply && (
-        <CommentReply
+        <CommentReplyForm
           user_reply={user_reply}
           toUser={user_reply}
           toComment={_id}
@@ -53,19 +61,20 @@ const CommentReplyItem = ({
           setReply={setReply}
         />
       )}
-      {removeReComt && (
-        <ConfirmRemoveReComt
+      {removeComt && (
+        <ConfirmRemoveComt
           deleteReplyComment={deleteReplyComment}
           comtId={comtId}
           postId={postId}
           _id={_id}
-          setRemoveReComt={setRemoveReComt}
+          setRemoveComt={setRemoveComt}
         />
       )}
       <div className='comment-item__info'>
         <div className='comment-item__date'>
           <p className='post-date' style={{ alignSelf: 'flex-end' }}>
-            Posted on <Moment format='DD/MM/YY'>{date_reply}</Moment>
+            <span>Posted on</span>{' '}
+            <Moment format='DD/MM/YY'>{date_reply}</Moment>
           </p>
           <span
             className='post-date'
@@ -75,53 +84,6 @@ const CommentReplyItem = ({
             }}
           >{` (${timeSince(date_reply)} ago)`}</span>
         </div>
-        {auth.isAuthenticated && auth.user._id !== user_reply && (
-          <button
-            onClick={() => {
-              setReply(true);
-              document.body.style.overflow = 'hidden';
-            }}
-            type='button'
-            className='btn btn-light action-comt'
-          >
-            <i className='fas fa-reply' />
-          </button>
-        )}
-
-        {auth.isAuthenticated && user_reply === auth.user._id && (
-          <div className='comment-item__action'>
-            <button
-              onClick={() => {
-                setReply(true);
-                document.body.style.overflow = 'hidden';
-              }}
-              type='button'
-              className='btn btn-light action-comt'
-            >
-              <i className='fas fa-reply' />
-            </button>
-            <button
-              onClick={() => {
-                setEdit(true);
-                document.body.style.overflow = 'hidden';
-              }}
-              type='button'
-              className='btn btn-light action-comt'
-            >
-              <i className='far fa-edit' />
-            </button>
-            <button
-              onClick={() => {
-                document.body.style.overflow = 'hidden';
-                setRemoveReComt(true);
-              }}
-              type='button'
-              className='btn btn-light action-comt'
-            >
-              <i className='fas fa-times' />
-            </button>
-          </div>
-        )}
       </div>
       <div className='comment-area'>
         <div className='comment-infor'>
@@ -203,6 +165,50 @@ const CommentReplyItem = ({
             value={text_reply}
           />
         </div>
+        {auth.isAuthenticated && auth.user._id !== user_reply && (
+          <div className='comment-area__action'>
+            <div
+              onClick={() => {
+                setReply(true);
+                document.body.style.overflow = 'hidden';
+              }}
+              className='comment-area__action-item reply'
+            >
+              Reply
+            </div>
+          </div>
+        )}
+        {auth.isAuthenticated && user_reply === auth.user._id && (
+          <div className='comment-area__action'>
+            <div
+              onClick={() => {
+                setReply(true);
+                document.body.style.overflow = 'hidden';
+              }}
+              className='comment-area__action-item reply'
+            >
+              Reply
+            </div>
+            <div
+              onClick={() => {
+                setEdit(true);
+                document.body.style.overflow = 'hidden';
+              }}
+              className='comment-area__action-item edit'
+            >
+              Edit
+            </div>
+            <div
+              onClick={() => {
+                document.body.style.overflow = 'hidden';
+                setRemoveComt(true);
+              }}
+              className='comment-area__action-item delete'
+            >
+              Delete
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

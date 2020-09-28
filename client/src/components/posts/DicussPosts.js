@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+// router/redux
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getDiscussPosts } from '../../actions/post';
-import PropTypes from 'prop-types';
 import store from '../../store';
+
+// action
+import { getDiscussPosts } from '../../actions/post';
 
 function DicussPosts({ discuss_posts, getDiscussPosts }) {
   useEffect(() => {

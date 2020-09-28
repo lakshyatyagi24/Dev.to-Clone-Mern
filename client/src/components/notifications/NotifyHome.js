@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { markNotifications, getNotifications } from '../../actions/notify';
-// import store from '../../store';
 import PropTypes from 'prop-types';
+
+// redux
+import { connect } from 'react-redux';
+
+// action
+import { markNotifications, getNotifications } from '../../actions/notify';
+
+// component
 import ReactionNotify from './ReactionNotify';
 import CommentNotify from './CommentNotify';
 import FollowNotify from './FollowNotify';
@@ -26,8 +31,44 @@ function NotifyHome({ markNotifications, getNotifications, notifications }) {
     loadData();
   }, [markNotifications, getNotifications]);
   return (
-    <div className='container'>
-      <div style={{ padding: '0 6rem' }} className='notify-home my-1'>
+    <div className='notify-container container'>
+      <div className='notify-select'>
+        <button
+          onClick={() => {
+            setFilterValue('all');
+          }}
+          style={{
+            borderBottom: filterValue === 'all' ? '3px solid royalblue' : '',
+          }}
+          className='btn btn-light btn-hover'
+        >
+          All
+        </button>
+        <button
+          onClick={() => {
+            setFilterValue('comment');
+          }}
+          style={{
+            borderBottom:
+              filterValue === 'comment' ? '3px solid royalblue' : '',
+          }}
+          className='btn btn-light btn-hover'
+        >
+          Comments
+        </button>
+        <button
+          onClick={() => {
+            setFilterValue('post');
+          }}
+          style={{
+            borderBottom: filterValue === 'post' ? '3px solid royalblue' : '',
+          }}
+          className='btn btn-light btn-hover'
+        >
+          Posts
+        </button>
+      </div>
+      <div className='notify-home my-1'>
         <div className='notify-home__side'>
           <button
             onClick={() => {

@@ -1,24 +1,32 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getUserProfile } from '../../actions/profile';
+
+// router/redux
 import { connect } from 'react-redux';
-import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
+
+// action
 import { follow } from '../../actions/auth';
+import { getPostByUser } from '../../actions/post';
+import { getUserProfile } from '../../actions/profile';
+
+// conponent
 import LoginPopUp from '../auth/LoginPopUp';
 import ActionFollow from './ActionFollow';
-import { Link } from 'react-router-dom';
 import Posts from './Posts';
-import PuffLoader from 'react-spinners/PuffLoader';
-import { getPostByUser } from '../../actions/post';
 
-function UserProfile({
+// others
+import Moment from 'react-moment';
+import PuffLoader from 'react-spinners/PuffLoader';
+
+const UserProfile = ({
   profile: { profiles, posts, loading },
   getUserProfile,
   getPostByUser,
   match,
   follow,
   auth,
-}) {
+}) => {
   const [_auth, setAuth] = useState(false);
   useEffect(() => {
     async function loadData() {
@@ -37,7 +45,14 @@ function UserProfile({
   };
 
   return loading || !profiles || !posts ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+    <div
+      style={{
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
       <PuffLoader size={46} color={'#3b49df'} loading={true} />
     </div>
   ) : (
@@ -109,72 +124,74 @@ function UserProfile({
                     />
                     Joined <Moment format='DD/MM/YYYY'>{profiles.date}</Moment>
                   </p>
-                  {profiles.social.github && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profiles.social.github}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-github'
-                      />
-                    </a>
-                  )}
-                  {profiles.social.twitter && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profiles.social.twitter}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-twitter'
-                      />
-                    </a>
-                  )}
-                  {profiles.social.facebook && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profiles.social.facebook}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-facebook'
-                      />
-                    </a>
-                  )}
-                  {profiles.social.youtube && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profiles.social.youtube}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-youtube'
-                      />
-                    </a>
-                  )}
-                  {profiles.social.linkedin && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profiles.social.linkedin}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-linkedin'
-                      />
-                    </a>
-                  )}
-                  {profiles.social.instagram && (
-                    <a
-                      style={{ display: 'block' }}
-                      href={profiles.social.instagram}
-                    >
-                      <i
-                        style={{ fontSize: '1.25rem', marginRight: '8px' }}
-                        className='fab fa-instagram'
-                      />
-                    </a>
-                  )}
+                  <p className='me-social'>
+                    {profiles.social.github && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profiles.social.github}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-github'
+                        />
+                      </a>
+                    )}
+                    {profiles.social.twitter && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profiles.social.twitter}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-twitter'
+                        />
+                      </a>
+                    )}
+                    {profiles.social.facebook && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profiles.social.facebook}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-facebook'
+                        />
+                      </a>
+                    )}
+                    {profiles.social.youtube && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profiles.social.youtube}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-youtube'
+                        />
+                      </a>
+                    )}
+                    {profiles.social.linkedin && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profiles.social.linkedin}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-linkedin'
+                        />
+                      </a>
+                    )}
+                    {profiles.social.instagram && (
+                      <a
+                        style={{ display: 'block' }}
+                        href={profiles.social.instagram}
+                      >
+                        <i
+                          style={{ fontSize: '1.25rem', marginRight: '8px' }}
+                          className='fab fa-instagram'
+                        />
+                      </a>
+                    )}
+                  </p>
                 </div>
               </div>
               <div className='me-work'>
@@ -206,12 +223,13 @@ function UserProfile({
               </div>
             </div>
           </div>
+
           <Posts posts={posts} profile_data={profiles} />
         </div>
       </div>
     </Fragment>
   );
-}
+};
 UserProfile.propTypes = {
   getUserProfile: PropTypes.func.isRequired,
   getPostByUser: PropTypes.func.isRequired,

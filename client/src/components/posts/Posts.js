@@ -1,9 +1,14 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+// redux
 import { connect } from 'react-redux';
-import PostFeed from './PostFeed';
+
+// action
 import { getPosts } from '../../actions/post';
-import PuffLoader from 'react-spinners/PuffLoader';
+
+// component
+import PostFeed from './PostFeed';
 import LoginPopUp from '../auth/LoginPopUp';
 import UserFeedSide from './UserFeedSide';
 import TopFeedFilter from './TopFeedFilter';
@@ -12,7 +17,12 @@ import Welcome from './Welcome';
 import DicussPosts from './DicussPosts';
 import NewsPosts from './NewsPosts';
 import HelpPosts from './HelpPosts';
+
+// icons
 import { LeftSideFeed } from '../icons/icons';
+
+// others
+import PuffLoader from 'react-spinners/PuffLoader';
 
 const Posts = ({
   _auth,
@@ -103,13 +113,21 @@ const Posts = ({
             </div>
             <h4 className='text-dark'>Posts</h4>
             <TopFeedFilter
+              path={location.pathname}
               setShowRSide={setShowRSide}
               filterStatus={filterStatus}
               setFilterStatus={setFilterStatus}
             />
           </div>
           {loading || !posts ? (
-            <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+            <div
+              style={{
+                position: 'fixed',
+                left: '50%',
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+              }}
+            >
               <PuffLoader size={46} color={'#3b49df'} loading={true} />
             </div>
           ) : (

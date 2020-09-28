@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ProgressBar } from './ProgressBar';
 import imageCompression from 'browser-image-compression';
+import { toast } from 'react-toastify';
 
 const Image = ({ setImage }) => {
   const [file, setFile] = useState(null);
@@ -17,6 +18,12 @@ const Image = ({ setImage }) => {
   };
   const changeHandler = async (e) => {
     let selected = e.target.files[0];
+    if (selected) {
+      let file_size = selected.size;
+      if (parseInt(file_size) > 2097152) {
+        return toast.error('Image size must be < 2 mb');
+      }
+    }
     const options = {
       maxSizeMB: 2,
       maxWidthOrHeight: 1000,
@@ -41,8 +48,7 @@ const Image = ({ setImage }) => {
       <div className='child add-image close-action'>
         <button
           onClick={() => setImage(false)}
-          style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
-          className='btn btn-light btn-hover '
+          className='btn btn-light btn-hover btn-modal-close'
         >
           <i style={{ color: '#363c44' }} className='fas fa-times' />
         </button>

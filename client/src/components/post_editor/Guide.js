@@ -7,13 +7,12 @@ const Guide = ({ setGuide }) => {
       <div className='child guide-markdown close-action'>
         <button
           onClick={() => setGuide(false)}
-          style={{ position: 'absolute', right: 0, top: 0, margin: '8px' }}
-          className='btn btn-light btn-hover '
+          className='btn btn-light btn-hover btn-modal-close'
         >
           <i style={{ color: '#363c44' }} className='fas fa-times' />
         </button>
-        <h1 className='text-dark'>Some common markdown</h1>
-        <table style={{ marginTop: '20px' }}>
+        <h3 className='text-dark'>Some common markdown</h3>
+        <table>
           <tbody>
             <tr>
               <td># Header</td>
@@ -67,9 +66,7 @@ const Guide = ({ setGuide }) => {
             </tr>
           </tbody>
         </table>
-        <p style={{ margin: '15px 0' }}>
-          The (*)prefix can be: js, c++, c#,...
-        </p>
+        <p className='prefix'>The (*)prefix can be: js, c++, c#,...</p>
         <p>
           You can see full document about markdown{' '}
           <a

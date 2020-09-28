@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+// router/redux
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getHelpPosts } from '../../actions/post';
-import PropTypes from 'prop-types';
 import store from '../../store';
+
+// action
+import { getHelpPosts } from '../../actions/post';
 
 function HelpPosts({ help_posts, getHelpPosts }) {
   useEffect(() => {

@@ -1,10 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Moment from 'react-moment';
+
+// router/redux
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { deletePost } from '../../actions/post';
 import store from '../../store';
+
+// action
+import { deletePost } from '../../actions/post';
+
+// others
+import Moment from 'react-moment';
 function PostItem({ post, deletePost }) {
   return (
     <div className='post-list__item bg-white my'>

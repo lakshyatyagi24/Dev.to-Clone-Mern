@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import api from '../../utils/api';
-import PuffLoader from 'react-spinners/PuffLoader';
-import queryString from 'query-string';
+
 import SearchItem from './SearchItem';
 import People from './People';
+
+import api from '../../utils/api';
+
+import PuffLoader from 'react-spinners/PuffLoader';
+import queryString from 'query-string';
 
 function Search({ location }) {
   const [filterValue, setFilterValue] = useState('post');
@@ -18,12 +21,55 @@ function Search({ location }) {
     getData();
   }, [location.search]);
   return !data ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
+    <div
+      style={{
+        position: 'fixed',
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
       <PuffLoader size={36} color={'#3b49df'} loading={true} />
     </div>
   ) : (
-    <div className='container'>
-      <div style={{ padding: '0 6rem' }} className='notify-home my-1'>
+    <div className='notify-container container'>
+      <div className='notify-select'>
+        <button
+          onClick={() => {
+            setFilterValue('post');
+          }}
+          style={{
+            borderBottom: filterValue === 'post' ? '3px solid royalblue' : '',
+          }}
+          className='btn btn-light btn-hover'
+        >
+          Post
+        </button>
+        <button
+          onClick={() => {
+            setFilterValue('people');
+          }}
+          style={{
+            borderBottom: filterValue === 'people' ? '3px solid royalblue' : '',
+          }}
+          className='btn btn-light btn-hover'
+        >
+          People
+        </button>
+        <button
+          onClick={() => {
+            setFilterValue('comment');
+          }}
+          style={{
+            borderBottom:
+              filterValue === 'comment' ? '3px solid royalblue' : '',
+          }}
+          className='btn btn-light btn-hover'
+        >
+          Comments
+        </button>
+      </div>
+      <div className='notify-home my-1'>
         <div className='notify-home__side'>
           <button
             onClick={() => {

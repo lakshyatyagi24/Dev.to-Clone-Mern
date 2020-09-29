@@ -7,6 +7,7 @@ const TagSchema = new Schema({
     trim: true,
     required: true,
     lowercase: true,
+    index: true,
   },
   tagColor: {
     type: String,

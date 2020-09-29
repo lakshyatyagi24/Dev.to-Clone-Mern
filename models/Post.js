@@ -6,6 +6,7 @@ const PostSchema = new Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'user',
     required: true,
+    index: true,
   },
   title: { type: String, required: true, trim: true },
   coverImage: { type: String, trim: true },
@@ -25,6 +26,7 @@ const PostSchema = new Schema({
       user: {
         type: Schema.Types.ObjectId,
         required: true,
+        index: true,
       },
       text: {
         type: String,
@@ -47,10 +49,12 @@ const PostSchema = new Schema({
           user_reply: {
             type: Schema.Types.ObjectId,
             required: true,
+            index: true,
           },
           toUser: {
             type: Schema.Types.ObjectId,
             required: true,
+            index: true,
           },
           toName: {
             type: String,

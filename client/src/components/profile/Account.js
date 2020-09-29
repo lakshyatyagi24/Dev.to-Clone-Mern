@@ -19,6 +19,7 @@ import api from '../../utils/api';
 import { toast } from 'react-toastify';
 import { Loader } from '../loader/Loader';
 import imageCompression from 'browser-image-compression';
+import Compressor from 'compressorjs';
 
 const initialState = {
   email: '',
@@ -70,9 +71,16 @@ const Account = ({
     if (selected && types.includes(selected.type)) {
       try {
         const compressedFile = await imageCompression(selected, options);
-
-        setFile(compressedFile);
-        setError('');
+        new Compressor(compressedFile, {
+          quality: 0.6,
+          success(result) {
+            setFile(result);
+            setError('');
+          },
+          error(err) {
+            console.log(err.message);
+          },
+        });
       } catch (error) {
         console.log(error);
       }

@@ -6,28 +6,34 @@ const NotifySchema = new Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'user',
     required: true,
+    index: true,
   },
   someone: {
     type: mongoose.Schema.ObjectId,
     ref: 'user',
     required: true,
+    index: true,
   },
   post: {
     type: mongoose.Schema.ObjectId,
     ref: 'post',
     default: null,
+    index: true,
   },
   comment: {
     type: mongoose.Schema.ObjectId,
     default: null,
+    index: true,
   },
   reply_comment: {
     type: mongoose.Schema.ObjectId,
     default: null,
+    index: true,
   },
   to_comment: {
     type: mongoose.Schema.ObjectId,
     default: null,
+    index: true,
   },
   type: {
     type: String,
@@ -41,6 +47,7 @@ const NotifySchema = new Schema({
       'post',
     ],
     required: true,
+    index: true,
   },
   isSeen: {
     type: Boolean,

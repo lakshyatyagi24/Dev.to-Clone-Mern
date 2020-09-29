@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "browser-image-compression": "^1.0.12",
     "compress.js": "^1.1.2",
+    "compressorjs": "^1.0.6",
     "firebase": "^7.19.1",
     "framer-motion": "^2.6.6",
     "moment": "^2.29.0",

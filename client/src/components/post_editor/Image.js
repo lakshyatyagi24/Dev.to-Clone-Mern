@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { ProgressBar } from './ProgressBar';
 import imageCompression from 'browser-image-compression';
+import Compressor from 'compressorjs';
 import { toast } from 'react-toastify';
 
 const Image = ({ setImage }) => {
@@ -32,9 +33,16 @@ const Image = ({ setImage }) => {
     if (selected && types.includes(selected.type)) {
       try {
         const compressedFile = await imageCompression(selected, options);
-
-        setFile(compressedFile);
-        setError('');
+        new Compressor(compressedFile, {
+          quality: 0.6,
+          success(result) {
+            setFile(result);
+            setError('');
+          },
+          error(err) {
+            console.log(err.message);
+          },
+        });
       } catch (error) {
         console.log(error);
       }

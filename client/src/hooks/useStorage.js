@@ -13,7 +13,7 @@ const useStorage = (file) => {
 
   useEffect(() => {
     //* references
-    const storageRef = projectStorage.ref(file.name + shortid.generate());
+    const storageRef = projectStorage.ref(shortid.generate() + file.name);
     const collectionRef = projectFireStore.collection('images');
     storageRef.put(file).on(
       'state_changed',

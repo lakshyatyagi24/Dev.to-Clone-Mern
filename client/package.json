@@ -10,7 +10,7 @@
     "compress.js": "^1.1.2",
     "firebase": "^7.19.1",
     "framer-motion": "^2.6.6",
-    "moment": "^2.27.0",
+    "moment": "^2.29.0",
     "query-string": "^6.13.2",
     "react": "^16.13.1",
     "react-dnd": "^5.0.0",

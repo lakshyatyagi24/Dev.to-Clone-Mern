@@ -10,7 +10,7 @@ import ActionFollow from './ActionFollow';
 import LoginPopUp from '../auth/LoginPopUp';
 import Posts from './Posts';
 
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 function TagHome({
   match,
@@ -35,16 +35,7 @@ function TagHome({
     getPostsByTagId(match.params.id);
   }, [getTagById, getPostsByTagId, match.params.id]);
   return loading || !tag || !posts ? (
-    <div
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
-    </div>
+    <Loader size={46} isButton={false} />
   ) : (
     <div className='tag-home-container container'>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}

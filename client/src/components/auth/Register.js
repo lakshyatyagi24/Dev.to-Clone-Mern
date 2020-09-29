@@ -10,7 +10,7 @@ import { register } from '../../actions/auth';
 
 // others
 import { toast } from 'react-toastify';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const Register = ({
   register,
@@ -118,12 +118,8 @@ const Register = ({
                 }}
               />
             </div>
+            <Loader size={36} loading={isCompleted} isButton={true} />
 
-            {
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />
-              </div>
-            }
             {!isCompleted && (
               <input
                 type='submit'

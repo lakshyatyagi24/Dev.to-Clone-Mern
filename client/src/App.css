@@ -16,9 +16,8 @@
 }
 
 body {
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', sans-serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   background-color: #eef0f1;
@@ -260,10 +259,10 @@ a {
   color: var(--dark-color);
 }
 
-.form input[type='text'],
-.form input[type='email'],
-.form input[type='password'],
-.form input[type='date'],
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
 .form select,
 .form textarea {
   display: block;
@@ -273,7 +272,7 @@ a {
   border: 1px solid #ddd;
 }
 
-.form input[type='submit'],
+.form input[type="submit"],
 button {
   font: inherit;
 }
@@ -281,9 +280,9 @@ button {
   transition: all 0.1s ease-in-out;
   outline: none;
 }
-input[type='text'],
-input[type='email'],
-input[type='password'] {
+input[type="text"],
+input[type="email"],
+input[type="password"] {
   transition: all 0.1s ease-in-out;
   outline: none;
   padding: 3px 0px 3px 3px;
@@ -295,9 +294,9 @@ input[type='password'] {
   border-right: 2px solid var(--mainstream-color);
   border-bottom: 2px solid var(--mainstream-color);
 }
-input[type='text']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
   border-top: 1px solid var(--mainstream-color);
   border-left: 1px solid var(--mainstream-color);
   border-right: 2px solid var(--mainstream-color);
@@ -506,6 +505,33 @@ input[type='password']:focus {
   padding: 30px;
 }
 /* *style for post item, preview write post, comment item */
+.post.post-user {
+  display: none;
+}
+.post-user__info {
+  border: none;
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(8, 9, 10, 0.1);
+  padding: 2rem;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: 0.5rem;
+}
+.post-user__avatar.round-img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+.post-user__desc {
+  word-break: break-word;
+}
+.post-user__desc h1 {
+  font-weight: 500;
+}
+.post-user__desc button {
+  width: fit-content !important;
+}
 .comment-item {
   border: none;
   outline: none;
@@ -1029,7 +1055,7 @@ notfound {
 }
 
 .notfound .notfound-404 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   position: absolute;
   left: 50%;
   top: 50%;
@@ -1050,7 +1076,7 @@ notfound {
 }
 
 .notfound .notfound-404 h3 {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   position: relative;
   font-size: 16px;
   font-weight: 700;
@@ -1062,7 +1088,7 @@ notfound {
 }
 
 .notfound h2 {
-  font-family: 'Cabin', sans-serif;
+  font-family: "Cabin", sans-serif;
   font-size: 20px;
   font-weight: 400;
   text-transform: uppercase;
@@ -1532,7 +1558,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 .editor-title,
 .editor-main,
 .result-area {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   box-shadow: rgba(8, 9, 10, 0.1) 0px 0px 0px 1px;
   background-color: #fff;
   outline: none;
@@ -1597,7 +1623,8 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 /* Mobile and Tablet*/
 @media (max-width: 1023px) {
   /* Home */
-  .right-side-feed {
+  .right-side-feed,
+  .feed-right {
     display: none;
   }
   .post-feed h1 {
@@ -1621,6 +1648,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   .backdrop-side .right-side-feed {
     display: grid;
   }
+  .backdrop-side.feed-right {
+    display: block;
+  }
   .backdrop-side .right-side-feed__wrap {
     padding: 1rem;
     height: 100%;
@@ -1631,6 +1661,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   /* post item */
   .side-post-item {
     display: none;
+  }
+  .post.post-user {
+    display: grid;
   }
   /* write post */
   .editor.container {
@@ -1719,8 +1752,13 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
   /* post item */
   .post.post-main,
-  .post.post-comment {
+  .post.post-comment,
+  .post.post-user {
     grid-template-columns: 4rem 1fr;
+  }
+  .post-comment__right-side,
+  .post-user__right-side {
+    display: none;
   }
   .post-main .post-item__title {
     font-size: 2.2rem !important;
@@ -1742,14 +1780,15 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
 /* Mobile */
 @media (max-width: 739px) {
   /* Home */
-  .left-side-feed {
+  .left-side-feed,
+  .feed-left {
     display: none;
   }
   .post.feed {
     grid-template-columns: 1fr;
   }
   .post.feed.container {
-    margin-top: 2rem;
+    margin-top: 4rem;
     padding: 0;
   }
   .auth-link .write-post {
@@ -1803,6 +1842,9 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
   .backdrop-side .left-side-feed {
     display: grid;
+  }
+  .backdrop-side.feed-left {
+    display: block;
   }
   .backdrop-side .left-side-feed__wrap {
     padding: 1rem;
@@ -1861,8 +1903,23 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     display: none;
   }
   .post.post-main,
-  .post.post-comment {
+  .post.post-comment,
+  .post.post-user {
     grid-template-columns: 1fr;
+  }
+  .post-comment__left-side,
+  .post-user__left-side,
+  .post-comment__right-side,
+  .post-user__right-side {
+    display: none;
+  }
+  .post-user__desc h1 {
+    font-size: 1.2rem;
+  }
+  .post-user__info {
+    padding: 1rem;
+    border-radius: unset;
+    box-shadow: none;
   }
   .post-main .post-item__title {
     font-size: 1.8rem !important;
@@ -1956,6 +2013,8 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
   .me__info {
     align-items: flex-start;
+    margin-top: 1.3rem;
+    padding: 0 12px 12px;
   }
   .me__info .me-name {
     font-size: 1.2rem;

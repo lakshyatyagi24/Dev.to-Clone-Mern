@@ -10,7 +10,7 @@ import { activate } from '../../actions/auth';
 
 // others
 import jwt from 'jsonwebtoken';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const Activate = ({ activate, match, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
@@ -64,15 +64,7 @@ const Activate = ({ activate, match, auth: { isAuthenticated, loading } }) => {
         <div className='login'>
           <p className='lead'>Welcome {name}</p>
           <form className='form' onSubmit={handleSubmit}>
-            {
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <PuffLoader
-                  size={36}
-                  color={'#3b49df'}
-                  loading={isProcessing}
-                />
-              </div>
-            }
+            <Loader size={36} loading={isProcessing} isButton={false} />
             {!isProcessing && (
               <input
                 className='btn btn-blue'

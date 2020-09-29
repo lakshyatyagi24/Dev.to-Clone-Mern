@@ -5,6 +5,8 @@ import PostFeed from '../posts/PostFeed';
 import LoginPopUp from '../auth/LoginPopUp';
 import TopFeedFilter from '../posts/TopFeedFilter';
 
+import moment from 'moment';
+
 const Posts = ({ posts }) => {
   const [auth, setAuth] = useState(false);
   const [filterStatus, setFilterStatus] = useState('feed');
@@ -24,16 +26,13 @@ const Posts = ({ posts }) => {
 
   // get d/m/y now
   const Year = () => {
-    const year = new Date();
-    return year.getFullYear();
+    return moment().year();
   };
   const Dates = () => {
-    const date = new Date();
-    return date.getDate();
+    return moment().date();
   };
   const Month = () => {
-    const month = new Date();
-    return month.getMonth() + 1;
+    return moment().month() + 1;
   };
   const dataFilter =
     filterStatus === 'date'

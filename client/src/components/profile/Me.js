@@ -14,7 +14,7 @@ import { getPostByUser } from '../../actions/post';
 
 // others
 import Moment from 'react-moment';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const Me = ({
   auth,
@@ -30,16 +30,7 @@ const Me = ({
     loadData();
   }, [getCurrentProfile, getPostByUser, auth.user._id]);
   return loading || !profile || !posts ? (
-    <div
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <PuffLoader size={46} color={'#3b49df'} loading={true} />
-    </div>
+    <Loader size={46} isButton={false} />
   ) : (
     <Fragment>
       <div className='me'>

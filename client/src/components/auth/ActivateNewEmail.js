@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { activateNewEmail } from '../../actions/auth';
 
 import jwt from 'jsonwebtoken';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const ActivateNewEmail = ({ activateNewEmail, match }) => {
   const [formData, setFormData] = useState({
@@ -53,15 +53,7 @@ const ActivateNewEmail = ({ activateNewEmail, match }) => {
         <div className='login'>
           <p className='lead'>Hi! {name}</p>
           <form className='form' onSubmit={handleSubmit}>
-            {
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <PuffLoader
-                  size={36}
-                  color={'#3b49df'}
-                  loading={isProcessing}
-                />
-              </div>
-            }
+            <Loader size={36} loading={isProcessing} isButton={false} />
             {!isProcessing && (
               <input
                 className='btn btn-blue'

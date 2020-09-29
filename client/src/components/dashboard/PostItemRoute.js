@@ -9,7 +9,7 @@ import Dashboard from './Dashboard';
 import PostItem from './PostItem';
 
 // others
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 function PostItemRoute({ user, location }) {
   const [value, setValue] = useState('recently-published');
   const filterData =
@@ -35,16 +35,7 @@ function PostItemRoute({ user, location }) {
 
       <div className='post-list my-1'>
         {!user ? (
-          <div
-            style={{
-              position: 'fixed',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-            }}
-          >
-            <PuffLoader size={36} color={'#3b49df'} loading={true} />
-          </div>
+          <Loader size={46} isButton={false} />
         ) : (
           filterData.map((post) => <PostItem key={post._id} post={post} />)
         )}

@@ -22,7 +22,8 @@ import HelpPosts from './HelpPosts';
 import { LeftSideFeed } from '../icons/icons';
 
 // others
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
+import moment from 'moment';
 
 const Posts = ({
   _auth,
@@ -55,16 +56,13 @@ const Posts = ({
 
   // get d/m/y now
   const Year = () => {
-    const year = new Date();
-    return year.getFullYear();
+    return moment().year();
   };
   const Dates = () => {
-    const date = new Date();
-    return date.getDate();
+    return moment().date();
   };
   const Month = () => {
-    const month = new Date();
-    return month.getMonth() + 1;
+    return moment().month() + 1;
   };
   const dataFilter =
     filterStatus === 'date'
@@ -85,13 +83,10 @@ const Posts = ({
     <Fragment>
       {auth ? <LoginPopUp setAuth={setAuth} /> : null}
 
-      <div
-        style={{ marginTop: showLSide ? '4rem' : '' }}
-        className='post feed container'
-      >
+      <div className='post feed container'>
         <div
           onClick={handleClickSide}
-          className={!showLSide ? 'my' : 'my backdrop-side'}
+          className={!showLSide ? 'my feed-left' : 'my feed-left backdrop-side'}
         >
           <div className='left-side-feed__wrap'>
             <div className='left-side-feed'>
@@ -120,16 +115,7 @@ const Posts = ({
             />
           </div>
           {loading || !posts ? (
-            <div
-              style={{
-                position: 'fixed',
-                left: '50%',
-                top: '50%',
-                transform: 'translate(-50%, -50%)',
-              }}
-            >
-              <PuffLoader size={46} color={'#3b49df'} loading={true} />
-            </div>
+            <Loader size={46} isButton={false} />
           ) : (
             <Fragment>
               {dataFilter.map((post, index) => (
@@ -146,7 +132,9 @@ const Posts = ({
         </div>
         <div
           onClick={handleClickSide}
-          className={!showRSide ? 'my' : 'my backdrop-side'}
+          className={
+            !showRSide ? 'my feed-right' : 'my feed-right backdrop-side'
+          }
         >
           <div className='right-side-feed__wrap'>
             <div className='right-side-feed'>

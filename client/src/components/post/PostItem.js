@@ -11,7 +11,7 @@ import { addLike, addBookmarks } from '../../actions/post';
 
 // component
 import ActionPostItem from './ActionPostItem';
-import SidePostItem from './SidePostProfile';
+import SidePostProfile from './SidePostProfile';
 import TagLink from './TagLink';
 
 // others
@@ -136,7 +136,7 @@ const PostItem = ({
         </div>
       </div>
 
-      <SidePostItem
+      <SidePostProfile
         auth={auth}
         user={user}
         profile={profile}

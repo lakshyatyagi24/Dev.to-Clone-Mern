@@ -10,7 +10,7 @@ import { forget } from '../../actions/auth';
 
 // others
 import { toast } from 'react-toastify';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const Forget = ({ forget, auth: { isAuthenticated, loading } }) => {
   const [formData, setFormData] = useState({
@@ -75,11 +75,7 @@ const Forget = ({ forget, auth: { isAuthenticated, loading } }) => {
                 }}
               />
             </div>
-            {
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />
-              </div>
-            }
+            <Loader size={36} loading={isCompleted} isButton={true} />
             {!isCompleted && (
               <input
                 type='submit'

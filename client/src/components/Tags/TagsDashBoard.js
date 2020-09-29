@@ -7,23 +7,14 @@ import { getTags } from '../../actions/tags';
 
 import TagCard from './TagCard';
 
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 function TagsDashBoard({ tags: { tags, loading }, getTags }) {
   useEffect(() => {
     getTags();
   }, [getTags]);
   return loading || !tags ? (
-    <div
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
-    </div>
+    <Loader size={46} isButton={false} />
   ) : (
     <div className='container'>
       <h1 className='text-dark my-1'>Top tags</h1>

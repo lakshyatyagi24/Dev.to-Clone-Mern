@@ -17,7 +17,7 @@ import Posts from './Posts';
 
 // others
 import Moment from 'react-moment';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const UserProfile = ({
   profile: { profiles, posts, loading },
@@ -45,16 +45,7 @@ const UserProfile = ({
   };
 
   return loading || !profiles || !posts ? (
-    <div
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <PuffLoader size={46} color={'#3b49df'} loading={true} />
-    </div>
+    <Loader size={46} isButton={false} />
   ) : (
     <Fragment>
       <div className='me'>

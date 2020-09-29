@@ -5,7 +5,7 @@ import People from './People';
 
 import api from '../../utils/api';
 
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 import queryString from 'query-string';
 
 function Search({ location }) {
@@ -21,16 +21,7 @@ function Search({ location }) {
     getData();
   }, [location.search]);
   return !data ? (
-    <div
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-      }}
-    >
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
-    </div>
+    <Loader size={46} isButton={false} />
   ) : (
     <div className='notify-container container'>
       <div className='notify-select'>

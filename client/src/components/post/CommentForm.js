@@ -10,6 +10,8 @@ import { addComment } from '../../actions/post';
 // mongodb
 import mongoose from 'mongoose';
 
+// others
+import moment from 'moment';
 const CommentForm = ({ postId, addComment, isAuth, setAuth, auth }) => {
   const [text, setText] = useState('');
   const handleForm = () => {
@@ -27,14 +29,13 @@ const CommentForm = ({ postId, addComment, isAuth, setAuth, auth }) => {
         className='form'
         onSubmit={(e) => {
           e.preventDefault();
-          const date = new Date();
           addComment(postId, {
             _id: mongoose.Types.ObjectId(),
             name: auth.user.name,
             avatar: auth.user.avatar,
             userId: auth.user._id,
             text,
-            date: date.toISOString(),
+            date: moment().toISOString(),
             reply: [],
           });
           setText('');

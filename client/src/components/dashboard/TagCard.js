@@ -6,12 +6,10 @@ import { Link } from 'react-router-dom';
 import store from '../../store';
 
 // others
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 function TagCard({ tag }) {
   return !tag ? (
-    <div style={{ position: 'fixed', right: '50%', bottom: '50%' }}>
-      <PuffLoader size={36} color={'#3b49df'} loading={true} />
-    </div>
+    <Loader size={46} isButton={false} />
   ) : (
     <div
       style={{ borderTop: `8px solid  ${tag.tagColor}` }}

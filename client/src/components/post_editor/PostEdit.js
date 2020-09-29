@@ -15,7 +15,7 @@ import TagsModal from './TagsModal';
 
 // others
 import { MarkdownPreview } from 'react-marked-markdown';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 // api
 import api from '../../utils/api';
@@ -29,6 +29,7 @@ function PostEdit({ editPost, match }) {
   const [image, setImage] = useState(false);
   const [tagsStatus, setTagsStatus] = useState(false);
   const [publish, setPublish] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function getData() {
@@ -44,11 +45,14 @@ function PostEdit({ editPost, match }) {
       setTitle(title);
       setContent(content);
       localStorage.setItem('Cover_Image', coverImage);
+      setLoading(false);
     }
     getData();
   }, [match.params.id]);
 
-  return (
+  return loading ? (
+    <Loader size={46} isButton={false} />
+  ) : (
     <div className='editor container'>
       <div className='editor-container'>
         {guide && <Guide setGuide={setGuide} />}
@@ -107,7 +111,7 @@ function PostEdit({ editPost, match }) {
                 required
                 value={content}
               />
-              {<PuffLoader size={36} color={'#3b49df'} loading={publish} />}
+              <Loader size={36} loading={publish} isButton={true} />
               {!publish && (
                 <input
                   type='submit'

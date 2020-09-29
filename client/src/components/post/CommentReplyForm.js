@@ -10,6 +10,8 @@ import { replyComment } from '../../actions/post';
 // mongodb
 import mongoose from 'mongoose';
 
+// others
+import moment from 'moment';
 const CommentReplyForm = ({
   setReply,
   tagName,
@@ -28,7 +30,6 @@ const CommentReplyForm = ({
           className='form'
           onSubmit={(e) => {
             e.preventDefault();
-            const date = new Date();
             replyComment(postId, comtId, {
               _id: mongoose.Types.ObjectId(),
               text,
@@ -38,7 +39,7 @@ const CommentReplyForm = ({
               name_reply: auth.user.name,
               user_reply: auth.user._id,
               avatar_reply: auth.user.avatar,
-              date: date.toISOString(),
+              date: moment().toISOString(),
             });
             setReply(false);
             document.body.style.overflow = '';

@@ -11,7 +11,7 @@ import { createProfile, getCurrentProfile } from '../../actions/profile';
 import Setting from './Setting';
 
 // others
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 
 const initialState = {
   website: '',
@@ -91,16 +91,7 @@ const Profile = ({
   return (
     <Setting checkPage={location.pathname}>
       {loading || !profile ? (
-        <div
-          style={{
-            position: 'fixed',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          <PuffLoader size={36} color={'#3b49df'} loading={true} />
-        </div>
+        <Loader size={46} isButton={false} />
       ) : (
         <div className='main-setting bg-white'>
           <div className='main-setting__dashboard'>
@@ -331,7 +322,7 @@ const Profile = ({
                   </div>
                 </Fragment>
               )}
-              {<PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />}
+              <Loader size={36} loading={isCompleted} isButton={true} />
               {!isCompleted && (
                 <input
                   type='submit'

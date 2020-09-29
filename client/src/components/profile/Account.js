@@ -17,7 +17,7 @@ import api from '../../utils/api';
 
 // others
 import { toast } from 'react-toastify';
-import PuffLoader from 'react-spinners/PuffLoader';
+import { Loader } from '../loader/Loader';
 import imageCompression from 'browser-image-compression';
 
 const initialState = {
@@ -138,16 +138,7 @@ const Account = ({
   return (
     <Setting checkPage={location.pathname}>
       {loading || !user ? (
-        <div
-          style={{
-            position: 'fixed',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        >
-          <PuffLoader size={36} color={'#3b49df'} loading={true} />
-        </div>
+        <Loader size={46} isButton={false} />
       ) : (
         <div className='main-setting'>
           <div className='main-setting__dashboard  bg-white'>
@@ -258,7 +249,7 @@ const Account = ({
                   onChange={onChange}
                 />
               </div>
-              {<PuffLoader size={36} color={'#3b49df'} loading={isCompleted} />}
+              <Loader size={36} isButton={true} loading={isCompleted} />
               {!isCompleted && (
                 <input
                   type='submit'
@@ -289,11 +280,8 @@ const Account = ({
               <li>allow your username to become available to anyone.</li>
             </ul>
             <div className='my-1'>
-              {
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <PuffLoader size={36} color={'#3b49df'} loading={isDelete} />
-                </div>
-              }
+              <Loader size={36} isButton={true} loading={isDelete} />
+
               {!isDelete && (
                 <button
                   className='btn btn-danger'

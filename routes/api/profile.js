@@ -296,7 +296,7 @@ router.post('/', auth, async (req, res) => {
             }
             // delete all notifications about this user
             await Notification.deleteMany({
-              someone: req.user.id,
+              $or: [{ someone: req.user.id }, { me: req.user.id }],
             });
             await User.findByIdAndDelete(req.user.id);
 

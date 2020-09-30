@@ -20,6 +20,7 @@ const {
 const User = require('../../models/User');
 const Profile = require('../../models/Profile');
 const Notification = require('../../models/Notification');
+const Post = require('../../models/Post');
 const Tag = require('../../models/Tags');
 
 // @route    POST api/users
@@ -592,5 +593,35 @@ router.put(
     }
   }
 );
+
+// @route    GET api/users/get-reading-list
+// @desc     get reading list
+// @access   Private
+router.get('/get-reading-list', auth, async (req, res) => {
+  // this route is created for case others user delete account, it will update my reading list
+  try {
+    const user = await User.findById(req.user.id);
+    let readLength = user.bookMarkedPosts.length;
+
+    if (readLength > 0) {
+      let i;
+      for (i = 0; i < readLength; ++i) {
+        const post = await Post.findById(user.bookMarkedPosts[i]);
+        if (!post) {
+          user.bookMarkedPosts.splice(i, 1);
+          user.bookMarkedPostsCount = user.bookMarkedPostsCount - 1;
+          await user.save();
+        }
+      }
+    }
+    return res.status(200).json({
+      success: true,
+      data: {},
+    });
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

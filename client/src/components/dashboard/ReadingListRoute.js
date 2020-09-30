@@ -10,9 +10,16 @@ import ReadingList from './ReadingList';
 
 // others
 import { Loader } from '../loader/Loader';
+import api from '../../utils/api';
 function ReadingListRoute({ user, location }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    async function getData() {
+      await api.get('/users/get-reading-list');
+    }
+    getData();
+  }, []);
   useEffect(() => {
     const data = !user ? [] : user.bookMarkedPosts;
     const results = data.filter((post) =>
@@ -20,6 +27,7 @@ function ReadingListRoute({ user, location }) {
     );
     setSearchResults(results);
   }, [searchTerm]);
+
   return (
     <Dashboard checkPage={location.pathname}>
       <div className='reading-list__head'>

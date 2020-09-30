@@ -13,7 +13,7 @@ function TagsDashBoard({ tags: { tags, loading }, getTags }) {
   useEffect(() => {
     getTags();
   }, [getTags]);
-  return loading || !tags ? (
+  return loading || tags.length === 0 ? (
     <Loader size={46} isButton={false} />
   ) : (
     <div className='container'>

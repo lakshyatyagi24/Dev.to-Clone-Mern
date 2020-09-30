@@ -59,7 +59,7 @@ router.post(
       }
       if (!coverImage) {
         coverImage =
-          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/wall.jpg?alt=media&token=d11815a1-2759-405c-8f2d-caffd63c4367';
+          'https://firebasestorage.googleapis.com/v0/b/fir-gallery-c070d.appspot.com/o/rJxYnq8kydefault.jpg?alt=media&token=aa77e7a8-0741-4026-b59b-661cefeca4bd';
       }
       let post = await Post.create({
         title: req.body.title,

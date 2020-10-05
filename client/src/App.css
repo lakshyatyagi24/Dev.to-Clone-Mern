@@ -892,6 +892,7 @@ li:hover .action-feed_s {
 }
 .setting-title {
   padding: 0 4rem;
+  word-break: break-word;
 }
 .side-setting a:hover {
   color: var(--mainstream-color);
@@ -1192,7 +1193,7 @@ notfound {
 
 .me-work {
   font-size: 0.9rem;
-  padding: 18px;
+  padding: 1rem 0 0 0;
   border-top: 1px solid #ddd;
 }
 .me-work__wrap {
@@ -1724,6 +1725,12 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   }
   .reaction-notify {
     border-radius: unset;
+    box-shadow: none;
+    margin: 0;
+    border-top: 1px solid #e6e6e6;
+  }
+  .reaction-notify:last-child {
+    border-bottom: 1px solid #e6e6e6;
   }
   .tag-home .my {
     margin: 0;
@@ -2031,7 +2038,7 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
   .me__info {
     align-items: flex-start;
     margin-top: 1.3rem;
-    padding: 0 12px 12px;
+    padding: 0;
   }
   .me__info .me-name {
     font-size: 1.2rem;
@@ -2070,6 +2077,10 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     align-items: flex-start;
     margin: 0.5rem 0;
   }
+  .me-bio,
+  .me-meta {
+    padding: 0.5rem 0;
+  }
   /* settings */
   .setting-container.container {
     padding: 0;
@@ -2093,7 +2104,8 @@ div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
     margin: auto;
   }
   .setting-title {
-    margin-left: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
   /* dashboard */
   .post-list__item-wrap {
